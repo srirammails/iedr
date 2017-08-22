@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://www.domainregistry.ie/ieapi-contact-1.4"
+    xmlns:contact="http://www.domainregistry.ie/ieapi-contact-1.4"
+    xmlns:ieapi="http://www.domainregistry.ie/ieapi-1.4"
+    xmlns:ieapicom="http://www.domainregistry.ie/ieapicom-1.4"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+
+    <import namespace="http://www.domainregistry.ie/ieapicom-1.4"
+        schemaLocation="ieapicom-1.4.xsd" />
+    <import namespace="http://www.domainregistry.ie/ieapi-1.4"
+        schemaLocation="ieapi-1.4.xsd" />
+
+    <annotation>
+        <documentation>
+            IEAPI Protocol v1.4 contact provisioning schema.
+        </documentation>
+    </annotation>
+
+    <element name="query" type="contact:queryType" />
+    <element name="create" type="contact:createType" />
+    <element name="info" type="contact:sIDType" />
+    <element name="modify" type="contact:modifyType" />
+
+    <simpleType name="phoneStringType">
+        <restriction base="token">
+            <pattern value="\+?[0-9() \.\-]{4,20}(E|EXT|e|ext|/|X|x)?[0-9 ]*" />
+            <maxLength value="17" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="postalLineType">
+        <restriction base="normalizedString">
+            <minLength value="1" />
+            <maxLength value="255" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="optPostalLineType">
+        <restriction base="normalizedString">
+            <maxLength value="255" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="emailType">
+        <restriction base="token">
+                        <pattern value="[A-Za-z0-9]+([A-Za-z0-9\-_\.'+]+)*@([A-Za-z0-9]+([\.\-][A-Za-z0-9]+)*)+\.[A-Za-z]{2,}" />
+            <minLength value="1" />
+            <maxLength value="255" />
+        </restriction>
+    </simpleType>
+
+        <complexType name="queryType">
+                <attribute name="type" type="contact:queryTypeType" />
+                <attribute name="page" type="int" use="optional" default="1" />
+        </complexType>
+
+    <simpleType name="queryTypeType">
+        <restriction base="token">
+            <enumeration value="all" />
+            <enumeration value="tech" />
+            <enumeration value="admin" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="createType">
+        <sequence>
+            <element name="name" type="contact:postalLineType" />
+            <element name="companyName" type="contact:postalLineType" />
+            <element name="addr" type="contact:postalLineType" />
+            <element name="county" type="contact:optPostalLineType"
+                minOccurs="0" />
+            <element name="country" type="contact:postalLineType" />
+            <element name="voice" type="contact:phoneStringType" />
+            <element name="fax" type="contact:phoneStringType"
+                minOccurs="0" />
+            <element name="email" type="contact:emailType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="sIDType">
+        <sequence>
+            <element name="id" type="ieapicom:clIDType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="modifyType">
+        <sequence>
+            <element name="id" type="ieapicom:clIDType" />
+            <element name="companyName" type="contact:postalLineType" />
+            <element name="addr" type="contact:postalLineType" />
+            <element name="county" type="contact:optPostalLineType"
+                minOccurs="0" />
+            <element name="country" type="contact:postalLineType" />
+            <element name="voice" type="contact:phoneStringType" />
+            <element name="fax" type="contact:phoneStringType"
+                minOccurs="0" />
+            <element name="email" type="contact:emailType" />
+        </sequence>
+    </complexType>
+
+    <element name="resData" type="contact:resDataType" />
+    <element name="creData" type="contact:creDataType" />
+    <element name="infData" type="contact:infDataType" />
+
+        <complexType name="resDataType">
+                <sequence>
+                        <element name="page" type="int" />
+                        <element name="totalPages" type="int" />
+                        <element name="id" type="ieapicom:clIDType"
+                                maxOccurs="unbounded" />
+                </sequence>
+        </complexType>
+
+    <complexType name="creDataType">
+        <sequence>
+            <element name="id" type="ieapicom:clIDType" />
+            <element name="crDate" type="date" />
+        </sequence>
+    </complexType>
+
+    <complexType name="infDataType">
+        <sequence>
+            <element name="id" type="ieapicom:clIDType" />
+            <element name="status" type="contact:statusType" />
+            <element name="name" type="contact:postalLineType" />
+            <element name="companyName" type="contact:postalLineType" />
+            <element name="addr" type="contact:postalLineType" />
+            <element name="county" type="contact:optPostalLineType"
+                minOccurs="0" />
+            <element name="country" type="contact:postalLineType" />
+            <element name="voice" type="contact:phoneStringType" />
+            <element name="fax" type="contact:phoneStringType"
+                minOccurs="0" />
+            <element name="email" type="contact:emailType" />
+            <element name="account" type="integer" />
+            <element name="crDate" type="date" />
+        </sequence>
+    </complexType>
+
+    <simpleType name="statusType">
+        <restriction base="token">
+            <enumeration value="Active" />
+        </restriction>
+    </simpleType>
+</schema>

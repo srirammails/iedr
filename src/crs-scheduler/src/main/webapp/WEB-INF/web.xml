@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+           version="2.5">
+
+    <display-name>SCHEDULER</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            WEB-INF/classes/scheduler-standalone-config.xml
+        </param-value>
+    </context-param>
+
+    <!-- Listeners -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>schedulerMonitor</servlet-name>
+        <servlet-class>pl.nask.crs.scheduler.servlet.SchedulerMonitor</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>schedulerMonitor</servlet-name>
+        <url-pattern>/schedulerMonitor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <servlet-class>pl.nask.crs.commons.email.servlet.EmailSenderServlet</servlet-class>
+        <load-on-startup>10</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <url-pattern>/emailWorkerMonitor</url-pattern>
+    </servlet-mapping>
+
+</web-app>

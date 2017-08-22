@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="defaults">
+
+    <resultMap id="resellerDefaults" class="pl.nask.crs.defaults.ResellerDefaults" groupBy="nicHandleId">
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="techContactId" column="techContactId"/>
+        <result property="nameservers" column="nicHandleId" select="defaults.getNameservers"/>
+        <result property="dnsNotificationPeriod" column="dnsNotificationPeriod"/>
+        <result property="emailInvoiceFormat" column="emailInvoiceFormat" typeHandler="pl.nask.crs.defaults.dao.ibatis.handlers.EmailInvoiceFormatHandler"/>
+    </resultMap>
+
+    <sql id="selectDefaults">
+        SELECT
+        Nic_Handle as nicHandleId,
+        Tech_C as techContactId,
+        Dns_Notification_Period as dnsNotificationPeriod,
+        email_invoice_format as emailInvoiceFormat
+        FROM Reseller_Defaults
+    </sql>
+
+    <select id="getResellerDefaults" parameterClass="string" resultMap="resellerDefaults">
+        <include refid="selectDefaults"/>
+        WHERE Nic_Handle = #nichandle#
+    </select>
+
+    <select id="getAll" resultMap="resellerDefaults">
+        <include refid="selectDefaults"/>
+    </select>
+
+    <insert id="create" parameterClass="pl.nask.crs.defaults.ResellerDefaults">
+        INSERT INTO
+        Reseller_Defaults(
+        Nic_Handle,
+        Tech_C,
+        Dns_Notification_Period,
+        email_invoice_format
+        ) VALUES (
+        #nicHandleId#,
+        #techContactId#,
+        #dnsNotificationPeriod#,
+        #emailInvoiceFormat,handler=pl.nask.crs.defaults.dao.ibatis.handlers.EmailInvoiceFormatHandler#
+        )
+    </insert>
+
+    <update id="update" parameterClass="pl.nask.crs.defaults.ResellerDefaults">
+        UPDATE
+        Reseller_Defaults
+        SET
+        Tech_C = #techContactId#,
+        Dns_Notification_Period = #dnsNotificationPeriod#,
+        email_invoice_format = #emailInvoiceFormat,handler=pl.nask.crs.defaults.dao.ibatis.handlers.EmailInvoiceFormatHandler#
+        WHERE
+        Nic_Handle = #nicHandleId#
+    </update>
+
+    <select id="getNameservers" parameterClass="java.lang.String" resultClass="java.lang.String">
+        SELECT
+        `RDN_Nameserver`
+        FROM
+        `ResellerDefaultNameservers`
+        WHERE
+        `Nic_Handle` = #id#
+        ORDER BY
+        `RDN_Order` ASC
+    </select>
+
+    <insert id="createTicketNameserver" parameterClass="java.util.Map">
+        INSERT INTO `ResellerDefaultNameservers` (
+        `Nic_Handle`,
+        `RDN_Nameserver`,
+        `RDN_Order`)
+        VALUES (
+        #nicHandle#,
+        #nameserver#,
+        #order#
+        )
+    </insert>
+
+    <delete id="deleteNameserver" parameterClass="java.util.Map">
+        DELETE FROM
+        `ResellerDefaultNameservers`
+        WHERE
+        `Nic_Handle` = #nicHandle#
+        AND
+        `RDN_Nameserver` = #nameserver#
+    </delete>
+
+</sqlMap>
+

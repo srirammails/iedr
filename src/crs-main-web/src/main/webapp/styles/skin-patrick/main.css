@@ -1,0 +1,23 @@
+/*
+	css elements specific for st.patric's day
+	for color defs see main.css
+*/
+
+/* no main import ! @import url( "../main.css" );*/
+
+
+#header-image-upper {
+	width: 160px;
+	height: 68px;
+
+	background: url( "../../images/skin-patrick/web-parts/logo.upper.png" ) no-repeat !important;
+	background-position: left;
+}
+
+#header-image-lower {
+	width: 160px; /*height: 59px;*/
+	height: 38px;
+
+	background: url( "../../images/skin-patrick/web-parts/logo.lower.png" ) no-repeat !important;
+	background-position: left;
+}

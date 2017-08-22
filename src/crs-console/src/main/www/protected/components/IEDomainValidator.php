@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * defines IEDomainValidator class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Validate a .IE domain name
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class IEDomainValidator
+	extends RegexValidator
+	{
+
+    /**
+     * regex for validating a .IE domain
+     * @var    string
+     * @access public
+     * @static
+     */
+	static public $ie_domain_regex = '/^(([a-z0-9]+[-]+)*[a-z0-9]+)+(\.ie){1,1}$/i';
+
+    /**
+     * constructor, sets up regex and error message
+     * 
+     * @return void  
+     * @access public
+     */
+	public function __construct()
+		{
+		$this->regex = self::$ie_domain_regex;
+		$this->invalid_msg = 'is not a valid IEDR Host Name';
+		}
+	}
+

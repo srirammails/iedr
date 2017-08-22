@@ -1,0 +1,395 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+{\colortbl ;\red0\green0\blue255;\red128\green0\blue128;}
+{\*\generator Msftedit 5.41.15.1507;}\viewkind4\uc1\pard\nowidctlpar\b\f0\fs28 Compiling and Distributing the IEDR Phoenix Application\par
+\b0\fs20\par
+Date: 24th October 2005\par
+Created By: Keith Byrne\par
+Written for Phoenix Version: 1.4.06\par
+\par
+\b Note: \b0 You are best changing you page view to Landscape\par
+\par
+\par
+\b\fs24 Table of Contents\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\fs20 1.\tab Install Required Software\par
+\pard\nowidctlpar\tx142\tx994\b0\tab 1.1\tab Install MS Visual Studio 6\par
+\tab 1.2\tab Install Visual SourceSafe\par
+\tab 1.3\tab Install Visual Studio Servcice Pack\par
+\tab 1.4\tab Install MSDN\par
+\tab 1.5\tab Install Crystal Reports\par
+\tab 1.6\tab Install MySQL ODBC Drivers\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 2.\tab Get the Source Code\par
+\pard\nowidctlpar\tx142\tx994\b0\tab 2.1\tab Retrieve the Source Code\par
+\tab 2.2\tab Open Phoenix in Visual Basic\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 3.\tab Organise the required files\b0\par
+\pard\nowidctlpar\tx142\tx994\tab 3.1\tab Compile the Phoenix application\par
+\tab 3.2\tab Check for the required Batch files\par
+\tab 3.3\tab Check that you have the Crystal Reports\par
+\tab 3.4\tab Check for the Phoenix Help Files\par
+\tab 3.5\tab Check for the MySQL DSN registry creation file\par
+\tab 3.6\tab Check for the Crystal Reports OCX\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 4.\tab Create the Setup.exe\b0\par
+\pard\nowidctlpar\tx142\tx994\tab 4.1\tab Set the Loading the Package and Deployment Wizard\par
+\tab 4.2\tab Start the Package and Deployment Wizard\par
+\tab 4.3\tab Create the Setup File\par
+\pard\nowidctlpar\tx284\tx1136\tab 4.3.1 \tab Start the Package creation\par
+\tab 4.3.2 \tab Choose the Type of Package\par
+\tab 4.3.3 \tab Where the Package will be Assembled\par
+\tab 4.3.4 \tab Included Files\par
+\tab 4.3.5 \tab Registry Information\par
+\tab 4.3.6 \tab Cab Options\par
+\tab 4.3.7 \tab Install Locations\par
+\tab 4.3.8 \tab Installation Title\par
+\tab 4.3.9 \tab Start Menu Items\par
+\tab 4.3.10 \tab Install Locations\par
+\tab 4.3.11 \tab Shared Files\par
+\tab 4.3.12 \tab Finished\par
+\tab 4.3.13\tab Save the report\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 5. \tab Using the Setup Files\b0\par
+\pard\nowidctlpar\tx142\tx710\tx852\tx994\tab 5.1\tab\tab\tab What files to transfer\par
+\tab 5.2\tab\tab\tab Installation Instructions\par
+\pard\nowidctlpar\tx284\tx1136\tab 5.2.1\tab Install MyODBC (MySQL Connectivity)\par
+\tab 5.2.2\tab Install IEDR Phoenix Desktop\par
+\tab 5.2.3\tab Install a Default Printer\par
+\tab 5.2.4\tab Set the Phoenix MySQL DSN to the test DB\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 6. \tab Testing the application for correct installation\b0\par
+\pard\nowidctlpar\tx142\tx710\tx852\tx994\tab 6.1\tab\tab\tab Login\par
+\tab 6.2\tab\tab\tab View some of the screens\par
+\tab 6.3\tab\tab\tab View the reports\par
+\pard\nowidctlpar\tx142\tx852\tx994\tx1136\b 7. \tab Appendix\b0\par
+\pard\nowidctlpar\tx142\tx710\tx852\tx994\tab 7.1\tab\tab\tab Installed files / Versions and Locations\par
+\tab 7.2\tab\tab\tab Extra files included in the Setup CAB file\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\b\fs24 1. Install Required Software\b0\fs20\par
+Starting with a standard machine (out of the box), you need to install the following. Make sure you have administrative rights on this machine as the following installs will not work without it.\par
+\par
+\b 1.1 Install MS Visual Studio 6\par
+\pard\nowidctlpar\li568\b0 - Only install Visual Basic 6\par
+- Do not install Visual SourceSafe\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\Visual Studio 6\\\par
+\pard\nowidctlpar\cf0\par
+\b 1.2 Install Visual SourceSafe\par
+\pard\nowidctlpar\li568\b0 - Install version 6.0d or later\par
+- Don't create a database when installing, choose the \b Custom\b0  install and select\par
+... Administrative Programs\par
+... Client Programs\par
+... Enable SourceSafe Integration\par
+... Help Files\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\Visual Source Safe v6.0d\\\par
+\pard\nowidctlpar\cf0\par
+\b 1.3 Install Visual Studio Servcice Pack\par
+\pard\nowidctlpar\li568\b0 - SP6\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\Visual Studio 6\\SP6\\\par
+\pard\nowidctlpar\cf0\par
+\b 1.4 Install MSDN\par
+\pard\nowidctlpar\li568\b0 - Choose to install Custom and select the following\par
+... Full Text Search Index\par
+... VB Documentation\par
+... VS Shared Documentation\par
+... VSS Documentation\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\Visual Studio 6\\MSDN\\\par
+\pard\nowidctlpar\cf0\b\par
+1.5 Install Crystal Reports\par
+\pard\nowidctlpar\li568\b0 - Version 4.6\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\Crystal Reports\\Crystal Reports 4.6\\\par
+\cf0 - \b Note:\b0  You must install a printer in order for the reports to work on your machine. This is only required if you are going to test the program operation.\par
+\pard\nowidctlpar\par
+\b 1.6 Install MySQL ODBC Drivers\par
+\pard\nowidctlpar\li568\b0 - myodbc-2.50.39-nt.zip or later. I used these drivers as it appears that they are being used on the client site, but however, if you cannot get your hands on these, perhaps a newer version will suffice\par
+- located in \cf1\\\\vtiger\\DevSoftArch\\DevEnv\\MySQL\\ODBC Drivers\\\par
+\cf0 - During the install, you will be asked to create a DSN for MySQL. You can use the following;\par
+\b DSN Name: \b0 Phoenix\par
+\b MySQL Host: \b0 136.205.4.31\par
+\b MySQL DB Name: \b0 phoenixdb\par
+\b User: \b0 root\par
+\b Password: (Blank)\cf1\par
+\cf0 Port: \b0 3306\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\b\fs24 2. Get the Source Code\b0\fs20\par
+Retrieve the Source Code and any additional files that are relevant to the Desktop Phoenix application. Any additional files / source code / exes are located in sub folders.\par
+\par
+\b 2.1 Retrieve the Source Code\b0\par
+\pard\nowidctlpar\li568 - Navigate to the \cf1\\IEDR\\PhoenixDesktop\\\cf0\b\par
+\b0 - Get the latest version to your local machine, preferably to \cf1\\Project\\Phoenix\\Source\par
+\pard\nowidctlpar\cf0\par
+\b 2.2 Retrieve the Batch Files\b0\par
+\pard\nowidctlpar\li568 - Navigate to the \cf1\\IEDR\\Batch\\\cf0\b\par
+\b0 - Get the latest version to your local machine, preferably to\cf1  \\Project\\Phoenix\\Batch\par
+\pard\nowidctlpar\cf0\par
+\b 2.3 Retrieve the Help Files\b0\par
+\pard\nowidctlpar\li568 - Navigate to the \cf1\\IEDR\\Help\\\cf0\b\par
+\b0 - Get the latest version to your local machine, preferably to \cf1\\Project\\Phoenix\\Help\cf0\par
+\pard\nowidctlpar\par
+\b 2.4 Open Phoenix in Visual Basic\b0\par
+\pard\nowidctlpar\li568 - Open \cf1 phoenix.vbp\cf0  in \\Project\\Phoenix\par
+- This will load without giving any project loading errors. If it does, the installs could be the wrong version / you don't have all the source files or perhaps you may need to restart your machine.\par
+\pard\nowidctlpar\par
+\b\par
+\par
+\par
+\fs24 3. Organise the required files\fs20\par
+\b0 Now we want to check to see if we have all the required files in order to build a setup.exe.\par
+\b\par
+3.1 Compile the Phoenix application\b0\par
+\pard\nowidctlpar\li568 - You may as well as even though the exe could be in the same folder as the source code.\par
++ Phoenix.exe.\par
+\pard\nowidctlpar\par
+\b 3.2 Check for the required Batch files\b0\par
+\pard\nowidctlpar\li568 - These files are located in a sub folder called \b Batch\b0  and there are \b 5\b0  files and they have their own source code and complied exe. They are;\par
++ GenBillingTxn\par
++ Invoices\par
++ Remittals\par
++ TestDNS\par
++ TicketBatch\par
+\pard\nowidctlpar\par
+\b 3.3 Check that you have the Crystal Reports\b0\par
+\pard\nowidctlpar\li568 - These files are located in a sub folder called \b Reports\b0  and there are \b 9\b0  files, but only \b 7 \b0 appear to be required\par
++ R001\par
++ R001a (this doesn't appear to be required)\par
++ R002\par
++ R003\par
++ R004\par
++ R005\par
++ R006\par
++ R007\par
++ R008\par
+\pard\nowidctlpar\par
+\b 3.4 Check for the Phoenix Help Files\b0\par
+\pard\nowidctlpar\li568 - These files are located in a sub folder called \b Help.\b0  There are many files here including the source info for the help in a sub folder. You will only require the following to build the installation file\par
++ Phoenix.hlp\par
++ Phoenix.cnt\par
+\pard\nowidctlpar\par
+\b 3.5 Check for the MySQL DSN registry creation file\b0\par
+\pard\nowidctlpar\li568 - This file is located in the sub folder called \b Source Code.\b0  You do not need to edit this file in order to make your installation testing work. You can edit the DSN on the test machine once installed. Best to leave this alone as this must work on the client site.\par
++ Automaticly add Phoenix ODBC source.reg\par
+\pard\nowidctlpar\par
+\b 3.6 Check for the Crystal Reports OCX\b0\par
+\pard\nowidctlpar\li568 - Check to see if you have the files listed below. You will need to include this later in the installation script. It is normally located in \cf1 c:\\windows\\system32\\\cf0\par
++ co2c40en.dll\par
++ crpe32.dll\par
++ crystl32.ocx\par
++ implode.dll\par
++ p2bdao.dll\par
++ p2ctdao.dll\par
++ p2irdao.dll\par
++ p2sodbc.dll\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\b\fs24 4. Create the Setup.exe\fs20\par
+\b0 Here we use the Package and Deployment Wizard to bundle the exe and the additional files required to run the Phoenix application on a Client machine.\par
+\par
+\b 4.1 Set the Loading of the Package and Deployment Wizard\b0\par
+\pard\nowidctlpar\li568 - Go to the \b Add-Ins\b0  menu and select \b Add-In Manager\b0\par
+- In the window that appears select \b Package and Deployment Wizard\b0  and tick the boxes on the bottom right of the window \b Loaded/Unloaded\b0  and \b Load on Startup\par
+\b0 - Click \b OK\b0\par
+\pard\nowidctlpar\par
+\b 4.2 Start the Package and Deployment Wizard\b0\par
+\pard\nowidctlpar\li568\tx568 - Go to the \b Add-Ins\b0  menu and select \b Package and Deployment Wizard\par
+\par
+\pard\nowidctlpar 4.3 Create the Setup File\par
+\pard\nowidctlpar\li568\tx568 4.3.1 Start the Package creation\par
+\pard\nowidctlpar\li1136\b0 - Initial Errors / Troubleshooting\par
+If you are prompted with the message \par
+\cf2 "The following source files for this project are newer than the executable \par
+file 'c:\\project...\\phoenix.exe'\par
+\par
+c:\\project...\\phoenix.vbp\par
+\par
+Do you want to recompile? Choose No to use existing executable."\par
+\cf0\par
+If you followed the steps correctly, you have already compiled the phoenix.exe. You may not have saved the project file phoenix.vbp. So in this case, select \b No\b0 .\par
+\pard\nowidctlpar\li568\par
+\b 4.3.2 Choose the Type of Package\par
+\pard\nowidctlpar\li1136\b0 - Standard Setup Package\b\par
+\pard\nowidctlpar\li568\b0\par
+\b 4.3.3 Where the Package will be Assembled\par
+\pard\nowidctlpar\li1136\b0 - It is important to place this file in the \b Setup\b0  sub folder.\par
+- If you are prompted with the message\par
+\cf2 "The folder 'c:\\project...\\Setup' contains files or subfolders. These may be overwritten. Do you want to continue?"\cf0\par
+It is ok to select \b Yes\b0 .\par
+- If you are prompted with the message\par
+\cf2 "A file with this name has already been added to the list of files."\par
+\cf0 Don't worry, all will be ok. Just select \b OK\b0  and then click \b Next\b0 .\par
+\par
+\pard\nowidctlpar\li568\b 4.3.4 Included Files\par
+\pard\nowidctlpar\li1136\b0 - This is a list of the included files and the additional files that you will want installed on the client machine. You can add more here if required.\par
+- You may need to add in the extra files that were part of \i 3. Organise the required files \i0 and or \i 7.1 Installed Files / Versions and Locations\i0\par
+\par
+\pard\nowidctlpar\li568\b 4.3.5 Registry Information\par
+\pard\nowidctlpar\li1136\b0 - This is to show you what you want to do with the registry information during the install. In this case we are setting up the DSN for the connection to MySQL.\par
+\b Copy File:\b0  No\par
+\b Update Registry: \b0 Yes\par
+\pard\nowidctlpar\li568\par
+\b 4.3.6 Cab Options\par
+\pard\nowidctlpar\li1136\b0 - Choose \b Single Cab\b0\par
+\pard\nowidctlpar\li568\b\par
+4.3.7 Install Locations\par
+\pard\nowidctlpar\li1136\b0 - You can check this off as follows in \i 7.1 Installed Files / Versions and Locations\i0\par
+\pard\nowidctlpar\li568\b\par
+4.3.8 Installation Title\par
+\pard\nowidctlpar\li1136\b0 - You can have this as \b Phoenix Desktop\b0\par
+\pard\nowidctlpar\li568\b\par
+4.3.9 Start Menu Items\par
+\pard\nowidctlpar\li1136\b0 - You can leave this as default. It will create a Program Group called \b Phoenix\b0  and create a shortcut to the installed Phoenix.exe\par
+\pard\nowidctlpar\li568\b\par
+4.3.10 Install Locations\par
+\pard\nowidctlpar\li1136\b0 - You can leave as is.\par
+\par
+\pard\nowidctlpar\li568\b 4.3.11 Shared Files\par
+\pard\nowidctlpar\li1136\b0 - You can leave as is.\par
+\par
+\pard\nowidctlpar\li568\b 4.3.12 Finished\par
+\pard\nowidctlpar\li1136\b0 - You can name the Script here and use todays date in reverse order, e.g.\par
+Phoenix Setup Script 20041024\par
+\par
+\pard\nowidctlpar\li568\b 4.3.13 Save the Report\par
+\pard\nowidctlpar\li1136\b0 - You can save the report to the setup folder location. This can provide handy information\par
+\pard\nowidctlpar\li568\par
+\par
+\par
+\par
+\pard\nowidctlpar\b\fs24 5. Using the Setup Files\par
+\fs20\par
+5.1 What files to transfer\par
+\pard\nowidctlpar\li568\b0 - You must transfer the following files in order to install Phoenix\par
++ Phoenix.CAB\par
++ setup.exe\par
++ SETUP.LST\par
++ myodbc-2.50.39-nt.zip\par
+\pard\nowidctlpar\par
+\b 5.2 Installation Instructions\b0\par
+\pard\nowidctlpar\li568\b 5.2.1 Install MyODBC (MySQL Connectivity)\par
+\pard\nowidctlpar\li1136\b0 - Install myodbc-2.50.39-nt or later if that version in unavailable\par
+- Select MySQL ODBC drivers from the list and select \b OK\b0\par
+- The driver is now installed\par
+- On the Data Sources Screen select \b Close\b0\par
+\pard\nowidctlpar\li568\par
+\b 5.2.2 Install IEDR Phoenix Desktop\par
+\pard\nowidctlpar\li1136\b0 - Run setup.exe\par
+\pard\nowidctlpar\li568\par
+\b 5.2.3 Install a Default Printer\b0\par
+\pard\nowidctlpar\li1136 - You need to install a Default Printer in order for the Crystal Reports to work\par
+\pard\nowidctlpar\li568\par
+\b 5.2.4 Set the Phoenix MySQL DSN to the test DB\b0\par
+\pard\nowidctlpar\li1136 - Update the registry with the Phoenix MySQL Test DB\par
+\b execute\b0  iedr phoenix test mysql db.reg\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\b\fs24 6. Testing the application for correct installation\par
+\b0\fs20\par
+\b 6.1 Login\par
+\pard\nowidctlpar\li568\b0 - You can use the following login details;\par
+\b Username: \b0 delphi-iedr\par
+\b Password:\b0  password\b\par
+\b0\par
+\pard\nowidctlpar\b 6.2 View some of the screens\par
+\pard\nowidctlpar\li568\b0 - Open some of the screens under the \b Process\b0  menu and navigate around\par
+- Use some drop down menus\par
+- Open the \b Domain\b0  screen and search for a domain\par
+- Edit some info and save\par
+\par
+\pard\nowidctlpar\b 6.3 View the Reports\par
+\pard\nowidctlpar\li568\b0 - Open some of the reports under the \b Reports\b0  menu and print off a page to ensure all is ok\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\b\fs24 7. Appendix\par
+\par
+\fs20 7.1 Installed files / Versions and Locations\b0\par
+\pard\nowidctlpar\li284\tx2130\tx7100\tx9940\b\par
+\pard\nowidctlpar\li284\tx2130\tx8520 File name\tab Source\tab Install Location\par
+\b0 o.reg\tab Automaticly add Phoenix ODBC source.reg\tab Registry\par
+co2c40en.dll\tab\\Program Files\\MS Visual Studio\\VB98\\Wizards\\PDWizard\\Redist\tab $(WinSysPath)\par
+comdlg32.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+crpe32.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+crystl32.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+GenBillingTxn.exe\tab\\Project\\...\\Phoenix\\Batch\tab $(AppPath)\par
+implode.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+Invoices.exe\tab\\Project\\...\\Phoenix\\Batch\tab $(AppPath)\par
+msbind.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+mscomct2.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+mscomctl.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+mshflxgd.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+msstdfmt.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+mswinsck.ocx\tab\\windows\\system32\tab $(WinSysPath)\par
+p2bdao.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+p2ctdao.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+p2irdao.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+p2sodbc.dll\tab\\windows\\system32\tab $(WinSysPath)\par
+Phoenix.cnt\tab\\Project\\...\\Phoenix\\Help\tab $(AppPath)\par
+Phoenix.exe\tab\\Project\\...\\Phoenix\\Source Code\tab $(AppPath)\par
+Phoenix.hlp\tab\\Project\\...\\Phoenix\\Help\tab $(AppPath)\par
+r001.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r002.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r003.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r004.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r005.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r006.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r007.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+r008.rpt\tab\\Project\\...\\Phoenix\\Reports\tab $(AppPath)\par
+Remittals.exe\tab\\Project\\...\\Phoenix\\Batch\tab $(AppPath)\par
+TestDNS.exe\tab\\Project\\...\\Phoenix\\Batch\tab $(AppPath)\par
+TicketBatch.exe\tab\\Project\\...\\Phoenix\\Batch\tab $(AppPath)\par
+\pard\nowidctlpar\li284\tx2130\tx4828\tx7100\tx9940\par
+\pard\nowidctlpar\b 7.2 Extra files included in the Setup CAB file\b0\par
+\pard\nowidctlpar\li284\tx2130\tx7100\tx9940\b\par
+\pard\nowidctlpar\li284\tx2130\tx3692 File name\tab Version\tab Description\par
+\b0 asycfilt.dll\tab 2.40.4275.1\tab MS OLE module\par
+o.reg\tab 1.4.06\tab Phoenix MySQL ODBC DSN Registry Entry\par
+co2c40en.dll\tab 4.6.1.106\tab Crystal Reports DLL\par
+comcat.dll\tab 4.71.1460.1\tab MS Flexgrid Standard Data Formatting Object DLL\par
+comdlg32.ocx\tab 6.1.97.82\tab Windows Common Dialog Box\par
+crpe32.dll\tab 4.6.1.112\tab Crystal Reports DLL\par
+crystl32.ocx\tab 4.6.37.14\tab Crystal Reports ActiveX\par
+GenBillingTxn.exe\tab 1.0\tab Phoenix Batch File\par
+implode.dll\tab 1.0.0.1\tab Crystal Reports DLL\par
+Invoices.exe\tab 1.0\tab Phoenix Batch File\par
+msbind.dll\tab 6.1.97.82\tab MS Flexgrid Standard Data Formatting Object DLL\par
+mscomct2.ocx\tab 6.1.97.82\tab Windows Common Controls\par
+mscomctl.ocx\tab 6.1.97.82\tab Windows Common Controls\par
+mshflxgd.ocx\tab 6.0.88.4\tab MS Flexgrid Standard Data Formatting ActiveX\par
+msstdfmt.dll\tab 6.1.97.82\tab MS Flexgrid Standard Data Formatting Object DLL\par
+msvbvm60.dll\tab 6.0.97.82\tab MS VB Virtual Machine\par
+mswinsck.ocx\tab 6.1.97.82\tab VB Winsock Control Module\par
+oleaut32.dll\tab 2.40.4275.1\tab MS OLE Core Functions\par
+olepro32.dll\tab 5.0.4275.1\tab MS OLE Property Support DLL\par
+p2bdao.dll\tab 4.6.1.112\tab Crystal Reports DLL\par
+p2ctdao.dll\tab 4.6.1.106\tab Crystal Reports DLL\par
+p2irdao.dll\tab 4.6.1.106\tab Crystal Reports DLL\par
+p2sodbc.dll\tab 4.6.1.106\tab Crystal Reports DLL\par
+Phoenix.cnt\tab 1.4.06\tab Phoenix Help File\par
+Phoenix.exe\tab 1.4.06\tab Phoenix Executable\par
+Phoenix.hlp\tab 1.4.06\tab Phoenix Help File\par
+r001.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r002.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r003.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r004.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r005.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r006.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r007.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+r008.rpt\tab 1.4.06\tab Phoenix Crystal Report\par
+Remittals.exe\tab 1.0\tab Phoenix Batch File\par
+TestDNS.exe\tab 1.0\tab Phoenix Batch File\par
+TicketBatch.exe\tab 1.0\tab Phoenix Batch File\par
+st6unst.exe\tab 6.0.97.82\tab\par
+stdole2.tlb\tab 2.40.4275.1\tab\par
+vb6stkit.dll\tab 6.0.84.50\tab VB6 API functions\par
+\pard\nowidctlpar\li284\tx2130\tx3976\par
+\par
+\par
+}
+ 

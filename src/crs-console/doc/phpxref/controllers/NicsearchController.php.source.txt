@@ -1,0 +1,162 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class NicsearchController
+	extends GridController
+	{
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $breadcrumbs = array('Nicsearch');
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    namesearch.php, NicSearchModel
+     */
+	public function actionNamesearch() {
+		Yii::log('Request:'.print_r($_REQUEST,true), 'debug', 'NicsearchController::actionNamesearch()');
+		$model = new NicSearchModel();
+		$this->render('namesearch',array('model'=>$model));
+		}
+
+	// Non-Action functions
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return string    Return description (if any) ...
+     * @access protected
+     */
+	protected function getExportFilenameTag()
+		{
+		return 'NicHandles_';
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  string    $whereclause Parameter description (if any) ...
+     * @return string    Return description (if any) ...
+     * @access protected
+     */
+	protected function getQueryCore($whereclause)
+		{
+		return ' group_concat(concat(Type, \':\', Phone)) as Phone'.
+			' from NicHandle n'.
+			' LEFT JOIN Telecom t ON t.Nic_Handle = n.Nic_Handle'.
+			' where A_Number='.Yii::app()->user->id.
+			' '.$whereclause.
+			' group by n.Nic_Handle';
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown   $model    Parameter description (if any) ...
+     * @param  unknown   $criteria Parameter description (if any) ...
+     * @return unknown   Return description (if any) ...
+     * @access protected
+     */
+	protected function getNumRows($model,$criteria)
+		{
+		$connection = Yii::app()->db;
+		$query = 'SELECT count(*) as numrows FROM (SELECT '.$this->getQueryCore($criteria).' '.$qryParams.') as x;';
+		$command = $connection->createCommand($query);
+		$rowset = $command->query();
+			$rows = $rowset->readAll();
+		$totalCount = $rows[0]['numrows'];
+		return $totalCount;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object    $model    Parameter description (if any) ...
+     * @param  unknown   $criteria Parameter description (if any) ...
+     * @param  mixed     $sort     Parameter description (if any) ...
+     * @param  number    $perpage  Parameter description (if any) ...
+     * @param  number    $pagenum  Parameter description (if any) ...
+     * @return array     Return description (if any) ...
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset		= $perpage * ($pagenum-1);
+		$limit		= $perpage;
+
+		//if($criteria) $criteria .= ' AND ';
+
+		#Uses the view vjm_dom_acc_role_nic to populate the jqGrid.
+		$qryParams = $sort ? (' ORDER BY '.$sort->sortBy.' '.(($sort->ascending)?'ASC':'DESC') ) : ' ';
+		$limit_clause = ' LIMIT '.$offset.','.($offset+$limit);
+		$query = 'SELECT n.*, '.$this->getQueryCore($criteria).$qryParams.$limit_clause;
+
+		$connection = Yii::app()->db;
+		$command = $connection->createCommand($query);
+		$result = $command->query();
+
+		if($result->rowCount > 0)
+			{
+			// records = total records on all pages
+			$pagedata['records'] = $this->getNumRows($model,$criteria);
+			$pagedata['total'] = math_div( $pagedata['records'],$perpage)+1;
+			Yii::log(print_r($pagedata,true));			
+			foreach($result as $k => $o)
+				$pagedata['rows'][] = $model->addResults($o);
+			}
+			else Yii::log(print_r($rows,true), 'warning', 'NicsearchController::getData() : WARN : no \'results\':'.__LINE__);
+		return $pagedata;
+		}
+	}
+

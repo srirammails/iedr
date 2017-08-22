@@ -1,0 +1,82 @@
+<!-- START protected/views/accounts_history/topuphist.php -->
+<?php
+/**
+ * View page for top up history
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_historyController::actionTopuphist(), SPDataProvider
+ */
+
+$pg = 'Deposit Topup History';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+$form = $this->beginWidget('CActiveForm', array('id'=>'xferredDoms','enableAjaxValidation'=>true,));
+$days = $_REQUEST['days'];
+if(!$days){ $days = 10; }
+
+
+echo '<div class="row"><h2>';
+echo CHtml::encode($pg).' over the last ';
+
+echo CHtml::textField('days',$days,array('size'=>4, 'maxlength'=>3));
+
+echo ' days';
+echo CHtml::submitButton('Update');
+echo '</div>';
+
+$this->endWidget();
+echo '</div>';
+echo "The Following displays the set of Deposit Top Ups over the last " . $days . " Days.";
+
+
+$dataProvider=new SPDataProvider('DepTopUp', array());
+$dataProvider->data;
+
+if(count($dataProvider->data)){
+
+	$this->widget('zii.widgets.grid.CGridView', array(
+		'enableSorting' => false,
+		'enablePagination'=> true,
+		'dataProvider' => $dataProvider, 
+		'columns' => array(
+		        array(
+		                'name' => 'Nic_Handle',
+		                'type' => 'raw',                      
+		        ),
+		        array(
+		                'name' => 'Op_Dt',
+		                'type' => 'raw',
+		        ),
+		        array(
+		                'name' => 'topup',
+		                'type' => 'raw',
+		        ),
+		        array(
+		                'name' => 'Order_ID',
+		                'type' => 'raw',
+		        ),
+			array(
+		                'name' => 'Close_Bal',
+		                'type' => 'raw',
+		        ),
+	
+		),
+	));
+}
+else{
+	echo "<br>No Top-ups found";
+}
+
+
+?>
+<!-- END protected/views/accounts_history/topuphist.php -->

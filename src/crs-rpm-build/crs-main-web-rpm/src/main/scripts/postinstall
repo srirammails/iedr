@@ -1,0 +1,52 @@
+echo Updating web.xml to have unzip servlet for CRS-31 ...
+SNIPPET1='
+    <!-- https://jira.domainregistry.ie/jira/browse/CRS-31 -->
+    <servlet>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <servlet-class>pl.nask.crs.servlet.UnzipServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/fax_assigned/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/fax_new/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/attachment_assigned/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/attachment_new/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/paper_assigned/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unzipResourceServlet</servlet-name>
+        <url-pattern>/incoming_docs/paper_new/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+'
+for i in /opt/crs/tomcat/conf/web.xml /etc/tomcat6/web.xml 
+do
+	echo -n "Checking if $i exists ... "
+	if [ -f $i ] ; then
+		echo YES
+		FOUND=`/bin/grep "https://jira.domainregistry.ie/jira/browse/CRS-31" $i 2>/dev/null`
+		if [ "$FOUND" = "" ] ; then
+			echo Updating $i
+			/bin/sed -i 's:</web-app>::' $i
+			echo "$SNIPPET1" >>$i
+                else
+			echo "Skipping $i as CRS-31 tag found in it already"
+		fi
+	else
+		echo NO
+        fi
+done
+echo Restarting Tomcat6 Service
+/sbin/service tomcat6 restart || /sbin/service tomcat6 start || /bin/true

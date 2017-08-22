@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:dataSource.xml"/>
+    <import resource="classpath:emails.xml"/>
+ 
+    <bean id="applicationConfig" class="pl.nask.crs.commons.config.GenericApplicationConfig">
+        <constructor-arg>
+            <bean class="pl.nask.crs.commons.config.HardcodedGenericConfig" />
+        </constructor-arg>
+    </bean>
+ 
+    <bean id="incomingDocumentsManager" class="pl.nask.crs.documents.manager.IncomingDocumentsManagerImpl">
+        <constructor-arg index="0" value="." type="java.lang.String"/>
+        <constructor-arg index="1" value="." type="java.lang.String"/>
+        <constructor-arg index="2" value="." type="java.lang.String"/>
+
+        <property name="ignoreFilesWithUnsupportedExtension" value="true"/>
+        <property name="applicationConfig" ref="applicationConfig" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+</beans>

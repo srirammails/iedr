@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>File Source for view_batch.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+											</head>
+		<body>
+						<h1>Source for file view_batch.php</h1>
+<p>Documentation is available at <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---view_batch.php.html">view_batch.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a>&lt;!--&nbsp;START&nbsp;protected/views/accounts_renewpay/view_batch.php&nbsp;--&gt;</div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">&nbsp;*&nbsp;View&nbsp;page&nbsp;for&nbsp;Accounts&nbsp;Renewal-Payments&nbsp;-&nbsp;View&nbsp;Batch</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@category</span><span class="src-doc">&nbsp;&nbsp;NRC</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;&nbsp;&nbsp;IEDR_New_Registrars_Console</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@author</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;IEDR&nbsp;&lt;asd@iedr.ie&gt;</span></div></li>
+<li><div class="src-line"><a name="a9"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@copyright</span><span class="src-doc">&nbsp;2011&nbsp;IEDR</span></div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@license</span><span class="src-doc">&nbsp;&nbsp;&nbsp;http://www.iedr.ie/&nbsp;(C)&nbsp;IEDR&nbsp;2011</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@version</span><span class="src-doc">&nbsp;&nbsp;&nbsp;CVS:&nbsp;$Id:$</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@link</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://statistics.iedr.ie/</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OfflineBatchSelectionModel,&nbsp;Accounts_renewpayController::actionViewbatch(),&nbsp;Accounts_renewpayController::actionGetgriddatabatch(),&nbsp;jqGridComandButtonsWidget,&nbsp;jqGridWidget</span></div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a16"></a><span class="src-var">$pg&nbsp;</span>=&nbsp;<span class="src-str">'View&nbsp;Batch'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a17"></a><span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">pageTitle</span>=<span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">app</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><span class="src-id">name&nbsp;</span>.&nbsp;<span class="src-str">'&nbsp;-&nbsp;'</span>.<span class="src-var">$pg</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a18"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a19"></a>&lt;h2&gt;<span class="src-php">&lt;?php&nbsp;</span><a href="../IEDR_New_Registrars_Console/_components---menu.php.html#functionprintBreadcrumbTrail">printBreadcrumbTrail</a><span class="src-sym">(</span><span class="src-var">$pg</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/h2&gt;</div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a>&lt;table&nbsp;class=&quot;gridtable&quot;&gt;</div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;</div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;b&gt;Invoice&lt;/b&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a24"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;b&gt;Batch&nbsp;Total&lt;/b&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;b&gt;Session&nbsp;ID&lt;/b&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a26"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;b&gt;Transaction&nbsp;Date&lt;/b&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a27"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;b&gt;Remote&nbsp;IP&lt;/b&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;</div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;</div></li>
+<li><div class="src-line"><a name="a30"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">Inv_No</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a31"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-id"><a href="../IEDR_New_Registrars_Console/Utility.html">Utility</a></span><span class="src-sym">::</span><a href="../IEDR_New_Registrars_Console/Utility.html#methodcurrencyAmount">currencyAmount</a><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">Batch_Total</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a32"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">Sess_ID</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">Trans_Dt</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">Remote_IP</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a35"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;</div></li>
+<li><div class="src-line"><a name="a36"></a>&lt;/table&gt;</div></li>
+<li><div class="src-line"><a name="a37"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a38"></a><span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">widget</span><span class="src-sym">(</span><span class="src-str">'application.widgets.jqGrid.jqGridComandButtonsWidget'</span><span class="src-sym">,&nbsp;</span><span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'pk_column_index'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-num">0</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'actionurl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">createUrl</span><span class="src-sym">(</span><span class="src-str">'accounts_renewpay/confirm_removefrombatch'</span><span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'returnurl'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">createUrl</span><span class="src-sym">(</span><span class="src-str">'accounts_renewpay/outstanding_payments'</span><span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'invoiceType'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">session</span><span class="src-sym">,&nbsp;</span><span class="src-comm">//&nbsp;BUG&nbsp;Ugly&nbsp;Hack&nbsp;:&nbsp;repurposing&nbsp;non-generic&nbsp;variable&nbsp;jqGridComandButtonsWidget-&gt;invoiceType,&nbsp;ewwww.</span></div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'commandlist'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'remove_from_batch'&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Remove&nbsp;%n&nbsp;Domains&nbsp;From&nbsp;Batch'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">)</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a48"></a><span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">log</span><span class="src-sym">(</span><span class="src-str">'Calling&nbsp;jqGridWidget'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'debug'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'accounts_renewpay/view_batch.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a49"></a><span class="src-var">$model_serialised&nbsp;</span>=&nbsp;<span class="src-id"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span><span class="src-sym">::</span><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeSerializeObj">safeSerializeObj</a><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a50"></a><span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">widget</span><span class="src-sym">(</span><span class="src-str">'application.widgets.jqGrid.jqGridWidget'</span><span class="src-sym">,&nbsp;</span><span class="src-key">array</span><span class="src-sym">(</span></div></li>
+<li><div class="src-line"><a name="a51"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'caption'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-str">'Domains&nbsp;In&nbsp;Batch'</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a52"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'thisfile'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">createUrl</span><span class="src-sym">(</span><span class="src-str">'accounts_renewpay/view_batch'</span><span class="src-sym">,</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'model'</span>=&gt;<span class="src-var">$model_serialised</span><span class="src-sym">))</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a53"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'datasource'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">createUrl</span><span class="src-sym">(</span><span class="src-str">'accounts_renewpay/getgriddatabatch'</span><span class="src-sym">,</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'model'</span>=&gt;<span class="src-var">$model_serialised</span><span class="src-sym">))</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a54"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'model'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-var">$model</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a55"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-str">'selections'&nbsp;&nbsp;&nbsp;&nbsp;</span>=&gt;&nbsp;<span class="src-id">true</span><span class="src-sym">,</span></div></li>
+<li><div class="src-line"><a name="a56"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a57"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a58"></a>&lt;!--&nbsp;END&nbsp;protected/views/accounts_renewpay/view_batch.php&nbsp;--&gt;</div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:27 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>

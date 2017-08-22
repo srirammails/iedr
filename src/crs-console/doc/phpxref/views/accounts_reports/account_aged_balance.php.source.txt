@@ -1,0 +1,93 @@
+<!-- START protected/views/accounts_reports/account_aged_balance.php -->
+<?php
+/**
+ * View page for Accounts Reports - Aged Balance
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       AgedBalModel, Accounts_reportsController::actionAccount_aged_balance()
+ */
+
+$pg = 'Statement of Account - aged balance';
+$lastInvoiceDate = Yii::app()->user->lastInvoiceDate;
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<h4>Statement of Account for <?php echo Yii::app()->user->name . " as of " . date("Y-m-d", strtotime("-1 day")) . "</h4>"; ?>
+Please Note: Any online payments since <?php echo $lastInvoiceDate; ?> for "Transfers Pay in Advance of Invoice" or
+"Reactivation of MSD domains " which are not on your invoice will be displayed shortly.
+The Statement will be updated accordingly.
+
+<?php
+
+$this->widget('zii.widgets.grid.CGridView', array(
+	'enableSorting' => false,
+        'dataProvider' => $model->search(),
+        'columns' => array(
+                array(
+                        'name' => 'Nic_Handle',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Nic_Handle)'
+                ),
+                array(
+                        'name' => 'Tr_Date',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Tr_Date)'
+                ),
+                array(
+                        'name' => 'Tr_Type',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Tr_Type)'
+                ),
+                array(
+                        'name' => 'Ext_Ref',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Ext_Ref)'
+                ),
+                array(
+                        'name' => 'Int_Ref',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Int_Ref)'
+                ),
+                array(
+                        'name' => 'Future_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Future_Bal)'
+                ),
+                array(
+                        'name' => 'Current_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Current_Bal)'
+                ),
+                array(
+                        'name' => 'Age_1_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Age_1_Bal)'
+                ),
+                array(
+                        'name' => 'Age_2_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Age_2_Bal)'
+                ),
+                array(
+                        'name' => 'Age_3_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Age_3_Bal)'
+                ),
+                array(
+                        'name' => 'Total_Bal',
+                        'type' => 'raw',
+                        'value' => 'CHtml::encode($data->Total_Bal)'
+                ),
+
+        ),
+));
+
+?>
+
+<!-- END protected/views/accounts_reports/account_aged_balance.php -->

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentURL">
+    <property name="jndiName" value="java:comp/env/paymentURL"/>
+  </bean>
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentProxyHost">
+    <property name="jndiName" value="java:comp/env/paymentProxyHost"/>
+  </bean>
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentProxyPort">
+    <property name="jndiName" value="java:comp/env/paymentProxyPort"/>
+  </bean>
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentAccount">
+    <property name="jndiName" value="java:comp/env/paymentAccount"/>
+  </bean>
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentMerchant">
+    <property name="jndiName" value="java:comp/env/paymentMerchant"/>
+  </bean>
+  <bean class="org.springframework.jndi.JndiObjectFactoryBean" id="paymentPassword">
+    <property name="jndiName" value="java:comp/env/paymentPassword"/>
+  </bean>
+</beans>

@@ -1,0 +1,183 @@
+<?php
+
+/**
+ * defines AllTicketsModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * model for jqGrid view of all pending tickets for an account
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class AllTicketsModel
+	extends GridModelBase
+	{
+
+    /**
+     * show tickets changed since 'days' ago
+     * 
+     * @var    integer
+     * @access public 
+     */
+	var $days;
+
+
+    /**
+     * default sort column-index for grid data
+     * 
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'A';
+
+    /**
+     * Column model for jqGrid
+     * 
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+			'A' => array(
+				'resultfield'=>'id',
+				'criteriafield'=>null,
+				'label'=>'Ticket',
+				'width'=>35,
+				'link'=>'tickets/viewticket',
+				'type'=>'int',
+				),
+			'B' => array(
+				'resultfield'=>'domainName',
+				'criteriafield'=>'domainName',
+				'label'=>'Domain',
+				'width'=>90,
+				'link'=>null,
+				'type'=>'string',
+				),
+			'C' => array(
+				'resultfield'=>'domainHolder',
+				'criteriafield'=>'domainHolder',
+				'label'=>'Holder',
+				'width'=>90,
+				'type'=>'string',
+				),
+			'D' => array(
+				'resultfield'=>'adminStatus',
+				'criteriafield'=>'adminStatus',
+				'label'=>'Admin Status',
+				'width'=>60,
+				'type'=>'string',
+				),
+			'E' => array(
+				'resultfield'=>'techStatus',
+				'criteriafield'=>'techStatus',
+				'label'=>'Tech Status',
+				'width'=>30,
+				'type'=>'string',
+				),
+			'F' => array(
+				'resultfield'=>'type',
+				'criteriafield'=>'type',
+				'label'=>'Ticket Type',
+				'width'=>40,
+				'type'=>'string',
+				),
+			'G' => array(
+				'resultfield'=>'?',
+				'criteriafield'=>null,
+				'label'=>'Expiry Date',
+				'width'=>40,
+				'type'=>'date',
+				),
+			);
+
+    /**
+     * returns default search criteria object
+     * 
+     * @return CRSTicketAppService_ticketSearchCriteria default search criteria object
+     * @access public
+     */
+	public function getSearchBase()
+		{
+		// override to set the filter
+		$criteria = new CRSTicketAppService_ticketSearchCriteria();
+		$criteria->accountId = Yii::app()->user->id;
+		$criteria->to = date('Ymd');
+		return $criteria;
+		}
+
+    /**
+     * returns search criteria object for base class from request parameters
+     * 
+     * @param  array  $searchparams request parameters array
+     * @return CRSTicketAppService_ticketSearchCriteria search criteria
+     * @access public
+     */
+	public function getSearch($searchparams)
+		{
+		$criteria = $this->getSearchBase();
+		foreach($searchparams as $k => $r)
+			{
+			Yii::log('searchparam '.print_r($k,true).' => '.print_r($r,true), 'debug', 'AllTicketsModel::getSearch()');
+			$f = $this->columns[$r->field]['criteriafield'];
+			Yii::log('criteriafield='.print_r($f,true), 'debug', 'AllTicketsModel::getSearch()');
+			if($f != null)
+				{
+				if($f=='adminStatus')
+					$criteria->$f = encode_admin_status_to_int($r->data);
+				else
+					if($f=='techStatus')
+						$criteria->$f = encode_tech_status_to_int($r->data);
+					else
+						if($f=='domainName' or $f=='domainHolder')
+							$criteria->$f = '%'.$r->data.'%';
+						else
+							$criteria->$f = $r->data;
+				}
+			}
+		Yii::log('returning '.print_r($criteria,true), 'debug', 'AllTicketsModel::getSearch()');
+		return $criteria;
+		}
+
+    /**
+     * returns fromatted ticket object data as an array, suitable for base class jqGrid-data handling
+     * 
+     * @param  CRSTicketAppService_ticketVO $t Ticket object
+     * @return array  array-format fromatted ticket data
+     * @access public
+     */
+	public function addResults($t)
+		{
+		$d=new DateTime($t->creationDate);
+		$d->add(Yii::app()->params['ticketExpiryDays']);
+		$ticket_expiry_date = $d->format('Y-m-d');
+		$ticket_holder = '?';
+		if(property_exists($t->operation,'domainHolderField') and property_exists($t->operation->domainHolderField,'newValue'))
+			$ticket_holder = $t->operation->domainHolderField->newValue;
+		return array
+			(
+			'A'=>$t->id,
+			'B'=>$t->domainName,
+			'C'=>$ticket_holder,
+			'D'=>decipher_admin_status($t->adminStatus),
+			'E'=>decipher_tech_status($t->techStatus),
+			'F'=>$t->type,
+			'G'=>$ticket_expiry_date,
+			);
+		}
+	}
+

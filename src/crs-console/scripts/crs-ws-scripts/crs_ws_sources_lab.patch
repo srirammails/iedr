@@ -1,0 +1,267 @@
+Index: crs-web-services/src/main/resources/log4j.properties
+===================================================================
+--- crs-web-services/src/main/resources/log4j.properties	(revision 2675)
++++ crs-web-services/src/main/resources/log4j.properties	(working copy)
+@@ -1,46 +1,58 @@
+ 
+-log4j.rootLogger =DEBUG, stdout
++log4j.rootLogger=DEBUG, stdout
+ 
+-log4j.logger.pl.nask.crs.commons.logger =DEBUG, out
++log4j.appender.stdout=org.apache.log4j.ConsoleAppender
++log4j.appender.stdout.Threshold=DEBUG
++log4j.appender.stdout.Target=System.out
++log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
++log4j.appender.stdout.layout.ConversionPattern=%d{ISO8601} %-5p (%t) [%c] : %m%n
++
++log4j.appender.out=org.apache.log4j.RollingFileAppender
++log4j.appender.out.MaxFileSize=5000KB
++log4j.appender.out.MaxBackupIndex=9999
++log4j.appender.out.DatePattern='-'yyyy-MM-dd'.log'"/>
++log4j.appender.out.layout=org.apache.log4j.PatternLayout
++log4j.appender.out.layout.ConversionPattern=%d{ISO8601} %-5p (%t) [%c] : %m%n
++log4j.appender.out.file=${basedir}/logs/executiontime.log
++
++log4j.appender.converters=org.apache.log4j.RollingFileAppender
++log4j.appender.converters.MaxFileSize=500KB
++log4j.appender.converters.MaxBackupIndex=9999
++log4j.appender.converters.DatePattern='-'yyyy-MM-dd'.log'"/>
++log4j.appender.converters.layout=org.apache.log4j.PatternLayout
++log4j.appender.converters.layout.ConversionPattern=%d{ISO8601} %-5p (%t) [%c] : %m%n
++log4j.appender.converters.file=${basedir}/logs/converters.log
++
+ log4j.additivity.pl.nask.crs.commons.logger=false
+-log4j.logger.com.opensymphony.xwork2.interceptor.LoggingInterceptor = DEBUG, out
+-log4j.logger.com.opensymphony.xwork2.interceptor.TimerInterceptor = INFO, out
++
++log4j.category.catalina=ERROR
+ log4j.category.com.opensymphony.sitemesh=ERROR
++log4j.category.org.apache=ERROR
+ log4j.category.org.apache.struts2=ERROR
+-log4j.category.org.apache=ERROR
+-log4j.category.catalina=ERROR
+-
++log4j.category.pl.nask.crs.commons.dao.AbstractConverter=DEBUG, converters
++log4j.category.pl.nask.crs.ticket.dao.ibatis.converters.HistoricalTicketConverter=DEBUG, converters
++log4j.category.pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler=DEBUG, converters
+ log4j.category.pl.nask=DEBUG
+ 
+-## debug sql queries 
+-#log4j.category.com.ibatis=DEBUG                
+-#log4j.category.java.sql=DEBUG
++log4j.logger.com.opensymphony.xwork2.interceptor.LoggingInterceptor=DEBUG, out
++log4j.logger.com.opensymphony.xwork2.interceptor.TimerInterceptor=INFO, out
+ 
+-# remove error message: Can't find bundle for base name org.apache.struts.action.MESSAGE, locale en_IE
+-log4j.category.pl.nask.crs.ticket.dao.ibatis.converters.HistoricalTicketConverter=DEBUG, converters
+-log4j.category.pl.nask.crs.commons.dao.AbstractConverter=DEBUG, converters
+-log4j.category.pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler=DEBUG, converters
++# 'on'
+ 
++log4j.logger.com.sun.xml.ws=DEBUG
++log4j.logger.javax.servlet=DEBUG
++log4j.logger.javax.xml.ws=DEBUG
++log4j.logger.pl.nask.crs.commons.logger=DEBUG, out
++log4j.logger.java.sql.PreparedStatement=DEBUG
++log4j.logger.java.sql.Connection=DEBUG
+ 
++# 'off'
+ 
+-log4j.appender.stdout = org.apache.log4j.ConsoleAppender
+-log4j.appender.stdout.Threshold = DEBUG
+-log4j.appender.stdout.Target   = System.out
+-log4j.appender.stdout.layout = org.apache.log4j.PatternLayout
+-log4j.appender.stdout.layout.ConversionPattern = %d{ISO8601} %-5p (%t) [%c] : %m%n
++log4j.logger.com.ibatis.sqlmap.engine.cache.CacheModel=ERROR
++log4j.logger.org.springframework.aop=ERROR
++log4j.logger.org.springframework.beans.factory.xml=ERROR
++log4j.logger.org.springframework.jdbc.datasource.DataSourceTransactionManager=ERROR
++log4j.logger.org.springframework.orm.ibatis.SqlMapClientTemplate=ERROR
++log4j.logger.org.springframework.beans.factory.support.DefaultListableBeanFactory=ERROR
++log4j.logger.org.springframework.beans.factory.xml.BeanDefinitionParserDelegate=ERROR
+ 
+-log4j.appender.out = org.apache.log4j.RollingFileAppender
+-log4j.appender.out.MaxFileSize = 5000KB
+-log4j.appender.out.MaxBackupIndex = 9999
+-log4j.appender.out.DatePattern = '-'yyyy-MM-dd'.log'"/>
+-log4j.appender.out.layout = org.apache.log4j.PatternLayout
+-log4j.appender.out.layout.ConversionPattern = %d{ISO8601} %-5p (%t) [%c] : %m%n
+-log4j.appender.out.file = ${basedir}/logs/executiontime.log
+-
+-log4j.appender.converters = org.apache.log4j.RollingFileAppender
+-log4j.appender.converters.MaxFileSize = 500KB
+-log4j.appender.converters.MaxBackupIndex = 9999
+-log4j.appender.converters.DatePattern = '-'yyyy-MM-dd'.log'"/>
+-log4j.appender.converters.layout = org.apache.log4j.PatternLayout
+-log4j.appender.converters.layout.ConversionPattern = %d{ISO8601} %-5p (%t) [%c] : %m%n
+-log4j.appender.converters.file = ${basedir}/logs/converters.log
+Index: pom.xml
+===================================================================
+--- pom.xml	(revision 2675)
++++ pom.xml	(working copy)
+@@ -393,7 +393,7 @@
+ 					</dependencies>
+ 					<configuration>
+ 						<driver>org.gjt.mm.mysql.Driver</driver>
+-						<url>jdbc:mysql://localhost:3306/crsdb</url>
++						<url>jdbc:mysql://devj-db:3306/crsdb</url>
+ 						<username>crsuser</username>
+ 						<password>crspassword</password>
+ 					</configuration>
+@@ -539,6 +539,42 @@
+ 		</profile>
+ 
+ 		<profile>
++			<id>iedr_devj-config</id>
++			<activation>
++				<activeByDefault>true</activeByDefault>
++			</activation>
++			<properties>
++				<profile.srcDir>iedr_devj</profile.srcDir>
++			</properties>
++			<build>
++				<plugins>
++					<plugin>
++						<inherited>false</inherited>
++						<artifactId>maven-antrun-plugin</artifactId>
++					</plugin>
++				</plugins>
++			</build>
++		</profile>
++
++		<profile>
++        		<id>iedr_lab_crs_ii_g_config</id>
++			<activation>
++				<activeByDefault>true</activeByDefault>
++			</activation>
++			<properties>
++				<profile.srcDir>iedr_lab_crs_ii_g</profile.srcDir>
++			</properties>
++			<build>
++				<plugins>
++					<plugin>
++						<inherited>false</inherited>
++						<artifactId>maven-antrun-plugin</artifactId>
++					</plugin>
++				</plugins>
++			</build>
++		</profile>
++
++		<profile>
+ 			<id>production-config</id>
+ 			<properties>
+ 				<profile.srcDir>production</profile.srcDir>
+Index: crs-api/pom.xml
+===================================================================
+--- crs-api/pom.xml	(revision 2675)
++++ crs-api/pom.xml	(working copy)
+@@ -20,21 +20,23 @@
+ 		<artifactId>crs-app-services</artifactId>
+ 	</dependency>
+   </dependencies>
+-  
++
+   <build>
+   	<plugins>
+-  	  <plugin>
++<!--
++	    <plugin>
+ 		<groupId>org.codehaus.enunciate</groupId>
+-        <artifactId>maven-enunciate-plugin</artifactId>
+-        <version>1.21</version>
+-        <executions>
+-          	<execution>
+-            	<goals>
+-              	<goal>docs</goal>
+-            	</goals>            
+-        	</execution>
+-      	</executions>
+-      </plugin>
++    		<artifactId>maven-enunciate-plugin</artifactId>
++    		<version>1.21</version>
++    		<executions>
++          	    <execution>
++            		<goals>
++              		    <goal>docs</goal>
++            		</goals>            
++        	    </execution>
++        	</executions>
++	    </plugin>
++-->
+ 	</plugins>
+   </build>
+ </project>
+Index: crs-iedr-api-tests/pom.xml
+===================================================================
+--- crs-iedr-api-tests/pom.xml	(revision 2675)
++++ crs-iedr-api-tests/pom.xml	(working copy)
+@@ -39,12 +39,14 @@
+             <artifactId>easymock</artifactId>
+             <scope>test</scope>
+         </dependency>
++        <!--
+         <dependency>
+             <groupId>org.testng</groupId>
+             <artifactId>testng</artifactId>
+             <version>5.14</version>
+             <scope>test</scope>
+         </dependency>
++    	-->
+     </dependencies>
+ 
+     <build>
+@@ -105,12 +107,14 @@
+                     <wait>false</wait>
+                     <container>
+                         <containerId>tomcat6x</containerId>
++                        <!--
+                         <zipUrlInstaller>
+                             <url>
+                                 http://www.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip
+                             </url>
+                             <installDir>${installDir}</installDir>
+                         </zipUrlInstaller>
++                        -->
+                         <output>
+                             ${basedir}/target/tomcat/tomcat6x.log
+                         </output>
+@@ -126,6 +130,7 @@
+                         </properties>
+                     </configuration>
+                 </configuration>
++<!--
+                 <executions>
+                     <execution>
+                         <id>start-container</id>
+@@ -144,8 +149,8 @@
+                                         <properties>
+                                             <context>crs-api</context>
+                                         </properties>
+-                                        <pingURL>http://localhost:5556/crs-api/</pingURL>
+-                                        <pingTimeout>300000</pingTimeout>
++                                        <pingURL>http://devj-api:8080/crs-api/</pingURL>
++                                        <pingTimeout>300</pingTimeout>
+                                     </deployable>
+                                 </deployables>
+                             </deployer>
+@@ -159,6 +164,7 @@
+                         </goals>
+                     </execution>
+                 </executions>
++-->
+             </plugin>
+         </plugins>
+     </build>
+Index: crs-payment-logic/src/main/resources/payment-config.xml
+===================================================================
+--- crs-payment-logic/src/main/resources/payment-config.xml	(revision 2675)
++++ crs-payment-logic/src/main/resources/payment-config.xml	(working copy)
+@@ -64,7 +64,7 @@
+ 
+     <bean id="paymentSender" class="pl.nask.crs.payment.service.impl.PaymentSenderImpl">
+         <property name="strURL" value="https://epage.payandshop.com/epage-remote.cgi"/>
+-        <property name="proxyHost" value="193.1.32.37"/>
++        <property name="proxyHost" value="213.190.149.215"/>
+         <property name="proxyPort" value="3128"/>
+     </bean>
+ 

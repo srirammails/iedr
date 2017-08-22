@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class DynamicModelBase</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> DynamicModelBase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">base class for extensible models</p>
+<p class="description"><p>models which need to have other models merged with them must derive from this class to be able to call  <a href="../IEDR_New_Registrars_Console/DynamicModelBase.html#methodaddMixinModel">addMixinModel</a>(otherModel) for adding another model's attributes and validation-rules to it</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> References to other sections (if any)...</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---DynamicModelBase.php.html">/components/DynamicModelBase.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a31">31</a></span>)
+		</p>
+		
+				
+		<pre>CFormModel
+   |
+   --<a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a>
+      |
+      --DynamicModelBase</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html">DynamicDomainListModel</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html">AccountTopUpModel</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$attr_labels" title="details" class="var-name">$attr_labels</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$val_rules" title="details" class="var-name">$val_rules</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																							
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#addMixinModel" title="details" class="method-name">addMixinModel</a>
+											(<span class="var-type">{@link</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#addValRule" title="details" class="method-name">addValRule</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$varname</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$r</span> = <span class="var-default">'safe'</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#attributeLabels" title="details" class="method-name">attributeLabels</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#copyFromOther" title="details" class="method-name">copyFromOther</a>
+											(<span class="var-type">{@link</span>&nbsp;<span class="var-name">$o</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#rules" title="details" class="method-name">rules</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setFromPOST" title="details" class="method-name">setFromPOST</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$p</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#__get" title="details" class="method-name">__get</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#__set" title="details" class="method-name">__set</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$attr_labels" id="$attr_labels"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$attr_labels</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a47">47</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">attribute labels</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$val_rules" id="$val_rules"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$val_rules</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a40">40</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">validation rules</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$commandresults">FormModelBase::$commandresults</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$error">FormModelBase::$error</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$message">FormModelBase::$message</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a55">55</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sets up validation rules and attributes arrays</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/FormModelBase.html#method__construct">FormModelBase::__construct()</a></dt>
+						<dd>constructor, creates commandresults array</dd>
+					</dl>
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html#method__construct">DynamicDomainListModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflinePaymentSelectionModel.html#method__construct">OfflinePaymentSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDSelectionModel.html#method__construct">MSDSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/GridSelectionModel.html#method__construct">GridSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html#method__construct">AccountTopUpModel::__construct()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodaddMixinModel" id="addMixinModel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">addMixinModel</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a93">93</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds another model's attributes, validation rules, and field labels to this class</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> CException thrown if model parameter is null or not a descendant of <a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addMixinModel
+		</span>
+					(<span class="var-type">{@link</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">{@link</span>
+				<span class="var-name">$model</span><span class="var-description">: FormModelBase}     $model other model to add</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddValRule" id="addValRule"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">addValRule</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a155">155</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">add validation rule to $this-&gt;val_rules array</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> CException thrown if val_rules array is null or not an array</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addValRule
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$varname</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$r</span> = <span class="var-default">'safe'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$varname</span><span class="var-description">: name of attribute having a validation rule</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$r</span><span class="var-description">: validation rule name (defaults to 'safe')</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodattributeLabels" id="attributeLabels"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">attributeLabels</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a80">80</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns yii form field labels</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> form field labels</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			attributeLabels
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcopyFromOther" id="copyFromOther"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">copyFromOther</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">copy data from another model to this model</p>
+<p class="description"><p>the attributes of the source model, if not already attributes of this model, will be created</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/DynamicModelBase.html#method__set">DynamicModelBase::__set()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			copyFromOther
+		</span>
+					(<span class="var-type">{@link</span>&nbsp;<span class="var-name">$o</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">{@link</span>
+				<span class="var-name">$o</span><span class="var-description">: DynamicModelBase} $o object to copy from</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html#methodcopyFromOther">DynamicDomainListModel::copyFromOther()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodrules" id="rules"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">rules</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a69">69</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns yii validation rules</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> validation rules</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			rules
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsetFromPOST" id="setFromPOST"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setFromPOST</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a138">138</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">set this object's member attributes from the passed array</p>
+<p class="description"><p>passed array can be $_POST, $_GET, or any other array</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setFromPOST
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$p</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$p</span><span class="var-description">: array with name-value pairs</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html#methodsetFromPOST">DynamicDomainListModel::setFromPOST()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDSelectionModel.html#methodsetFromPOST">MSDSelectionModel::setFromPOST()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/GridSelectionModel.html#methodsetFromPOST">GridSelectionModel::setFromPOST()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="method__get" id="__get"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">__get</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a189">189</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">attribute accessor</p>
+<p class="description"><p>Overridden to NOT throw an exception, as the base implementation does.  Also, wrapping an invocation of the parent function in try/catch also  mysteriously failed to work, presumably because of bypassing by PHP 5.3  implementation of the magic __set/__get functions</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> attribute value</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			__get
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: attribute name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__set" id="__set"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">__set</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsDynamicModelBase.php.html#a230">230</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">attribute accessor</p>
+<p class="description"><p>Overridden to NOT throw an exception, as the base implementation does.  Also, wrapping an invocation of the parent function in try/catch also  mysteriously failed to work, presumably because of bypassing by PHP 5.3  implementation of the magic __set/__get functions</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> outcome of set operation (probably boolean)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			__set
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">mixed</span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$name</span><span class="var-description">: attribute name</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$value</span><span class="var-description">: attribute value</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Constructor.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#method__construct">FormModelBase::__construct()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodforceCaseOfFields">FormModelBase::forceCaseOfFields()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodonBeforeValidate">FormModelBase::onBeforeValidate()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodtrimNewlines">FormModelBase::trimNewlines()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:58 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

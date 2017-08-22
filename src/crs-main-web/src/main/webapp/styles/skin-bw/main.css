@@ -1,0 +1,56 @@
+/*
+	layout definition for iedr crs
+*/
+
+/* green color set --------- */
+/* #f3fff3; /* very light green color for section backgrounds */
+
+/* #cdf2cc; /* light green color */
+/* #9fd39d; /* medium green color */
+/* #70b46e; /* dark green color */
+/* #4e934c; /* more dark green color */
+/* #276825; /* even more dark green color */
+
+/* gray color set --------- */
+/* #f9f9f9; /* very light gray color for page background */
+/* #4C4C4C; /* very darkgray color for main font color */
+
+/* #eff1ef; /* light gray color */
+/* #cdcfcd; /* medium gray color */
+/* #abaeab; /* dark gray color */
+/* #8a8c8a; /* more dark gray color */
+/* #686a68; /* even more dark gray color */
+
+/* red color set --------- */
+/* #f1caca; /* light red color */
+/* #e8a0a0; /* medium red color */
+/* #dd7777; /* dark red color */
+/* #d04b4b; /* more dark red color */
+/* #c72222; /* even more dark red color */
+
+/* additional colors --------- */
+/* #f5f4a8; /* light yellow for tooltips */
+
+
+/* NOTE! history screens use mono-gray skin */
+
+
+@import url( "general.css" );
+@import url( "layout.css" );
+@import url( "field-tag.css" );
+@import url( "group-tag.css" );
+@import url( "forms.css" );
+@import url( "navbar.css" );
+@import url( "jqModal.css" );
+@import url( "calendar.css" );
+
+@import url( "icons.css" );
+@import url( "menu.css" );
+@import url( "dnsNames.css" );
+@import url( "headerfooter.css" );
+@import url( "tooltip.css" );
+@import url( "error.css" );
+
+@import url( "force.css" );
+
+@import url( "accountFlags.css" );

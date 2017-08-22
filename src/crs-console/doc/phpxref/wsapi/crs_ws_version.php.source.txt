@@ -1,0 +1,13 @@
+<?php $crs_ws_version_info = array(
+'Path'=>'.',
+'URL'=>'http://svn.iedr.ie:81/svn/nask-crs/trunk/src',
+'Repository Root'=>'http://svn.iedr.ie:81/svn/nask-crs',
+'Repository UUID'=>'0f3ccdc3-5d38-40f7-843b-fdf8b99087a5',
+'Revision'=>'2795',
+'Node Kind'=>'directory',
+'Schedule'=>'normal',
+'Last Changed Author'=>'arturg',
+'Last Changed Rev'=>'2795',
+'Last Changed Date'=>'2011-07-15 14:00:18 +0100 (Fri, 15 Jul 2011)',
+
+);

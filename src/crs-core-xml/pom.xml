@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>CRS Core XML</name>
+  <parent>
+    <artifactId>crs</artifactId>
+    <groupId>pl.nask.crs</groupId>
+    <version>1.6.44-SNAPSHOT</version>
+  </parent>
+  <groupId>pl.nask.crs</groupId>
+  <artifactId>crs-core-xml</artifactId>
+  <version>1.6.44-SNAPSHOT</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>pl.nask.crs</groupId>
+      <artifactId>crs-xml</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxb2-maven-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>xjc</id>
+            <goals>
+              <goal>xjc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <target>2.1</target>
+          <!-- <packageName>ie.domainregistry</packageName> -->
+          <outputDirectory>${basedir}/src/main/java/</outputDirectory>
+          <schemaDirectory>${basedir}/src/main/resources/</schemaDirectory>
+          <bindingDirectory>${basedir}/src/main/resources/</bindingDirectory>
+          <schemaFiles>*.xsd</schemaFiles>
+          <bindingFiles>binding.xjb</bindingFiles>
+          <removeOldOutput>false</removeOldOutput>
+          <extension>true</extension>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}/src/main/java/</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+    <testResources>
+      <testResource>
+        <!-- Active projects own resources for testing -->
+           <directory>${basedir}/src/test/resources</directory>
+         </testResource>
+         <testResource>
+           <!-- Taking shared resources from development profile -->
+           <directory>${basedir}/../resources/test</directory>
+         </testResource>
+    </testResources>
+  </build>
+</project>

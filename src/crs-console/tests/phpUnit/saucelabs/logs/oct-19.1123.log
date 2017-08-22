@@ -1,0 +1,4 @@
+TAP version 13
+ok 1 - DomainRegTest::testDomainReg1 with browser firefox 7 Windows 2003
+not ok 2 - Error: DomainRegTest::testDomainReg1 with browser iexplore 9 Windows 2008
+1..2

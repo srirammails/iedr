@@ -1,0 +1,424 @@
+<?php
+
+/**
+ * defines NicHandleIdentity class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * define symbol for sessino attribute 'authenticated'
+ */
+define('AUTHENTICATED','authenticated');
+/**
+ * define symbol for sessino attribute 'authenticatedUser'
+ */
+define('AUTHENTICATED_USER_VO','authenticatedUser');
+/**
+ * define symbol for sessino attribute 'nicHandle'
+ */
+define('NIC_DETAILS','nicHandle');
+/**
+ * define symbol for sessino attribute 'resellerDefaults'
+ */
+define('RESELLER_DEFAULTS','resellerDefaults');
+/**
+ * define symbol for sessino attribute 'authGroups'
+ */
+define('AUTH_GROUPS','authGroups');
+/**
+ * define symbol for sessino attribute 'depositAccMin'
+ */
+define('DEPOSIT_ACC_MIN','depositAccMin');
+/**
+ * define symbol for sessino attribute 'depositAccMax'
+ */
+define('DEPOSIT_ACC_MAX','depositAccMax');
+/**
+ * define symbol for sessino attribute 'tariff'
+ */
+define('TARIFF','tariff');
+/**
+ * define symbol for sessino attribute 'agreementSigned'
+ */
+define('AGREEMENTSIGNED','agreementSigned');
+/**
+ * define symbol for sessino attribute 'ticketEdit'
+ */
+define('TICKETEDIT','ticketEdit');
+/**
+ * define symbol for sessino attribute 'lastInvoiceDate'
+ */
+define('LAST_INVOICE_DATE','lastInvoiceDate');
+/**
+ * define symbol for sessino attribute 'actualInternalUser'
+ */
+define('ACTUAL_INTERNAL_USER','actualInternalUser');
+
+
+/**
+ * Extends Yii CUserIdentity to authenticate with CRS-WS API Authentication etc
+ * 
+ * Authenticates via CRS-WS API, also fetches User and Account data
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class NicHandleIdentity
+	extends CUserIdentity
+	{
+    /**
+     * static string indicating user is not an internal user
+     *
+     * @var    string
+     * @access public
+     * @static
+     */
+	public static $NOT_INTERNAL = 'NOT_INTERNAL';
+
+    /**
+     * Logged-in users Nic-Handle Account ID
+     *
+     * @var    integer
+     * @access private
+     */
+	private $_id;
+
+    /**
+     * returns Logged-in users Nic-Handle Account ID
+     * 
+     * @return integer Logged-in users Nic-Handle Account ID
+     * @access public 
+     */
+	public function getId()
+		{
+		return $this->_id;
+		}
+
+    /**
+     * Attempt authentication
+     * 
+     * clears Yii Application Identity, and all user-related data, then attempts to authenticate via the backend CRS-WS API.
+     * 
+     * @return boolean true if authentication succeeded
+     * @access public 
+     */
+	public function authenticate()
+		{
+		$this->errorCode = self::ERROR_USERNAME_INVALID;
+		$this->_id = null;
+		Yii::app()->user->setId(null);
+		$this->clearUserData();
+		$this->setState(AUTHENTICATED, false);
+
+		if(!(isset($this->username) and $this->username!='' and strlen($this->username)>0 and isset($this->password) and $this->password!='' and strlen($this->password)>0))
+			{
+			Yii::log('Empty Credentials : '.print_r($this,true), 'error', 'NicHandleIdentity::authenticate()');
+			exit;
+			}
+
+		if($this->CRSAuthenticationFunction($this->username, $this->password))
+			{
+			$this->errorCode=self::ERROR_NONE;
+			$this->setState(AUTHENTICATED, true);
+			}
+		else
+			$this->errorCode=self::ERROR_UNKNOWN_IDENTITY;
+		return ($this->errorCode==self::ERROR_NONE);
+		}
+
+    /**
+     * returns true if the current user has permission to switch to another registrar's account - for certain internal users only
+     * 
+     * @todo this implementation is incomplete - always returns true
+     * @return boolean true
+     * @access public 
+     * @static
+     */
+	public static function canSwitchAccounts()
+		{
+		#if(!Yii::app()->user->isGuest and Yii::app()->user->actualInternalUser)
+		#	{
+		#	$usrs = Utility::getIEDRUsers();
+		#	if(isset($usrs[Yii::app()->user->actualInternalUser]))
+				return true;
+		#	}
+		#return false;
+		}
+
+    /**
+     * switch to another registrar's account
+     * 
+     * This function is called as an alternative to authentication, in the special case of user-switching.
+     * 
+     * The logged-in user, as stored in Yii::app()->user->actualInternalUser, is stored locally,
+     * then the normal authentication process sets up the NicHandleIdentity as if the switch-to user
+     * had authenticated successfully.
+     * After this data setup, the Yii::app()->user->actualInternalUser is restored to it's previous
+     * value.
+     * 
+     * @todo As of "CRS version r2746 (2011-06-21 11:54)", Nask have updated their Authentication API
+     *       to use a real cryptographic hash - instead of simply a copy of the username - as the API
+     *       authentication token, so the current strategy (this function) will no longer work.
+     *       What needs to be implemented instead a new CRS API that performs a "login as" functionality
+     *       using username, password, and login-as-username.
+     *       After NASK implement that, this class will need to be somewhat rewritten.
+     *
+     * @return void  
+     * @access public
+     */
+	public function switchToAccount()
+		{
+		// create new auth object
+		$auvo = new CRSDomainAppService_authenticatedUserVO();
+		$auvo->username = $this->getName();
+		$auvo->authenticationToken = $this->getName(); // BUG will have to change this with some new Nask API to get a real Auth token without that account's password
+		// set app identity to this new one : same as login, but skip authentication
+		$actual = Yii::app()->user->actualInternalUser;
+		$this->clearUserData();
+		$this->setUserData($auvo);
+		$this->setState(ACTUAL_INTERNAL_USER,$actual);
+		Yii::log('User Switched to '.$auvo->username, 'debug', 'NicHandleIdentity::switchToAccount()');
+		}
+
+    /**
+     * Authenticate login credentials via the CRS-WS API.
+     * 
+     * On authentication success, loads user-specific data
+     * 
+     * @param  unknown   $nichandle username (nic-handle)
+     * @param  unknown   $nicpass   password
+     * @return boolean   true if successful
+     * @access protected
+     */
+	protected function CRSAuthenticationFunction($nichandle, $nicpass)
+		{
+		$auvo = null; // CRSDomainAppService_authenticatedUserVO
+		if(CRSAuthenticationService_service::authenticate($auvo, $this->errorMessage, $nichandle, $nicpass))
+			{
+			$this->setState(ACTUAL_INTERNAL_USER, $nichandle);
+			$this->setUserData($auvo);
+			return true;
+			}
+		return false;
+		}
+
+    /**
+     * Clears user-specific data
+     * 
+     * @return void     
+     * @access protected
+     */
+	protected function clearUserData()
+		{
+		// these values are accessed elsewhere like '$x = Yii::app()->user->resellerDefaults;'
+		foreach(array(
+				ACTUAL_INTERNAL_USER,
+				AGREEMENTSIGNED,
+				AUTHENTICATED_USER_VO,
+				AUTH_GROUPS,
+				DEPOSIT_ACC_MAX,
+				DEPOSIT_ACC_MIN,
+				LAST_INVOICE_DATE,
+				NIC_DETAILS,
+				RESELLER_DEFAULTS,
+				TARIFF,
+				TICKETEDIT,
+				) as $X)
+			$this->clearState($X);
+		}
+
+    /**
+     * reads and stores user-specific data
+     * 
+     * @param  authenticatedUserVO $auvo contains CRS-WS API username and authentication token
+     * @return void   
+     * @access public 
+     */
+	public function setUserData($auvo)
+		{
+		// logged in OK
+		$this->setState(AUTHENTICATED_USER_VO, $auvo);
+		$nicdetails = $this->getNICDetails($auvo);
+		if($nicdetails!=null) {
+			$this->_id = $nicdetails->accountId;
+			$this->setState(NIC_DETAILS, $nicdetails);
+			}
+		$this->setState(RESELLER_DEFAULTS, $this->getResellerDefaults($auvo));
+		$this->setState(AUTH_GROUPS, $this->getAuthGroups($auvo));
+		$this->getDepositAccountLimits($auvo);
+		$this->getResellerAccountDetails($this->_id);
+		$linvd = $this->getLastInvoiceDate($auvo);
+		$this->setState(LAST_INVOICE_DATE, $linvd);
+
+		Yii::log('set (LAST_INVOICE_DATE) '.LAST_INVOICE_DATE.'=', 'debug', 'NicHandleIdentity::getNICDetails()');
+		}
+
+    /**
+     * gets reseller defaults
+     * 
+     * @param  authenticatedUserVO    $user authentication token
+     * @return CRSNicHandleAppService_resellerDefaultsVO   reseller defaults
+     * @access protected
+     */
+	protected function getResellerDefaults($auvo)
+		{
+		$nichandle = $auvo->username;	
+		$result = null; // CRSNicHandleAppService_resellerDefaultsVO
+		$errs   = null;
+		CRSNicHandleAppService_service::getDefaults($result,$errs, $auvo, $nichandle);
+		Yii::log(print_r($result,true), 'debug', 'NicHandleIdentity::getResellerDefaults()');
+		return $result;
+		}
+
+    /**
+     * gets nic-handle details
+     * 
+     * @param  authenticatedUserVO    $auvo authentication token
+     * @param  string    $nic  nic handle
+     * @return CRSNicHandleAppService_nicHandleVO   nichandle data
+     * @access protected
+     */
+	protected function getNICDetails($auvo,$nic=null)
+		{
+		$result = null; // CRSNicHandleAppService_nicHandleVO
+		$errs   = null;
+		CRSNicHandleAppService_service::get($result,$errs,$auvo, $nic==null ? $auvo->username : $nic);
+		Yii::log(print_r($result,true), 'debug', 'NicHandleIdentity::getNICDetails()');
+		return $result;
+		}
+
+    /**
+     * returns an array of authorization groups that the current logged-in user belongs to, as per CRS-WS API
+     * 
+     * @param  authenticatedUserVO    $auvo authentication token
+     * @return array     array of authorization groups
+     * @access protected
+     */
+	protected function getAuthGroups($auvo)
+		{
+		crs_wsapi_service_base::$log_quench = true;
+		$authgroups = array();
+		$grouplist = array('Guest','Registrar','CustomerService','Finance','Hostmaster','HostmasterLead','Batch','TechnicalLead','Technical','FinanceLead','SuperRegistrar',);
+		foreach($grouplist as $level)
+			{
+			$result = null;
+			$errs   = null;
+			CRSPermissionsAppService_service::isUserInGroup($result,$errs,$auvo, $level);
+			if($result==1)
+				$authgroups[] = $level;
+			}
+		crs_wsapi_service_base::$log_quench = false;
+		Yii::log(print_r($authgroups,true), 'debug', 'NicHandleIdentity::getAuthGroups()');
+		return $authgroups;
+		}
+
+    /**
+     * sets the minimum and maximum deposit amounts permitted per transaction, for this account, by callint the CRS-WS API
+     * 
+     * @param  authenticatedUserVO    $auvo authentication token
+     * @return void     
+     * @access protected
+     */
+	protected function getDepositAccountLimits($auvo)
+		{
+		$result = null;
+		$errs   = null;
+		CRSPaymentAppService_service::getDepositLimits($result,$errs, $auvo);
+		if($errs==null)
+			{
+			Yii::log(print_r($result,true), 'debug', 'NicHandleIdentity::getDepositAccountLimits()');
+			$this->setState(DEPOSIT_ACC_MIN, $result->min);
+			$this->setState(DEPOSIT_ACC_MAX, $result->max);
+			}
+		}
+
+    /**
+     * returns a authenticatedUserVO instance containing authentication tokens for the configured 'superuser',
+     * used for some CRS-WS API requests needing higher authorization
+     * 
+     * @return authenticatedUserVO superuser authorization token
+     * @access public 
+     * @static
+     */
+	public static function getSuperUserAuthentication()
+		{
+		$sup_auvo = null; // CRSDomainAppService_authenticatedUserVO
+		$timeout = 3600; // TODO set to max session lifetime, once NASK have a session timeout
+		$cache_key = 'superuser_auvo';
+		$errs = null;
+		$sup_auvo = Yii::app()->cache->get($cache_key);
+		if($sup_auvo==null)
+			{
+			$sup_nic = Yii::app()->params['superuser_nic'];
+			$sup_pass = Yii::app()->params['superuser_pass'];
+			if(!CRSAuthenticationService_service::authenticate($sup_auvo, $errs, $sup_nic, $sup_pass))
+				Yii::log('Failed to login with superuser credentials: '.print_r($errs,true), 'error', 'NicHandleIdentity::getSuperUserAuthentication()');
+			}
+		return $sup_auvo;
+		}
+
+    /**
+     * gets, via CRS-WS API, some account details for given account ID, with 'superuser' authentication token.
+     * 
+     * Details fetched : 
+     * - tariff: one of { Deleted,RetailB,Silver,Trade,TradeA,TradeAChar,TradeB,TradeBChar }
+     * - agreementSigned: 0 or 1
+     * - ticketEdit: 0 or 1
+     * 
+     * @param  integer   $accid Account ID
+     * @return void     
+     * @access protected
+     */
+	protected function getResellerAccountDetails($accid)
+		{
+		$result = null;
+		$errs   = null;
+		$suvo = NicHandleIdentity::getSuperUserAuthentication();
+		if($suvo!=null)
+			{
+			CRSResellerAppService_service::get($result,$errs, $suvo, $accid);
+			if($errs==null)
+				{
+				Yii::log(print_r($result,true), 'debug', 'NicHandleIdentity::getResellerAccount()');
+				$this->setState(TARIFF, $result->tariff);
+				$this->setState(AGREEMENTSIGNED, $result->agreementSigned);
+				$this->setState(TICKETEDIT, $result->ticketEdit);
+				}
+			}
+		}
+
+    /**
+     * gets last invoice date from CRS-WS API
+     * 
+     * CRS-WS currently returns the last calendar day of the previous calendar month
+     * 
+     * @param  authenticatedUserVO    $auvo authentication token
+     * @return string   date in string YYYY-MM-DD format
+     * @access protected
+     */
+	protected function getLastInvoiceDate($auvo)
+		{
+		$result = null;
+		$errs   = null;
+		CRSPaymentAppService_service::getLastInvoiceDate($result,$errs, $auvo);
+		if($errs==null)
+			{
+			//Yii::log(print_r($result,true), 'debug', 'NicHandleIdentity::getLastInvoiceDate()');
+			return parseXmlDate($result);
+			}
+		return null;
+		}
+	}
+

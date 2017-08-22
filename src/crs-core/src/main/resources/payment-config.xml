@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="paymentSender" class="pl.nask.crs.payment.service.impl.PaymentSenderImpl">
+        <property name="strURL" value="https://epage.payandshop.com/epage-remote.cgi"/>
+        <!--<property name="proxyHost" value="193.1.32.37"/>-->
+        <!--<property name="proxyPort" value="3128"/>-->
+    </bean>
+
+    <bean id="paymentAccount" class="java.lang.String">
+        <constructor-arg value="internettest"/>
+    </bean>
+
+    <bean id="paymentMerchant" class="java.lang.String">
+        <constructor-arg value="iedr"/>
+    </bean>
+
+    <bean id="paymentPassword" class="java.lang.String">
+        <constructor-arg value="TrQrZhJ8vm"/>
+    </bean>
+
+</beans>

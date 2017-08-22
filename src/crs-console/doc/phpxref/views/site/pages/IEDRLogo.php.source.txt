@@ -1,0 +1,31 @@
+<!-- START protected/views/site/pages/IEDRLogo.php -->
+<?php
+/**
+ * View page for IEDR Logo details
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$view='files/'; ?>
+<center><h2>IEDR Logos and Usage Guidelines</h2></center>
+<div align="center">
+<br><a href="<?php echo $view; ?>docs/IEDR_logo_guidelines.pdf">Logo Guidelines</a><br>
+<br><a href="<?php echo $view; ?>docs/IE_Accredited_Registrar_Logo_guidelines.pdf">Registrar Logo Guidelines</a><br><br>
+
+<h2>Images:</h2>
+
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR10_logo2.eps">IEDR_Registrar Logo .eps</a><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR10_logo2.jpg">IEDR_Registrar Logo .jpg</a><br>
+<br><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR_col_stamp.png">IEDR_Col_Stamp.png</a><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR_col_stamp_txt.png">IEDR_col_stamp_txt.png</a><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR_col_stamp_txt_white_background.png">IEDR_col_stamp_txt_white_background.png</a><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR_white_stamp.png">IEDR_white_stamp.png</a><br>
+<a href="<?php echo $view; ?>IEDR_Logo_Guidelines/IEDR_white_stamp.png">IEDR_white_stamp_txt.png</a>
+<!-- END protected/views/site/pages/IEDRLogo.php -->

@@ -1,0 +1,189 @@
+<?php
+
+/**
+ * defines SPDataProvider class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * runs query with criteria to fetch deposit topup history for a NIC with a date range
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       http://www.yiiframework.com/doc/api/1.1/IDataProvider
+ */
+class SPDataProvider extends CDataProvider
+{
+    /**
+     * Default of 20 days for the base search - should be overridden by the search value.
+     * 
+     * @var    number
+     * @access public
+     */
+	public $days = 20;
+	
+    /**
+     * model instance
+     * 
+     * @var    unknown
+     * @access public 
+     */
+        public $modelClass;
+
+    /**
+     * unused
+     * 
+     * @var    unknown
+     * @access public 
+     */
+        public $keyAttribute;
+
+    /**
+     * data returned by query
+     * 
+     * @var    array  
+     * @access private
+     */
+	private $theData;
+
+    /**
+     * string for selecting query type; only 'DepTopUp' supported
+     * 
+     * @var    string
+     * @access public
+     */
+	public $qryType = "";
+
+    /**
+     * search criteria
+     * 
+     * @var    object 
+     * @access private
+     */
+        private $_criteria;
+
+    /**
+     * count of rows in data
+     * 
+     * @var    integer
+     * @access public 
+     */
+	public $dataCount = 0;
+
+
+    /**
+     * constructor, also accesses global variable $_REQUEST['days'] expecting an integer
+     * 
+     * @param  CModel $modelClass a model
+     * @param  array   $config     an array of key-value config items
+     * @return void   
+     * @access public 
+     */
+        public function __construct($modelClass,$config=array())
+        {
+   		$this->modelClass=$modelClass;
+                $this->setId($modelClass);
+                foreach($config as $key=>$value)
+                        $this->$key=$value;
+
+         if(isset($_REQUEST['days'])) {
+            $this->days  = $_REQUEST['days'];
+         } else {
+            $this->days  = 10;
+         }
+                  
+         $this->qryType = $modelClass;
+        }
+
+    /**
+     * returns query criteria, as a CDbCriteria instance creating it if necessary
+     * 
+     * @return CDbCriteria query search criteria
+     * @access public
+     */
+        public function getCriteria()
+        {
+                if($this->_criteria===null)
+                        $this->_criteria=new CDbCriteria;
+                return $this->_criteria;
+        }
+
+    /**
+     * sets query criteria
+     * 
+     * @param  mixed $value CDbCriteria or array ; query search criteria
+     * @return void   
+     * @access public 
+     */
+        public function setCriteria($value)
+        {
+                $this->_criteria=$value instanceof CDbCriteria ? $value : new CDbCriteria($value);
+        }
+
+    /**
+     * returns false
+     * 
+     * @return boolean false
+     * @access public 
+     */
+        public function getSort()
+        {
+                return false;
+        }
+
+    /**
+     * gets deposit history
+     * 
+     * @return array     array of rows of deposit history data
+     * @access protected
+     */
+        protected function fetchData()
+        {
+
+		if($this->qryType == "DepTopUp"){
+			$sql = "call DepositTopups('" . Yii::app()->user->name  . "', '" . date('Y-m-d',time()-(86400*$this->days)) . "', Now());";		
+		}
+
+	        $command=Yii::app()->db->createCommand($sql);
+	        $this->theData = $command->queryAll();
+		$this->dataCount = count($this->theData);
+
+		return $this->theData;
+        }
+
+    /**
+     * gets d=column names in data
+     * 
+     * @return array     array of strings of column-names
+     * @access protected
+     */
+        protected function fetchKeys()
+        {
+		 foreach( $this->theData as $key => $value ) 
+			$keys[] = $key;
+		return $keys;
+        }
+
+    /**
+     * returns count of rows of data
+     * 
+     * @return integer   count of rows in data
+     * @access protected
+     */
+        protected function calculateTotalItemCount()
+        {
+		return $this->dataCount;
+        }
+}

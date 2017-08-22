@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie/" />
+<title>new_reg_MYR</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">new_reg_MYR</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/domainscreated/domaincreateresults/WUW%3DWBW%253DV0tXPTcwODk2YTNhZTQ4Y2NmYzE0Y2I5MDkzNDc1ZjZlYWQ4MjMxODc1ZDRXU1c9TzoxNToiRG9tYWluc19DcmVhdGVkIjo2OntzOjE2OiJkb21haW5zcHJvY2Vzc2VkIjthOjE6e3M6MTg6Im5ld3JlZ2lzdHJhdGlvbi5pZSI7YToxOntzOjY6InRpY2tldCI7aTozODY2MTg7fX1zOjE1OiIAQ01vZGVsAF9lcnJvcnMiO2E6MDp7fXM6MTk6IgBDTW9kZWwAX3ZhbGlkYXRvcnMiO047czoxNzoiAENNb2RlbABfc2NlbmFyaW8iO3M6MDoiIjtzOjE0OiIAQ0NvbXBvbmVudABfZSI7TjtzOjE0OiIAQ0NvbXBvbmVudABfbSI7Tjt9</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Domains »</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Register New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_RegNew_domain_names</td>
+	<td>multiyear.ie</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_holder</td>
+	<td>kljasdas asdsad</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_remarks</td>
+	<td>asdasd</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_name</td>
+	<td>lkasdd aslkdjsad</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_company_name</td>
+	<td>lkjasdkj </td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_address</td>
+	<td>asdasd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_email</td>
+	<td>asdasd@asdasd.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>098098098</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_faxes</td>
+	<td>098098908</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_nic_remark</td>
+	<td>sadasd</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>return</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_holder</td>
+	<td>asdasdsad</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_remarks</td>
+	<td>sadasdasd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_tech_contact</td>
+	<td>ABC1-IEDR</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_1</td>
+	<td>ns1.sadasd.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_2</td>
+	<td>ns.dasd.ie</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>Domains_Details_accept_tnc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='content']/table/tbody/tr[2]/td[2]</td>
+	<td>OK</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

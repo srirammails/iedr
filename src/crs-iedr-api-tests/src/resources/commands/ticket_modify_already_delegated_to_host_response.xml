@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2102">
+            <msg>Parameter value policy error</msg>
+            <value>
+                <ticket:nsName xmlns:ticket="http://www.domainregistry.ie/ieapi-ticket-1.3">ns2.brianserver.com
+                </ticket:nsName>
+            </value>
+            <reason code="704">Nameserver already associated with Ticket</reason>
+        </result>
+    </response>
+</ieapi>

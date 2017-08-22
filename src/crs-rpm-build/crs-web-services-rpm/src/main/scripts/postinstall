@@ -1,0 +1,2 @@
+echo Restarting Tomcat6 Service
+/sbin/service tomcat6 restart || /sbin/service tomcat6 start || /bin/true

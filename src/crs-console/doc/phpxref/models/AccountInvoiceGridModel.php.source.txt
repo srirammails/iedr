@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class AccountInvoiceGridModel
+	extends AccountGridModel
+	{
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object $obj Parameter description (if any) ...
+     * @return void  
+     * @access public
+     */
+	public function __construct($obj)
+		{
+		parent::__construct($obj);
+		$this->invSummary = $obj->getInvoicesSummary();
+		}
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $invSummary;
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'PK';
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $columns = array(
+		'A' => array('label'=>'Invoice',	'width'=>20,),
+		'PK'=> array('label'=>'Domain',		'width'=>60,'link'=>'domains/viewdomain',),
+		'C' => array('label'=>'Holder',		'width'=>60,),
+		'B' => array('label'=>'Registered',	'width'=>23,'type'=>'date',),
+		'D' => array('label'=>'Renewal',	'width'=>23,'type'=>'date',),
+		'E' => array('label'=>'Amount',		'width'=>20,'type'=>'currency'),
+		'F' => array('label'=>'VAT',		'width'=>20,'type'=>'currency'),
+		);
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'A'=>$o->invoiceId,
+			'PK'=>$o->domainName,
+			'C'=>cleanString($o->holderId),
+			'B'=>parseXmlDate($o->regDate),
+			'D'=>parseXmlDate($o->renDate),
+			'E'=>$o->amount,
+			'F'=>$o->vat,
+			);
+		}
+	}
+

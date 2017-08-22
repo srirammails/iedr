@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+        "sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+    <settings useStatementNamespaces="true"/>
+
+    <sqlMap resource="ibatis/deposit.xml"/>
+    <sqlMap resource="ibatis/payment-utils.xml"/>    
+    <sqlMap resource="ibatis/reservation.xml"/>
+    <sqlMap resource="ibatis/transaction.xml"/>
+    <sqlMap resource="ibatis/reservation-hist.xml"/>
+    <sqlMap resource="ibatis/transaction-hist.xml"/>
+    <sqlMap resource="ibatis/invoice.xml"/>
+    <sqlMap resource="ibatis/invoicing.xml"/>
+</sqlMapConfig>

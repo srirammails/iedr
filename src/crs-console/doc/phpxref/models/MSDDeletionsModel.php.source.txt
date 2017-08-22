@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class MSDDeletionsModel
+	extends AccountInvoiceGridModel
+	{
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'PK';
+
+    /**
+     * Description for var
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+		'PK'=> array('label'=>'Domain',		'width'=>40,'link'=>'domains/viewdomain',),
+		'B' => array('label'=>'Holder',		'width'=>55,),
+		'C' => array('label'=>'Registered',	'width'=>23,'type'=>'date',),
+		'D' => array('label'=>'Renewal',	'width'=>23,'type'=>'date',),
+		'E' => array('label'=>'Deleted',	'width'=>23,'type'=>'date',),
+		);
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $obj Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function __construct($obj) { }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'PK'=>$o->domainName,
+			'B'=>cleanString($o->domainHolder),
+			'C'=>parseXmlDate($o->registrationDate),
+			'D'=>parseXmlDate($o->renewalDate),
+			'E'=>parseXmlDate($o->deleteDate),
+			);
+		}
+	}
+

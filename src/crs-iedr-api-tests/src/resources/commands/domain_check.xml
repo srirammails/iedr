@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+                          ieapi-1.3.xsd">
+    <command>
+        <check>
+            <domain:check
+                    xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+                               ieapi-domain-1.3.xsd">
+                <domain:name>pizzaonline.ie</domain:name>
+                <domain:name>example2.ie</domain:name>
+                <domain:name>example3.ie</domain:name>
+                <domain:name>xx.ie</domain:name>
+                <domain:name>66.ie</domain:name>                
+                <domain:name>a1.ie</domain:name>
+                <domain:name>1a.ie</domain:name>
+                <domain:name>xxx.ie</domain:name>
+                <domain:name>xn--xxx.ie</domain:name>
+                <domain:name>taga.ie</domain:name>
+                <domain:name>!@$#@$@#$\/\\\n///\\\</domain:name>
+            </domain:check>
+        </check>
+    </command>
+</ieapi>

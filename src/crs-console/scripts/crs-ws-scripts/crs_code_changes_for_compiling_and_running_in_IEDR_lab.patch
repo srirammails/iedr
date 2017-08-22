@@ -1,0 +1,234 @@
+Index: pom.xml
+===================================================================
+--- pom.xml	(revision 2749)
++++ pom.xml	(working copy)
+@@ -393,7 +393,7 @@
+ 					</dependencies>
+ 					<configuration>
+ 						<driver>org.gjt.mm.mysql.Driver</driver>
+-						<url>jdbc:mysql://localhost:3306/crsdb</url>
++						<url>jdbc:mysql://devj-db:3306/crsdb</url>
+ 						<username>crsuser</username>
+ 						<password>crspassword</password>
+ 					</configuration>
+Index: crs-api/src/main/java/pl/nask/crs/api/vo/SimpleDomainFieldChangeVO.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/vo/SimpleDomainFieldChangeVO.java	(revision 2749)
++++ crs-api/src/main/java/pl/nask/crs/api/vo/SimpleDomainFieldChangeVO.java	(working copy)
+@@ -45,7 +45,7 @@
+ 		this.failureReason = dc.getFailureReason() == null ? null : dc.getFailureReason().getDescription();
+ 	}
+ 	
+-	SimpleDomainFieldChangeVO(String currentValue, String newValue, FailureReason fr) {
++	public  SimpleDomainFieldChangeVO(String currentValue, String newValue, FailureReason fr) {
+ 		super(newValue, fr == null ? 0 : fr.getId());
+ 		this.oldValue = currentValue;
+ 		this.failureReason = fr == null ? null : fr.getDescription();
+Index: crs-iedr-api-tests/pom.xml
+===================================================================
+--- crs-iedr-api-tests/pom.xml	(revision 2749)
++++ crs-iedr-api-tests/pom.xml	(working copy)
+@@ -39,12 +39,14 @@
+             <artifactId>easymock</artifactId>
+             <scope>test</scope>
+         </dependency>
++        <!--
+         <dependency>
+             <groupId>org.testng</groupId>
+             <artifactId>testng</artifactId>
+             <version>5.14</version>
+             <scope>test</scope>
+         </dependency>
++    	-->
+     </dependencies>
+ 
+     <build>
+@@ -105,12 +107,14 @@
+                     <wait>false</wait>
+                     <container>
+                         <containerId>tomcat6x</containerId>
++                        <!--
+                         <zipUrlInstaller>
+                             <url>
+                                 http://www.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip
+                             </url>
+                             <installDir>${installDir}</installDir>
+                         </zipUrlInstaller>
++                        -->
+                         <output>
+                             ${basedir}/target/tomcat/tomcat6x.log
+                         </output>
+@@ -126,6 +130,7 @@
+                         </properties>
+                     </configuration>
+                 </configuration>
++<!--
+                 <executions>
+                     <execution>
+                         <id>start-container</id>
+@@ -144,8 +149,8 @@
+                                         <properties>
+                                             <context>crs-api</context>
+                                         </properties>
+-                                        <pingURL>http://localhost:5556/crs-api/</pingURL>
+-                                        <pingTimeout>300000</pingTimeout>
++                                        <pingURL>http://devj-api:8080/crs-api/</pingURL>
++                                        <pingTimeout>300</pingTimeout>
+                                     </deployable>
+                                 </deployables>
+                             </deployer>
+@@ -159,6 +164,7 @@
+                         </goals>
+                     </execution>
+                 </executions>
++-->
+             </plugin>
+         </plugins>
+     </build>
+Index: crs-config/src/main/profiles/development/dataSource.xml
+===================================================================
+--- crs-config/src/main/profiles/development/dataSource.xml	(revision 2749)
++++ crs-config/src/main/profiles/development/dataSource.xml	(working copy)
+@@ -6,10 +6,12 @@
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+-
++
++	<!-- http://commons.apache.org/dbcp/apidocs/org/apache/commons/dbcp/BasicDataSource.html -->
++
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://localhost/crsdb?socketTimeout=60000"/>
++        <property name="url" value="jdbc:mysql://10.10.128.102:3306/phoenixdb?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;maintainTimeStats=false&amp;includeInnodbStatusInDeadlockExceptions=true"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+         <property name="initialSize" value="1"/>
+@@ -19,7 +21,7 @@
+         <property name="validationQuery" value="SELECT USER()"/>
+         <!--testWhileIdle=true with commons-dbcp version 1.2.2 is bugged :  https://issues.apache.org/jira/browse/DBCP-298-->
+         <property name="testWhileIdle" value="true" />
+-        
++
+         <property name="timeBetweenEvictionRunsMillis" value="600000"/>
+     </bean>
+ 
+Index: crs-config/src/main/profiles/development/emails.xml
+===================================================================
+--- crs-config/src/main/profiles/development/emails.xml	(revision 2749)
++++ crs-config/src/main/profiles/development/emails.xml	(working copy)
+@@ -3,12 +3,31 @@
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+-    <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+-        <constructor-arg value="test-mailer"/>
+-        <constructor-arg value="smtp.nask.waw.pl"/>
+-        <constructor-arg value="test"/>
+-        <constructor-arg value="test"/>
+-        <constructor-arg value="test"/>
++    <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
++
++		<!-- String mailer -->
++		<constructor-arg value="crs mailer"/>
++
++		<!-- String mailhost -->
++		<constructor-arg value="localhost"/>
++
++		<!-- (optional) Integer port -->
++		<!--constructor-arg value="25"/-->
++
++		<!-- String userName -->
++		<constructor-arg value="test"/>
++
++		<!-- String userPassword -->
++		<constructor-arg value="test"/>
++
++		<!-- (optional : both booleans ssl and tls, otherwise neither)  -->
++		<!--
++			<constructor-arg value="false"/>
++			<constructor-arg value="false"/>
++		-->
++
++		<!-- String mailSmtpFrom -->
++		<constructor-arg value="hostmaster@domainregistry.ie"/>
+     </bean>
+ 
+ </beans>
+\ No newline at end of file
+Index: crs-config/src/main/profiles/production/dataSource.xml
+===================================================================
+--- crs-config/src/main/profiles/production/dataSource.xml	(revision 2749)
++++ crs-config/src/main/profiles/production/dataSource.xml	(working copy)
+@@ -7,9 +7,11 @@
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+ 
++	<!-- http://commons.apache.org/dbcp/apidocs/org/apache/commons/dbcp/BasicDataSource.html -->
++
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://10.10.128.184:3306/phoenixdb?socketTimeout=60000"/>
++        <property name="url" value="jdbc:mysql://10.10.128.184:3306/phoenixdb?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=UTF-8&amp;maintainTimeStats=false&amp;includeInnodbStatusInDeadlockExceptions=true"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+         <property name="initialSize" value="1"/>
+Index: crs-config/src/main/profiles/production/emails.xml
+===================================================================
+--- crs-config/src/main/profiles/production/emails.xml	(revision 2749)
++++ crs-config/src/main/profiles/production/emails.xml	(working copy)
+@@ -3,14 +3,32 @@
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+-    <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+-        <constructor-arg value="hostmaster@domainregistry.ie"/>
+-        <constructor-arg value="smtp1.domainregistry.ie"/>
+-        <!--todo change-->
+-        <constructor-arg value="25"/>
+-        <constructor-arg value="test"/>
+-        <constructor-arg value="test"/>
+-        <constructor-arg value="hostmaster@domainregistry.ie"/>
++    <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
++
++		<!-- String mailer -->
++		<constructor-arg value="crs mailer"/>
++
++		<!-- String mailhost -->
++		<constructor-arg value="smtp1.domainregistry.ie"/>
++
++		<!-- (optional) Integer port -->
++		<!--constructor-arg value="25"/-->
++
++		<!-- String userName -->
++		<constructor-arg value="test"/>
++
++		<!-- String userPassword -->
++		<constructor-arg value="test"/>
++
++		<!-- (optional : both booleans ssl and tls, otherwise neither)  -->
++		<!--
++			<constructor-arg value="false"/>
++			<constructor-arg value="false"/>
++		-->
++
++		<!-- String mailSmtpFrom -->
++		<constructor-arg value="hostmaster@domainregistry.ie"/>
++
+     </bean>
+ 
+ </beans>
+\ No newline at end of file
+Index: crs-payment-logic/src/main/resources/payment-config.xml
+===================================================================
+--- crs-payment-logic/src/main/resources/payment-config.xml	(revision 2749)
++++ crs-payment-logic/src/main/resources/payment-config.xml	(working copy)
+@@ -68,7 +68,7 @@
+ 
+     <bean id="paymentSender" class="pl.nask.crs.payment.service.impl.PaymentSenderImpl">
+         <property name="strURL" value="https://epage.payandshop.com/epage-remote.cgi"/>
+-        <property name="proxyHost" value="193.1.32.37"/>
++        <property name="proxyHost" value="squid.domainregistry.ie"/>
+         <property name="proxyPort" value="3128"/>
+     </bean>
+ 

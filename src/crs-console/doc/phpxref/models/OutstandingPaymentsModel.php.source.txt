@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * defines OutstandingPaymentsModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * model for jqGrid data for outstanding payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       outstanding_payments.php, Accounts_renewpayController::actionGetgriddataop(), Accounts_renewpayController::actionOutstanding_payments()
+ */
+class OutstandingPaymentsModel
+	extends ViewGridModelBase
+	{
+
+    /**
+     * default sort column-key for grid data
+     * 
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'A';
+
+    /**
+     * column model for jqGridWidget
+     * 
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+			'A' => array(
+				'label'=>'Session ID',
+				'resultfield'=>'Sess_Id',
+				'criteriafield'=>'Sess_Id',
+				'width'=>16,
+				'type'=>'string',
+				'link'=>'accounts_renewpay/viewbatch',
+				),
+			'B' => array(
+				'label'=>'Transaction Date',
+				'resultfield'=>'Trans_Dt',
+				'criteriafield'=>'Trans_Dt',
+				'width'=>10,
+				'type'=>'date',
+				),
+			'C' => array(
+				'label'=>'Batch Total',
+				'resultfield'=>'Batch_Total',
+				'criteriafield'=>'Batch_Total',
+				'width'=>10,
+				'type'=>'currency',
+				),
+			'D' => array(
+				'label'=>'Outstanding',
+				'resultfield'=>'Outstanding',
+				'criteriafield'=>'Outstanding',
+				'width'=>10,
+				'type'=>'currency',
+				),
+			'E' => array(
+				'label'=>'Domains in Batch',
+				'resultfield'=>'NumDomains',
+				'criteriafield'=>'NumDomains',
+				'width'=>10,
+				'type'=>'string',
+				),
+			);
+	}
+

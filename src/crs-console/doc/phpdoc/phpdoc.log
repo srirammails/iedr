@@ -1,0 +1,1132 @@
+PHP Version 5.3.3-1ubuntu9.5
+phpDocumentor version 1.4.3
+
+Parsing configuration file phpDocumentor.ini...
+   (found in /home/johnm/src/PhpDocumentor/)...
+
+done
+using tokenizer Parser
+Hidden /home/johnm/src/newregcon/src/www/protected/widgets/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/.svn Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSResellerAppService.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSPermissionsAppService.php Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/wsapi/.svn Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/crs_ws_version.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSNicHandleAppService.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSDomainAppService.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSTicketAppService.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSAuthenticationService.php Ignored
+Symlink /home/johnm/src/newregcon/src/www/protected/wsapi/CRSPaymentAppService.php Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/runtime/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/runtime/cache/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/tests/functional/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/tests/fixtures/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/tests/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/tests/report/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/tests/unit/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/config/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/.htaccess Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/components/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/mlist/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/domainreports/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/domains/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/site/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/site/pages/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/grid/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/tickets/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/resources/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/contacts/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/nicsearch/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/dns/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/nichandles/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/layouts/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accountsgrid/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_history/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/nsreports/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/views/dummy/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/controllers/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/models/.svn Ignored
+Hidden /home/johnm/src/newregcon/src/www/protected/db/.svn Ignored
+
+
+Grabbing README/INSTALL/CHANGELOG
+
+done
+
+
+Tutorial/Extended Documentation Parsing Stage
+
+done
+
+
+General Parsing Stage
+
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/UserSwitchWidget.php -- Parsing file
+WARNING in UserSwitchWidget.php on line 26: package default is already in category default, will now replace with category NRC
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/userSwitchView.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/commandButtons.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridComandButtonsWidget.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridWidget.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/view.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/CCform.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/CreditCardFormSegmentWidget.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/wsapi/wsapi_base.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/wsapi_soap_2011-07-19.log -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/wsapi_soap_2011-07-15.log -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/46bed855cb3dc2a07fa5a56fd830bb73.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/44d3b4de62a483e31262c9744ada6943.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/d43d590ca939ea9f4621c240585172e0.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/033055ea25714c3d6d28ae5b7b191cfa.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/a8d49d384d7d8a305472b63e3d0de1e8.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/3db045dc449862b4ae4eb7c0142b460d.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/bd821076510a904ac371ad11ddd62390.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/3a922fc29fb8a303196694860f78f0e1.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/5056caf1333572cb70b2abfe86c71ef7.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/56e1cd4597de980368347d49d1d0c640.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/ea706cdce13075b1024fa0a88bd151a3.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/991cb0357f01f9b27e9bcbd64752921e.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/c09e6c16cd70386b207e7b7ec7112775.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/cache/18e91b37aaa9ef53333e8d2f7b7175ba.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/application.log -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/state.bin -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/wsapi_soap_2011-07-18.log -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/runtime/email.log -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/tests/functional/SiteTest.php -- Parsing file
+WARNING in SiteTest.php on line 3: Class "SiteTest" has no Class-level DocBlock.
+WARNING in SiteTest.php on line 3: no @package tag was used in a DocBlock for class SiteTest
+WARNING in SiteTest.php on line 8: Method "testIndex" has no method-level DocBlock.
+WARNING in SiteTest.php on line 21: Method "testContact" has no method-level DocBlock.
+WARNING in SiteTest.php on line 45: Method "testLoginLogout" has no method-level DocBlock.
+WARNING in SiteTest.php on line 46: File "/home/johnm/src/newregcon/src/www/protected/tests/functional/SiteTest.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/tests/phpunit.xml -- File not parsed, not a php file
+Reading file /home/johnm/src/newregcon/src/www/protected/tests/bootstrap.php -- Parsing file
+WARNING in bootstrap.php on line 9: File "/home/johnm/src/newregcon/src/www/protected/tests/bootstrap.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/tests/WebTestCase.php -- Parsing file
+WARNING in WebTestCase.php on line 14: no @package tag was used in a DocBlock for class WebTestCase
+WARNING in WebTestCase.php on line 24: File "/home/johnm/src/newregcon/src/www/protected/tests/WebTestCase.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/config/test.php -- Parsing file
+WARNING in test.php on line 16: File "/home/johnm/src/newregcon/src/www/protected/config/test.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/config/main.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/ReturningController.php -- Parsing file
+WARNING in ReturningController.php on line 22: DocBlock would be page-level, but precedes class "ReturningController", use another DocBlock to document the file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/GridUtility.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/ViewGridModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/NicHandleIdentity.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/VAT_Number_Validator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/DBLog.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/NSNameGlueRecValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/IPV4AddressValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/HostNameValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/LowerCaseValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/DynamicModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/GridController.php -- Parsing file
+WARNING in GridController.php on line 16: DocBlock would be page-level, but precedes class "GridController", use another DocBlock to document the file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/SQLGridController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/IEDomainValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/Utility.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/RegistrationCodeValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/SPDataProvider.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/PhoneNumberValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/CreditCardValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/NicHandleValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/menu.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/RenewalCodeValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/Controller.php -- Parsing file
+WARNING in Controller.php on line 22: DocBlock would be page-level, but precedes class "Controller", use another DocBlock to document the file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/DummyController.php -- Parsing file
+WARNING in DummyController.php on line 15: DocBlock would be page-level, but precedes class "DummyController", use another DocBlock to document the file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/AutoTestingCaptchaValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/CreateCSVFile.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/NicHandleSyntaxValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/GridModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/AuthOnlyBaseController.php -- Parsing file
+WARNING in AuthOnlyBaseController.php on line 16: DocBlock would be page-level, but precedes class "AuthOnlyBaseController", use another DocBlock to document the file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/CreditCardFormSegmentModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/SQLDateSelectGridController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/RegexValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/IPV6AddressValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/ProductCodeValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/CheckboxOnValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/FormModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/CreateExcelSpreadsheet.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/ReturningModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/UserIdentity.php -- Parsing file
+WARNING in UserIdentity.php on line 21: no @package tag was used in a DocBlock for class UserIdentity
+Reading file /home/johnm/src/newregcon/src/www/protected/components/EmailAddrValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/AccountsGridController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/components/UpperCaseValidator.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/renewals.php -- Parsing file
+WARNING in renewals.php on line 33: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/renewals.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/transfers.php -- Parsing file
+WARNING in transfers.php on line 32: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/transfers.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/menu.php -- Parsing file
+WARNING in menu.php on line 12: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/payments.php -- Parsing file
+WARNING in payments.php on line 30: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_payments/payments.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/renewals.php -- Parsing file
+WARNING in renewals.php on line 33: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/renewals.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/transfers.php -- Parsing file
+WARNING in transfers.php on line 36: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/transfers.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/menu.php -- Parsing file
+WARNING in menu.php on line 12: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/payments.php -- Parsing file
+WARNING in payments.php on line 22: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history_invoices/payments.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/mlist/main.php -- Parsing file
+WARNING in main.php on line 6: File "/home/johnm/src/newregcon/src/www/protected/views/mlist/main.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/charity.php -- Parsing file
+WARNING in charity.php on line 15: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/charity.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/menu.php -- Parsing file
+WARNING in menu.php on line 11: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/autorenewed.php -- Parsing file
+WARNING in autorenewed.php on line 15: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/autorenewed.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/newdomains.php -- Parsing file
+WARNING in newdomains.php on line 29: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/newdomains.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/nsrecords.php -- Parsing file
+WARNING in nsrecords.php on line 6: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/nsrecords.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domainreports/alldomains.php -- Parsing file
+WARNING in alldomains.php on line 17: File "/home/johnm/src/newregcon/src/www/protected/views/domainreports/alldomains.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domains/domainscreated.php -- Parsing file
+WARNING in domainscreated.php on line 34: File "/home/johnm/src/newregcon/src/www/protected/views/domains/domainscreated.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domains/domaindetails.php -- Parsing file
+WARNING in domaindetails.php on line 276: File "/home/johnm/src/newregcon/src/www/protected/views/domains/domaindetails.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domains/viewdomain.php -- Parsing file
+WARNING in viewdomain.php on line 124: File "/home/johnm/src/newregcon/src/www/protected/views/domains/viewdomain.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domains/regnew.php -- Parsing file
+WARNING in regnew.php on line 30: File "/home/johnm/src/newregcon/src/www/protected/views/domains/regnew.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/domains/menu.php -- Parsing file
+WARNING in menu.php on line 9: File "/home/johnm/src/newregcon/src/www/protected/views/domains/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/error.php -- Parsing file
+WARNING in error.php on line 16: File "/home/johnm/src/newregcon/src/www/protected/views/site/error.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/summaryframe.php -- Parsing file
+WARNING in summaryframe.php on line 71: File "/home/johnm/src/newregcon/src/www/protected/views/site/summaryframe.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/index.php -- Parsing file
+WARNING in index.php on line 74: File "/home/johnm/src/newregcon/src/www/protected/views/site/index.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/footer.php -- Parsing file
+WARNING in footer.php on line 26: File "/home/johnm/src/newregcon/src/www/protected/views/site/footer.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/login.php -- Parsing file
+WARNING in login.php on line 67: File "/home/johnm/src/newregcon/src/www/protected/views/site/login.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/IEDR_API.php -- Parsing file
+WARNING in IEDR_API.php on line 14: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/IEDR_API.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/Statistics.php -- Parsing file
+WARNING in Statistics.php on line 17: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/Statistics.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/IEDRLogo.php -- Parsing file
+WARNING in IEDRLogo.php on line 17: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/IEDRLogo.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/PolicyConsultations.php -- Parsing file
+WARNING in PolicyConsultations.php on line 29: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/PolicyConsultations.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/PolicyGuidelines.php -- Parsing file
+WARNING in PolicyGuidelines.php on line 45: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/PolicyGuidelines.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/FormalisationDrafts.php -- Parsing file
+WARNING in FormalisationDrafts.php on line 95: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/FormalisationDrafts.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/Prod_API.php -- Parsing file
+WARNING in Prod_API.php on line 156: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/Prod_API.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/about.php -- Parsing file
+WARNING in about.php on line 12: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/about.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/pages/Test_API.php -- Parsing file
+WARNING in Test_API.php on line 160: File "/home/johnm/src/newregcon/src/www/protected/views/site/pages/Test_API.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/contact.php -- Parsing file
+WARNING in contact.php on line 70: File "/home/johnm/src/newregcon/src/www/protected/views/site/contact.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/site/changePassword.php -- Parsing file
+WARNING in changePassword.php on line 45: File "/home/johnm/src/newregcon/src/www/protected/views/site/changePassword.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/grid/results.php -- Parsing file
+WARNING in results.php on line 44: File "/home/johnm/src/newregcon/src/www/protected/views/grid/results.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/grid/confirm_action.php -- Parsing file
+WARNING in confirm_action.php on line 53: File "/home/johnm/src/newregcon/src/www/protected/views/grid/confirm_action.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts/menu.php -- Parsing file
+WARNING in menu.php on line 10: File "/home/johnm/src/newregcon/src/www/protected/views/accounts/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp.php -- Parsing file
+WARNING in nrc_cn_on_invs_xfer_away_pp.php on line 33: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/deletions.php -- Parsing file
+WARNING in deletions.php on line 31: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/deletions.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/transfers_away.php -- Parsing file
+WARNING in transfers_away.php on line 27: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/transfers_away.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_msddels.php -- Parsing file
+WARNING in nrc_cn_on_invs_msddels.php on line 33: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_msddels.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/menu.php -- Parsing file
+WARNING in menu.php on line 13: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_msd_xfer.php -- Parsing file
+WARNING in nrc_cn_on_invs_msd_xfer.php on line 33: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_msd_xfer.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/tickets/viewticket.php -- Parsing file
+WARNING in viewticket.php on line 139: File "/home/johnm/src/newregcon/src/www/protected/views/tickets/viewticket.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/tickets/editticket.php -- Parsing file
+WARNING in editticket.php on line 55: File "/home/johnm/src/newregcon/src/www/protected/views/tickets/editticket.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/tickets/main.php -- Parsing file
+WARNING in main.php on line 40: File "/home/johnm/src/newregcon/src/www/protected/views/tickets/main.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/resources/menu.php -- Parsing file
+WARNING in menu.php on line 10: File "/home/johnm/src/newregcon/src/www/protected/views/resources/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/topup.php -- Parsing file
+WARNING in topup.php on line 43: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/topup.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/results.php -- Parsing file
+WARNING in results.php on line 48: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/results.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/view_batch.php -- Parsing file
+WARNING in view_batch.php on line 44: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/view_batch.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/menu.php -- Parsing file
+WARNING in menu.php on line 11: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/outstanding_payments.php -- Parsing file
+WARNING in outstanding_payments.php on line 16: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/outstanding_payments.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/confirm_action.php -- Parsing file
+WARNING in confirm_action.php on line 53: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay/confirm_action.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/contacts/menu.php -- Parsing file
+WARNING in menu.php on line 10: File "/home/johnm/src/newregcon/src/www/protected/views/contacts/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/current_newandrenewals.php -- Parsing file
+WARNING in current_newandrenewals.php on line 39: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/current_newandrenewals.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/transfers_pia.php -- Parsing file
+WARNING in transfers_pia.php on line 34: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/transfers_pia.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/menu.php -- Parsing file
+WARNING in menu.php on line 12: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_advpay/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/nicsearch/namesearch.php -- Parsing file
+WARNING in namesearch.php on line 17: File "/home/johnm/src/newregcon/src/www/protected/views/nicsearch/namesearch.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/dns/dnsupdate.php -- Parsing file
+WARNING in dnsupdate.php on line 101: File "/home/johnm/src/newregcon/src/www/protected/views/dns/dnsupdate.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/nichandles/viewnichandle.php -- Parsing file
+WARNING in viewnichandle.php on line 37: File "/home/johnm/src/newregcon/src/www/protected/views/nichandles/viewnichandle.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/nichandles/createnichandle.php -- Parsing file
+WARNING in createnichandle.php on line 60: File "/home/johnm/src/newregcon/src/www/protected/views/nichandles/createnichandle.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/nichandles/editnichandle.php -- Parsing file
+WARNING in editnichandle.php on line 55: File "/home/johnm/src/newregcon/src/www/protected/views/nichandles/editnichandle.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/layouts/main.php -- Parsing file
+WARNING in main.php on line 81: File "/home/johnm/src/newregcon/src/www/protected/views/layouts/main.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/layouts/column1.php -- Parsing file
+WARNING in column1.php on line 8: File "/home/johnm/src/newregcon/src/www/protected/views/layouts/column1.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/layouts/column2.php -- Parsing file
+WARNING in column2.php on line 24: File "/home/johnm/src/newregcon/src/www/protected/views/layouts/column2.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accountsgrid/results.php -- Parsing file
+WARNING in results.php on line 174: File "/home/johnm/src/newregcon/src/www/protected/views/accountsgrid/results.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accountsgrid/confirm_action.php -- Parsing file
+WARNING in confirm_action.php on line 92: File "/home/johnm/src/newregcon/src/www/protected/views/accountsgrid/confirm_action.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/account_aged_balance.php -- Parsing file
+WARNING in account_aged_balance.php on line 84: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_reports/account_aged_balance.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/transferto.php -- Parsing file
+WARNING in transferto.php on line 44: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_reports/transferto.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/menu.php -- Parsing file
+WARNING in menu.php on line 11: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_reports/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/transferaway.php -- Parsing file
+WARNING in transferaway.php on line 43: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_reports/transferaway.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_reports/domains_transferred.php -- Parsing file
+WARNING in domains_transferred.php on line 13: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_reports/domains_transferred.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/recent.php -- Parsing file
+WARNING in recent.php on line 74: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_msd/recent.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/results.php -- Parsing file
+WARNING in results.php on line 79: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_msd/results.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/year.php -- Parsing file
+WARNING in year.php on line 17: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_msd/year.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/menu.php -- Parsing file
+WARNING in menu.php on line 11: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_msd/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_msd/confirm_action.php -- Parsing file
+WARNING in confirm_action.php on line 62: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_msd/confirm_action.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history/topuphist.php -- Parsing file
+WARNING in topuphist.php on line 74: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history/topuphist.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history/pendingpay.php -- Parsing file
+WARNING in pendingpay.php on line 26: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history/pendingpay.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history/menu.php -- Parsing file
+WARNING in menu.php on line 11: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_history/payhist.php -- Parsing file
+WARNING in payhist.php on line 41: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_history/payhist.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/current_newandrenewals.php -- Parsing file
+WARNING in current_newandrenewals.php on line 66: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/current_newandrenewals.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/menu.php -- Parsing file
+WARNING in menu.php on line 12: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/transfers_paycurrent.php -- Parsing file
+WARNING in transfers_paycurrent.php on line 65: File "/home/johnm/src/newregcon/src/www/protected/views/accounts_renewpay_currinv/transfers_paycurrent.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/nsreports/dnsserversearch.php -- Parsing file
+WARNING in dnsserversearch.php on line 37: File "/home/johnm/src/newregcon/src/www/protected/views/nsreports/dnsserversearch.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/views/dummy/menu.php -- Parsing file
+WARNING in menu.php on line 7: File "/home/johnm/src/newregcon/src/www/protected/views/dummy/menu.php" has no page-level DocBlock, use @package in the first DocBlock to create one
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_history_paymentsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/TicketsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_reportsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/SiteController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/NsreportsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_payhist_crednotesController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/ApiController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_history_invoicesController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/DnsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/DomainreportsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/NichandlesController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/DomainsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_msdController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/MlistController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/NicsearchController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_historyController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/ContactsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/ResourcesController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/AccountsController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpay_advpayController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpayController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpay_currinvController.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/DynamicDomainListModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_AdvPay_RnR_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AccountGridModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_rr_inv_hist_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_adv_pay_hist_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/OfflinePaymentSelectionModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/LoginForm.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Domains_Created.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AllNicsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AdminNicModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_hist_pay_search_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Domains_RegNew.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/DnsserversearchModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AllTicketsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/DNS_BulkMod.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AgedBalModel.php -- Parsing file
+WARNING in AgedBalModel.php on line 25: no @package tag was used in a DocBlock for class AgedBalModel
+Reading file /home/johnm/src/newregcon/src/www/protected/models/ViewDomainModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/ChangePasswordForm.php -- Parsing file
+WARNING in ChangePasswordForm.php on line 96: Method "change" has no method-level DocBlock.
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_xfer_pay_hist_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_adv_pay_inv_histModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AccountTopUpModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/EditTicketModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_rr_payment_hist_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/ARDomainModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Domains_Details.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_msddels_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/OfflineBatchSelectionModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/MSDModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/ContactForm.php -- Parsing file
+WARNING in ContactForm.php on line 27: no @package tag was used in a DocBlock for class ContactForm
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_AdvPay_Tx_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/NewDomainsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/CharityDomainModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_xfer_away_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_pending_payments_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/MSDDeletionsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/RptsNrcYearMonthModelBase.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AccountAdvanceGridModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/NicSearchModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AccountInvoiceGridModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/ViewTicketModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_NicXfersModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_deletions_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/OutstandingPaymentsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_msd_xfer_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Nichandle_Details.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_xfer_inv_histModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/UserSwitchModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_CurrInv_Tx_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Account.php -- Parsing file
+WARNING in Account.php on line 49: no @package tag was used in a DocBlock for class Account
+Reading file /home/johnm/src/newregcon/src/www/protected/models/AllDomainsModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/MSDSelectionModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/GridSelectionModel.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_CurrInv_RnR_Model.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/db.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/registrars_for_internal_login.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/domain_prices.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/country_county.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/short_account_stats.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/billing_status.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/ticket_status.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/class_category.php -- Parsing file
+Reading file /home/johnm/src/newregcon/src/www/protected/db/manage_offline_payments.php -- Parsing file
+done
+
+Converting From Abstract Parsed Data
+
+Processing Class Inheritance
+
+
+Processing Root Trees
+
+
+Processing leftover classes (classes that extend root classes not found in the same package)
+Processing UserSwitchWidget in file /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/UserSwitchWidget.php
+WARNING: Class UserSwitchWidget parent CWidget not found
+Processing jqGridComandButtonsWidget in file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridComandButtonsWidget.php
+WARNING: Class jqGridComandButtonsWidget parent CWidget not found
+Processing jqGridWidget in file /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridWidget.php
+WARNING: Class jqGridWidget parent CWidget not found
+Processing CreditCardFormSegmentWidget in file /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/CreditCardFormSegmentWidget.php
+WARNING: Class CreditCardFormSegmentWidget parent CWidget not found
+Processing SiteTest in file /home/johnm/src/newregcon/src/www/protected/tests/functional/SiteTest.php
+Processing WebTestCase in file /home/johnm/src/newregcon/src/www/protected/tests/WebTestCase.php
+Processing ReturningController in file /home/johnm/src/newregcon/src/www/protected/components/ReturningController.php
+Processing ViewGridModelBase in file /home/johnm/src/newregcon/src/www/protected/components/ViewGridModelBase.php
+Processing NicHandleIdentity in file /home/johnm/src/newregcon/src/www/protected/components/NicHandleIdentity.php
+WARNING: Class NicHandleIdentity parent CUserIdentity not found
+Processing VAT_Number_Validator in file /home/johnm/src/newregcon/src/www/protected/components/VAT_Number_Validator.php
+Processing NSNameGlueRecValidator in file /home/johnm/src/newregcon/src/www/protected/components/NSNameGlueRecValidator.php
+WARNING: Class NSNameGlueRecValidator parent CValidator not found
+Processing IPV4AddressValidator in file /home/johnm/src/newregcon/src/www/protected/components/IPV4AddressValidator.php
+Processing HostNameValidator in file /home/johnm/src/newregcon/src/www/protected/components/HostNameValidator.php
+Processing LowerCaseValidator in file /home/johnm/src/newregcon/src/www/protected/components/LowerCaseValidator.php
+Processing DynamicModelBase in file /home/johnm/src/newregcon/src/www/protected/components/DynamicModelBase.php
+Processing IEDomainValidator in file /home/johnm/src/newregcon/src/www/protected/components/IEDomainValidator.php
+Processing RegistrationCodeValidator in file /home/johnm/src/newregcon/src/www/protected/components/RegistrationCodeValidator.php
+Processing SPDataProvider in file /home/johnm/src/newregcon/src/www/protected/components/SPDataProvider.php
+WARNING: Class SPDataProvider parent CDataProvider not found
+Processing PhoneNumberValidator in file /home/johnm/src/newregcon/src/www/protected/components/PhoneNumberValidator.php
+Processing CreditCardValidator in file /home/johnm/src/newregcon/src/www/protected/components/CreditCardValidator.php
+Processing NicHandleValidator in file /home/johnm/src/newregcon/src/www/protected/components/NicHandleValidator.php
+Processing RenewalCodeValidator in file /home/johnm/src/newregcon/src/www/protected/components/RenewalCodeValidator.php
+Processing Controller in file /home/johnm/src/newregcon/src/www/protected/components/Controller.php
+WARNING: Class Controller parent CController not found
+Processing AutoTestingCaptchaValidator in file /home/johnm/src/newregcon/src/www/protected/components/AutoTestingCaptchaValidator.php
+WARNING: Class AutoTestingCaptchaValidator parent CCaptchaValidator not found
+Processing NicHandleSyntaxValidator in file /home/johnm/src/newregcon/src/www/protected/components/NicHandleSyntaxValidator.php
+Processing GridModelBase in file /home/johnm/src/newregcon/src/www/protected/components/GridModelBase.php
+Processing CreditCardFormSegmentModel in file /home/johnm/src/newregcon/src/www/protected/components/CreditCardFormSegmentModel.php
+Processing RegexValidator in file /home/johnm/src/newregcon/src/www/protected/components/RegexValidator.php
+WARNING: Class RegexValidator parent CValidator not found
+Processing ProductCodeValidator in file /home/johnm/src/newregcon/src/www/protected/components/ProductCodeValidator.php
+WARNING: Class ProductCodeValidator parent CValidator not found
+Processing FormModelBase in file /home/johnm/src/newregcon/src/www/protected/components/FormModelBase.php
+WARNING: Class FormModelBase parent CFormModel not found
+Processing UserIdentity in file /home/johnm/src/newregcon/src/www/protected/components/UserIdentity.php
+WARNING: Class UserIdentity parent CUserIdentity not found
+Processing LoginForm in file /home/johnm/src/newregcon/src/www/protected/models/LoginForm.php
+WARNING: Class LoginForm parent CFormModel not found
+Processing Domains_Created in file /home/johnm/src/newregcon/src/www/protected/models/Domains_Created.php
+WARNING: Class Domains_Created parent CFormModel not found
+Processing AgedBalModel in file /home/johnm/src/newregcon/src/www/protected/models/AgedBalModel.php
+WARNING: Class AgedBalModel parent CActiveRecord not found
+Processing ViewDomainModel in file /home/johnm/src/newregcon/src/www/protected/models/ViewDomainModel.php
+WARNING: Class ViewDomainModel parent CFormModel not found
+Processing ChangePasswordForm in file /home/johnm/src/newregcon/src/www/protected/models/ChangePasswordForm.php
+WARNING: Class ChangePasswordForm parent CFormModel not found
+Processing EditTicketModel in file /home/johnm/src/newregcon/src/www/protected/models/EditTicketModel.php
+Processing ContactForm in file /home/johnm/src/newregcon/src/www/protected/models/ContactForm.php
+WARNING: Class ContactForm parent CFormModel not found
+Processing ViewTicketModel in file /home/johnm/src/newregcon/src/www/protected/models/ViewTicketModel.php
+WARNING: Class ViewTicketModel parent CFormModel not found
+Processing UserSwitchModel in file /home/johnm/src/newregcon/src/www/protected/models/UserSwitchModel.php
+WARNING: Class UserSwitchModel parent CFormModel not found
+Processing Account in file /home/johnm/src/newregcon/src/www/protected/models/Account.php
+WARNING: Class Account parent CActiveRecord not found
+done processing leftover classes
+
+Processing Procedural Page Element Name Conflicts
+
+
+Sorting page elements...done
+Formatting @uses list...done
+
+creating /var/www/trunk/doc/phpdoc/media
+copying /var/www/trunk/doc/phpdoc/media/banner.css
+copying /var/www/trunk/doc/phpdoc/media/stylesheet.css
+creating /var/www/trunk/doc/phpdoc/media/images
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractClass.png
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractClass_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractMethod.png
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractPrivateClass.png
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractPrivateClass_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/AbstractPrivateMethod.png
+copying /var/www/trunk/doc/phpdoc/media/images/blank.png
+copying /var/www/trunk/doc/phpdoc/media/images/Class.png
+copying /var/www/trunk/doc/phpdoc/media/images/class_folder.png
+copying /var/www/trunk/doc/phpdoc/media/images/Class_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/Constant.png
+copying /var/www/trunk/doc/phpdoc/media/images/Constructor.png
+copying /var/www/trunk/doc/phpdoc/media/images/Destructor.png
+copying /var/www/trunk/doc/phpdoc/media/images/empty.png
+copying /var/www/trunk/doc/phpdoc/media/images/file.png
+copying /var/www/trunk/doc/phpdoc/media/images/folder.png
+copying /var/www/trunk/doc/phpdoc/media/images/Function.png
+copying /var/www/trunk/doc/phpdoc/media/images/function_folder.png
+copying /var/www/trunk/doc/phpdoc/media/images/Global.png
+copying /var/www/trunk/doc/phpdoc/media/images/I.png
+copying /var/www/trunk/doc/phpdoc/media/images/Index.png
+copying /var/www/trunk/doc/phpdoc/media/images/Interface.png
+copying /var/www/trunk/doc/phpdoc/media/images/Interface_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/L.png
+copying /var/www/trunk/doc/phpdoc/media/images/Lminus.png
+copying /var/www/trunk/doc/phpdoc/media/images/Lplus.png
+copying /var/www/trunk/doc/phpdoc/media/images/Method.png
+copying /var/www/trunk/doc/phpdoc/media/images/minus.gif
+copying /var/www/trunk/doc/phpdoc/media/images/next_button.png
+copying /var/www/trunk/doc/phpdoc/media/images/next_button_disabled.png
+copying /var/www/trunk/doc/phpdoc/media/images/package.png
+copying /var/www/trunk/doc/phpdoc/media/images/package_folder.png
+copying /var/www/trunk/doc/phpdoc/media/images/Page.png
+copying /var/www/trunk/doc/phpdoc/media/images/Page_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/plus.gif
+copying /var/www/trunk/doc/phpdoc/media/images/previous_button.png
+copying /var/www/trunk/doc/phpdoc/media/images/previous_button_disabled.png
+copying /var/www/trunk/doc/phpdoc/media/images/PrivateClass.png
+copying /var/www/trunk/doc/phpdoc/media/images/PrivateClass_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/PrivateMethod.png
+copying /var/www/trunk/doc/phpdoc/media/images/PrivateVariable.png
+copying /var/www/trunk/doc/phpdoc/media/images/private_class_logo.png
+copying /var/www/trunk/doc/phpdoc/media/images/StaticMethod.png
+copying /var/www/trunk/doc/phpdoc/media/images/StaticVariable.png
+copying /var/www/trunk/doc/phpdoc/media/images/T.png
+copying /var/www/trunk/doc/phpdoc/media/images/Tminus.png
+copying /var/www/trunk/doc/phpdoc/media/images/Tplus.png
+copying /var/www/trunk/doc/phpdoc/media/images/tutorial.png
+copying /var/www/trunk/doc/phpdoc/media/images/tutorial_folder.png
+copying /var/www/trunk/doc/phpdoc/media/images/up_button.png
+copying /var/www/trunk/doc/phpdoc/media/images/Variable.png
+creating /var/www/trunk/doc/phpdoc/media/lib
+copying /var/www/trunk/doc/phpdoc/media/lib/classTree.js
+Building indexes...done
+
+Sorting Indexes...done
+
+Sorting @todo list...done
+Converting tutorials/extended docs
+Formatting Package Indexes...    Writing /var/www/trunk/doc/phpdoc/elementindex_IEDR_New_Registrars_Console.html
+
+done
+Formatting Index...
+    Writing /var/www/trunk/doc/phpdoc/elementindex.html
+    Writing /var/www/trunk/doc/phpdoc/blank.html
+
+    Writing /var/www/trunk/doc/phpdoc/index.html
+    Writing /var/www/trunk/doc/phpdoc/packages.html
+done
+
+Formatting Left Quick Index...
+    Writing /var/www/trunk/doc/phpdoc/li_IEDR_New_Registrars_Console.html
+    Writing /var/www/trunk/doc/phpdoc/classtrees_IEDR_New_Registrars_Console.html
+
+done
+
+Converting /home/johnm/src/newregcon/src/www/protected/models/Account.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Account.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Account.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AccountAdvanceGridModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountAdvanceGridModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AccountAdvanceGridModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AccountGridModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountGridModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AccountGridModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AccountInvoiceGridModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountInvoiceGridModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AccountInvoiceGridModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/AccountsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---AccountsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/AccountsGridController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountsGridController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---AccountsGridController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_historyController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_historyController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_historyController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_history_invoicesController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_history_invoicesController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_history_invoicesController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_history_paymentsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_history_paymentsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_history_paymentsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_msdController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_msdController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_msdController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_payhist_crednotesController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_payhist_crednotesController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_payhist_crednotesController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpayController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_renewpayController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_renewpayController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpay_advpayController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_renewpay_advpayController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_renewpay_advpayController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_renewpay_currinvController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_renewpay_currinvController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_renewpay_currinvController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/Accounts_reportsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Accounts_reportsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---Accounts_reportsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AccountTopUpModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AccountTopUpModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AccountTopUpModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_AdvPay_RnR_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Acc_RnP_AdvPay_RnR_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Acc_RnP_AdvPay_RnR_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_AdvPay_Tx_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Acc_RnP_AdvPay_Tx_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Acc_RnP_AdvPay_Tx_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_CurrInv_RnR_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Acc_RnP_CurrInv_RnR_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Acc_RnP_CurrInv_RnR_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Acc_RnP_CurrInv_Tx_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Acc_RnP_CurrInv_Tx_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Acc_RnP_CurrInv_Tx_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AdminNicModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AdminNicModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AdminNicModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AgedBalModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AgedBalModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AgedBalModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AllDomainsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AllDomainsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AllDomainsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AllNicsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AllNicsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AllNicsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/AllTicketsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AllTicketsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---AllTicketsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/ApiController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ApiController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---ApiController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/ARDomainModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ARDomainModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---ARDomainModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/AuthOnlyBaseController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AuthOnlyBaseController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---AuthOnlyBaseController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/AutoTestingCaptchaValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/AutoTestingCaptchaValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---AutoTestingCaptchaValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/billing_status.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---billing_status.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/CCform.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---credit_card_payment---CCform.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/ChangePasswordForm.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ChangePasswordForm.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---ChangePasswordForm.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/CharityDomainModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CharityDomainModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---CharityDomainModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/CheckboxOnValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CheckboxOnValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---CheckboxOnValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/class_category.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---class_category.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/commandButtons.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---jqGrid---commandButtons.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/ContactForm.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ContactForm.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---ContactForm.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/ContactsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ContactsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---ContactsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/Controller.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Controller.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---Controller.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/CreateCSVFile.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CreateCSVFile.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---CreateCSVFile.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/CreateExcelSpreadsheet.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CreateExcelSpreadsheet.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---CreateExcelSpreadsheet.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/CreditCardFormSegmentModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CreditCardFormSegmentModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---CreditCardFormSegmentModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/credit_card_payment/CreditCardFormSegmentWidget.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CreditCardFormSegmentWidget.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---credit_card_payment---CreditCardFormSegmentWidget.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/CreditCardValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/CreditCardValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---CreditCardValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/db.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DB.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---db.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/DBLog.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DBLog.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---DBLog.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/DnsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DnsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---DnsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/DnsserversearchModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DnsserversearchModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---DnsserversearchModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/DNS_BulkMod.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DNS_BulkMod.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---DNS_BulkMod.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/DomainreportsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DomainreportsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---DomainreportsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/DomainsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DomainsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---DomainsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Domains_Created.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Domains_Created.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Domains_Created.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Domains_Details.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Domains_Details.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Domains_Details.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Domains_RegNew.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Domains_RegNew.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Domains_RegNew.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/domain_prices.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---domain_prices.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/DummyController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DummyController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---DummyController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/DynamicDomainListModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DynamicDomainListModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---DynamicDomainListModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/DynamicModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/DynamicModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---DynamicModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/EditTicketModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/EditTicketModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---EditTicketModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/EmailAddrValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/EmailAddrValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---EmailAddrValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/FormModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/FormModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---FormModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/GridController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/GridController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---GridController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/GridModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/GridModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---GridModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/GridSelectionModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/GridSelectionModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---GridSelectionModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/GridUtility.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/GridUtility.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---GridUtility.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/HostNameValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/HostNameValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---HostNameValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/IEDomainValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/IEDomainValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---IEDomainValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/IPV4AddressValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/IPV4AddressValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---IPV4AddressValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/IPV6AddressValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/IPV6AddressValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---IPV6AddressValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridComandButtonsWidget.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/jqGridComandButtonsWidget.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---jqGrid---jqGridComandButtonsWidget.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/jqGridWidget.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/jqGridWidget.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---jqGrid---jqGridWidget.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/LoginForm.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/LoginForm.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---LoginForm.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/LowerCaseValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/LowerCaseValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---LowerCaseValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/config/main.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_config---main.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/manage_offline_payments.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---manage_offline_payments.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/menu.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---menu.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/MlistController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/MlistController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---MlistController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/MSDDeletionsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/MSDDeletionsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---MSDDeletionsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/MSDModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/MSDModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---MSDModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/MSDSelectionModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/MSDSelectionModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---MSDSelectionModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/NewDomainsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NewDomainsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---NewDomainsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/NicHandleIdentity.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NicHandleIdentity.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---NicHandleIdentity.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/NichandlesController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NichandlesController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---NichandlesController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/NicHandleSyntaxValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NicHandleSyntaxValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---NicHandleSyntaxValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/NicHandleValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NicHandleValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---NicHandleValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Nichandle_Details.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Nichandle_Details.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Nichandle_Details.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/NicsearchController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NicsearchController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---NicsearchController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/NicSearchModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NicSearchModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---NicSearchModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/NSNameGlueRecValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NSNameGlueRecValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---NSNameGlueRecValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/NsreportsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/NsreportsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---NsreportsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/OfflineBatchSelectionModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---OfflineBatchSelectionModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/OfflinePaymentSelectionModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/OfflinePaymentSelectionModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---OfflinePaymentSelectionModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/OutstandingPaymentsModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/OutstandingPaymentsModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---OutstandingPaymentsModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/PhoneNumberValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/PhoneNumberValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---PhoneNumberValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/ProductCodeValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ProductCodeValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---ProductCodeValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/RegexValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/RegexValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---RegexValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/registrars_for_internal_login.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---registrars_for_internal_login.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/RegistrationCodeValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/RegistrationCodeValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---RegistrationCodeValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/RenewalCodeValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/RenewalCodeValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---RenewalCodeValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/ResourcesController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ResourcesController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---ResourcesController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/ReturningController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ReturningController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---ReturningController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/ReturningModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ReturningModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---ReturningModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/RptsNrcYearMonthModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/RptsNrcYearMonthModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---RptsNrcYearMonthModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_NicXfersModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_NicXfersModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_NicXfersModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_adv_pay_hist_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_hist_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_adv_pay_hist_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_adv_pay_inv_histModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_inv_histModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_adv_pay_inv_histModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_deletions_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_cn_deletions_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_cn_deletions_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_msddels_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msddels_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_cn_on_invs_msddels_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_msd_xfer_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msd_xfer_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_cn_on_invs_msd_xfer_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_cn_on_invs_xfer_away_pp_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_cn_xfer_away_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_cn_xfer_away_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_cn_xfer_away_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_hist_pay_search_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_hist_pay_search_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_hist_pay_search_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_pending_payments_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_pending_payments_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_pending_payments_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_rr_inv_hist_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_rr_inv_hist_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_rr_inv_hist_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_rr_payment_hist_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_rr_payment_hist_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_rr_payment_hist_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_xfer_inv_histModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_xfer_inv_histModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_xfer_inv_histModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/Rpts_nrc_xfer_pay_hist_Model.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Rpts_nrc_xfer_pay_hist_Model.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---Rpts_nrc_xfer_pay_hist_Model.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/short_account_stats.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---short_account_stats.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/SiteController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/SiteController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---SiteController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/SPDataProvider.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/SPDataProvider.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---SPDataProvider.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/SQLDateSelectGridController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/SQLDateSelectGridController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---SQLDateSelectGridController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/SQLGridController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/SQLGridController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---SQLGridController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/controllers/TicketsController.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/TicketsController.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_controllers---TicketsController.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/db/ticket_status.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_db---ticket_status.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/UpperCaseValidator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/UpperCaseValidator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---UpperCaseValidator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/UserIdentity.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/UserIdentity.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---UserIdentity.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/UserSwitchModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/UserSwitchModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---UserSwitchModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/userSwitchView.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---userSwitch---userSwitchView.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/userSwitch/UserSwitchWidget.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/UserSwitchWidget.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---userSwitch---UserSwitchWidget.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/Utility.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/Utility.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---Utility.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/VAT_Number_Validator.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/VAT_Number_Validator.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---VAT_Number_Validator.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/widgets/jqGrid/view.php Procedural Page Elements... Classes... done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_widgets---jqGrid---view.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/ViewDomainModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ViewDomainModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---ViewDomainModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/components/ViewGridModelBase.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ViewGridModelBase.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_components---ViewGridModelBase.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/models/ViewTicketModel.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/ViewTicketModel.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_models---ViewTicketModel.php.html
+Converting /home/johnm/src/newregcon/src/www/protected/wsapi/wsapi_base.php Procedural Page Elements... Classes...
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/crs_wsapi_service_base.html
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/crs_wsapi_vo_base.html
+ done
+    Writing /var/www/trunk/doc/phpdoc/IEDR_New_Registrars_Console/_wsapi---wsapi_base.php.html
+
+Converting @todo List...    Writing /var/www/trunk/doc/phpdoc/todolist.html
+done
+
+Converting Error Log...    Writing /var/www/trunk/doc/phpdoc/errors.html
+
+
+To view errors and warnings, look at /var/www/trunk/doc/phpdoc/errors.html
+done
+
+Parsing time: 8 seconds
+
+Conversion time: 18 seconds
+
+Total Documentation Time: 26 seconds
+done

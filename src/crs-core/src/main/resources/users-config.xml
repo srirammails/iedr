@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="usersSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:users-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="saltedHashAlg" class="pl.nask.crs.user.algorithm.SaltedAlgorithm"/>
+
+    <bean id="internalUserDAO" class="pl.nask.crs.user.dao.ibatis.InternalUserIBatisDAO">
+        <property name="sqlMapClient" ref="usersSqlMapClient"/>
+    </bean>
+
+    <bean id="userDAO" class="pl.nask.crs.user.dao.ibatis.ConvertingUserDAO">
+        <constructor-arg ref="internalUserDAO"/>
+        <constructor-arg ref="userConverter"/>
+    </bean>
+
+    <bean id="historicalUserConverter" class="pl.nask.crs.user.dao.ibatis.converters.HistoricalUserConverter">
+        <constructor-arg ref="authorizationGroupsFactory"/>
+    </bean>
+    
+	<bean id="userConverter" class="pl.nask.crs.user.dao.ibatis.converters.UserConverter">
+        <constructor-arg ref="authorizationGroupsFactory"/>
+    </bean>
+
+    <bean id="historicalUserDAO" class="pl.nask.crs.user.dao.ibatis.HistoricalUserIBatisDAO">
+    	<constructor-arg ref="internalHistoricalUserDAO"/>
+    	<constructor-arg ref="historicalUserConverter"/>
+    </bean>
+
+	<bean id="internalHistoricalUserDAO" class="pl.nask.crs.user.dao.ibatis.InternalHistoricalUserIBatisDAO">
+        <property name="sqlMapClient" ref="usersSqlMapClient"/>
+    </bean>
+    <bean id="userSearchService" class="pl.nask.crs.user.service.impl.UserSearchServiceImpl">
+        <constructor-arg type="pl.nask.crs.user.dao.UserDAO" ref="userDAO"/>
+    </bean>
+    
+	<bean id="historicalUserSearchService" class="pl.nask.crs.user.service.impl.HistoricalUserSearchServiceImpl">
+        <constructor-arg ref="historicalUserDAO"/>
+    </bean>
+
+    <bean id="userService" class="pl.nask.crs.user.service.impl.UserServiceImpl">
+        <constructor-arg ref="userDAO"/>
+        <constructor-arg ref="userSearchService"/>
+        <constructor-arg ref="historicalUserDAO"/>
+        <constructor-arg ref="saltedHashAlg"/>
+        <constructor-arg ref="authorizationGroupsFactory"/>
+        <constructor-arg ref="applicationConfig" />
+    </bean>
+
+    <!--Authorization Groups-->
+
+
+</beans>
+

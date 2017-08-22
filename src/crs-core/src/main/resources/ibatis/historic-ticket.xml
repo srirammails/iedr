@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="historic-ticket">
+
+    <resultMap extends="ticket.ticketResult" id="historicTicketResult" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalHistoricalTicket">
+        <result property="changeId" column="changeId"/>
+        <result property="histChangeDate" column="histChangeDate"/>
+        <result property="changedByNicHandle" column="changedByNicHandle"/>
+    </resultMap>
+
+    <!-- feature #1317 add document flag to historical ticket view-->
+    <resultMap extends="historic-ticket.historicTicketResult" id="extendedHistoricTicketResult" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalHistoricalTicket">
+        <result property="dataSetType" nullValue="full" column="_resultType_"/>
+        <result property="nameservers" column="changeId" select="historic-ticket.getNameserversForTicket"/>
+    </resultMap>
+
+    <sql id="selectJoin">
+    <![CDATA[
+        select
+            null as _resultType_,
+            T.Chng_ID as changeId,
+            T.T_Number as id,
+            T.T_Type as type,
+            T.D_Name as domainName,
+            T.DN_Fail_Cd as domainNameFR,
+            T.D_Holder as domainHolder,
+            T.DH_Fail_Cd as domainHolderFR,
+            T.A_Number as resellerAccountId,
+            A.A_Name as resellerAccountName,                      
+            T.AC_Fail_Cd as resellerAccountFR,
+            T.T_Class as domainHolderClass,
+            T.T_Class_Fail_Cd as domainHolderClassFR,
+            T.T_Category as domainHolderCat,
+            T.T_Category_Fail_Cd as domainHolderCatFR,
+            T.Admin_NH1 as adminContact1NH,
+            AC1.NH_Name as adminContact1Name,
+            AC1.NH_Email as adminContact1Email,
+            AC1.Co_Name as adminContact1CompanyName,
+            AC1.NH_Country as adminContact1Country,
+            T.ANH1_Fail_Cd as adminContact1FR,
+            T.Admin_NH2 as adminContact2NH,
+            AC2.NH_Name as adminContact2Name,
+            AC2.NH_Email as adminContact2Email,
+            AC2.Co_Name as adminContact2CompanyName,
+            AC2.NH_Country as adminContact2Country,
+            T.ANH2_Fail_Cd as adminContact2FR,
+            T.Tech_NH as techContactNH,
+            TC.NH_Name as techContactName,
+            TC.NH_Email as techContactEmail,
+            TC.Co_Name as techContactCompanyName,
+            TC.NH_Country as techContactCountry,
+            T.TNH_Fail_Cd as techContactFR,
+            T.Bill_NH as billingContactNH,
+            BC.NH_Name as billingContactName,
+            BC.NH_Email as billingContactEmail,
+            BC.Co_Name as billingContactCompanyName,
+            BC.NH_Country as billingContactCountry,
+            T.BNH_Fail_Cd as billingContactFR,
+            T.Creator_NH as creatorNH,
+            Creator.NH_Name as creatorName,
+            Creator.NH_Email as creatorEmail,
+            Creator.Co_Name as creatorCompanyName,
+            Creator.NH_Country as creatorCountry,
+            T.Admin_Status as adminStatus,
+            T.Ad_StatusDt as adminStatusChangeDate,
+            T.Tech_Status as techStatus,
+            T.T_Status_Dt as techStatusChangeDate,
+            T.Financial_Status as financialStatus,
+            T.F_Status_Dt as financialStatusChangeDate,
+            T.Customer_Status as customerStatus,
+            T.C_Status_Dt as customerStatusChangeDate,
+            T.CheckedOut as checkedOut,
+            T.CheckedOutTo as checkedOutToNH,
+            CheckedOutTo.NH_Name as checkedOutToName,
+            T.T_TStamp as changeDate,
+            T.T_Remark as requestersRemark,
+            T.H_Remark as hostmastersRemark,
+            T.T_Created_TS as creationDate,
+            T.T_ClikPaid as clikPaid,
+            T.Period as domainPeriod,
+            T.CharityCode as charityCode,
+            T.Chng_Dt as histChangeDate,
+            T.Chng_NH as changedByNicHandle,
+            (select count(IDD.DOC_ID)
+                from INCOMING_DOC_DOMAINS as IDD
+                inner join INCOMING_DOC as IND
+                on (IDD.DOC_ID = IND.DOC_ID)
+                and DATEDIFF(CURDATE(), IND.CR_DATE) <= 60
+                where IDD.DOMAIN_NAME = T.D_Name) as docsCNT,
+            IF((ISNULL(JAFH.Agreement_Signed)), AF.Agreement_Signed, JAFH.Agreement_Signed) as agreementSigned,
+            IF((ISNULL(JAFH.Ticket_Edit)), AF.Ticket_Edit, JAFH.Ticket_Edit) as ticketEdit
+
+        from
+            TicketHist as T
+            left join Account as A
+                on (T.A_Number = A.A_Number)
+            left join NicHandle as AC1
+                on (T.Admin_NH1 = AC1.Nic_Handle)
+            left join NicHandle as AC2
+                on (T.Admin_NH2 = AC2.Nic_Handle)
+            left join NicHandle as TC
+                on (T.Tech_NH = TC.Nic_Handle)
+            left join NicHandle as BC
+                on (T.Bill_NH = BC.Nic_Handle)
+            left join NicHandle as Creator
+                on (T.Creator_NH = Creator.Nic_Handle)
+            left join NicHandle as CheckedOutTo
+                on (T.CheckedOutTo = CheckedOutTo.Nic_Handle)
+            LEFT OUTER JOIN
+                (
+                    SELECT ah.Chng_Dt, afh.A_Number, afh.TStamp, afh.Agreement_Signed, afh.Ticket_Edit
+                    FROM AccountFlagsHist afh, AccountHist ah WHERE afh.Chng_ID = ah.Chng_ID
+                ) as JAFH
+                ON (T.A_Number = JAFH.A_Number AND T.Chng_Dt < JAFH.Chng_dt AND T.Chng_Dt >= JAFH.TStamp)
+            LEFT OUTER JOIN AccountFlags AF
+                ON (T.A_Number = AF.A_Number and T.Chng_Dt >= AF.TStamp)
+    ]]>
+    </sql>
+
+    <sql id="selectNoJoin">
+        select
+            null as _resultType_,
+            T.Chng_ID as changeId,
+            T.T_Number as id,
+            T.T_Type as type,
+            T.D_Name as domainName,
+            T.DN_Fail_Cd as domainNameFR,
+            T.D_Holder as domainHolder,
+            T.DH_Fail_Cd as domainHolderFR,
+            T.A_Number as resellerAccountId,
+            A.A_Name as resellerAccountName,
+            0 as agreementSigned,
+            0 as ticketEdit,
+            T.AC_Fail_Cd as resellerAccountFR,
+            T.T_Class as domainHolderClass,
+            T.T_Class_Fail_Cd as domainHolderClassFR,
+            T.T_Category as domainHolderCat,
+            T.T_Category_Fail_Cd as domainHolderCatFR,
+            T.Admin_NH1 as adminContact1NH,
+            null as adminContact1Name,
+            null as adminContact1Email,
+            null as adminContact1CompanyName,
+            null as adminContact1Country,
+            T.ANH1_Fail_Cd as adminContact1FR,
+            T.Admin_NH2 as adminContact2NH,
+            null as adminContact2Name,
+            null as adminContact2Email,
+            null as adminContact2CompanyName,
+            null as adminContact2Country,
+            T.ANH2_Fail_Cd as adminContact2FR,
+            T.Tech_NH as techContactNH,
+            null as techContactName,
+            null as techContactEmail,
+            null as techContactCompanyName,
+            null as techContactCountry,
+            T.TNH_Fail_Cd as techContactFR,
+            T.Bill_NH as billingContactNH,
+            null as billingContactName,
+            null as billingContactEmail,
+            null as billingContactCompanyName,
+            null as billingContactCountry,
+            T.BNH_Fail_Cd as billingContactFR,
+            T.Creator_NH as creatorNH,
+            null as creatorName,
+            null as creatorEmail,
+            null as creatorCompanyName,
+            null as creatorCountry,
+            T.Admin_Status as adminStatus,
+            T.Ad_StatusDt as adminStatusChangeDate,
+            T.Tech_Status as techStatus,
+            T.T_Status_Dt as techStatusChangeDate,
+            T.Financial_Status as financialStatus,
+            T.F_Status_Dt as financialStatusChangeDate,
+            T.Customer_Status as customerStatus,
+            T.C_Status_Dt as customerStatusChangeDate,
+            T.CheckedOut as checkedOut,
+            T.CheckedOutTo as checkedOutToNH,
+            null as checkedOutToName,
+            T.T_TStamp as changeDate,
+            T.T_Remark as requestersRemark,
+            T.H_Remark as hostmastersRemark,
+            T.T_Created_TS as creationDate,
+            T.T_ClikPaid as clikPaid,
+            T.Period as domainPeriod,
+            T.CharityCode as charityCode,
+            T.Chng_Dt as histChangeDate,
+            T.Chng_NH as changedByNicHandle,
+            0 as docsCNT
+        from
+            TicketHist as T
+            left join Account as A
+                on (T.A_Number = A.A_Number)
+    </sql>
+
+    <sql id="conditions">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.ticketId">
+                T.T_Number = #criteria.ticketId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                T.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                T.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountId">
+                T.A_Number = #criteria.accountId#
+            </isNotNull>
+             <isNotNull prepend="and" property="criteria.clazz">
+                T.T_Class = #criteria.clazz#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.category">
+                T.T_Category = #criteria.category#
+            </isNotNull>
+            
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>    
+
+    <select id="findTicketHistory" resultMap="extendedHistoricTicketResult">
+        <include refid="historic-ticket.selectJoin"/>
+        <include refid="historic-ticket.conditions"/>
+        <include refid="historic-ticket.sortFrag" />
+    </select>
+
+    <select id="findTicketHistorySimple" resultMap="historicTicketResult">
+        <include refid="historic-ticket.selectNoJoin"/>
+        <include refid="historic-ticket.conditions"/>
+        <include refid="historic-ticket.sortFrag" />
+        <dynamic>
+            <isNotNull property="limit">
+                LIMIT #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                OFFSET #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="countTicketHistory" resultClass="int">
+        select
+            count(*)
+        from
+            TicketHist as T
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.ticketId">
+                T.T_Number = #criteria.ticketId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                T.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                T.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountId">
+                T.A_Number = #criteria.accountId#
+            </isNotNull>
+             <isNotNull prepend="and" property="criteria.clazz">
+                T.T_Class = #criteria.clazz#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.category">
+                T.T_Category = #criteria.category#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <insert id="createTicketHistory" parameterClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalHistoricalTicket">
+        insert into TicketHist (
+            T_Number,
+            T_Type,
+            D_Name,
+            DN_Fail_Cd,
+            D_Holder,
+            DH_Fail_Cd,
+            A_Number,
+            AC_Fail_Cd,
+            T_Class,
+            T_Class_Fail_Cd,
+            T_Category,
+            T_Category_Fail_Cd,
+            Admin_NH1,
+            ANH1_Fail_Cd,
+            Admin_NH2,
+            ANH2_Fail_Cd,
+            Tech_NH,
+            TNH_Fail_Cd,
+            Bill_NH,
+            BNH_Fail_Cd,
+            Creator_NH,
+            Admin_Status,
+            Ad_StatusDt,
+            Tech_Status,
+            T_Status_Dt,
+            Financial_Status,
+            F_Status_Dt,
+            Customer_Status,
+            C_Status_Dt,
+            CheckedOut,
+            CheckedOutTo,
+            T_Reg_Dt,
+            T_Ren_Dt,
+            T_TStamp,
+            T_Remark,
+            H_Remark,
+            T_Created_TS,
+            Opt_Cert,
+            T_ClikPaid,
+            Period,
+            CharityCode,
+            Chng_Dt,
+            Chng_NH)
+        select
+            T.T_Number,
+            T.T_Type,
+            T.D_Name,
+            T.DN_Fail_Cd,
+            T.D_Holder,
+            T.DH_Fail_Cd,
+            T.A_Number,
+            T.AC_Fail_Cd,
+            T.T_Class,
+            T.T_Class_Fail_Cd,
+            T.T_Category,
+            T.T_Category_Fail_Cd,
+            T.Admin_NH1,
+            T.ANH1_Fail_Cd,
+            T.Admin_NH2,
+            T.ANH2_Fail_Cd,
+            T.Tech_NH,
+            T.TNH_Fail_Cd,
+            T.Bill_NH,
+            T.BNH_Fail_Cd,
+            T.Creator_NH,
+            T.Admin_Status,
+            T.Ad_StatusDt,
+            T.Tech_Status,
+            T.T_Status_Dt,
+            T.Financial_Status,
+            T.F_Status_Dt,
+            T.Customer_Status,
+            T.C_Status_Dt,
+            T.CheckedOut,
+            T.CheckedOutTo,
+            T.T_Reg_Dt,
+            T.T_Ren_Dt,
+            T.T_TStamp,
+            T.T_Remark,
+            T.H_Remark,
+            T.T_Created_TS,
+            T.Opt_Cert,
+            T.T_ClikPaid,
+            T.Period,
+            T.CharityCode,
+            #histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+            #changedByNicHandle#
+        from
+            Ticket as T
+        where
+            T.T_Number = #id#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <select id="getNameserversForTicket" resultMap="ticket.ticketNameserver">
+        SELECT
+            `TN_Name`,
+            `TN_Name_Fail_Cd`,
+            `TN_IP`,
+            `TN_IP_Fail_Cd`
+        FROM
+            `TicketNameserverHist`
+        WHERE
+            `Chng_ID` = #changeId#
+        ORDER BY
+            `TN_Order` ASC
+    </select>
+
+    <insert id="createTicketNameserverHist" parameterClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalHistoricalTicket">
+        INSERT INTO `TicketNameserverHist` (
+            `Chng_ID`,
+            `T_Number`,
+            `TN_Name`,
+            `TN_Name_Fail_Cd`,
+            `TN_IP`,
+            `TN_IP_Fail_Cd`,
+            `TN_Order`)
+        SELECT
+            #changeId#,
+            T_Number,
+            TN_Name,
+            TN_Name_Fail_Cd,
+            TN_IP,
+            TN_IP_Fail_Cd,
+            TN_Order
+        FROM
+            TicketNameserver
+        WHERE
+            T_Number = #id#
+    </insert>
+
+</sqlMap>

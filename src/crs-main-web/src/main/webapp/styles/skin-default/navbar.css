@@ -1,0 +1,47 @@
+/*
+	navbar css elements
+	for color defs see main.css
+*/
+
+div#nav {
+	clear: left;
+	float: left;
+	display: inline;
+
+	width: 160px;
+}
+
+.nav-group-content {
+	min-width: 128px !important;
+}
+
+.nav-group-bottom {
+	clear: both;
+	padding: 0 10px 10px 10px;
+	height: 4px;
+	line-height: 4px;
+
+	overflow: hidden;
+}
+
+.nav-group-bottom-fix {
+	overflow: hidden;
+}
+
+div#nav a,
+	div#nav a:link,
+	div#nav a:active,
+	div#nav a:visited {
+
+	display: block;
+
+	margin: 0;
+	padding: 3px 0 3px 0;
+
+	text-decoration: none;
+}
+
+div#nav a:hover {
+	background: #cdf2cc; /* light green color */
+	text-decoration: none;
+}

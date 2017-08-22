@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://www.domainregistry.ie/ieapi-account-1.4"
+    xmlns:account="http://www.domainregistry.ie/ieapi-account-1.4"
+    xmlns:ieapi="http://www.domainregistry.ie/ieapi-1.4"
+    xmlns:ieapicom="http://www.domainregistry.ie/ieapicom-1.4"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+
+    <import namespace="http://www.domainregistry.ie/ieapicom-1.4"
+        schemaLocation="ieapicom-1.4.xsd" />
+    <import namespace="http://www.domainregistry.ie/ieapi-1.4"
+        schemaLocation="ieapi-1.4.xsd" />
+
+    <annotation>
+        <documentation>
+            IEAPI Protocol v1.4 account management schema.
+        </documentation>
+    </annotation>
+
+    <element name="depositFunds" type="account:depositFundsType"/>
+    <element name="checkDeposit" type="account:checkDepositType"/>
+    <element name="pay" type="account:payType"/>
+
+    <complexType name="creditCardType">
+        <sequence>
+            <element name="cardHolderName" type="token" />
+            <element name="cardNumber" type="token" />
+            <element name="expiryDate" type="gYearMonth" />
+            <element name="cardType" type="account:cardTypeType" />
+            <element name="cvnNumber" type="account:cvnNumberType" minOccurs="0"/>
+            <element name="cvnPresInd" type="account:cvnPresenceIndicator" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="cvnNumberType">
+        <restriction base="string">
+            <pattern value="\d{3}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="cvnPresenceIndicator">
+        <restriction base="string">
+            <pattern value="[1234]{1}"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="payType">
+        <sequence>
+            <element name="domain" type="ieapicom:labelType" maxOccurs="unbounded" />
+            <element name="method">
+                <complexType>
+                    <choice>
+                        <element name="deposit" />
+                        <element name="card" type="account:creditCardType" />
+                    </choice>
+                </complexType>
+            </element>
+            <element name="period" minOccurs="0" default="1" type="int"/>
+        </sequence>
+
+        <attribute name="test" type="boolean" default="true" />
+    </complexType>
+
+    <element name="payData" type="account:payDataType" />
+
+    <complexType name="payDataType">
+        <sequence>
+            <element name="fee" type="decimal" />
+            <element name="vat" type="decimal" />
+            <element name="total" type="decimal" />
+            <element name="orderId" type="token" />
+        </sequence>
+    </complexType>
+
+    <complexType name="depositFundsType">
+        <sequence>
+            <element name="value" type="account:depositValueType" />
+            <element name="card" type="account:creditCardType" />
+        </sequence>
+    </complexType>
+
+    <simpleType name="depositValueType">
+        <restriction base="float">
+            <minInclusive value="0.00" />
+            <pattern value="\d{1,6}(\.\d{2})?" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="checkDepositType">
+    </complexType>
+
+    <simpleType name="cardTypeType">
+        <restriction base="token">
+            <enumeration value="VISA" />
+            <enumeration value="MC" />
+        </restriction>
+    </simpleType>
+
+    <element name="resData" type="account:resDataType" />
+    <element name="depositFundsData" type="account:depositFundsDataType" />
+    <element name="chkDepositData" type="account:chkDepositDataType" />
+
+    <complexType name="resDataType">
+        <sequence>
+            <element name="page" type="int" />
+            <element name="totalPages" type="int" />
+            <element name="resRecord" type="account:resRecordType"
+                maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="resRecordType">
+        <sequence>
+            <element name="domain" type="ieapicom:labelType" />
+            <element name="holder" type="token" />
+            <element name="status" type="token" minOccurs="0" />
+            <element name="invoice" type="token" minOccurs="0" />
+            <element name="regDate" type="date" />
+            <element name="renDate" type="date" />
+            <element name="trnDate" type="date" minOccurs="0" />
+            <element name="msdDate" type="date" minOccurs="0" />
+            <element name="amount" type="decimal" minOccurs="0" />
+            <element name="vat" type="decimal" minOccurs="0" />
+        </sequence>
+    </complexType>
+
+    <simpleType name="statusType">
+        <restriction base="token">
+            <enumeration value="will be mailed on" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="depositFundsDataType">
+        <sequence>
+            <element name="oldValue" type="decimal"/>
+            <element name="newValue" type="decimal"/>
+            <element name="transDate" type="dateTime"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="chkDepositDataType">
+        <sequence>
+            <element name="actualBalance" type="decimal"/>
+            <element name="availableBalance" type="decimal"/>
+            <element name="transDate" type="dateTime" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+</schema>

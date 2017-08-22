@@ -1,0 +1,80 @@
+<!-- START protected/views/accounts_renewpay_currinv/current_newandrenewals.php -->
+<?php
+/**
+ * View page for Accounts - Renewal-Payments - Renewals and New Registrations
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Acc_RnP_CurrInv_RnR_Model, Accounts_renewpay_currinvController::actionCurrent_newandrenewals(), Accounts_renewpay_currinvController::actionGetgriddatacurrrnr(), jqGridComandButtonsWidget, jqGridWidget
+ */
+
+$pg = 'Renewals and New Registrations';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+
+$numdomains = 0+$model->invSummary->count;
+$invno = $model->invSummary->invoiceNumber;
+$subtot = Utility::currencyAmount($model->invSummary->amount);
+$totvat = Utility::currencyAmount($model->invSummary->vat);
+$totincvat = Utility::currencyAmount($model->invSummary->amount + $model->invSummary->vat);
+$paybydate = Utility::paymentDueByDate();
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<div>There are <?php echo $numdomains; ?> Domains due for payment. You must pay for these Domains by <?php echo $paybydate; ?>.</div><br>
+<table class="gridtable">
+<tr>
+	<td class="gridtablecell"><strong>Invoice Number</strong></td>
+	<td class="gridtablecell"><strong>Domains</strong></td>
+	<td class="gridtablecell"><strong>Amount</strong></td>
+	<td class="gridtablecell"><strong>VAT</strong></td>
+	<td class="gridtablecell"><strong>Total</strong></td>
+	<td class="gridtablecell"><strong>Due Date</strong></td>
+</tr>
+<tr>
+	<td class="gridtablecell"><?php echo $invno; ?></td>
+	<td class="gridtablecell"><?php echo $numdomains; ?></td>
+	<td class="gridtablecell"><?php echo $subtot; ?></td>
+	<td class="gridtablecell"><?php echo $totvat; ?></td>
+	<td class="gridtablecell"><?php echo $totincvat; ?></td>
+	<td class="gridtablecell"><?php echo $paybydate; ?></td>
+</tr>
+</table>
+
+<?php echo "<a href=\"" .  $this->createUrl('accounts_history_invoices/renewals') . "\">View Paid Invoices...</a> /"; ?>
+<?php echo "<a href=\"" .  $this->createUrl('accounts_history/pendingpay') . "\">View Pending Payments...</a> /"; ?>
+<br>
+<br>
+<?php
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$this->widget('application.widgets.jqGrid.jqGridComandButtonsWidget', array(
+	'pk_column_index'	=> 1,
+	'actionurl'		=> $this->createUrl('accounts_renewpay_currinv/confirm_currnr'),
+	'returnurl'		=> $this->createUrl('accounts_renewpay_currinv/current_newandrenewals'),
+	'invoiceType'		=> $model->invoiceType,
+	'commandlist'		=> array(
+					'on'  => 'Pay %n Domains Online',
+					'off' => 'Pay %n Domains Offline',
+					'dep' => 'Pay %n Domains From Deposit',
+					'msd' => 'Put %n Domains into MSD',
+					),
+	));
+
+echo '<br/>';
+
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> $pg.' for \''.Yii::app()->user->name.'\'',
+	'thisfile'	=> $this->createUrl('accounts_renewpay_currinv/current_newandrenewals',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_renewpay_currinv/getgriddatacurrrnr',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	'searching'	=> false,
+	'sorting'	=> false,
+	'selections'	=> true,
+	));
+?>
+<!-- END protected/views/accounts_renewpay_currinv/current_newandrenewals.php -->

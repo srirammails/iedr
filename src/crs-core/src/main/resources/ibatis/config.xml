@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="config">
+<!-- 
+    <cacheModel id="configCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="100"/>
+        <flushOnExecute statement="config.update"/>
+        <flushOnExecute statement="config.create"/>
+    </cacheModel> -->
+
+	<resultMap class="pl.nask.crs.commons.config.MutableConfigEntry" id="config">
+		<result property="key" column="entryKey"/>
+		<result property="value" column="entryValue"/>
+		<result property="type" column="entryType" typeHandler="pl.nask.crs.commons.config.EntryTypeHandler"/>
+	</resultMap>
+
+
+
+    <select id="getValue"  parameterClass="string" resultMap="config">
+        SELECT
+        Cfg_Key as entryKey,
+        Cfg_Value as entryValue,
+        Cfg_Type as entryType
+        FROM 
+        App_Config
+        where Cfg_Key = #key#
+    </select>
+    
+    <select id="getAllEntries" resultMap="config">
+        SELECT
+        Cfg_Key as entryKey,
+        Cfg_Value as entryValue,
+        Cfg_Type as entryType
+        FROM 
+        App_Config
+        ORDER BY Cfg_Key
+    </select>
+    
+    <insert id="create" parameterClass="pl.nask.crs.commons.config.ConfigEntry">
+        INSERT INTO App_Config (Cfg_Key, Cfg_Value, Cfg_Type) 
+        VALUES (#key#, #value#, #type,handler=pl.nask.crs.commons.config.EntryTypeHandler#)        
+    </insert>
+
+    <update id="update" parameterClass="pl.nask.crs.commons.config.ConfigEntry">
+        UPDATE App_Config 
+        SET Cfg_Value = #value#
+        WHERE
+        Cfg_Key = #key# and Cfg_Type = #type,handler=pl.nask.crs.commons.config.EntryTypeHandler#
+    </update>
+</sqlMap>
+

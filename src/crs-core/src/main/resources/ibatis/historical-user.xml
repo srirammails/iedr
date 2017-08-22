@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="historicalUser">
+
+	<typeAlias alias="historicalUser" type="pl.nask.crs.user.dao.ibatis.objects.InternalHistoricalUser"/>
+
+
+	<sql id="conditions">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                A.Nic_Handle = #criteria.nicHandleId#
+            </isNotNull>
+        </dynamic>
+	</sql>
+	
+    <sql id="limit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+	<select id="find" resultClass="historicalUser">
+		SELECT
+        A.Chng_ID as changeId,
+        A.Nic_Handle as username,
+        A.NH_Level as level,
+        A.NH_Password as password,
+        A.Salt as salt,
+        A.Chng_NH as changedBy,
+        A.Chng_Dt as changeDate,
+        A.use_two_factor_authentication as useTwoFactorAuthentication,
+        A.Secret as secret
+        FROM
+        AccessHist A
+		<include refid="conditions"/>
+		ORDER BY A.Chng_ID DESC
+		<include refid="limit"/>
+	</select>
+	
+	<select id="countFind" resultClass="int">
+		SELECT 
+		count(*)        
+        FROM
+        AccessHist A
+		<include refid="conditions"/>
+	</select>
+
+    <insert id="createHistoricalUser">
+        INSERT INTO AccessHist
+        (Chng_Dt, Chng_NH, Nic_Handle, NH_Password, Salt, NH_Level, Answer, use_two_factor_authentication, Secret)
+        SELECT
+        #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, #changedBy#, Nic_Handle, NH_Password, Salt, NH_Level, Answer, use_two_factor_authentication, Secret FROM Access
+        WHERE Nic_Handle=#username#
+    </insert>
+
+</sqlMap>

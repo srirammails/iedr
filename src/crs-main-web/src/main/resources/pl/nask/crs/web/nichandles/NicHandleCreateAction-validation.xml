@@ -1,0 +1,60 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="nicHandleCreateWrapper.name">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for Nic Handle Name</message>
+    	</field-validator>
+    </field>
+    <field name="nicHandleCreateWrapper.address">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for Addres</message>
+    	</field-validator>
+    </field>
+    <field name="nicHandleCreateWrapper.county">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for County</message>
+    	</field-validator>
+    </field>
+    <field name="nicHandleCreateWrapper.country">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for Country</message>
+    	</field-validator>
+    </field>
+    <field name="nicHandleCreateWrapper.accountNumber">
+    	<field-validator type="long">
+            <param name='min'>0</param>
+            <message>You must enter a value for Account</message>
+        </field-validator>
+    </field>
+    <field name="hostmastersRemark">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for Hostmaster's Remark</message>
+    	</field-validator>
+    </field>
+    <field name="nicHandleCreateWrapper.email">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for E-mail</message>
+    	</field-validator>
+        <field-validator type="email">
+            <message>E-mail is not valid</message>
+        </field-validator>
+    </field>
+
+    <field name="nicHandleCreateWrapper.phonesWrapper">
+        <field-validator type="phone">
+            <message>You must enter value for Phone</message>
+        </field-validator>
+    </field>
+
+    <field name="nicHandleCreateWrapper.phonesWrapper">
+    	<field-validator type="phoneLength">
+    		<message>Phone number length exceeds 25 characters</message>
+    	</field-validator>
+    </field>
+    
+    <field name="nicHandleCreateWrapper.faxesWrapper">
+    	<field-validator type="phoneLength">
+    		<message>Fax number length exceeds 25 characters</message>
+    	</field-validator>
+    </field>
+</validators>

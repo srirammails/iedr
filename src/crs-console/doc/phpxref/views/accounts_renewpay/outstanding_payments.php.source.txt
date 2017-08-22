@@ -1,0 +1,30 @@
+<!-- START protected/views/accounts_renewpay/outstanding_payments.php -->
+<?php
+/**
+ * View page for Accounts Renewal-Payments - Manage Offline Payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       OutstandingPaymentsModel, Accounts_renewpayController::actionGetgriddataop(), Accounts_renewpayController::actionOutstanding_payments(), jqGridWidget
+ */
+
+$pg = 'Manage Offline Payments';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<?php
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> 'Offline Payments',
+	'thisfile'	=> $this->createUrl('accounts_renewpay/outstanding_payments',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_renewpay/getgriddataop',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	));
+?>
+<!-- END protected/views/accounts_renewpay/outstanding_payments.php -->

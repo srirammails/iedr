@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="syncEmailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderMailer"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderMailHost"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderUserName"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderUserPass"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderFrom"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderAdditionalBCC"/>
+            </bean>
+        </constructor-arg>
+        <property name="port">
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderPort"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="emailQueue" class="pl.nask.crs.commons.email.service.impl.EmailQueue"/>
+
+	<bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.CachingEmailSender">
+		<constructor-arg ref="emailQueue" />
+	</bean>
+	
+    <bean id="emailSenderJob" class="pl.nask.crs.commons.email.service.impl.AsyncEmailSender">
+    	<constructor-arg ref="syncEmailSender" />
+    	<constructor-arg ref="emailQueue" />
+    </bean>
+<!-- 
+
+    <bean id="paymentEmailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderMailer"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderMailHost"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderUserName"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderUserPass"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderFrom"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/paymentEmailSenderAdditionalBCC"/>
+            </bean>
+        </constructor-arg>
+        <property name="port">
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderPort"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="paymentTopUpEmailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderMailer"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderMailHost"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderUserName"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderUserPass"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderFrom"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/topupEmailSenderAdditionalBCC"/>
+            </bean>
+        </constructor-arg>
+        <property name="port">
+            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/emailSenderPort"/>
+            </bean>
+        </property>
+    </bean>
+     -->
+</beans>

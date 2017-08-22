@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+                   
+<sqlMap namespace="historicalAccount">
+
+    <resultMap id="internalHistoricalAccount" class="pl.nask.crs.accounts.dao.ibatis.objects.InternalHistoricalAccount" groupBy="histChangeDate">
+        <result property="changeId" column="changeId"/>
+        <result property="histChangeDate" column="histChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="changedByNicHandle" column="changedByNicHandle"/>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="status" column="status"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="country" column="country"/>
+        <result property="webAddress" column="webAddress"/>
+        <result property="billingContactId" column="billingContactId"/>
+        <result property="invoiceFreq" column="invoiceFreq"/>
+        <result property="nextInvMonth" column="nextInvMonth"/>
+        <result property="phone" column="phone"/>
+        <result property="fax" column="fax"/>
+        <result property="tariff" column="tariff"/>
+        <result property="remark" column="remark"/>
+        <result property="creationDate" column="creationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="statusChangeDate" column="statusChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="agreementSigned" column="agreementSigned" javaType="boolean" nullValue="false"/>
+        <result property="ticketEdit" column="ticketEdit" javaType="boolean" nullValue="false"/>
+    </resultMap>
+
+    <select id="findHistoricalAccount" parameterClass="java.util.Map" resultMap="internalHistoricalAccount">
+        SELECT
+        a.Chng_ID AS changeId,
+        a.Chng_Dt AS histChangeDate,
+        a.Chng_NH AS changedByNicHandle,
+        a.A_Number AS id,
+        a.A_Name AS name,
+        a.A_Status AS status,
+        a.Address AS address,
+        a.County AS county,
+        a.Country AS country,
+        a.Web_Address AS webAddress,
+        a.Billing_NH AS billingContactId,
+        a.Invoice_Freq AS invoiceFreq,
+        a.Next_Invoice_Month AS nextInvMonth,
+        a.Phone AS phone,
+        a.Fax AS fax,
+        a.A_Tariff AS tariff,
+        a.A_Remarks AS remark,
+        a.A_Reg_Dt AS creationDate,
+        a.A_Status_Dt AS statusChangeDate,
+        a.A_TStamp AS changeDate,
+        af.Agreement_Signed as agreementSigned,
+        af.Ticket_Edit as ticketEdit
+        FROM AccountHist as a 
+        LEFT OUTER JOIN AccountFlagsHist af ON (a.A_Number = af.A_Number and a.Chng_ID = af.Chng_ID)
+        WHERE  a.A_Number = #criteria.id#
+        <dynamic>
+            <isNotNull property="criteria.changeDate" prepend="and">
+                a.A_TStamp = #criteria.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+        ORDER BY a.Chng_ID desc
+    </select>
+
+
+    <insert id="createHistoricalAccount" parameterClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalHistoricalAccount">
+        INSERT INTO AccountHist (
+            A_Number,
+            A_Name,
+            Billing_NH,
+            Address,
+            County,
+            Country,
+            Web_Address,
+            Phone,
+            Fax,
+            A_Status,
+            A_Status_Dt,
+            A_Tariff,
+            A_Reg_Dt,
+            A_TStamp,
+            Invoice_Freq,
+            Next_Invoice_Month,
+            A_Remarks,
+            Chng_Dt,
+            Chng_NH
+        )
+        SELECT
+            A_Number,
+            A_Name,
+            Billing_NH,
+            Address,
+            County,
+            Country,
+            Web_Address,
+            Phone,
+            Fax,
+            A_Status,
+            A_Status_Dt,
+            A_Tariff,
+            A_Reg_Dt,
+            A_TStamp,
+            Invoice_Freq,
+            Next_Invoice_Month,
+            A_Remarks,
+            #histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+            #changedByNicHandle#
+        FROM
+            Account
+        WHERE
+            A_Number = #id#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <insert id="createHistoricalAccountFlags" parameterClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalHistoricalAccount">
+        INSERT INTO AccountFlagsHist (Chng_ID, A_Number, Agreement_Signed, Ticket_Edit, TStamp)
+        SELECT
+            #changeId#,
+            A_Number,
+            Agreement_Signed,
+            Ticket_Edit,
+            TStamp
+        FROM AccountFlags
+        WHERE A_Number = #id#
+    </insert>
+
+</sqlMap>
+

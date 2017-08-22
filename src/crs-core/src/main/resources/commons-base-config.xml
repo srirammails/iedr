@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="commonsSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/commons-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="emailGroupDAO" class="pl.nask.crs.commons.email.dao.ibatis.EmailGroupIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="historicalEmailGroupDAO" class="pl.nask.crs.commons.email.dao.ibatis.HistoricalEmailGroupIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="emailDisablerDAO" class="pl.nask.crs.commons.email.dao.ibatis.EmailDisablerIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="historicalEmailDisablerDAO" class="pl.nask.crs.commons.email.dao.ibatis.HistoricalEmailDisablerIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="emailTemplateDAO" class="pl.nask.crs.commons.email.dao.ibatis.EmailTemplateIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="historicalEmailTemplateDAO" class="pl.nask.crs.commons.email.dao.ibatis.HistoricalEmailTemplateIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="emailInstantiator" class="pl.nask.crs.commons.email.service.impl.EmailInstantiatorImpl"/>
+
+    <bean id="emailTemplateSender" class="pl.nask.crs.commons.email.service.impl.EmailTemplateSenderImpl">
+        <constructor-arg ref="emailSender"/>
+        <constructor-arg ref="emailInstantiator"/>
+        <constructor-arg ref="emailTemplateDAO"/>
+        <constructor-arg ref="emailDisablerCheckService"/>
+    </bean>
+
+    <bean id="emailDisablerService" class="pl.nask.crs.commons.email.service.impl.EmailDisablerServiceImpl">
+        <constructor-arg ref="emailDisablerDAO"/>
+        <constructor-arg ref="historicalEmailDisablerDAO"/>
+        <constructor-arg ref="emailTemplateDAO"/>
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+
+    <bean id="emailDisablerCheckService" class="pl.nask.crs.commons.email.service.impl.EmailDisablerCheckServiceImpl">
+        <constructor-arg ref="emailDisablerDAO"/>
+        <constructor-arg ref="emailTemplateDAO"/>
+    </bean>
+
+    <bean id="emailTemplateService" class="pl.nask.crs.commons.email.service.impl.EmailTemplateServiceImpl">
+        <constructor-arg ref="emailTemplateDAO"/>
+        <constructor-arg ref="emailGroupDAO"/>
+        <constructor-arg ref="historicalEmailTemplateDAO"/>
+        <constructor-arg ref="emailDisablerService"/>
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+
+    <bean id="emailGroupService" class="pl.nask.crs.commons.email.service.impl.EmailGroupServiceImpl">
+        <constructor-arg ref="emailGroupDAO"/>
+        <constructor-arg ref="historicalEmailGroupDAO"/>
+        <constructor-arg ref="emailTemplateService"/>
+        <constructor-arg ref="emailDisablerService"/>
+    </bean>
+
+    <bean id="internalContactDAO" class="pl.nask.crs.contacts.dao.ibatis.InternalContactIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="contactDAO" class="pl.nask.crs.contacts.dao.ibatis.ConvertingContactDAO">
+        <constructor-arg ref="internalContactDAO"/>
+        <constructor-arg>
+            <bean class="pl.nask.crs.contacts.dao.ibatis.converters.ContactConverter"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="contactSearchService" class="pl.nask.crs.contacts.services.impl.ContactSearchServiceImpl">
+        <constructor-arg ref="contactDAO"/>
+    </bean>
+
+    <bean id="entityClassDAO" class="pl.nask.crs.entities.dao.ibatis.EntityClassIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="entityCategoryDAO" class="pl.nask.crs.entities.dao.ibatis.EntityCategoryIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="eClassFactory" class="pl.nask.crs.entities.EntityClassFactory">
+        <constructor-arg ref="entityClassDAO"/>
+        <constructor-arg ref="entityCategoryDAO"/>
+    </bean>
+
+    <bean id="eCategoryFactory" class="pl.nask.crs.entities.EntityCategoryFactory">
+        <constructor-arg ref="entityCategoryDAO"/>
+    </bean>
+	
+	<bean id="countryDAO" class="pl.nask.crs.country.dao.ibatis.CountryIBatisDAO">
+		<property name="sqlMapClient" ref="commonsSqlMapClient"/>
+	</bean>
+	<bean id="countyDAO" class="pl.nask.crs.country.dao.ibatis.CountyIBatisDAO">
+		<property name="sqlMapClient" ref="commonsSqlMapClient"/>
+	</bean>
+
+    <bean id="vatDAO" class="pl.nask.crs.vat.dao.ibatis.VatIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+	<bean id="countryFactory" class="pl.nask.crs.country.CountryFactory">
+        <constructor-arg ref="countryDAO"/>
+        <constructor-arg ref="countyDAO"/>
+    </bean>
+	
+	<bean id="entitiesService" class="pl.nask.crs.entities.service.impl.EntitiesServiceImpl">
+        <constructor-arg ref="entityClassDAO"/>
+        <constructor-arg ref="entityCategoryDAO"/>
+    </bean>
+
+    <bean id="dnsNotificationDAO" class="pl.nask.crs.dnscheck.dao.ibatis.DnsNotificationIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="dnsNotificationService" class="pl.nask.crs.dnscheck.impl.DnsNotificationServiceImpl">
+        <constructor-arg ref="dnsNotificationDAO"/>
+        <constructor-arg ref="emailTemplateSender"/>
+        <constructor-arg ref="resellerDefaultsService"/>
+        <constructor-arg ref="emailDisablerDAO"/>
+    </bean>
+    
+    <bean id="applicationConfig" class="pl.nask.crs.commons.config.GenericApplicationConfig">
+        <constructor-arg ref="configDao"/>
+    </bean>
+
+    <bean id="domainPricingDAO" class="pl.nask.crs.price.dao.ibatis.DomainPricingIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="vatService" class="pl.nask.crs.vat.impl.VatServiceImpl">
+        <constructor-arg ref="vatDAO"/>
+        <constructor-arg ref="domainPricingDAO"/>
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+
+    <bean id="priceService" class="pl.nask.crs.price.impl.PriceServiceImpl">
+        <constructor-arg ref="domainPricingDAO"/>
+        <constructor-arg ref="vatDAO"/>
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+
+    <bean id="accountVersionIbatisDAO" class="pl.nask.crs.account.dao.ibatis.SequentialNumberIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+        <constructor-arg value="AccountVersionIndex" />
+    </bean>
+
+    <bean id="accountVersionService" class="pl.nask.crs.account.impl.SequentialNumberServiceImpl">
+        <constructor-arg ref="accountVersionIbatisDAO"/>
+    </bean>
+    
+    <bean id="doaVersionIbatisDAO" class="pl.nask.crs.account.dao.ibatis.SequentialNumberIBatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+        <constructor-arg value="DoaVersionIndex" />
+    </bean>
+
+    <bean id="doaNumberGenerator" class="pl.nask.crs.account.impl.SequentialNumberServiceImpl">
+        <constructor-arg ref="doaVersionIbatisDAO"/>
+    </bean>
+    
+    <bean id="reservationIdGenerator" class="pl.nask.crs.account.impl.SequentialNumberServiceImpl">
+        <constructor-arg>
+        			<bean class="pl.nask.crs.account.dao.ibatis.SequentialNumberIBatisDAO">
+        				<property name="sqlMapClient" ref="commonsSqlMapClient"/>
+        				<constructor-arg value="ReservationIndex" />
+    				</bean>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="transactionIdGenerator" class="pl.nask.crs.account.impl.SequentialNumberServiceImpl">
+        <constructor-arg >
+	        		<bean class="pl.nask.crs.account.dao.ibatis.SequentialNumberIBatisDAO">
+        				<property name="sqlMapClient" ref="commonsSqlMapClient"/>
+        				<constructor-arg value="TransactionIndex" />
+    				</bean>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ticketIdGenerator" class="pl.nask.crs.account.impl.SequentialNumberServiceImpl">
+    	<constructor-arg>
+        			<bean class="pl.nask.crs.account.dao.ibatis.SequentialNumberIBatisDAO">
+        				<property name="sqlMapClient" ref="commonsSqlMapClient"/>
+        				<constructor-arg value="TicketIndex" />
+    				</bean>
+    	</constructor-arg>
+    </bean>
+    
+    <bean id="configDao" class="pl.nask.crs.commons.config.IBatisDaoBasedConfig">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="defaultsDAO" class="pl.nask.crs.defaults.dao.ibatis.DefaultsIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="resellerDefaultsService" class="pl.nask.crs.defaults.impl.ResellerDefaultsServiceImpl">
+        <constructor-arg ref="defaultsDAO"/>
+    </bean>
+
+    <bean id="reportsDAO" class="pl.nask.crs.reports.dao.ibatis.InternalReportsDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+    <bean id="reportsService" class="pl.nask.crs.reports.service.ReportsServiceImpl">
+        <constructor-arg ref="reportsDAO"/>
+    </bean>
+
+    <bean id="loginAttemptDAO" class="pl.nask.crs.security.dao.ibatis.LoginAttemptIbatisDAO">
+        <property name="sqlMapClient" ref="commonsSqlMapClient"/>
+    </bean>
+
+</beans>

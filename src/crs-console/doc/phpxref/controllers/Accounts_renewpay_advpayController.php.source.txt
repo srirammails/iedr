@@ -1,0 +1,187 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Accounts_renewpay_advpayController
+	extends AccountsGridController
+	{
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+	// ##################################################
+	// Transfers Pay In Advance
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function setType_TransfersPIA()
+		{
+		$this->invoiceType = CRSPaymentAppService_invoiceType::_TRAN_ADV;
+		$this->exportFileName = 'Accounts_RenewAndPay_AdvancePayment_TransfersPayInAdvance_';
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    transfers_pia.php, Acc_RnP_AdvPay_Tx_Model, Accounts_renewpay_advpayController::actionGetgriddatatransferspia()
+     */
+	public function actionTransfers_pia()
+		{
+		// action to display grid
+		$this->setType_TransfersPIA();
+		$model = new Acc_RnP_AdvPay_Tx_Model($this);
+		$this->render('transfers_pia',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    transfers_pia.php, Acc_RnP_AdvPay_Tx_Model, Accounts_renewpay_advpayController::actionTransfers_pia()
+     */
+	public function actionGetgriddatatransferspia()
+		{
+		// jqGrid calls this action to fill grid
+		$this->setType_TransfersPIA();
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionConfirm_txpayinadvance()
+		{
+		// grid command buttons POST to here 1) command name 2) selected domain list
+		$this->setType_TransfersPIA();
+		$this->showConfirmPage();
+		}
+
+	// ##################################################
+	// Current R'n'R
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function setType_CurrRnR()
+		{
+		$this->invoiceType = CRSPaymentAppService_invoiceType::_FUT_REN;
+		$this->exportFileName = 'Accounts_RenewAndPay_AdvancePayment_CurrentRnR_';
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    current_newandrenewals.php, Acc_RnP_AdvPay_RnR_Model, Accounts_renewpay_advpayController::actionGetgriddatacurrrnr()
+     */
+	public function actionCurrent_newandrenewals()
+		{
+
+		// action to display grid
+		$this->setType_CurrRnR();
+		$model = new Acc_RnP_AdvPay_RnR_Model($this);
+		if(isset($_REQUEST['Acc_RnP_AdvPay_RnR_Model']['date'])){
+			$model->date = $_REQUEST['Acc_RnP_AdvPay_RnR_Model']['date'];
+		}
+		$this->render('current_newandrenewals',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    current_newandrenewals.php, Acc_RnP_AdvPay_RnR_Model, Accounts_renewpay_advpayController::actionCurrent_newandrenewals()
+     */
+	public function actionGetgriddatacurrrnr()
+		{
+		// jqGrid calls this action to fill grid
+		$this->setType_CurrRnR();
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionConfirm_currnr()
+		{
+		// grid command buttons POST to here 1) command name 2) selected domain list
+		$this->setType_CurrRnR();
+		$this->showConfirmPage();
+		}
+	}
+

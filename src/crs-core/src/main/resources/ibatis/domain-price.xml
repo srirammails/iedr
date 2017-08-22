@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "sql-map-2.dtd">
+
+<sqlMap namespace="domain-price">
+
+    <!--TODO domain price cache-->
+    <cacheModel id="domainPriceCache" type="LRU">
+        <flushInterval minutes="15"/>
+        <property name="size" value="1000"/>
+        <flushOnExecute statement="domain-price.create"/>
+        <flushOnExecute statement="domain-price.update"/>
+    </cacheModel>
+
+    <resultMap id="domainPriceResult" class="pl.nask.crs.price.DomainPrice">
+        <result property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="price" column="price"/>
+        <result property="duration" column="duration"/>
+        <result property="validFrom" column="validFrom" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="validTo" column="validTo" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="defaultPrice" column="defaultPrice" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="forRegistration" column="forRegistration" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="forRenewal" column="forRenewal" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="direct" column="direct" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+    </resultMap>
+
+    <sql id="selectPrice">
+        SELECT
+        P_Code as id,
+        P_Long_Desc as description,
+        P_Price as price,
+        P_Duration as duration,
+        P_Default as defaultPrice,
+        P_Valid_From as validFrom,
+        P_Valid_To as validTo,
+        P_Reg as forRegistration,
+        P_Ren as forRenewal,
+        P_Guest as direct
+        FROM Product
+    </sql>
+
+    <select id="getDomainPriceByCode" remapResults="true" parameterClass="java.util.Map"
+            resultMap="domain-price.domainPriceResult" cacheModel="domainPriceCache">
+        <include refid="selectPrice"/>
+        WHERE P_Active=1
+        AND (#forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler# BETWEEN P_Valid_From AND P_Valid_To)
+        AND P_Code = #productCode#
+        ORDER BY P_Duration
+    </select>
+
+    <select id="getDomainPriceList" parameterClass="java.util.Date"
+            resultMap="domain-price.domainPriceResult" cacheModel="domainPriceCache" >
+        <include refid="selectPrice"/>
+        WHERE P_Active=1
+        AND (#forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler# BETWEEN P_Valid_From AND P_Valid_To)
+        ORDER BY P_Duration;
+    </select>
+
+    <insert id="create" parameterClass="pl.nask.crs.price.DomainPrice">
+        INSERT INTO
+        Product(
+        P_Code,
+        P_Long_Desc,
+        P_Price,
+        P_Duration,
+        P_Valid_From,
+        P_Valid_To,
+        P_Reg,
+        P_Ren,
+        P_Guest)
+        VALUES (
+        #id#,
+        #description#,
+        #price#,
+        #duration#,
+        #validFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #validTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #forRegistration#,
+        #forRenewal#,
+        #direct#)
+    </insert>
+
+    <select id="getById" parameterClass="java.lang.String" resultMap="domainPriceResult">
+        <include refid="selectPrice"/>
+        WHERE
+        P_Code = #id#
+    </select>
+
+    <select id="getAll" resultMap="domainPriceResult">
+        <include refid="selectPrice"/>
+        ORDER BY P_Code ASC
+    </select>
+
+    <update id="update" parameterClass="pl.nask.crs.price.DomainPrice">
+        UPDATE
+        Product
+        SET
+        P_Long_Desc = #description#,
+        P_Price = #price#,
+        P_Duration = #duration#,
+        P_Valid_From = #validFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        P_Valid_To = #validTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        P_Reg = #forRegistration#,
+        P_Ren = #forRenewal#,
+        P_Guest = #direct#
+        WHERE
+        P_Code = #id#
+    </update>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findAll" parameterClass="java.util.Map" resultMap="domainPriceResult">
+        <include refid="selectPrice"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="countFindAll" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(*) as CNT
+        FROM Product
+    </select>
+</sqlMap>

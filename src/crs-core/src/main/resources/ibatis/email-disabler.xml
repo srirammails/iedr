@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="emaildisabler">
+
+    <resultMap id="emailDisablerShortResult" class="pl.nask.crs.commons.email.EmailDisabler">
+        <result property="emailTemplate.id" column="emailId"/>
+        <result property="nicHandle" column="nicHandle"/>
+        <result property="disabled" column="disabled" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+    </resultMap>
+
+    <resultMap id="emailDisablerLongResult" class="pl.nask.crs.commons.email.EmailDisabler">
+        <result property="emailTemplate" resultMap="emailtemplate.emailTemplateResult"/>
+        <result property="disabled" column="disabled" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="nicHandle" column="nicHandle"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+    </resultMap>
+
+
+    <sql id="selectDisabler">
+        SELECT
+          ED_Email_E_ID as emailId,
+          ED_Nic_Handle as nicHandle,
+          ED_Disabled as disabled,
+          ED_TS as changeDate
+        FROM
+          EmailDisabler
+    </sql>
+
+    <sql id="fullSelectFieldSet">
+        E_ID as id,
+        E_Name as name,
+        E_Text as text,
+        E_Subject as subject,
+        E_To as toList,
+        E_CC as ccList,
+        E_BCC as bccList,
+        E_To_Internal as internalToList,
+        E_CC_Internal as internalCcList,
+        E_BCC_Internal as internalBccList,
+        E_From as mailSmtpFrom,
+        active as active,
+        Html as html,
+        E_Suppressible as suppressible,
+        E_Send_Reason as sendReason,
+        E_Non_Suppressible_Reason as nonSuppressibleReason,
+        ed.ED_Disabled as disabled,
+        ed.ED_Nic_Handle as nicHandle,
+        ed.ED_TS as changeDate,
+        eg.EG_ID as EG_ID,
+        eg.EG_Name as EG_Name,
+        eg.EG_Visible as EG_Visible,
+        eg.EG_TS as EG_TS
+    </sql>
+
+    <sql id="selectEmailTemplateAndEmailDisabler">
+        SELECT
+        <include refid="fullSelectFieldSet"/>
+        FROM Email e
+            LEFT JOIN EmailDisabler ed ON e.E_ID = ed.ED_Email_E_ID AND ed.ED_Nic_Handle = #nicHandle#
+            LEFT JOIN EmailGroup eg ON eg.EG_ID = e.EG_ID
+    </sql>
+
+    <sql id="selectEmailDisablerJoinToEmailTemplate">
+        SELECT
+        <include refid="fullSelectFieldSet"/>
+        FROM EmailDisabler ed
+            LEFT JOIN Email e ON e.E_ID = ed.ED_Email_E_ID
+            LEFT JOIN EmailGroup eg ON eg.EG_ID = e.EG_ID
+    </sql>
+
+    <select id="get" parameterClass="pl.nask.crs.commons.email.search.EmailDisablerKey" resultMap="emailDisablerLongResult">
+        <include refid="selectEmailTemplateAndEmailDisabler"/>
+        WHERE
+          ed.ED_Email_E_ID = #emailId#
+        AND
+          ed.ED_Nic_Handle = #nicHandle#
+    </select>
+
+    <insert id="create" parameterClass="pl.nask.crs.commons.email.EmailDisabler">
+        INSERT INTO EmailDisabler (ED_Email_E_ID, ED_Nic_Handle, ED_Disabled)
+        VALUES
+          (#emailTemplate.id#, #nicHandle#, #disabled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#)
+    </insert>
+
+    <update id="update" parameterClass="pl.nask.crs.commons.email.EmailDisabler">
+        UPDATE EmailDisabler
+        SET
+          ED_Disabled = #disabled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        WHERE
+          ED_Email_E_ID = #emailTemplate.id#
+        AND
+          ED_Nic_Handle = #nicHandle#
+    </update>
+
+    <delete id="delete" parameterClass="pl.nask.crs.commons.email.EmailDisabler">
+        DELETE FROM EmailDisabler
+        WHERE
+          ED_Email_E_ID = #emailTemplate.id#
+        AND
+          ED_Nic_Handle = #nicHandle#
+    </delete>
+
+    <sql id="whereFrag">
+        <dynamic prepend="WHERE">
+            <isNotNull property="criteria.emailId" prepend="AND">
+                ED_Email_E_ID = #criteria.emailId#
+            </isNotNull>
+            <isNotNull property="criteria.nicHandle" prepend="AND">
+                ED_Nic_Handle = #criteria.nicHandle#
+            </isNotNull>
+            <isNotNull property="criteria.changeDate" prepend="AND">
+                ED_TS = #criteria.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+
+    <select id="find" parameterClass="map" resultMap="emailDisablerShortResult">
+        <include refid="selectDisabler"/>
+        <include refid="whereFrag"/>
+        <include refid="common.sortFrag"/>
+        <include refid="common.limitFrag"/>
+    </select>
+
+    <select id="findAllOfTemplatesBelongingToGroup" parameterClass="long" resultMap="emailDisablerLongResult">
+        <include refid="selectEmailDisablerJoinToEmailTemplate"/>
+        WHERE
+            eg.EG_ID = #id#
+    </select>
+
+    <select id="findAllOfTemplate" parameterClass="int" resultMap="emailDisablerLongResult">
+        <include refid="selectEmailDisablerJoinToEmailTemplate"/>
+        WHERE
+            e.E_ID = #id#
+    </select>
+
+    <select id="count" parameterClass="map" resultClass="int">
+        SELECT
+          COUNT(*)
+        FROM
+          EmailDisabler
+        <include refid="whereFrag"/>
+    </select>
+
+    <select id="isNhAdminOrTechForDomain" resultClass="int">
+        SELECT COUNT(*)
+        FROM
+          Domain d,
+          Contact c
+        WHERE
+          d.D_Name = c.D_Name
+        AND
+          c.Type IN ('A','T')
+        AND
+          c.Contact_NH = #nicHandle#
+        AND
+          d.D_Name = #domainName#
+    </select>
+
+    <select id="findWithEmailTempAndEmailGroup" resultMap="emailDisablerLongResult">
+        <include refid="selectEmailTemplateAndEmailDisabler"/>
+        WHERE
+            e.active = '1'
+        AND
+            eg.EG_Visible = 'Y'
+    </select>
+
+    <insert id="insertAndUpdateOnDuplicateKey" >
+        INSERT INTO EmailDisabler (ED_Email_E_ID, ED_Nic_Handle, ED_Disabled)
+        <iterate prepend="VALUES" property="allValues" conjunction=",">
+            (#allValues[].emailId#, #allValues[].nicHandle#, #allValues[].disabled#)
+        </iterate>
+        ON DUPLICATE KEY UPDATE ED_Disabled = VALUES(ED_Disabled)
+    </insert>
+
+    <select id="findAndLockForUpdate" parameterClass="java.util.Map" resultMap="emailDisablerShortResult">
+        <include refid="selectDisabler"/>
+        <include refid="whereFrag"/>
+        FOR UPDATE
+    </select>
+
+    <update id="updateEnableForEveryone" parameterClass="int">
+        UPDATE EmailDisabler
+        SET
+        ED_Disabled = 'N'
+        WHERE
+        ED_Email_E_ID = #emailId#
+    </update>
+
+    <select id="getNicHandleByDomainName" resultClass="java.lang.String">
+        SELECT c.Contact_NH
+        FROM
+          Contact c
+        WHERE
+          c.D_Name = #domainName#
+        AND
+          c.Type = 'B'
+    </select>
+
+    <select id="getNicHandleFromTicketAboutDomainName" resultClass="java.lang.String">
+        SELECT t.Bill_NH
+        FROM
+            Ticket t
+        WHERE
+            D_Name = #domainName#
+        LIMIT 1
+    </select>
+
+    <select id="getUserDetailsByNicHandle" resultClass="java.util.HashMap">
+        SELECT
+            NH_Name as name,
+            NH_Email as email
+        FROM
+            NicHandle
+        WHERE
+            Nic_Handle = #nicHandle#
+    </select>
+</sqlMap>

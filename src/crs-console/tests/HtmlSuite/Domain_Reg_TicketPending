@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie/" />
+<title>Domain_Reg_Ticket_Pending</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Domain_Reg_Ticket_Pending</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/regnew</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Register New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_RegNew_domain_names</td>
+	<td>testreg.ie</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>RegnewForm</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>//form[@id='RegnewForm']/div[2]/div[1]/ul/li</td>
+	<td>testreg.ie already registered or has a pending ticket.</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//form[@id='RegnewForm']/div[2]/div[1]/ul/li</td>
+	<td>testreg.ie already registered or has a pending ticket.</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

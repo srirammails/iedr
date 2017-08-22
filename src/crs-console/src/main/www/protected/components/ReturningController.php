@@ -1,0 +1,97 @@
+<?php
+/**
+ * file which defines ReturningController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * base class containing functions to output returning-form html
+ * 
+ * Returning forms are forms which, when sucessfully submitted, offer the option of returning to a previous page,
+ * then setting some value on the previous page to a value which was found or created on the returning-form.
+ * This pattern is useful for e.g. digressing from the domain-creation form to create a nic-handle, then
+ * return to the domain-creation form, filling in some field with the newly-created nic-handle.
+ * Finding nic-handles is another use of returning forms.
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class ReturningController
+	extends AuthOnlyBaseController
+	{
+
+    /**
+     * outputs javascript for handling a selected row in a jqGrid on the same page.
+     * 
+     * intended for use when finding a record, whose ID we want to return to the original form.
+     * 
+     * @param  unknown $selectionID html unique class ID of the selected jqGrid's cell containing the primary-key value of the selected Row,
+     * @param  unknown $buttonLabel unique html button label, to identify submit-button to un-disable
+     * @return void   
+     * @access public 
+     */
+	public function outputReturningFormJS($selectionID,$buttonLabel)
+		{
+echo <<<EOF1
+<script>
+function handleSelectedRow(z) {
+	var oldval = jQuery('#$selectionID').val();
+	//alert("ReturningController-generated stuff (old="+oldval+") "+z+" into id $selectionID");
+	// [1] set selected row-value into selectionID
+	jQuery('#$selectionID').val(z);
+	// [2] enable form-post button
+	jQuery('[value="$buttonLabel"]').disabled = false;
+	}
+</script>
+EOF1;
+		}
+
+    /**
+     * outputs form html and button for returning to a previous page with a found value
+     * 
+     * @param  object  $model       the model containing any data to be rendered by the calling view
+     * @param  string  $selectionID html tag ID of hidden form field to hold returned value
+     * @param  string  $buttonLabel text for return button
+     * @return void   
+     * @access public 
+     */
+	public function outputReturningFormHtml($model,$selectionID,$buttonLabel='Return to Form')
+		{
+		if(is_array($model->returningData) and isset($model->returningData['returnurl']) and
+		$model->returningData['returnurl'] and strlen($model->returningData['returnurl'])>0)
+			{
+			// output javascript to catch selected Row, to copy data to it's hidden form
+            $this->outputReturningFormJS($selectionID,$buttonLabel);
+			// output returning-form ; called from View to render model data ; posts back to the calling form
+            $form = $this->beginWidget('CActiveForm',array('action'=>$model->returningData['returnurl']));
+            foreach($model->getReturningDataNames() as $v)
+				echo $form->hiddenField($model,'returningData['.$v.']');
+            if(property_exists($model, 'fromOthers')) {
+               if($model->fromOthers == '0') {
+                  echo CHtml::submitButton($buttonLabel/*,array('disabled'=>'disabled')*/);
+               } else {
+                  echo "<div style='display:none'>".CHtml::submitButton($buttonLabel/*,array('disabled'=>'disabled')*/)."</div>";
+               }
+            } else {
+               echo CHtml::submitButton($buttonLabel/*,array('disabled'=>'disabled')*/);
+            }
+            $this->endWidget();
+         }
+		#else Yii::log('NOT Outputting ReturningForm :: '.print_r($this,true)."\n".print_r($model,true), 'error', 'ReturningController::outputReturningFormHtml()');
+		// no output if there is no returning data
+		}
+	}
+

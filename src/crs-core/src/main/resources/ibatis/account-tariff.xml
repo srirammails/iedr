@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "sql-map-2.dtd">
+
+<sqlMap namespace="account-tariff">
+
+    <cacheModel id="accountTariffCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+
+    <select id="getTariffById" cacheModel="accountTariffCache" parameterClass="java.lang.String"
+            resultClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccountTariff">
+        SELECT
+            Status as id,
+            Description as description
+        FROM
+            Tariff
+        WHERE
+            Description = #id#
+    </select>
+
+    <select id="getTariffList" cacheModel="accountTariffCache"
+            resultClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccountTariff">
+        select
+            Status as id,
+            Description as description
+        from
+            Tariff
+    </select>
+
+</sqlMap>

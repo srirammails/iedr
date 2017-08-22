@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="bulkTransfer">
+	<resultMap class="pl.nask.crs.domains.transfer.BulkTransferRequest" id="bulkTransferRequest">
+		<result property="id" column="id"/>
+		<result property="losingAccount" column="losingAccount"/>
+		<result property="losingAccountName" column="losingAccountName"/>
+		<result property="gainingAccount" column="gainingAccount" />
+		<result property="gainingAccountName" column="gainingAccountName" />
+		<result property="remarks" column="remarks" />
+		<result property="completionDate" column="completed" />
+		<result property="hostmasterNh" column="nh"/>
+	</resultMap>
+
+	<resultMap class="pl.nask.crs.domains.transfer.BulkTransferRequest" id="bulkTransferFullRequest" extends="bulkTransferRequest">
+		<result property="requestedDomains" column="id" select="bulkTransfer.getDomainsForTransfer"/>
+	</resultMap>
+
+	<resultMap class="pl.nask.crs.domains.transfer.TransferredDomain" id="transferredDomain">
+		<result property="domainName" column="domainName"/>
+		<result property="transferDate" column="transferDate"/>
+		<result property="hostmasterNh" column="nh"/>
+	</resultMap>	
+	
+
+	<insert id="create" parameterClass="pl.nask.crs.domains.transfer.BulkTransferRequest">
+		insert into Bulk_Transfer (Losing_Account, Gaining_Account, Remarks)
+		values(#losingAccount#, #gainingAccount#, #remarks#)
+		<selectKey keyProperty="id" resultClass="long">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+	</insert>
+
+	<insert id="addDomain" parameterClass="java.util.Map">
+		insert into Bulk_Transfer_Domain (Bulk_Transfer_ID, Domain_Name)
+		values (#id#, #domainName#)
+	</insert>
+	
+	<delete id="removeDomain" parameterClass="java.util.Map">
+		delete from Bulk_Transfer_Domain
+		where Bulk_Transfer_ID = #id# and Domain_Name = #domainName# and Transfer_Dt is null
+	</delete>
+
+	<update id="markAsTransferred" parameterClass="java.util.Map">
+		update Bulk_Transfer_Domain
+        set
+            Transfer_Dt=#transferDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+            Transfer_NH = #hostmasterHandle#
+        where
+            Bulk_Transfer_ID=#id# and Domain_Name=#domainName#
+	</update>
+	
+	<sql id="selectForTransfer">
+		select 
+		ID as id,
+		Losing_Account as losingAccount,
+		a1.A_Name as losingAccountName,
+		Gaining_Account as gainingAccount,
+		a2.A_Name as gainingAccountName,
+		Completed as completed,
+		Remarks as remarks,
+		Hostmaster_NH as nh		
+		from Bulk_Transfer join Account a1 on a1.A_Number = Losing_Account join Account a2 on a2.A_Number = Gaining_Account
+	</sql>
+	
+	<select id="getTransfer" parameterClass="long" resultMap="bulkTransferFullRequest">
+		<include refid="selectForTransfer"/>	
+		where Bulk_Transfer.ID = #id#	
+	</select>
+	
+	<select id="findTransfers" resultMap="bulkTransferRequest">
+		<include refid="selectForTransfer"/>
+		<!-- include 'where' ? -->
+	</select>
+	
+	<select id="getDomainsForTransfer" resultMap="transferredDomain" parameterClass="long">
+		select Domain_Name as domainName, Transfer_Dt as transferDate, Transfer_NH as nh 
+		from Bulk_Transfer_Domain where Bulk_Transfer_ID = #id#
+	</select>
+	
+	<select id="isNotTransferred" parameterClass="java.util.Map" resultClass="string">
+		select Domain_Name as domainName 
+		from Bulk_Transfer_Domain where Bulk_Transfer_ID = #id# and Domain_Name = #domainName# and Transfer_Dt is null
+	</select>
+
+    <select id="lock" resultClass="java.lang.String">
+        SELECT
+            ID
+        FROM
+            Bulk_Transfer
+        WHERE
+            ID = #id#
+        FOR UPDATE
+    </select>
+
+    <update id="closeTransferRequest" parameterClass="java.util.Map">
+        update Bulk_Transfer
+        set
+            Completed = #completionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+            Hostmaster_NH = #hostmasterHandle#
+        where
+            ID = #id# and Completed is null
+    </update>
+
+	<select id="findDomainNamesWithSameContactNotInTransfer" parameterClass="java.util.Map" resultClass="string">		
+		select distinct C.D_Name from Contact as C
+		where 		
+		C.Contact_NH = #adminc# and C.D_Name not in (select BD.Domain_Name from Bulk_Transfer_Domain BD where BD.Bulk_Transfer_ID=#transferId# or BD.Bulk_Transfer_ID is null);
+		
+	</select>
+	
+	<select id="countAssociatedDomainsAccounts" resultClass="int">
+		select count(distinct A_Number) 
+		from Domain as D join Bulk_Transfer_Domain as BD on D.D_Name = BD.Domain_Name 
+		join Contact as C on D.D_Name = C.D_Name 
+		where C.Contact_NH = #nicHandle#;
+	</select>
+	
+	<select id="countUnsettledReservations" resultClass="int">
+		select count(ID) from Reservation where Settled = 'N' and Domain_Name = #domainName#;
+	</select>
+	
+		
+</sqlMap>
+
+

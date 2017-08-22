@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="historic-domain">
+
+    <insert id="createHistoricalDNS" parameterClass="pl.nask.crs.domains.dao.ibatis.objects.InternalHistoricalDomain">
+        INSERT INTO DNSHist (
+            Chng_ID,
+            D_Name,
+            DNS_Name,
+            DNS_IpAddr,
+            DNS_Order
+        )
+        SELECT
+            #changeId#,
+            D_Name,
+            DNS_Name,
+            DNS_IpAddr,
+            DNS_Order
+        FROM
+            DNS
+        WHERE
+            D_Name = #name#
+    </insert>
+
+    <insert id="createHistoricalContact" parameterClass="pl.nask.crs.domains.dao.ibatis.objects.InternalHistoricalDomain">
+        INSERT INTO ContactHist (
+            Chng_ID,
+            D_Name,
+            Contact_NH,
+            Type
+        )
+        SELECT
+            #changeId#,
+            D_Name,
+            Contact_NH,
+            Type
+        FROM
+            Contact
+        WHERE
+            D_Name = #name#
+    </insert>
+
+    <insert id="createHistoricalDomain" parameterClass="pl.nask.crs.domains.dao.ibatis.objects.InternalHistoricalDomain">
+        INSERT INTO DomainHist (
+            D_Name,
+            D_Holder,
+            D_Class,
+            D_Category,
+            A_Number,
+            D_Reg_Dt,
+            D_Ren_Dt,
+            D_Susp_Dt,
+            D_Del_Dt,
+            D_Transfer_Dt,
+            D_TStamp,
+            D_Discount,
+            D_Vat_Status,
+            D_Remark,
+            D_Authcode,
+            D_Authc_Exp_Dt,
+            D_Authc_Portal_Cnt,
+            D_ClikPaid,
+            DSM_State,
+            Chng_NH,
+            Chng_Dt,
+            D_GIBO_Retry_Timeout
+        )
+        SELECT
+            D_Name,
+            D_Holder,
+            D_Class,
+            D_Category,
+            A_Number,
+            D_Reg_Dt,
+            D_Ren_Dt,
+            D_Susp_Dt,
+            D_Del_Dt,
+            D_Transfer_Dt,
+            D_TStamp,
+            D_Discount,
+            D_Vat_Status,
+            D_Remark,
+            D_Authcode,
+            D_Authc_Exp_Dt,
+            D_Authc_Portal_Cnt,
+            D_ClikPaid,
+            DSM_State,
+            #changedByNicHandle#,
+            #histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+            D_GIBO_Retry_Timeout
+        FROM
+            Domain
+        WHERE
+            D_Name =#name#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <resultMap id="domainHistoryResult" class="pl.nask.crs.domains.dao.ibatis.objects.InternalHistoricalDomain">
+        <result property="changeId" column="changeId"/>
+        <result property="name" column="name"/>
+        <result property="holder" column="holder"/>
+        <result property="holderClass" column="holderClass"/>
+        <result property="holderCategory" column="holderCategory"/>
+        <result property="resellerAccountId" column="resellerAccountId"/>
+        <result property="resellerAccountName" column="resellerAccountName"/>
+        <result property="registrationDate" column="registrationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="renewDate" column="renewDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="remark" column="remark"/>
+        <result property="authCode" column="authCode"/>
+        <result property="authCodeExpirationDate" column="authCodeExpirationDate"/>
+        <result property="authCodePortalCount" column="authCodePortalCount"/>
+        <result property="clikPaid" column="clikPaid" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="nameservers" column="changeId" select="historic-domain.getNameserversForHistoricalDomain"/>
+        <result property="contacts" column="changeId" select="historic-domain.getContactsForHistoricalDomain"/>
+        <result property="histChangeDate" column="histChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="changedByNicHandle" column="changedByNicHandle"/>
+        <result property="dsmState" resultMap="domain.dsmState"/>
+        <result property="giboRetryTimeout" column="giboRetryTimeout"/>
+        <result property="suspensionDate" column="suspensionDate"/>
+        <result property="deletionDate" column="deletionDate" />
+        <result property="transferDate" column="transferDate" />
+    </resultMap>
+
+    <sql id="historicalDomainSql">
+        select
+        D.Chng_ID as changeId,
+        D.D_Name as name,
+        D.D_Holder as holder,
+        D.D_Class as holderClass,
+        D.D_Category as holderCategory,
+        D.A_Number as resellerAccountId,
+        A.A_Name as resellerAccountName,
+        D.D_Reg_Dt as registrationDate,
+        D.D_Ren_Dt as renewDate,
+        D.D_Susp_Dt as suspensionDate,
+        D.D_Del_Dt as deletionDate,
+        D.D_Transfer_Dt as transferDate,
+        D.D_TStamp as changeDate,
+        D.D_Remark as remark,
+        D.D_Authcode as authCode,
+        D.D_Authc_Exp_Dt as authCodeExpirationDate,
+        D.D_Authc_Portal_Cnt as authCodePortalCount,
+        D.D_ClikPaid as clikPaid,
+        D.Chng_NH as changedByNicHandle,
+        D.Chng_Dt as histChangeDate,
+        D.DSM_State as dsmStateId,
+        DSM.D_Holder_Type as dsmHolderType,
+        DSM.Renewal_Mode as dsmRenewalMode,
+        DSM.WIPO as dsmWipo,
+        DSM.Cust_Type as dsmCustomerType,
+        DSM.NRP_Status as dsmNrpStatus,
+        DSM.Published as dsmPublished,
+        D.D_GIBO_Retry_Timeout as giboRetryTimeout
+        from
+        DomainHist as D
+        left join
+        Account as A
+        on
+        (D.A_Number = A.A_Number)
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+    </sql>
+
+    <sql id="nicHandleJoin">
+        <dynamic>
+            <isNotNull property="criteria.nicHandle">
+                left join
+                ContactHist as C
+                on (D.D_Name = C.D_Name)
+            </isNotNull>
+        </dynamic>
+    </sql>
+    <sql id="domainHistoryCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.domainName">
+                D.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                D.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountId">
+                D.A_Number = #criteria.accountId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.nicHandle">
+                C.Contact_NH like
+                #criteria.nicHandle,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.holderClass">
+                D.D_Class=#criteria.holderClass#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.holderCategory">
+                D.D_Category=#criteria.holderCategory#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.changeDate">
+                D.D_TStamp=#criteria.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.histChangeDate">
+                D.Chng_Dt=#criteria.histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="getContactsForHistoricalDomain" resultClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        SELECT
+            C.Contact_NH as nicHandle,
+            NH.NH_Name as name,
+            NH.NH_Email as email,
+            NH.Co_Name as companyName,
+            NH.NH_Country as country,
+            C.Type as type
+        FROM
+            ContactHist as C
+        LEFT JOIN NicHandle as NH <!--todo: or nichandleHist??--> ON (C.Contact_NH = NH.Nic_Handle)
+        WHERE
+            C.Chng_ID = #changeId#
+    </select>
+
+    <select id="getNameserversForHistoricalDomain" resultClass="pl.nask.crs.domains.dao.ibatis.objects.InternalNameserver">
+        SELECT
+            D_Name as domainName,
+            DNS_Name as name,
+            DNS_IpAddr as ipAddress,
+            DNS_Order as dnsOrder
+        FROM
+            DNSHist
+        WHERE
+            Chng_ID = #changeId#
+        ORDER BY
+            DNS_Order
+    </select>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findDomainHistory" parameterClass="java.util.Map" resultMap="historic-domain.domainHistoryResult">
+        <include refid="historic-domain.historicalDomainSql"/>
+        <include refid="historic-domain.nicHandleJoin"/>
+        <include refid="historic-domain.domainHistoryCriteria"/>
+        <dynamic>
+            <isNotNull property="criteria.nicHandle">
+                group by C.D_Name
+            </isNotNull>
+        </dynamic>
+        <include refid="historic-domain.sortFrag" />
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+
+    </select>
+
+    <select id="countDomainHistory" parameterClass="java.util.Map" resultClass="int">
+        <dynamic>
+            <isNull property="criteria.nicHandle">
+                select
+                count(*)
+                from
+                DomainHist as D
+                <!-- Account join is NEVER needed!  -->
+                <!-- left join
+                Account as A
+                on
+                (D.A_Number = A.A_Number)
+                -->
+                <include refid="historic-domain.domainHistoryCriteria"/>
+            </isNull>
+            <isNotNull property="criteria.nicHandle">
+                select
+                count(*)
+                from
+                ContactHist as C
+                where
+                C.Contact_NH like
+                #criteria.nicHandle,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+
+    </select>
+
+</sqlMap>

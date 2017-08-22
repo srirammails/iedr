@@ -1,0 +1,9 @@
+
+xvidcap --audio no --quality 70 --rescale 80 --file /media/machost/demo.mpg --fps 12 --cap_geometry 995x996+5+75
+
+http://shotgunsandpenguins.blogspot.com/2008/10/how-to-run-selenium-tests-with-hudson_14.html
+
+http://oshyn.com/_blog/Software_Development/post/Selenium-Test-Suite-Ubuntu/
+
+http://weblog.greenpeace.org/it/2006/04/virtual_framebuffers_firefox_s.html
+

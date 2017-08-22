@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class Accounts_reportsController</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Accounts_reportsController</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for class</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---account_aged_balance.php.html">account_aged_balance.php</a>, <a href="../IEDR_New_Registrars_Console/_views---accounts_history_payments---menu.php.html">menu.php</a>, <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---domains_transferred.php.html">domains_transferred.php</a>, <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferto.php.html">transferto.php</a>, <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferaway.php.html">transferaway.php</a></li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_controllers---Accounts_reportsController.php.html">/controllers/Accounts_reportsController.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a30">30</a></span>)
+		</p>
+		
+				
+		<pre>CController
+   |
+   --<a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a>
+      |
+      --<a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a>
+         |
+         --<a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a>
+            |
+            --<a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a>
+               |
+               --<a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a>
+                  |
+                  --Accounts_reportsController</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionAccount_aged_balance" title="details" class="method-name">actionAccount_aged_balance</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionDomainstransferredmenu" title="details" class="method-name">actionDomainstransferredmenu</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionDomains_transferred" title="details" class="method-name">actionDomains_transferred</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">unknown</span>
+										<a href="#actionGetgriddataxferaway" title="details" class="method-name">actionGetgriddataxferaway</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">unknown</span>
+										<a href="#actionGetgriddataxferto" title="details" class="method-name">actionGetgriddataxferto</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionMenu" title="details" class="method-name">actionMenu</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionTransferaway" title="details" class="method-name">actionTransferaway</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionTransferto" title="details" class="method-name">actionTransferto</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getPartialQuery" title="details" class="method-name">getPartialQuery</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$criteria</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$defaultDateRange">SQLGridController::$defaultDateRange</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$exportFileName">SQLGridController::$exportFileName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$type">SQLGridController::$type</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#var$backend_errors">AuthOnlyBaseController::$backend_errors</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$breadcrumbs">Controller::$breadcrumbs</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$layout">Controller::$layout</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$menu">Controller::$menu</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodactionAccount_aged_balance" id="actionAccount_aged_balance"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionAccount_aged_balance</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---account_aged_balance.php.html">account_aged_balance.php</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionAccount_aged_balance
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionDomainstransferredmenu" id="actionDomainstransferredmenu"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionDomainstransferredmenu</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a71">71</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> views/accounts_reports/domainstransferredmenu.php</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionDomainstransferredmenu
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionDomains_transferred" id="actionDomains_transferred"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionDomains_transferred</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a82">82</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---domains_transferred.php.html">domains_transferred.php</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionDomains_transferred
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionGetgriddataxferaway" id="actionGetgriddataxferaway"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionGetgriddataxferaway</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a138">138</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return description (if any) ...</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferaway.php.html">transferaway.php</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">unknown</span>
+		<span class="method-name">
+			actionGetgriddataxferaway
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionGetgriddataxferto" id="actionGetgriddataxferto"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionGetgriddataxferto</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a152">152</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return description (if any) ...</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferto.php.html">transferto.php</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">unknown</span>
+		<span class="method-name">
+			actionGetgriddataxferto
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionMenu" id="actionMenu"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionMenu</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a60">60</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> views/accounts_reports/menu.php</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionMenu
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionTransferaway" id="actionTransferaway"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionTransferaway</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a116">116</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferaway.php.html">transferaway.php</a>, <a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html">Rpts_NicXfersModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_reportsController.html#methodactionGetgriddataxferaway">Accounts_reportsController::actionGetgriddataxferaway()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionTransferaway
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionTransferto" id="actionTransferto"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionTransferto</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a93">93</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_reports---transferto.php.html">transferto.php</a>, <a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html">Rpts_NicXfersModel</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionTransferto
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPartialQuery" id="getPartialQuery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getPartialQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_reportsController.php.html#a167">167</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return description (if any) ...</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPartialQuery
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$criteria</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$model</span><span class="var-description">: Parameter description (if any) ...</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$criteria</span><span class="var-description">: Parameter description (if any) ...</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetPartialQuery">SQLGridController::getPartialQuery()</a></dt>
+						<dd>placeholder function for returning sql query for appending ordering and limiting clauses, or running as a subquery to a count(*)</dd>
+					</dl>
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodcriteriaToSQL">SQLGridController::criteriaToSQL()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetData">SQLGridController::getData()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetDateStr">SQLGridController::getDateStr()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetExportFilenameTag">SQLGridController::getExportFilenameTag()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetNumRows">SQLGridController::getNumRows()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetPartialQuery">SQLGridController::getPartialQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetQuery">SQLGridController::getQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methoduncached_getNumRows">SQLGridController::uncached_getNumRows()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionConfirmaction">GridController::actionConfirmaction()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionGetgriddata">GridController::actionGetgriddata()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodexecCommand">GridController::execCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetData">GridController::getData()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetDataReq">GridController::getDataReq()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetExportFilenameTag">GridController::getExportFilenameTag()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModel">GridController::getSelectionModel()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModelName">GridController::getSelectionModelName()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetViewBase">GridController::getViewBase()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodprocessGridActionCommand">GridController::processGridActionCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodshowConfirmPage">GridController::showConfirmPage()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormHtml">ReturningController::outputReturningFormHtml()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormJS">ReturningController::outputReturningFormJS()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodaccessRules">AuthOnlyBaseController::accessRules()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodfilters">AuthOnlyBaseController::filters()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodgetModelFromQuery">AuthOnlyBaseController::getModelFromQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodreturnToUrlButton">AuthOnlyBaseController::returnToUrlButton()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeDeserializeObj">AuthOnlyBaseController::safeDeserializeObj()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeSerializeObj">AuthOnlyBaseController::safeSerializeObj()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodactionSwitchuser">Controller::actionSwitchuser()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodlog">Controller::log()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodperformAjaxValidation">Controller::performAjaxValidation()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:41 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

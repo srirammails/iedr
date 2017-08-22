@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="user">
+
+    <typeAlias alias="internalLoginUser" type="pl.nask.crs.user.InternalLoginUser"/>
+    <typeAlias alias="passwordResetToken" type="pl.nask.crs.token.PasswordResetToken"/>
+
+    <resultMap class="pl.nask.crs.user.dao.ibatis.objects.InternalUser" id="user">
+		<result property="username" column="username"/>
+		<result property="level" column="level"/>
+		<result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="secret" column="secret"/>        
+		<result property="name" column="name"/>
+		<result property="useTwoFactorAuthentication" column="useTwoFactorAuthentication" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+		<result property="permissionNames" column="username" select="user.getUserPermissions"/>
+	</resultMap>
+
+	<cacheModel id="usersCache" type="LRU" readOnly="false">
+        <flushInterval hours="1"/>
+        <flushOnExecute statement="user.createPermissions" />
+        <flushOnExecute statement="user.changePermissions" />
+        <flushOnExecute statement="user.createPassword" />
+        <flushOnExecute statement="user.changePassword" />
+		<flushOnExecute statement="user.createUser" />        
+        <property name="size" value="1000"/>        
+    </cacheModel>
+
+    <sql id="userOffsetLimit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select remapResults="true" id="getHashedPassword" resultClass="string" parameterClass="string">
+        SELECT OLD_PASSWORD(#password#)
+    </select>
+
+    <select remapResults="true" id="getHashedPasswordSHA1" resultClass="string" parameterClass="string">
+        SELECT SHA1(#value#)
+    </select>
+
+    <select id="getUserForUsername" resultMap="user" parameterClass="string" cacheModel="usersCache">
+        SELECT
+        A.Nic_Handle as username,
+        A.NH_Level as level,
+        A.NH_Password as password,
+        A.Salt as salt,
+        N.NH_Name as name,
+        A.use_two_factor_authentication as useTwoFactorAuthentication,
+        A.secret as secret
+        FROM
+        Access as A
+        left join
+        NicHandle as N
+        on (A.Nic_Handle = N.Nic_Handle)
+        WHERE
+        N.Nic_Handle=#username#
+    </select>
+
+	<select id="getUserPermissions" resultClass="string" parameterClass="string">
+		select Permission_Name from UserPermissions where Nic_Handle = #nicHandle#
+	</select>
+
+    <select id="findUser" parameterClass="java.util.Map" resultMap="user">
+        SELECT
+        A.Nic_Handle as username,
+        A.NH_Level as level,
+        A.NH_Password as password,
+        A.Salt as salt,
+        N.NH_Name as name,
+        A.use_two_factor_authentication as useTwoFactorAuthentication,
+        A.secret as secret
+        FROM
+        Access as A
+        left join
+        NicHandle as N
+        on (A.Nic_Handle = N.Nic_Handle)
+        WHERE
+        (NH_Level <![CDATA[&]]> 176) <![CDATA[>]]> 0
+        <include refid="userOffsetLimit"/>
+    </select>
+
+    <select id="countTotalSearchResult" parameterClass="java.util.Map" resultClass="int">
+        select count(*)
+        FROM
+        Access
+        WHERE
+        (NH_Level <![CDATA[&]]> 176) <![CDATA[>]]> 0
+    </select>
+        
+    <update id="changePermissions">
+    	UPDATE
+        Access
+        SET NH_Level = #level#
+        WHERE
+        Nic_Handle = #username#
+    </update>
+
+	<!-- password is expected to be hashed using some hash algorithm-->
+	<update id="changePassword">
+    	UPDATE
+        Access
+        SET NH_Password = #password#,
+        Salt = #salt#,
+        password_changed = CURDATE()
+        WHERE
+        Nic_Handle = #username#
+    </update>	
+
+	<update id="changeTfa">
+    	UPDATE
+        Access
+        SET use_two_factor_authentication = #useTfa,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        WHERE
+        Nic_Handle = #username#
+    </update>	
+
+	<insert id="createPassword">
+        INSERT INTO Access
+        (Nic_Handle, NH_Password, Salt, NH_Level, password_changed, use_two_factor_authentication)
+        VALUES
+        (#username#, #password#, #salt#, #level#, CURDATE(), #useTwoFactorAuthentication#)
+	</insert>
+	
+	<insert id="createPermissions">
+		INSERT INTO Access 
+		(Nic_Handle, NH_Level)
+        VALUES
+        (#username#, #level#)		
+	</insert>
+
+    <insert id="createUser">
+        INSERT INTO Access
+        (Nic_Handle, NH_Password, Salt, NH_Level, password_changed, use_two_factor_authentication)
+        VALUES
+        (#username#, #password#, #salt#, #level#, CURDATE(), #useTwoFactorAuthentication#)
+    </insert>
+    
+    <insert id="addUserPermission" parameterClass="java.util.Map">
+    	insert into UserPermissions (Nic_Handle, Permission_Name) values (#nicHandle#, #permissionName#)
+    </insert>
+    
+    <insert id="removeUserPermission" parameterClass="java.util.Map">
+    	delete from UserPermissions where Nic_Handle=#nicHandle# and Permission_Name=#permissionName#
+    </insert>
+
+    <select id="getLastChangeDate" parameterClass="string" resultClass="Date">
+        SELECT MAX(Chng_Dt) FROM AccessHist WHERE Nic_Handle=#userName#
+    </select>
+    
+    <select id="getLastPasswordChangeDate" parameterClass="string" resultClass="Date">
+        SELECT password_changed FROM Access WHERE Nic_Handle=#userName#
+    </select>    
+
+    <select id="getInternalLoginUsers" resultClass="internalLoginUser">
+        SELECT
+        A.Nic_Handle as nicHandleId,
+        A.IP_Address as ipAddress
+        FROM
+        Access as A
+        WHERE
+        A.IP_Address IS NOT NULL
+    </select>
+
+    <insert id="addPasswordReset">
+    	INSERT INTO ResetPass(Nic_Handle, Unique_ID, Time_Stamp, Remote_IP)
+    	Values (#nicHandleId#, #hash#, #date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, #ip#)
+    </insert>
+    
+    <update id="changeSecret">
+        UPDATE
+        Access
+        SET secret = #secret#
+        WHERE
+        Nic_Handle = #username#
+    </update>
+    
+    <update id="invalidateToken" parameterClass="string">
+    	UPDATE
+    	ResetPass
+    	set valid='N' where Unique_ID=#id#
+    </update>
+    
+    <select id="getToken" resultClass="passwordResetToken" parameterClass="string">
+    	select
+    	Nic_Handle as nicHandle,
+    	Time_Stamp as expires,
+    	Remote_IP as remoteIp
+    	from ResetPass 
+    	where Unique_ID = #id# and valid='Y'
+    </select>
+    
+</sqlMap>

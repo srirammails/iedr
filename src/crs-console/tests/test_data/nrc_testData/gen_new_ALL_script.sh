@@ -1,0 +1,1 @@
+cat reset_data_ABC1.sql reset_data_XYZ100.sql test_data_generation_XYZ100-novat.sql test_data_generation_ABC1-vat.sql example_data.sql msd_histData.sql > Reset_and_Reload_ALL_test_data.sql

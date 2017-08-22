@@ -1,0 +1,350 @@
+.textOnly {
+	padding: 6px 0 0 7px;
+}
+
+.justify-left {
+	float: left;
+	text-align: left;
+}
+
+.justify-right {
+	float: right;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.tooltip-gap {
+	margin-right: 20px;
+}
+
+.default-label-width {
+	width: 30%;
+}
+
+.default-label-gap {
+	margin-left: 30%;
+}
+
+.reason-gap {
+	margin-right: 30%;
+}
+
+.selector-gap {
+	/* remarked as now the icon floats to the left */
+	/*margin-right: 20px;*/
+}
+
+.FC {
+	/* field container */
+	height: 26px;
+}
+
+.FCL {
+	/* field container label */
+	clear: left;
+	float: left;
+	/*width: default-label-width OR user style*/
+	height: 26px;
+}
+
+.FCL-icon {
+	/* field container label icon */
+	/* remarked as now the icon floats to the left */
+	/* clear: right;*/
+	float: right;
+	padding: 3px 0 0 0;
+	width: 20px;
+	height: 26px;*/
+}
+
+.FCL-box {
+	/* field container icon gap */
+	height: 26px;
+}
+
+.FCL-value {
+	/* field container label value */
+	height: 26px;*/
+}
+
+.FCB {
+	/* field value with ie FR */
+	height: 26px;
+}
+
+.FCB-reason {
+	clear: right;
+	float: right;
+	width: 30%;
+	height: 26px;
+}
+
+.FCB-reason select {
+	width: 100%;
+}
+
+
+.FCB-box {
+	height: 26px;
+}
+
+.FCR-value {
+	/*height: 26px;*/
+}
+
+.FCC-icon {
+	/* field ctrl icon */
+	/* remarked as now the icon floats to the left */
+	/*float: right;*/
+	float: left;
+	padding: 3px 0 0 0;
+	margin-right: 2px;
+}
+
+.FCC-box {
+	/* field ctrl icon gap */
+	float: left;
+	height: 26px;
+
+}
+
+.FCC-value {
+	/* field ctrl label value */
+	margin-right: 2px;
+}
+
+.FCC-value input {
+}
+
+
+/*-------------------------------------------*/
+
+
+.DF {
+	float: left;
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	width: 100%;
+	height: 26px;
+}
+
+* html .DF {
+	float: left;
+	w\idth: 93%;
+	height: 26px;
+}
+
+.DF-value {
+	clear: left;
+	float: left;
+	/*margin:6px 0 0 10px;*/
+	height: auto;
+	width: 100%;
+}
+
+.DF-value input{
+	float: left;
+	padding-left: 0;
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	width: 100%;
+	text-indent: 0;
+	text-align: center;
+}
+
+.DF-icon {
+	float: right;
+	margin: 3px 0 0 0;
+}
+
+.dialog-icon {
+    float: right;
+    margin: 3px 0 0 1px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.FS {*/
+
+/*}*/
+
+
+/*.justify-left {*/
+	/*float: left;*/
+	/*text-align: left;*/
+/*}*/
+
+/*.justify-right {*/
+	/*float: right;*/
+	/*text-align: right;*/
+/*}*/
+
+/*.fixed {*/
+/* todo: pixel: implement fixed class */
+/*}*/
+
+/*.textOnly {*/
+	/*margin: 6px 0 0 10px;*/
+/*}*/
+
+
+/*.FC {*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCL {*/
+	/*clear: left;*/
+	/*float: left;*/
+	/*width: 30%;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCL-value {*/
+	/* float is set by .justify-{left|right} */
+	/*margin: 6px 5px 0 0;*/
+	/*height: auto;*/
+/*}*/
+
+/*.FCL-icon {*/
+	/*clear: right;*/
+	/*float: right;*/
+	/*margin: 3px 3px 0 0;*/
+/*}*/
+
+/*.FCC {*/
+	/*clear: none;*/
+	/*float: left;*/
+	/*width: 70%;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCC-value {*/
+	/*clear: left;*/
+	/*float: left;*/
+	/*margin-top: 6px;*/
+	/*margin-left: 10px;*/
+	/*height: auto;*/
+	/*width: 100%;*/
+/*}*/
+
+/** html .FCC-value {*/
+	/*clear: left;*/
+	/*float: left;*/
+	/*margin-top: 6px;*/
+	/*margin-left: 10px;*/
+	/*height: auto;*/
+	/*w\idth: 90%;*/
+/*}*/
+
+/*.FCC-value input{*/
+	/*float: left;*/
+	/*padding-left: 0;*/
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	/*width: 100%;*/
+	/*text-indent: 8px;*/
+/*}*/
+
+/*.FCC-value select {*/
+	/*float: left;*/
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	/*width: 100%;*/
+/*}*/
+
+/*.FCC-icon {*/
+	/*float: right;*/
+	/*margin: 3px 0 0 0;*/
+/*}*/
+
+/*.FCC-gap {*/
+	/*margin-right: 20px;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCCwF {*/
+	/*clear: right;*/
+	/*float: right;*/
+	/*width: 70%;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCF {*/
+	/*clear: right;*/
+	/*float: right;*/
+	/*width: 30%;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.FCF-value {*/
+	/*clear: left;*/
+	/*float: left;*/
+	/*margin-top: 6px;*/
+	/*margin-left: 10px;*/
+	/*height: auto;*/
+	/*width: 100%;*/
+/*}*/
+
+/*.FCF-value select {*/
+	/*float: left;*/
+	/*width: 100%;*/
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+/*}*/
+
+/*.FCF-gap {*/
+	/*margin-right: 30%;*/
+	/*height: 26px;*/
+/*}*/
+
+
+
+/*.DF {*/
+	/*float: left;*/
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	/*width: 100%;*/
+	/*height: 26px;*/
+/*}*/
+
+/** html .DF {*/
+	/*float: left;*/
+	/*w\idth: 93%;*/
+	/*height: 26px;*/
+/*}*/
+
+/*.DF-value {*/
+	/*clear: left;*/
+	/*float: left;*/
+	/*margin:6px 0 0 10px;*/
+	/*height: auto;*/
+	/*width: 100%;*/
+/*}*/
+
+/*.DF-value input{*/
+	/*float: left;*/
+	/*padding-left: 0;*/
+	/*margin-top: -6px;*/
+	/*margin-left: -10px;*/
+	/*width: 100%;*/
+	/*text-indent: 0;*/
+	/*text-align: center;*/
+/*}*/
+
+/*.DF-icon {*/
+	/*float: right;*/
+	/*margin: 3px 0 0 0;*/
+/*}*/

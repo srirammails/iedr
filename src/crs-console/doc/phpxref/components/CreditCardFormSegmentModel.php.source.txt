@@ -1,0 +1,231 @@
+<?php
+
+/**
+ * defines CreditCardFormSegmentModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * a form model for use with credit-card input
+ * 
+ * To used used as a 'mixin' class in other form-models (based on @DynamicModelBase) whose views contain the widget @CreditCardFormSegmentWidget
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class CreditCardFormSegmentModel
+	extends FormModelBase
+	{
+
+    /**
+     * yii scenario where the amount is not entered by the client
+     * @var    string
+     * @access public
+     * @static
+     * @see http://www.yiiframework.com/doc/api/1.1/CModel#scenario-detail
+     */
+	static public $without_amount_scenario = 'without_amount_scenario';
+
+    /**
+     * entered credit card number
+     * @var    string
+     * @access public 
+     */
+	public $creditcardno;
+
+    /**
+     * entered euro amount
+     * @var    string
+     * @access public 
+     */
+	public $euros_amount;
+
+    /**
+     * entered cardholder full name
+     * @var    string
+     * @access public 
+     */
+	public $holder;
+
+    /**
+     * entered card expiry year
+     * @var    string
+     * @access public 
+     */
+	public $exp_year;
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public 
+     */
+	public $exp_month;
+
+    /**
+     * entered card validation number
+     * @var    string
+     * @access public 
+     */
+	public $cvn;
+
+    /**
+     * returns yii validation rules for form validation
+     * 
+     * Some of the rules are only active if the form scenario is the @without_amount_scenario
+     * 
+     * @return array  
+     * @access public
+     */
+	public function rules()
+		{
+		$year = date('y',time());
+		return array(
+			array('creditcardno,euros_amount,holder,exp_year,exp_month',
+				'required',
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('creditcardno,euros_amount,exp_year,exp_month',
+				'numerical',
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('exp_year',
+				'numerical', 'min'=>$year, 'max'=>($year+15),
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('exp_month',
+				'numerical', 'min'=>1, 'max'=>12,
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('cvn',
+				'numerical', 'min'=>0, 'max'=>9999,
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('creditcardno',
+				'CreditCardValidator',
+				'on'=>'topup,'.CreditCardFormSegmentModel::$without_amount_scenario),
+			array('euros_amount',
+				'numerical',
+					'min'=>Yii::app()->user->depositAccMin,
+						'tooSmall'=>'Minimum Transaction is '.Utility::currencyAmount(Yii::app()->user->depositAccMin),
+					'max'=>Yii::app()->user->depositAccMax,
+						'tooBig'=>'Maximum Transaction is '.Utility::currencyAmount(Yii::app()->user->depositAccMax),
+				'on'=>'topup'
+				),
+			);
+		}
+
+    /**
+     * returns yii attribute labels for form rendering
+     * 
+     * @return array
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return array(
+			'creditcardno'   => 'Card Number',
+			'euros_amount'   => 'Top-up Amount',
+			'holder'         => 'Card Holder',
+			'exp_year'       => 'Card Expiry Year',
+			'exp_month'      => 'Card Expiry Month',
+			// no field named 'exp_date', this is just a label to put beside the pair of Mon/Yr inputs
+			'exp_date'       => 'Card Expiry Month / Year',
+			'cvn'            => 'Card Verification Number',
+			);
+		}
+
+    /**
+     * returns an object instance of class CRSPaymentAppService_paymentRequestVO, filled with the model's credit-card data
+     * 
+     * @param  DynamicModelBase $mdl model whose data will be copied
+     * @return CRSPaymentAppService_paymentRequestVO object filled with the model's credit-card data
+     * @access public
+     * @static
+     */
+	static public function asWSAPIPaymentObject($mdl)
+		{
+		// call with a parameter being either an instance of this class or a class that has it's values mixed in
+		// e.g. $p = CreditCardFormSegmentModel::asWSAPIPaymentObject($m);
+		$payreq = new CRSPaymentAppService_paymentRequestVO();
+		$payreq->currency       = 'EUR';
+		$payreq->amount		= $mdl->euros_amount * 100;
+		$payreq->cardNumber     = $mdl->creditcardno;
+		$payreq->cardExpDate    = sprintf('%02u%02u',$mdl->exp_month,$mdl->exp_year);
+		$payreq->cardHolderName	= $mdl->holder;
+
+		// determine the card type
+		CreditCardValidator::CCPrefixLengthTypeCheck($mdl->creditcardno,$payreq->cardType);
+		switch($payreq->cardType)
+			{
+			case CREDCARDTYPE_VISA:
+			case CREDCARDTYPE_MASTERCARD:
+				$payreq->cvnPresenceIndicator = CVN_PRESENT_OK;
+				break;
+			case CREDCARDTYPE_LASER:
+				$payreq->cvnPresenceIndicator = CVN_PRESENT_NOT_ON_CARD;
+				break;
+			}
+		$payreq->cvnNumber = $mdl->cvn;
+
+		return $payreq;
+		}
+
+    /**
+     * test data function
+     * 
+     * fills the model with test data, only for use during development
+     * 
+     * @param  DynamicModelBase $obj      model to fill with test data
+     * @param  string $testcase 1-letter index into test-data array, for test selection
+     * @return void  
+     * @access public
+     * @static
+     */
+	public static function setTestVals($obj,$testcase=null)
+		{
+		// pick a random test case. when testing, can be called from controller-action before displaying new form
+		// these cards (except invalid card 73045897360) are approved for test use with RealEx by IEDR.
+
+		// usage :
+		// $mymodel->addMixinModel(new CreditCardFormSegmentModel());
+		// CreditCardFormSegmentModel::setTestVals($mymodel,'A');
+
+		$paytests = array(
+			'A'=>array('cardno'=>'4263971921001307','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'00','expected_msg'=>'AUTH CODE xxxxxx (CVN 123)'),
+			'B'=>array('cardno'=>'5425232820001308','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'00','expected_msg'=>'AUTH CODE xxxxxx'),
+			'C'=>array('cardno'=>'6304939304310009610','cpi'=>CVN_PRESENT_NOT_ON_CARD,'cvn'=>null,'cardtype'=>'LASER','expected_code'=>'00','expected_msg'=>'AUTH CODE xxxxxx'),
+			'D'=>array('cardno'=>'4000126842489127','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'101','expected_msg'=>'DECLINED'),
+			'E'=>array('cardno'=>'5114617896541284','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'101','expected_msg'=>'DECLINED'),
+			'F'=>array('cardno'=>'4000136842489878','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'102','expected_msg'=>'REFERRAL B'),
+			'G'=>array('cardno'=>'5114634523652350','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'102','expected_msg'=>'REFERRAL B'),
+			'H'=>array('cardno'=>'4000166842489115','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'103','expected_msg'=>'REFERRAL A'),
+			'I'=>array('cardno'=>'5121229875643585','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'103','expected_msg'=>'REFERRAL A'),
+			'J'=>array('cardno'=>'4015955467892139','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'200','expected_msg'=>'Too Many Simultaneous Transactions'),
+			'K'=>array('cardno'=>'5135024346548487','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'200','expected_msg'=>'Too Many Simultaneous Transactions'),
+			'L'=>array('cardno'=>'4009837983422344','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'VISA','expected_code'=>'205','expected_msg'=>'Comms Error'),
+			'M'=>array('cardno'=>'5135024345352238','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'205','expected_msg'=>'Comms Error'),
+			'N'=>array('cardno'=>'73045897360','cpi'=>CVN_PRESENT_OK,'cvn'=>'123','cardtype'=>'MC','expected_code'=>'99','expected_msg'=>'Luhn Check Fail'),
+			);
+		$testcase = $testcase==null ? chr(rand(ord('A'),ord('N'))) : $testcase;
+		$randtest = $paytests[$testcase];
+
+		Yii::log('testcase '.$testcase.' = '.print_r($randtest,true), 'debug', 'CreditCardFormSegmentModel::setTestVals()');
+
+		$obj->creditcardno	= $randtest['cardno'];
+		$obj->euros_amount	= rand(1,1500)/100;
+		$obj->holder		= 'Test Transaction '.rand(1000,9999);
+		$obj->exp_year		= rand(12,31);
+		$obj->exp_month		= rand(1,12);
+		$obj->cvn		= $randtest['cvn'];;
+		}
+	}
+

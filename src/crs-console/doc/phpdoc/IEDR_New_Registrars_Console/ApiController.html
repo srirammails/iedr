@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class ApiController</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> ApiController</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-methods">Methods</a>
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for class</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> References to other sections (if any)...</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_controllers---ApiController.php.html">/controllers/ApiController.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersApiController.php.html#a35">35</a></span>)
+		</p>
+		
+				
+		<pre>CController
+   |
+   --<a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a>
+      |
+      --<a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a>
+         |
+         --<a href="../IEDR_New_Registrars_Console/DummyController.html">DummyController</a>
+            |
+            --ApiController</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-methods">Methods</a>
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$breadcrumbs" title="details" class="var-name">$breadcrumbs</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<span class="disabled">Vars</span>
+						
+			
+										| 
+									<a href="#sec-methods">Methods</a>
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$breadcrumbs" id="$breadcrumbs"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$breadcrumbs</span>
+			 = <span class="var-default">array('Api')</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersApiController.php.html#a42">42</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/Controller.html#var$breadcrumbs">Controller::$breadcrumbs</a></dt>
+						<dd>used by views for page title</dd>
+					</dl>
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#var$backend_errors">AuthOnlyBaseController::$backend_errors</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$layout">Controller::$layout</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$menu">Controller::$menu</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<span class="disabled">Methods</span>
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/DummyController.html">DummyController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/DummyController.html#methodactionMenu">DummyController::actionMenu()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/DummyController.html#methodgetViewPath">DummyController::getViewPath()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodaccessRules">AuthOnlyBaseController::accessRules()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodfilters">AuthOnlyBaseController::filters()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodgetModelFromQuery">AuthOnlyBaseController::getModelFromQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodreturnToUrlButton">AuthOnlyBaseController::returnToUrlButton()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeDeserializeObj">AuthOnlyBaseController::safeDeserializeObj()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeSerializeObj">AuthOnlyBaseController::safeSerializeObj()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodactionSwitchuser">Controller::actionSwitchuser()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodlog">Controller::log()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodperformAjaxValidation">Controller::performAjaxValidation()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:43 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

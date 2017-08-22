@@ -1,0 +1,350 @@
+<?php
+
+/**
+ * defines DomainsController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Controller class for domain registration
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class DomainsController
+	extends AuthOnlyBaseController
+	{
+
+    /**
+     * renders menu-view
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * Domain Registration Form
+     * 
+     * Has 4 modes; 
+     *
+     *  - without request parameters, displays empty domain-registration form
+     *
+     *  - validates domain-registration form data Ajax requests
+     *
+     *  - on receipt of invalid form data, redisplays form with error messages
+     *
+     *  - on receipt of valid form data, redirects to domain-registration-details form
+     *
+     * Domains are checked for availability as part of validation.
+     * Availability-checking includes checking whether the domain already exists, and whether there already exists a registration-ticket for the domain name. See {@link domainIsAvailable}.
+     * The redirected-to domainDetails form/action is the one that performs the actual domain creation
+     *
+     * @return void  
+     * @access public
+     * @see    regnew.php, Domains_RegNew
+     */
+	public function actionRegnew()
+		{
+		$errCount = 0;
+		$rn_model = new Domains_RegNew();
+		if(Yii::app()->request->isPostRequest)
+			{
+			$this->performAjaxValidation($rn_model);
+			if(isset($_POST['Domains_RegNew']))
+				{
+				$rn_model->attributes=$_POST['Domains_RegNew'];
+				if($rn_model->validate())
+					{
+					Yii::log('model validates ok', 'debug', 'DomainsController::actionRegnew()');
+					$val_avail_domains = array();
+					$allDomains = $rn_model->getDomainsAsArray();
+					foreach($allDomains as $domain)
+						{
+						// check if this domain is available
+						if(Utility::domainIsAvailable($domain)){
+							$val_avail_domains[] = $domain;
+							}
+						else{
+							$errCount++;
+							$rn_model->addError('domain_names', $domain.' is invalid, already registered, or has a pending ticket.');	
+							}
+						}
+					if(count($val_avail_domains) == count($allDomains))
+						{
+						// go to next step : enter domain details
+						Yii::log('go to next step : enter domain details, with domain names: '.print_r($val_avail_domains,true), 'debug', 'DomainsController::actionRegnew()');
+						$vad = AuthOnlyBaseController::safeSerializeObj($val_avail_domains);
+						Yii::log('domain names serialized: '.$vad, 'debug', 'DomainsController::actionRegnew()');
+						$this->redirect(array('domaindetails','validavailabledomains'=>$vad,),true);
+						}
+					}
+				}
+			}
+		// display form (with any errs)
+		$this->render('regnew',array('model'=>$rn_model));
+		}
+
+    /**
+     * handles Domain-creation details form, and domain creation
+     * 
+     * This form has 3 modes;
+     * 
+     *  - without parameters, renders blank form (note that the form will never validate without domains being passed as parameters)
+     * 
+     *  - on Ajax request, returns data validation results
+     * 
+     *  - on invalid data, redisplays the form with errors
+     * 
+     *  - on valid data, attempts to create domains, and redirects to the domains-created page with creation results per-domain : Ticket No. if created successfully
+     * 
+     *  - on returning from a Nic-Handles find/create sub-task, redisplays the form, optionall with the relevant Nic-Handle field filled in with the created/found Nic-Handle
+     * 
+     * @return void  
+     * @access public
+     * @see    Domains_Details, Nichandle_Details, domaindetails.php, domainscreated.php, DomainsController::actionDomainsCreated()
+     */
+	public function actionDomainDetails()
+		{
+		$dd_model = new Domains_Details();
+		if(Yii::app()->request->isPostRequest)
+			{
+			// POST : if valid, then create, else redisplay
+			if(isset($_POST['Domains_Details']))
+				{
+				$this->performAjaxValidation($dd_model);
+				$dd_model->attributes=$_POST['Domains_Details'];
+				//Yii::log('POST : '.print_r($_POST,true), 'debug', 'DomainsController::actionDomainDetails()');
+				//Yii::log('(CREATE)dd_model : '.print_r($dd_model,true), 'debug', 'DomainsController::actionDomainDetails()');
+				if($dd_model->validate())
+					{
+					$dc_model = new Domains_Created($this->createDomains($dd_model));
+					$smdl = AuthOnlyBaseController::safeSerializeObj($dc_model);
+					$this->redirect(array('domainscreated','domaincreateresults'=>$smdl),true);
+					}
+				}
+			if(isset($_POST['Nichandle_Details']) and isset($_POST['Nichandle_Details']['returningData']))
+				{
+				// returning from a NIC find/edit/create
+				$returndata = $_POST['Nichandle_Details']['returningData'];
+				$dd_model = AuthOnlyBaseController::safeDeserializeObj($returndata['formdata']);
+				$nicrole = $returndata['nictype'];
+				$dd_model->$nicrole = $returndata['nic'];
+				//Yii::log('(RETURN)dd_model : '.print_r($dd_model,true), 'debug', 'DomainsController::actionDomainDetails()');
+				//Yii::log('returned from another form : set model nic "'.$nicrole.'" to "'.$nic.'"', 'debug', 'DomainsController::actionDomainDetails()');
+				//Yii::log('returned from another form : '.print_r($returndata,true), 'debug', 'DomainsController::actionDomainDetails()');
+				}
+			}
+		if(isset($_GET['validavailabledomains']) and (($dd_model->domainlist==null) or (count($dd_model->domainlist)<1)))
+			{
+			// got here from post from RegNew (or unexpected direct access)
+			$vad_packed = $_GET['validavailabledomains'];
+			$validavailabledomains = AuthOnlyBaseController::safeDeserializeObj($vad_packed);
+			//Yii::log('validavailabledomains='.print_r($validavailabledomains,true), 'debug', 'DomainsController::actionDomainDetails()');
+			$dd_model = new Domains_Details($validavailabledomains);
+			//Yii::log('(FROMREGNEW)dd_model : '.print_r($dd_model,true), 'debug', 'DomainsController::actionDomainDetails()');
+			// back to domain-select page if no domains listed
+			if(($dd_model->domainlist==null) or (count($dd_model->domainlist)<1))
+				$this->redirect('domains/regnew',true);
+			}
+
+		// error/fallback : redisplay form with errors
+		$this->render('domaindetails',array('model'=>$dd_model));
+		}
+
+    /**
+     * Returns a string representing a serialized Model instance containing the posted form data.
+     * 
+     * This is called from Javascript function {@link getDataAndPostForm} when navigating to a Nic-Handle find/create/edit form,
+     * so that the target form can return to the originating page with all of the form-data in the state it was in when the
+     * user clicked on the relevant button
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionDomaindetailsserialized()
+		{
+		// return serialized domain-details form state to ajax requester ; doesn't have to be valid
+		$ret = '';
+		if(Yii::app()->request->isPostRequest and isset($_POST['Domains_Details']))
+			{
+			$dd_model = new Domains_Details();
+			// jQuery will have serialised the already-filled domain-selection selectList into the posted form data
+			$dd_model->attributes=$_POST['Domains_Details'];
+			//Yii::log('Serializing:'.print_r($dd_model,true), 'debug', 'DomainsController::actionDomaindetailsserialized()');
+			$ret = AuthOnlyBaseController::safeSerializeObj($dd_model);
+			}
+		else Yii::log('got ?!?! :'.print_r($_REQUEST,true), 'debug', 'DomainsController::actionDomaindetailsserialized()');
+		Yii::log('returning:'.print_r($ret,true), 'debug', 'DomainsController::actionDomaindetailsserialized()');
+		echo $ret;
+		}
+
+    /**
+     * Domain view action, also puts domains into the MSD process
+     * 
+     * @return void  
+     * @access public
+     * @see    viewdomain.php, ViewDomainModel, DomainsController::actionViewDomain()
+     */
+	public function actionViewDomain()
+		{
+		$vd_model = new ViewDomainModel();
+		$domainName = "";
+		$str = "";
+		$results = null;
+
+		if(Yii::app()->request->isPostRequest)
+			{
+			switch($_POST['yt0'])
+				{
+                                case 'Send Domain to MSD':
+					$domainName = $_POST['ViewDomainModel']['domain_name'];
+
+					CRSDomainAppService_service::isMsd($results,$vd_model->errors, Yii::app()->user->authenticatedUser, $domainName);
+					if(!$results)
+						{		
+						CRSDomainAppService_service::moveToMsd($vd_model->errors,Yii::app()->user->authenticatedUser,$domainName);
+						$str = "Domain $domainName added to MSD";
+	                			array_push($vd_model->message, $str);
+						}
+					else
+						{	
+						array_push($vd_model->message,"No action performed, $domainName already in MSD");
+						}
+                                        break;
+				default :
+					$this->redirect('site/error','Update Not Allowed');
+					break;
+                                }
+			}
+		else
+			{
+			$domainName =  $_GET['id'];
+			}
+
+		$domainVO = $this->getDomainDetails($domainName);
+		$vd_model->fillFromObject($domainVO, $this->backend_errors);
+		$this->render('viewdomain',array('model'=>$vd_model));
+		}
+
+    /**
+     * renders the landing-page for the domain-create flow
+     * 
+     * @return void  
+     * @access public
+     * @see    domainscreated.php, Domains_Created
+     */
+	public function actionDomainsCreated() {
+		$dd_model = new Domains_Created(AuthOnlyBaseController::safeDeserializeObj($_GET['domaincreateresults']));
+		$this->render('domainscreated',array('model'=>$dd_model));
+		}
+
+	// ########## non-action functions ##########
+
+
+
+    /**
+     * fetches from the CRS-WS-API backend, a domain-details object for a given domain name
+     * 
+     * @param  unknown   $domainName Parameter description (if any) ...
+     * @return unknown   Return description (if any) ...
+     * @access protected
+     */
+	protected function getDomainDetails($domainName)
+		{
+		$result = null;
+		CRSDomainAppService_service::view($result,$this->backend_errors,Yii::app()->user->authenticatedUser,$domainName);
+		#Yii::log($domainName.' -> '.$this->backend_errors, 'debug', 'DomainsController::getDomainDetails()');
+		return $result;
+		}
+
+    /**
+     * creates one or more domains, using the domain list and details of the supplied model
+     * 
+     * @param  Domains_Details     $model Domain Detail model, including domain list
+     * @return array     map of domain-names, whose creation was attempted, to results array, containing either 'ticket' => ticket-number (on success) or 'error' => error string, on error
+     * @access protected
+     */
+	protected function createDomains($model)
+		{
+		$domain_creation_results = array();
+
+		$regarr  = get_reg_prices();
+		#Yii::log('regarr:'.print_r($regarr,true), 'debug', 'DomainsController::createDomains()');
+		$r_codes = $regarr['CODE'];
+		#Yii::log('r_codes:'.print_r($r_codes,true), 'debug', 'DomainsController::createDomains()');
+		$r_obj   = $r_codes[$model->registration_period];
+		#Yii::log('r_obj:'.print_r($r_obj,true), 'debug', 'DomainsController::createDomains()');
+		$reg_period_years = $r_obj->duration;
+		#Yii::log('reg_period_years:'.$reg_period_years, 'debug', 'DomainsController::createDomains()');
+
+		// ticketCreateVO
+		$data = new CRSTicketAppService_ticketCreateVO();
+		// .. static values
+			$data->type='REG';					// type=tns:domainOperationType, (NOT NULL), min=0
+			$data->resellerAccountId = Yii::app()->user->id;	// type=xs:long, (NOT NULL), min=1
+			$data->hostmastersRemark = null;		 	// type=xs:string, (NOT NULL), min=0
+			$data->adminStatus = 0;					// type=xs:int, (NOT NULL), min=1
+			$data->techStatus = 0;					// type=xs:int, (NOT NULL), min=1
+			$data->checkedOut = '';					// type=xs:string, (NOT NULL), min=0
+			$data->clikPaid = false;				// type=xs:boolean, (NOT NULL), min=1
+		// .. from date
+		$datenow = date('Y-m-d\TH:i:s',time());
+		$datenowparts = explode('-',$datenow);
+		$renewdate = ($datenowparts[0] + $reg_period_years).'-'.$datenowparts[1].'-'.$datenowparts[2];
+			$data->adminStatusChangeDate = $datenow;		// type=xs:dateTime, (NOT NULL), min=0
+			$data->techStatusChangeDate = $datenow;			// type=xs:dateTime, (NOT NULL), min=0
+			$data->creationDate = $datenow;				// type=xs:dateTime, (NOT NULL), min=0
+			$data->changeDate = $datenow;				// type=xs:dateTime, (NOT NULL), min=0
+			$data->renewalDate = $renewdate;			// type=xs:dateTime, (NOT NULL), min=0
+		// .. from model
+		$class_cat_vals = explode(':',$model->applicant);
+			$data->domainHolderClass = $class_cat_vals[0];		// type=xs:string, (NOT NULL), min=0
+			$data->domainHolderCategory = $class_cat_vals[1];	// type=xs:string, (NOT NULL), min=0
+			$data->domainHolder = $model->holder;			// type=xs:string, (NOT NULL), min=0
+			$data->adminContact1NicHandle = $model->admin_contact_nic_1; // type=xs:string, (NOT NULL), min=0
+			$data->adminContact2NicHandle = $model->admin_contact_nic_2; // type=xs:string, (NOT NULL), min=0
+			if($data->adminContact2NicHandle == null or $data->adminContact2NicHandle=='')
+				unset($data->adminContact2NicHandle);
+			$data->techContactNicHandle	= $model->tech_contact;	// type=xs:string, (NOT NULL), min=0
+			$data->billingContactNicHandle = $model->billing_contact;	 // type=xs:string, (NOT NULL), min=0
+			$data->ns1 = $model->nameserver_name_1;			// type=xs:string, (NOT NULL), min=0
+			$data->ns2 = $model->nameserver_name_2;			// type=xs:string, (NOT NULL), min=0
+			$data->ns3 = $model->nameserver_name_3;			// type=xs:string, (NOT NULL), min=0
+			$data->requestersRemark = $model->remarks;		// type=xs:string, (NOT NULL), min=0
+		// creatorNicHandle is set with authentication credentials
+
+		Yii::log('trying to create domains:'.print_r($model,true).', period='.$reg_period_years, 'debug', 'DomainsController::createDomains()');
+
+		foreach($model->domainlist as $k => $domain)
+			{
+			$results = null;
+			$data->domainName = $domain;
+			// only send IP when nameserver matches hostname
+			$match_ns_domain = '/\.'.$domain.'$/i';
+			$data->ip1 = (preg_match($match_ns_domain, $data->ns1)==1) ? $model->nameserver_addr_1 : null;
+			$data->ip2 = (preg_match($match_ns_domain, $data->ns2)==1) ? $model->nameserver_addr_2 : null;
+			$data->ip3 = (preg_match($match_ns_domain, $data->ns3)==1) ? $model->nameserver_addr_3 : null;
+			CRSTicketAppService_service::create($result, $this->backend_errors, Yii::app()->user->authenticatedUser, $data, $reg_period_years);
+			if(count($this->backend_errors)==0)
+				$domain_creation_results[$domain]['ticket'] = $result;
+			else
+				$domain_creation_results[$domain]['error'] = $this->backend_errors; 
+			}
+		return $domain_creation_results;
+		}
+	}
+

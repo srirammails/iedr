@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <bean id="invoicingSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:payment-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="invoiceNumberIbatisDAO" class="pl.nask.crs.payment.dao.ibatis.InternalInvoiceNumberIbatisDAO">
+        <property name="sqlMapClient" ref="invoicingSqlMapClient"/>
+    </bean>
+
+    <bean id="invoiceNumberDAO" class="pl.nask.crs.payment.dao.ibatis.InvoiceNumberDAOImpl">
+        <constructor-arg ref="invoiceNumberIbatisDAO"/>
+    </bean>
+
+    <bean id="invoiceNumberService" class="pl.nask.crs.payment.service.impl.InvoiceNumberServiceImpl">
+        <constructor-arg ref="invoiceNumberDAO"/>
+    </bean>
+
+</beans>

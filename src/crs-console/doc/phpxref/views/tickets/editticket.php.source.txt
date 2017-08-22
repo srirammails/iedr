@@ -1,0 +1,70 @@
+<!-- START protected/views/tickets/editticket.php -->
+<?php
+/**
+ * View page for Ticket Edit
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       EditTicketModel, TicketsController::actionEditticket()
+ */
+
+$pg = 'Edit Ticket';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<div class="form">
+<table>
+<?php
+if($model->errors != null)
+	echo '<span class="error">'.print_r($model->errors,true).'</span>';
+else
+	{
+	$form=$this->beginWidget('CActiveForm', array('id'=>'EditTicketModel','enableAjaxValidation'=>true,));
+
+	echo $form->hiddenField($model,'id');
+
+	$ro_flds = array('domainName','adminStatus','hostmastersRemark','type','expiryDate','techStatus','operation_billingContactsField_newValue_nicHandle');
+	foreach($ro_flds as $ro_fld_model_name)
+		{
+		echo '<tr><td>'.
+			$form->label($model,$ro_fld_model_name).'</td><td>'.
+			$form->textField($model,$ro_fld_model_name,array('disabled'=>'disabled')).'</td></tr>';
+		}
+	$rw_flds = array(
+		'operation_domainHolderField_newValue',
+		'requestersRemark',
+		'operation_nameservers_0_name_newValue',
+		'operation_nameservers_0_ipAddress_newValue',
+		'operation_nameservers_1_name_newValue',
+		'operation_nameservers_1_ipAddress_newValue',
+		'operation_nameservers_2_name_newValue',
+		'operation_nameservers_2_ipAddress_newValue',
+		'operation_adminContactsField_0_newValue_nicHandle',
+		'operation_adminContactsField_1_newValue_nicHandle',
+		'operation_techContactsField_newValue_nicHandle',
+		);
+	// applicant <= operation_domainHolderClassField_newValue : operation_domainHolderCategoryField_newValue
+	echo BR.'<tr><td>'.
+		$form->labelEx($model,'applicant').
+		$form->error($model,'applicant').'</td><td>'.
+		$form->dropDownList($model,'applicant',get_class_category()).'</td></tr>';
+	foreach($rw_flds as $rw_fld_model_name)
+		{
+		echo '<tr><td>'.
+			$form->label($model,$rw_fld_model_name).
+			$form->error($model,$rw_fld_model_name).'</td><td>'.
+			$form->textField($model,$rw_fld_model_name).'</td></tr>';
+		}
+	echo '<tr><td></td><td>'.CHtml::submitButton('Update Ticket').'</td></tr>';
+	$this->endWidget(); 
+	}
+?>
+</table>
+</div>
+<!-- END protected/views/tickets/editticket.php -->
+

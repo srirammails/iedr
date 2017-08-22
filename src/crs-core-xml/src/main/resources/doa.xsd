@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.domainregistry.ie/doa-1.1"
+	xmlns:doa="http://www.domainregistry.ie/doa-1.1"
+	elementFormDefault="qualified">
+	
+	<element name="doa" type="doa:doaType" />
+
+	<complexType name="doaType">
+		<sequence>
+			<element name="id" type="string" />
+			<element name="timestamp" type="string" />
+			<element name="account" type="doa:accountType" />
+			<element name="adjustment" type="boolean" />
+			<element name="remark" type="string" />
+			<element name="amount" type="double" />
+			<element name="orderId" type="string" />
+		</sequence>
+	</complexType>
+
+	<complexType name="accountType">
+		<sequence>
+			<element name="number" type="long" />
+			<element name="billC" type="string"/>
+		</sequence>
+	</complexType>
+</schema>

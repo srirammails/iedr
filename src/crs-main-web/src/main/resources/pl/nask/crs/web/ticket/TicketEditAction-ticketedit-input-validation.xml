@@ -1,0 +1,80 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="responseText">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for Hostmaster's Remark</message>
+        </field-validator>
+        <field-validator type="stringlength">
+        	<param name="maxLength">65535</param>
+        	<message>Maximum ${maxLength} characters allowed</message>
+        </field-validator>
+    </field>
+    
+    <field name="ticketWrapper.domainHolder.value">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for domain holder</message>
+    	</field-validator>
+    </field>
+    
+    
+    <field name="ticketWrapper.adminContact1.nicHandle">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for an admin contact</message>
+    	</field-validator>
+    	<field-validator type="contact">
+    		<message>Not a valid Nic Handle</message>
+    	</field-validator>
+        <field-validator type="contactAccount">
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    </field>
+    
+   <!-- admin contact 2 is optional -->
+    <field name="ticketWrapper.adminContact2.nicHandle">    	
+    	<field-validator type="contact">
+    		<message>Not a valid Nic Handle</message>
+    	</field-validator>
+        <field-validator type="contactAccount">
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    </field>
+   
+    <field name="ticketWrapper.techContact.nicHandle">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for a tech contact</message>
+    	</field-validator>
+    	<field-validator type="contact">
+    		<message>Not a valid Nic Handle</message>
+    	</field-validator>
+        <field-validator type="contactAccount">
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    </field>
+
+    <field name="ticketWrapper">
+        <field-validator type="ticketNameserverCount">
+            <message>Wrong number of nameservers</message>
+        </field-validator>
+        <field-validator type="ticketNameserverDuplication">
+            <message>Duplicate nameserver</message>
+        </field-validator>
+        <field-validator type="ticketNameserverDomain">
+            <message>Wrong dns domain</message>
+        </field-validator>
+        <field-validator type="ticketNameserverGlueRequired">
+            <message>Glue is required for this dns</message>
+        </field-validator>
+        <field-validator type="ticketNameserverGlueNotAllowed">
+            <message>Glue is not allowed for this dns</message>
+        </field-validator>
+        <field-validator type="ticketNameserverIpv4">
+            <message>Not a valid IPv4</message>
+        </field-validator>
+    </field>
+
+    <field name="ticketWrapper.domainHolderCategoryId">
+        <field-validator type="category">
+            <message>Not a valid Class/Category</message>
+        </field-validator>
+    </field>
+</validators>

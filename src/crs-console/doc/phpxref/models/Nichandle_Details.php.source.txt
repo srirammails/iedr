@@ -1,0 +1,360 @@
+<?php
+
+/**
+ * defines Nichandle_Details class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Model class for Nic-Handle, used to create/edit/view NicHandles
+ * 
+ * MULTI-PHONE EXAMPLE : http://localhost/newregcon/index.php?r=nichandles/viewnichandle&id=AKG659-IEDR
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class Nichandle_Details
+	extends ReturningModelBase
+	{
+
+    /**
+     * nichandle ID; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $nicHandleId;
+
+
+    /**
+     * nichandle name, type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $name;
+
+
+    /**
+     * company name, type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $companyName;
+
+
+    /**
+     * address, type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $address;
+
+
+    /**
+     * phones as array
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $phones_array;
+
+
+    /**
+     * newline-separated list of phone numbers, type=xs:string, (null), min=0, max=unbounded
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $phones;
+
+
+    /**
+     * array of fax numbers
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $faxes_array;
+
+
+    /**
+     * newline-separated list of fax numbers
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $faxes;// type=xs:string, (null), min=0, max=unbounded
+
+
+    /**
+     * address county; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public
+     */
+	public $county;
+
+
+    /**
+     * address country; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public
+     */
+	public $country;
+
+
+    /**
+     * email; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $email;
+
+    /**
+     * VAT no; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $vatNo;
+
+
+    /**
+     * array of field-names which can be copied unmodified (all except phones and faxes)
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $nonPhone_fieldList = array('nicHandleId','address','companyName','country','county','email','name');
+
+    /**
+     * constructor, sets defaults
+     * 
+     * @return void  
+     * @access public
+     */
+	function __construct() {
+		parent::__construct();
+		// some defaults:
+		$this->country = 'Ireland';
+		$this->county = 'Co. Dublin';
+		$this->faxes_array = array();
+		$this->phones_array = array();
+		}
+
+    /**
+     * returns Yii validation rules
+     * 
+     * @return array  validation rules
+     * @access public
+     */
+	public function rules()
+		{
+		return array(
+			array('name, companyName, email, address, country', 
+				'required'),
+			array('phones,faxes',
+				'validatePhoneNumbersArray'),
+			array('name, companyName, address, email, country, county', 
+				'length','max'=>254),
+			array('email', 'EmailAddrValidator'),
+			array('vatNo', 'VAT_Number_Validator'),
+			array('country,county,returningData',
+				'safe'),
+			);
+		}
+
+    /**
+     * returns array of field labels
+     * 
+     * @return array  field labels
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return array(
+			'nicHandleId'	=> 'NicHandle',
+			'name'		=> 'NicHandle Name',
+			'companyName'	=> 'Company Name',
+			'address'	=> 'Address',
+			'email'		=> 'Email',
+			'country'	=> 'Country',
+			'county'	=> 'County',
+			'phones'	=> 'Phone Number(s)',
+			'faxes'		=> 'Fax Number(s)',	
+			'vatNo'		=> 'VAT Number',
+			);
+		}
+
+    /**
+     * parse input string into array of lines
+     * 
+     * @param  string   $textareainput input text from html textarea
+     * @return array    array of lines
+     * @access protected
+     */
+        protected function parsePhoneNumbersIntoArray($textareainput)
+		{
+		return explode("\n", $this->trimNewlines($textareainput));
+		}
+
+    /**
+     * for a given array of lines, remove elements that are empty strings
+     * 
+     * @param  array     &$a reference to new array (will get a new value)
+     * @param  array     $t  array of strings
+     * @return void     
+     * @access protected
+     */
+	protected function parseAndTrimPhones(&$a, $t)
+		{
+		$a = $this->parsePhoneNumbersIntoArray($t);
+		foreach($a as $n => $p)
+			{
+			$tp = trim($p);
+			if(strlen($tp) > 0)
+				$a[$n] = $tp;
+			else
+				unset($a[$n]);
+			}
+		}
+
+    /**
+     * preprocess some field values before validation
+     * 
+     * - parse phones into array
+     * - parse faxes into array
+     * - trim and remove duplicate newlines from address
+     * 
+     * @param  CModelEvent $aCModelEvent event, unused
+     * @return void   
+     * @access public 
+     */
+	public function onBeforeValidate($aCModelEvent)
+		{
+		parent::onBeforeValidate($aCModelEvent);
+		$this->parseAndTrimPhones($this->faxes_array,$this->faxes);
+		$this->parseAndTrimPhones($this->phones_array,$this->phones);
+		$this->address = $this->trimNewlines($this->address);
+		}
+
+    /**
+     * returns array of fieldnames to be returned in a returning-data form
+     * 
+     * fields mode, nictype, and nic will be returned to the caller
+     * 
+     * @return array  array of fieldnames to be returned in a returning-data form
+     * @access public
+     * @see ReturningController, ReturningController::outputReturningFormHtml()
+     */
+	function getReturningDataNames()
+		{
+		return array_merge(parent::getReturningDataNames(),array('mode','nictype','nic'));
+		}
+
+    /**
+     * validates array of phone/fax numbers
+     * 
+     * Before validation, the text-area contents have already been parsed into arrays; so we validate the array entries
+     * 
+     * @param  string  $attrib attribute name, either 'phones' or 'faxes'
+     * @param  unknown $params validation parameters, not used
+     * @return boolean false on any error
+     * @access public 
+     */
+	public function validatePhoneNumbersArray($attrib,$params)
+		{
+		// return string or null. On validation, the text-area contents have already been parsed into arrays; so we validate the array entries
+		$ret = true;
+		$attribarray = $attrib.'_array';
+		if(is_array($this->$attribarray))
+			{
+			Yii::log($attrib.' '.print_r($this->$attribarray,true), 'debug', 'Nichandle_Details::validatePhoneNumbersArray() x');
+			$lbls = $this->attributeLabels();
+			foreach($this->$attribarray as $n => $p)
+				{
+				if(!(preg_match(PhoneNumberValidator::$phoneNumberRegex, $p)===1))
+					{
+					$lbls = $this->attributeLabels();
+					$lbl = $lbls[$attrib];
+					$msg = '"'.$p.'" is Not A Valid Phone Number';
+					$this->addError($attrib,Yii::t('yii',$msg));
+					$ret = false;
+					Yii::log($msg, 'warning', 'Nichandle_Details::validatePhoneNumbersArray()');
+					}
+				}
+			}
+		else Yii::log('Input Not An Array', 'error', 'Nichandle_Details::validatePhoneNumbersArray()');
+		return $ret;
+		}
+
+    /**
+     * sets phone/fax strings and array attributes from data in supplied CRS-WS-API object
+     * 
+     * @param  array     &$a  model array member, will be overwritten with new array
+     * @param  CRSNicHandleAppService_nicHandleEditVO    $obj CRS-WS-API object or copy data from
+     * @param  string    $om  name of phones attribute, either 'phones' of 'faxes'
+     * @return void     
+     * @access protected
+     */
+	protected function fillPhonesArrayFromObject(&$a, $obj, $om)
+		{
+		$a = array();
+		if(isset($obj->$om))
+			$a = array_merge((array)($obj->$om),$a);
+		$this->$om = implode($a,"\n");
+		}
+
+    /**
+     * copies data from a CRS-WS-API NicHandle object into this instance
+     * 
+     * @param  object  $obj  Parameter description (if any) ...
+     * @param  unknown $errs Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function fillFromObject($obj,$errs)
+		{
+		$this->error = $errs; 
+		foreach($this->nonPhone_fieldList as $f)
+			if(isset($obj->$f))
+				$this->$f = $obj->$f;
+		$this->fillPhonesArrayFromObject($this->phones_array, $obj, 'phones');
+		$this->fillPhonesArrayFromObject($this->faxes_array,  $obj, 'faxes');
+		}
+
+    /**
+     * returns this instance's data copied into newly-created CRS-WS-API object
+     * 
+     * @return CRSNicHandleAppService_nicHandleEditVO this instance's data copied into newly-created CRS-WS-API object
+     * @access public
+     */
+	public function getAsObject()
+		{
+		$nhvo = new CRSNicHandleAppService_nicHandleEditVO();
+		$nhvo->accountNumber = Yii::app()->user->id;
+		foreach($this->nonPhone_fieldList as $f)
+			$nhvo->$f = $this->$f;
+		$nhvo->phones = $this->phones_array;
+		$nhvo->faxes  = $this->faxes_array;
+		return $nhvo;
+		}
+	}
+

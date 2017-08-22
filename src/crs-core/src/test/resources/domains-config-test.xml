@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+ 
+    <import resource="classpath:dataSource.xml"/>
+    
+    <bean id="domainsTestSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/domains-test-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!-- 
+    <bean id="domainTestDAO" class="pl.nask.crs.domains.dao.DomainIBatisTestDAO">
+        <property name="sqlMapClient" ref="domainsTestSqlMapClient"/>
+    </bean>
+ -->
+    
+    <bean id="dsmDao" class="pl.nask.crs.domains.dsm.DsmDAOImpl">
+        <property name="sqlMapClient" ref="domainsTestSqlMapClient"/>
+    </bean>
+    
+    <bean id="dsmTestDao" class="pl.nask.crs.domains.dsm.DsmTestDAO">
+        <property name="sqlMapClient" ref="domainsTestSqlMapClient"/>
+    </bean>      
+    
+    <bean id="dsmMachine" class="pl.nask.crs.domains.dsm.DomainStateMachineImpl">
+    	<constructor-arg ref="dsmDao" />
+    	<constructor-arg ref="domainDAO"/>
+    	<constructor-arg ref="historicalDomainDAO"/>
+        <constructor-arg ref="applicationConfig"/>
+        <constructor-arg ref="dsmActionsRegistry" />
+    </bean>
+
+</beans>

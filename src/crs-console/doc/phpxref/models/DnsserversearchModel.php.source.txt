@@ -1,0 +1,178 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class DnsserversearchModel
+	extends GridModelBase
+	{
+	// BUG what unique key?	
+
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'PK';
+
+    /**
+     * Description for var
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+		'PK' => array( // synthetic, not displayed ; "${DNS_Order}_${D_Name}"
+			'resultfield'=>'D_Name,DNS_Order',
+			'criteriafield'=>null,
+			'label'=>'PK',
+			'width'=>10,
+			'type'=>'hidden',
+			),
+		'A' => array(
+			'resultfield'=>'D_Name',
+			'criteriafield'=>'D_Name',
+			'label'=>'Domain Name',
+			'width'=>55,
+			'link'=>'domains/viewdomain',
+			'type'=>'string',
+			),
+		'B' => array(
+			'resultfield'=>'D_Holder',
+			'criteriafield'=>'D_Holder',
+			'label'=>'Domain Holder',
+			'width'=>55,
+			'type'=>'string',
+			),
+		'C' => array(
+			'resultfield'=>'D_Ren_Dt',
+			'criteriafield'=>'D_Ren_Dt',
+			'label'=>'Ren Date',
+			'width'=>25,
+			'type'=>'string',
+			),
+		'D' => array(
+			'resultfield'=>'D_Reg_Dt',
+			'criteriafield'=>'D_Reg_Dt',
+			'label'=>'Reg Date',
+			'width'=>25,
+			'type'=>'string',
+			),
+		'E' => array(
+			'resultfield'=>'D_Status',
+			'criteriafield'=>'D_Status',
+			'label'=>'Status',
+			'width'=>20,
+			'type'=>'string',
+			),
+		'F' => array(
+			'resultfield'=>'DNS_Name',
+			'criteriafield'=>'DNS_Name',
+			'label'=>'DNS Name',
+			'width'=>50,
+			'type'=>'string',
+			),
+		'G' => array(
+			'resultfield'=>'DNS_IpAddr',
+			'criteriafield'=>'DNS_IpAddr',
+			'label'=>'Glue',
+			'width'=>30,
+			'type'=>'string',
+			),
+		'H' => array(
+			'resultfield'=>'DNS_Order',
+			'criteriafield'=>'DNS_Order',
+			'label'=>'NS Order',
+			'width'=>20,
+			'type'=>'string',
+			),
+		);
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return array  Return description (if any) ...
+     * @access public
+     */
+	public function getSearchBase()
+		{
+		// override to set the filter
+		$criteria = array();
+		foreach($this->columns as $k => $col)
+			$criteria[$col->criteriafield] = null;
+		return $criteria;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  array  $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'PK'=>$o['DNS_Order'].'_'.$o['D_Name'],
+
+			'A'=>$o['D_Name'],
+			'B'=>cleanString($o['D_Holder']),
+			'C'=>$o['D_Ren_Dt'],
+			'D'=>$o['D_Reg_Dt'],
+			'E'=>$o['D_Status'],
+			'F'=>$o['DNS_Name'],
+			'G'=>$o['DNS_IpAddr'],
+			'H'=>$o['DNS_Order'],
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return string    Return description (if any) ...
+     * @access protected
+     */
+	protected function getExportFilenameTag()
+		{
+		return 'DnsserversearchModel_';
+		}
+	}
+

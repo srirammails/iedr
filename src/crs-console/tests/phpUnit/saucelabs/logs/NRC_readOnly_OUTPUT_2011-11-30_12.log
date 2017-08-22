@@ -1,0 +1,98 @@
+PHPUnit 3.5.15 by Sebastian Bergmann.
+
+.....EEEEE...EE...EE........EE
+
+Time: 49:02, Memory: 5.00Mb
+
+There were 11 errors:
+
+1) DomainReportsNewRegTest::testNewRegReports with browser firefox 7 Windows 2003
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/newdomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7cc1372c
+
+
+
+2) DomainReportsNewRegTest::testNewRegReports with browser iexplore 9 Windows 2008
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/newdomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7cc6cfcb
+
+
+
+3) DomainReportsNewRegTest::testNewRegReports with browser firefox 8 Linux
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/newdomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7ccd368e
+
+
+
+4) DomainReportsNewRegTest::testNewRegReports with browser googlechrome  Linux
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/newdomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7cd44fad
+
+
+
+5) DomainReportsNewRegTest::testNewRegReports with browser googlechrome  Windows 2008
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/newdomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7cde302c
+
+
+
+6) DomainReportsAllDomains1Test::testAllDomains with browser googlechrome  Linux
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/alldomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7ceeb4f9
+
+
+
+7) DomainReportsAllDomains1Test::testAllDomains with browser googlechrome  Windows 2008
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/alldomains
+Sauce Labs Job: https://saucelabs.com/jobs/9757273ee9d93198cab28dae7cf5601c
+
+
+
+8) DomainReportsAllTest::testAllDomainsGridFilters with browser googlechrome  Linux
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/alldomains
+Sauce Labs Job: https://saucelabs.com/jobs/eb1cbc4381bbf636edcb2fe5cf0758c8
+
+
+
+9) DomainReportsAllTest::testAllDomainsGridFilters with browser googlechrome  Windows 2008
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/alldomains
+Sauce Labs Job: https://saucelabs.com/jobs/eb1cbc4381bbf636edcb2fe5cf0e6872
+
+
+
+10) DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser googlechrome  Linux
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/autorenewed
+Sauce Labs Job: https://saucelabs.com/jobs/eb1cbc4381bbf636edcb2fe5cf2beb77
+
+
+
+11) DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser googlechrome  Windows 2008
+PHPUnit_Framework_Exception: 
+timeout
+Current Browser URL: http://newregcon.iedr.ie/index.php?r=domainreports/autorenewed
+Sauce Labs Job: https://saucelabs.com/jobs/eb1cbc4381bbf636edcb2fe5cf3518bf
+
+
+
+FAILURES!
+Tests: 30, Assertions: 166, Errors: 11.

@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>crs</artifactId>
+        <groupId>pl.nask.crs</groupId>
+        <version>1.6.44-SNAPSHOT</version>
+    </parent>
+    <name>CRS Mail Receiver</name>
+    <groupId>ie.iedr.crs</groupId>
+    <version>1.6.44-SNAPSHOT</version>
+    <artifactId>crs-mail-receiver</artifactId>
+    <packaging>rpm</packaging>
+    <description>This package contains tools for handling document uploads via mail.</description>
+    <scm>
+        <url>https://jira.domainregistry.ie/stash</url>
+        <connection>scm:git:ssh://git@jira.domainregistry.ie:7999/crs/crs.git</connection>
+        <developerConnection>scm:git:ssh://git@jira.domainregistry.ie:7999/crs/crs.git</developerConnection>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>deployment</id>
+            <name>Releases</name>
+            <url>https://jenkins.iedr.ie/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment</id>
+            <name>Snapshots</name>
+            <url>https://jenkins.iedr.ie/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <build>
+        <plugins>
+            <!-- Package RPM -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <version>2.1-alpha-3</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>generate-rpm</id>
+                        <goals>
+                            <goal>rpm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <copyright>2014, IE Domain Registry</copyright>
+                    <distribution>IEDR CRS 2014</distribution>
+                    <group>Application/Business</group>
+                    <packager>IEDR</packager>
+                    <prefix>/usr/local</prefix>
+                    <!--
+                    <keyname>${gpg-key}</keyname>
+                    <keyPassphrase><passphrase>${gpg-pass}</passphrase></keyPassphrase>
+                    -->
+                    <requires>
+                        <require>php</require>
+                        <require>php-cli</require>
+                        <require>php-soap</require>
+                        <require>php-pecl-mailparse</require>
+                    </requires>
+                    <mappings>
+                        <mapping>
+                            <directory>/usr/local/bin/documents_mail_uploader</directory>
+                            <filemode>755</filemode>
+                            <username>root</username>
+                            <groupname>root</groupname>
+                            <sources>
+                                <source>
+                                    <location>src/main/php</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

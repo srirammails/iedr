@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+	<command>
+		<query>
+			<account:query
+				xmlns:account="http://www.domainregistry.ie/ieapi-account-1.3"
+				xsi:schemaLocation="http://www.domainregistry.ie/ieapi-account-1.3
+				ieapi-account-1.3.xsd"
+				type="tran"
+				page="1" />
+		</query>
+	</command>
+</ieapi>

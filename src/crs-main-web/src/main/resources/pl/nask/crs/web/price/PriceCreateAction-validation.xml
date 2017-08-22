@@ -1,0 +1,39 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="wrapper.id">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for id</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.description">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for Description</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.price">
+        <field-validator type="required">
+            <message>You must enter a value for Price</message>
+        </field-validator>
+        <field-validator type="bigdecimal">
+            <param name="min">0</param>
+            <param name="max">999</param>
+            <message>Allowed prices in range 0-999</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.duration">
+        <field-validator type="required">
+            <message>You must enter a value for Duration</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.validFrom">
+        <field-validator type="required">
+            <message>You must enter a value for Valid From</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.validTo">
+        <field-validator type="required">
+            <message>You must enter a value for Valid To</message>
+        </field-validator>
+    </field>
+</validators>

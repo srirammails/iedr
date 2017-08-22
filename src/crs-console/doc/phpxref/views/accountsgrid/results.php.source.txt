@@ -1,0 +1,184 @@
+<!-- START protected/views/accountsgrid/results.php -->
+<?php
+/**
+ * View page for Accounts operation results
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       GridController, AccountsGridController, GridSelectionModel
+ */
+
+$pg = 'Results';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<div class="form">
+<?php
+$errs = $model->getErrors('domainlist');
+if($errs != null)
+	{
+	if(is_array($errs) and count($errs)>0)
+		foreach($errs as $e)
+			echo '<span class="errorMessage">'.$e.'</span><br>';
+	else
+		echo '<span class="errorMessage">'.$errs.'</span>';
+	}
+else
+	{
+	echo '<h4>Comands Processed</h4>';
+	echo '<table class="gridtable">';
+	switch($model->command)
+		{
+		case 'reactivate':
+		case 'mra':
+			echo '<!-- display results for "mra" or "reactivate" -->'.BR;
+			echo '<tr><td class="gridtablecell"><strong>Domains Reactivated</strong></td>'.
+				'<td class="gridtablecell"><strong>Result</strong></td></tr><tr><td class="gridtablecell">';
+			foreach($model->domainListToArray() as $d)
+				{
+				echo $d.'<br>';
+				}
+			echo '</td><td class="gridtablecell">OK</td>';
+			break;
+		case 'msd':
+			echo '<!-- display results for "msd" -->'.BR;
+			echo '<tr><td class="gridtablecell"><strong>Domain</strong></td>'.
+				'<td class="gridtablecell"><strong>Result</strong></td></tr>';
+			foreach($model->commandresults as $k => $v)
+				{
+				echo '<tr><td class="gridtablecell">'.$k.'</td>'.
+					'<td class="gridtablecell">'.($v['results']==null ? $v['errs'] : $v['results']).'</td>';
+				}
+			break;
+		case 'off':
+			echo '<!-- display results for "off" -->'.BR;
+			echo '<tr><td class="gridtablecell"><strong>Renewal&nbsp;Period</strong></td>'.
+				'<td class="gridtablecell"><strong>Domains</strong></td>'.
+				'<td class="gridtablecell"><strong>Invoice</strong></td>'.
+				'<td class="gridtablecell"><strong>Session ID</strong></td>'.
+				'<td class="gridtablecell"><strong>Amount</strong></td>'.
+				'<td class="gridtablecell"><strong>VAT</strong></td>'.
+				'<td class="gridtablecell"><strong>Total</strong></td></tr>';
+			foreach($model->commandresults as $k => $v)
+				{
+				if($k!='TOTAL')
+					{
+					$dlist = implode($v['domainlist'],'<br>');
+					echo '<tr><td class="gridtablecell">'.$k.' year</td><td class="gridtablecell">'.$dlist.'</td>';
+					if($v['errs']==null and isset($v['results']) and is_object($v['results']))
+						{
+						$res = $v['results'];
+						$tf  = $res->amount;
+						$tv  = $res->vat;
+						$inv = is_array($res->invoiceId) ? implode($res->invoiceId,'<br>') : $res->invoiceId;
+						echo	'<td class="gridtablecell">'.$inv.'</td>'.
+							'<td class="gridtablecell">'.$res->orderId.'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount($tf,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount($tv,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($tf+$tv));
+						}
+					else
+						echo '<td colspan="5"><span class="errorMessage">'.$v['errs'].'</span>';
+
+					echo '</td></tr>';
+					}
+				}
+			$v = $model->commandresults['TOTAL'];
+			echo '<tr><td class="gridtablecell"><strong>Totals</strong></td>'.
+				'<td class="gridtablecell" colspan="3">&nbsp;</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalFee']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalVat']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($v['totalFee']+$v['totalVat'])).'</td></tr>';
+			echo '<h4>NB - Promise to pay, not an actual payment</h4>';
+			break;
+		case 'paydeposit':
+		case 'payonline':
+			echo '<!-- display results for "paydeposit" or "payonline" -->'.BR;
+			echo '<tr><td class="gridtablecell"><strong>Domains Reactivated</strong></td>'.
+				'<td class="gridtablecell"><strong>Fee</strong></td>'.
+				'<td class="gridtablecell"><strong>VAT</strong></td>'.
+				'<td class="gridtablecell"><strong>Total</strong></td></tr>';
+			foreach($model->commandresults as $k => $v)
+				{
+				if($k!='TOTAL')
+					{
+					$dlist = '';
+					if(is_array($v['domainlist']))
+						$dlist = implode($v['domainlist'],'<br>');
+					echo '<tr><td class="gridtablecell">'.$dlist.'</td>';
+					if($v['errs']==null)
+						{
+						$tf = $v['results']->amount;
+						$tv = $v['results']->vat;
+						echo '<td class="gridtablecell cash">'.Utility::currencyAmount($tf,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount($tv,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($tf+$tv));
+						}
+					else
+						echo '<td colspan="3"><span class="errorMessage">'.$v['errs'].'</span>';
+					echo '</td></tr>';
+					}
+				}
+			$v = $model->commandresults['TOTAL'];
+			echo '<tr><td class="gridtablecell"><strong>Totals</strong></td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalFee']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalVat']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($v['totalFee']+$v['totalVat'])).'</td></tr>';
+			break;
+		case 'on': case 'dep':
+			echo '<!-- display results for "on" or "dep" -->'.BR;
+			echo '<tr><td class="gridtablecell"><strong>Renewal&nbsp;Period</strong></td>'.
+				'<td class="gridtablecell"><strong>Domains</strong></td>'.
+				'<td class="gridtablecell"><strong>Invoice ID</strong></td>'.
+				'<td class="gridtablecell"><strong>Order ID</strong></td>'.
+				'<td class="gridtablecell"><strong>Fee</strong></td>'.
+				'<td class="gridtablecell"><strong>VAT</strong></td>'.
+				'<td class="gridtablecell"><strong>Total</strong></td></tr>';
+			foreach($model->commandresults as $k => $v)
+				{
+				if($k!='TOTAL')
+					{
+					$dlist = '';
+					if(is_array($v['domainlist']))
+						$dlist = implode($v['domainlist'],'<br>');
+					echo '<tr><td class="gridtablecell">'.$k.' year</td><td class="gridtablecell">'.$dlist.'</td>';
+					if($v['errs']==null)
+						{
+						$tf = $v['results']->amount;
+						$tv = $v['results']->vat;
+						$inv = $v['results']->invoiceId;
+						if(is_array($v['results']->invoiceId))
+							$inv = implode($v['results']->invoiceId,'<br>');
+						echo '<td class="gridtablecell">'.$inv.'</td>'.
+							'<td class="gridtablecell">'.$v['results']->orderId.'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount($tf,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount($tv,2).'</td>'.
+							'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($tf+$tv),2);
+						}
+					else
+						echo '<td colspan="5"><span class="errorMessage">'.$v['errs'].'</span>';
+					echo '</td></tr>';
+					}
+				}
+			$v = $model->commandresults['TOTAL'];
+			echo '<tr><td class="gridtablecell"><strong>Totals</strong></td>'.
+				'<td class="gridtablecell" colspan="3"></td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalFee']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalVat']).'</td>'.
+				'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($v['totalFee']+$v['totalVat'])).'</td></tr>';
+			break;
+		}
+	echo '</table>';
+	echo '<form><input type=\'button\' value=\'Print This Page\' onClick=\'window.print()\' /></form>';
+	}
+?>
+</div>
+<br>
+<?php echo AuthOnlyBaseController::returnToUrlButton($model->returnurl); ?>
+
+<!-- END protected/views/accountsgrid/results.php -->

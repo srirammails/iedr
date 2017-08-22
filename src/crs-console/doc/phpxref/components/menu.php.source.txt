@@ -1,0 +1,337 @@
+<?php
+
+/**
+ * defines menu data and related functions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Get menu structure (nested arrays)
+ * 
+ * passes runtime-determined data to getMenuWithParams()
+ * 
+ * @return array nested array of menu items
+ */
+function getMenu()
+	{
+	return getMenuWithParams(!Yii::app()->user->isGuest, Yii::app()->user->name);
+	}
+
+/**
+ * Get menu structure (nested arrays)
+ * 
+ * There are Three kinds of pages:
+ * 
+ * - Menu pages, (usually 'something/menu') which render a subset of the menu structure using printMenuHeirarchy()
+ * 
+ * - Menu-Leaf pages
+ * 
+ * - Non-Menu pages, listed below as Non-visible; are accessible only by navigating from other menu-leaf page(s)
+ * 
+ * NB Menu Items MUST use unique LABELS (unique among *all* items).
+ * Otherwise, the printMenuHeirarchy() fn gets confused.
+ * Check Uniqeness: 
+ * <shellscript>
+ * grep "'label'=>" protected/components/menu.php | tr '\t' ' ' | tr -s ' ' | cut -d, -f 1 | sort | uniq -c
+ * </shellscript>
+ * 
+ * @return array nested array of menu items
+ */
+function getMenuWithParams($isloggedin,$username)
+	{
+	return array(
+		array('label'=>'Home', 'url'=>array('/site/index')),
+			// TODO : form : Edit Reseller Defaults ( http://localhost/registrar_console/Console/pageCode/RegisterDefaults.php )
+
+
+		array('label'=>'Confirm', 'url'=>array('/grid/confirm'), 'visible'=>false,),
+		array('label'=>'Confirm Action', 'url'=>array('/grid/confirmaction'), 'visible'=>false,),
+		array('label'=>'Results', 'url'=>array('/grid/results'), 'visible'=>false,),
+
+
+		array('label'=>'Domains', 'url'=>array('/domains/menu'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'View Domain', 'url'=>array('/domains/viewdomain'), 'visible'=>false,),
+				array('label'=>'Register New', 'url'=>array('/domains/regnew'), 'visible'=>$isloggedin,),
+				array('label'=>'Domain Details', 'url'=>array('/domains/domaindetails'), 'visible'=>false,),
+				array('label'=>'Domains Created', 'url'=>array('/domains/domains/domainscreated'), 'visible'=>false,),
+				array('label'=>'Reports', 'url'=>array('/domainreports/menu'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'All Domains', 'url'=>array('/domainreports/alldomains'), 'visible'=>$isloggedin,),
+						array('label'=>'Newly Registered Domains', 'url'=>array('/domainreports/newdomains'), 'visible'=>$isloggedin,),
+						array('label'=>'Autorenewed Domains', 'url'=>array('/domainreports/autorenewed'), 'visible'=>$isloggedin,),
+						array('label'=>'Charity Domains', 'url'=>array('/domainreports/charity'), 'visible'=>$isloggedin,),
+						),
+					),
+				),
+			),
+		array('label'=>'Accounts', 'url'=>array('/accounts/menu'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'Renew and Pay', 'url'=>array('/accounts_renewpay/menu'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'Current Invoices', 'url'=>array('/accounts_renewpay_currinv/menu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Renewals and New Registrations', 'url'=>array('/accounts_renewpay_currinv/current_newandrenewals'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfers - Pay Current Invoice', 'url'=>array('/accounts_renewpay_currinv/transfers_paycurrent'), 'visible'=>$isloggedin,),
+								),
+							),
+						array('label'=>'Advance Payments', 'url'=>array('/accounts_renewpay_advpay/menu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Future Renewals',  'url'=>array('/accounts_renewpay_advpay/current_newandrenewals'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfers - Pay In Advance', 'url'=>array('/accounts_renewpay_advpay/transfers_pia'), 'visible'=>$isloggedin,),
+								),
+							),
+						array('label'=>'Manage Offline Payments', 'url'=>array('/accounts_renewpay/outstanding_payments'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'View Batch', 'url'=>array('/accounts_renewpay/viewbatch'), 'visible'=>false,),
+								),
+							),
+						array('label'=>'Top Up Deposit Account', 'url'=>array('/accounts_renewpay/topup'), 'visible'=>$isloggedin,),
+						),
+					),
+				array('label'=>'Manage MSD', 'url'=>array('/accounts_msd/menu'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'Mails, Suspensions & Deletions', 'url'=>array('/accounts_msd/recent'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Confirm MSD Action', 'url'=>array('/accounts_msd/confirm'), 'visible'=>false,
+									'items'=>array(
+										array('label'=>'MSD Results', 'url'=>array('/accounts_msd/confirm'), 'visible'=>false,),
+										),
+									),
+								),
+							),
+						array('label'=>'Deletions over Last Year', 'url'=>array('/accounts_msd/year'), 'visible'=>$isloggedin,),
+						),
+					),
+				array('label'=>'View Reports', 'url'=>array('/accounts_reports/menu'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'Domains Transferred', 'url'=>array('/accounts_reports/domainstransferredmenu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Transfers To', 'url'=>array('/accounts_reports/transferto'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfers Away', 'url'=>array('/accounts_reports/transferaway'), 'visible'=>$isloggedin,),
+								),
+							),
+						array('label'=>'Statement of Account - aged balance', 'url'=>array('/accounts_reports/account_aged_balance'), 'visible'=>$isloggedin,),
+						),
+					),
+				array('label'=>'View History', 'url'=>array('/accounts_history/menu'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'Invoices', 'url'=>array('/accounts_history_invoices/menu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Renewal Invoice History', 'url'=>array('/accounts_history_invoices/renewals'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfer Invoice History', 'url'=>array('/accounts_history_invoices/transfers'), 'visible'=>$isloggedin,),
+								array('label'=>'Advance Payment Invoice History', 'url'=>array('/accounts_history_invoices/payments'), 'visible'=>$isloggedin,),
+								),
+							),
+						array('label'=>'Payments', 'url'=>array('/accounts_history_payments/menu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'Renewal Payment History', 'url'=>array('/accounts_history_payments/renewals'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfer Payment History', 'url'=>array('/accounts_history_payments/transfers'), 'visible'=>$isloggedin,),
+								array('label'=>'Advance Payments History', 'url'=>array('/accounts_history_payments/payments'), 'visible'=>$isloggedin,),
+								),
+							),
+						array('label'=>'Historical Payment Search', 'url'=>array('/accounts_history/payhist'), 'visible'=>$isloggedin,),
+						array('label'=>'Credit Notes', 'url'=>array('/accounts_payhist_crednotes/menu'), 'visible'=>$isloggedin,
+							'items'=>array(
+								array('label'=>'MSD Deletions', 'url'=>array('/accounts_payhist_crednotes/deletions'), 'visible'=>$isloggedin,),
+								array('label'=>'Transfers Away CreditNotes', 'url'=>array('/accounts_payhist_crednotes/transfers_away'), 'visible'=>$isloggedin,),
+								array('label'=>'On Invoices', 'url'=>array('/accounts_payhist_crednotes/invoicemenu'), 'visible'=>$isloggedin,
+									'items'=>array(
+										array('label'=>'MSD Deletion credit notes', 'url'=>array('/accounts_payhist_crednotes/nrc_cn_on_invs_msddels'), 'visible'=>$isloggedin,),
+										array('label'=>'Domains transferred to another Registrar out of MSD', 'url'=>array('/accounts_payhist_crednotes/nrc_cn_on_invs_msd_xfer'), 'visible'=>$isloggedin,),
+										array('label'=>'Domains transferred away before payment due date', 'url'=>array('/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp'), 'visible'=>$isloggedin,),
+										),										
+									),
+								),
+							),
+						array('label'=>'Deposit Topup History', 'url'=>array('/accounts_history/topuphist'), 'visible'=>$isloggedin,),
+						array('label'=>'Pending Payments', 'url'=>array('/accounts_history/pendingpay'), 'visible'=>$isloggedin,),
+						),
+					),
+				),
+			),
+		array('label'=>'Contacts', 'url'=>array('/contacts/menu'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'Find', 'url'=>array('/nicsearch/namesearch'), 'visible'=>$isloggedin,),
+				array('label'=>'Create NIC', 'url'=>array('/nichandles/createnichandle'), 'visible'=>$isloggedin,),
+				array('label'=>'View NIC', 'url'=>array('/nichandles/viewnichandle'), 'visible'=>false,),
+				array('label'=>'Edit NIC', 'url'=>array('/nichandles/editnichandle'), 'visible'=>false,),
+				),
+			),
+		array('label'=>'Tickets', 'url'=>array('/tickets/main'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'View Ticket', 'url'=>array('/tickets/viewticket'), 'visible'=>false,),
+				array('label'=>'Edit Ticket', 'url'=>array('/tickets/editticket'), 'visible'=>false,),
+				),
+			),
+		array('label'=>'DNS', 'url'=>array('/nsreports/dnsserversearch'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'DNS Modification', 'url'=>array('/dns/dnsupdate'), 'visible'=>false,),
+				),
+			),
+		array('label'=>'Mailing List', 'url'=>array('/mlist/main'), 'visible'=>$isloggedin,),
+		array('label'=>'Resources', 'url'=>array('/resources/menu'), 'visible'=>$isloggedin,
+			'items'=>array(
+				array('label'=>'Formalisation Drafts', 'url'=>array('/site/page&view=FormalisationDrafts'), 'visible'=>$isloggedin,),
+				array('label'=>'Policy Consultations', 'url'=>array('/site/page&view=PolicyConsultations'), 'visible'=>$isloggedin,),
+				array('label'=>'Policy Guidelines', 'url'=>array('/site/page&view=PolicyGuidelines'), 'visible'=>$isloggedin,),
+				array('label'=>'IEDR Logo', 'url'=>array('/site/page&view=IEDRLogo'), 'visible'=>$isloggedin,),
+				array('label'=>'Statistics', 'url'=>array('/site/page&view=Statistics'), 'visible'=>$isloggedin,),
+				array('label'=>'IE API', 'url'=>array('/site/page&view=IEDR_API'), 'visible'=>$isloggedin,
+					'items'=>array(
+						array('label'=>'Test', 'url'=>array('/site/page&view=Test_API'), 'visible'=>$isloggedin,),
+							// TODO : Test Cert Request Form = http://localhost/registrar_console/Console/pageCode/api/cert-req-test.php
+						array('label'=>'Production', 'url'=>array('/site/page&view=Prod_API'), 'visible'=>$isloggedin,),
+							// TODO : Prod Cert Request Form = http://localhost/registrar_console/Console/pageCode/api/cert-req-prod.php
+						),
+					),
+				array('label'=>'Change Password', 'url'=>array('/site/changePassword'), 'visible'=>$isloggedin,),
+				),
+			),
+		array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>!$isloggedin,),
+		array('label'=>'Logout ('.$username.')', 'url'=>array('/site/logout'), 'visible'=>$isloggedin,),
+		);
+	}
+
+/**
+ * for the given menu label, locate the label in the menu tree,
+ * then print a row of '/'-separated links for each parent-or-self menu item,
+ * each one being a hyperlink to the relevant menu-page
+ * 
+ * @param  string $item label of menu item to print breadcrumb trail for
+ * @return void   
+ */
+function printBreadcrumbTrail($item)
+	{
+	$m = getMenu();
+	checkLabelsAreUnique($m);
+	$ma = array('items'=>$m);
+	// 1. find the item in the nesting arrays
+	$treepath = menuFindLabelRecurse($ma,$item);
+	if($treepath==null) throw new Exception('The Menu label "'.$item.'" was NOT FOUND : either change the search-string, or update the menu\'s label (case sensitive)');
+	// 2. convert to array
+	$tpa = explode(',',$treepath);
+	// 3. iterate over found nodes and print text+link
+	$dc = new DummyController('');
+	foreach($tpa as $n => $l)
+		{
+		$ma = $ma['items'][$l];
+		if($l != 'X') {
+			if($n != 0) echo ' / ';
+			$tgt = $dc->createUrl($ma['url'][0]);
+			echo '<a href="'.$tgt.'">'.$ma['label'].'</a>';
+			}
+		}
+	}
+
+/**
+ * Recursively locate a label in a menu tree, returning a comma-separated list of parent item labels
+ * 
+ * @param  array   $m menu array structure
+ * @param  string  $l menu label being sought
+ * @param  integer $i recursion depth gauge
+ * @return string  comma-separated list of parent item labels
+ */
+function menuFindLabelRecurse($m,$l,$i=0)
+	{
+	if($m['label']==$l)
+		{
+		#echo BR.'found';
+		return 'X';
+		}
+	if(isset($m['items']))
+		{
+		#echo BR.'iterating..';
+		foreach($m['items'] as $idx => $ia)
+			{
+			#echo BR.'trying in '.$idx;
+			$chld = menuFindLabelRecurse($ia,$l,$i+1);
+			if($chld!=null)
+				{
+				#echo BR.'found in '.$idx.' in child '.$chld.' at depth '.$i;
+				return $idx.','.$chld;
+				}
+			}
+		}
+	return null;
+	}
+
+/**
+ * Recursively print a html tree for a menu item; itself and all it's children, each label a hyperlink to the relevant URL
+ * 
+ * @param  array   $m   menu structure
+ * @param  unknown $sel label to start from, or null for all
+ * @param  integer $lvl recursion depth gauge
+ * @return void   
+ */
+function printMenuHeirarchy($m,$sel=null,$lvl=0)
+	{
+	if(is_array($m))
+		{
+		$sp = str_repeat('  ',$lvl);
+		print($sp.'<ul>'.BR);
+		$c = new DummyController('');
+		foreach($m as $k => $v)
+			{
+			$u = $c->createUrl($v['url'][0]);
+			$l = $v['label'];
+			if( ($sel==null or $sel==$l) and ( isset($v['visible']) && $v['visible'] ) )
+				{
+				print($sp.'<li><a href="'.$u.'">'.$l.'</a>'.BR);
+				if(isset($v['items']) and $v['visible'])
+					printMenuHeirarchy($v['items'],null,$lvl+1);
+				else echo ' ...';
+				print($sp.'</li>'.BR);
+				}
+			else
+				{
+				if(isset($v['items']) and $v['visible'])
+					printMenuHeirarchy($v['items'],$sel,$lvl+1);
+				}
+			}
+		print($sp.'</ul>'.BR);
+		}
+	}
+
+/**
+ * Recursively counts menu labels, used in checking for duplicate labels
+ * 
+ * @param  array   $arr array to append labels and counts to
+ * @param  array   $m   menu array structure
+ * @return void   
+ */
+function labelFinder(&$arr ,$m)
+	{
+	foreach($m as $k => $v)
+		{
+		$arr[$v['label']] += 1;
+		if(isset($v['items']))
+			labelFinder($arr,$v['items']);
+		}
+	}
+
+/**
+ * check for duplicate menu labels
+ * 
+ * @param  array   $m   menu array structure
+ * @return void   
+ */
+function checkLabelsAreUnique($m)
+	{
+	$a = array();
+	labelFinder($a, $m);
+	$errs = array();
+	foreach($a as $k => $v) if($v > 1) $errs[] = $k;
+	if(count($errs)>0)
+		{
+		throw new Exception('ERROR: Menu Labels are Duplicated : "'.implode('","',$errs).'"');
+		}
+	}
+

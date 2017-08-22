@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class Domains_Details</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Domains_Details</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for class</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> References to other sections (if any)...</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_models---Domains_Details.php.html">/models/Domains_Details.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a37">37</a></span>)
+		</p>
+		
+				
+		<pre>CFormModel
+   |
+   --<a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a>
+      |
+      --Domains_Details</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																																																																																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$accept_tnc" title="details" class="var-name">$accept_tnc</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$admin_contact_nic_1" title="details" class="var-name">$admin_contact_nic_1</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$admin_contact_nic_2" title="details" class="var-name">$admin_contact_nic_2</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$applicant" title="details" class="var-name">$applicant</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$billing_contact" title="details" class="var-name">$billing_contact</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$domainlist" title="details" class="var-name">$domainlist</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$holder" title="details" class="var-name">$holder</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_addr_1" title="details" class="var-name">$nameserver_addr_1</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_addr_2" title="details" class="var-name">$nameserver_addr_2</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_addr_3" title="details" class="var-name">$nameserver_addr_3</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_name_1" title="details" class="var-name">$nameserver_name_1</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_name_2" title="details" class="var-name">$nameserver_name_2</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$nameserver_name_3" title="details" class="var-name">$nameserver_name_3</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$registration_period" title="details" class="var-name">$registration_period</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$remarks" title="details" class="var-name">$remarks</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$tech_contact" title="details" class="var-name">$tech_contact</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																															
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">unknown</span>&nbsp;<span class="var-name">$domlist</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#attributeLabels" title="details" class="method-name">attributeLabels</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#rules" title="details" class="method-name">rules</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setDefaults" title="details" class="method-name">setDefaults</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$domlist</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$accept_tnc" id="$accept_tnc"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$accept_tnc</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a53">53</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$admin_contact_nic_1" id="$admin_contact_nic_1"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$admin_contact_nic_1</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a60">60</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$admin_contact_nic_2" id="$admin_contact_nic_2"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$admin_contact_nic_2</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a67">67</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$applicant" id="$applicant"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$applicant</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a74">74</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$billing_contact" id="$billing_contact"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$billing_contact</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a81">81</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$domainlist" id="$domainlist"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$domainlist</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a46">46</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$holder" id="$holder"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$holder</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a88">88</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_addr_1" id="$nameserver_addr_1"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_addr_1</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a95">95</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_addr_2" id="$nameserver_addr_2"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_addr_2</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a102">102</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_addr_3" id="$nameserver_addr_3"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_addr_3</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a109">109</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_name_1" id="$nameserver_name_1"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_name_1</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a116">116</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_name_2" id="$nameserver_name_2"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_name_2</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a123">123</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nameserver_name_3" id="$nameserver_name_3"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$nameserver_name_3</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a130">130</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$registration_period" id="$registration_period"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$registration_period</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a137">137</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$remarks" id="$remarks"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$remarks</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a144">144</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$tech_contact" id="$tech_contact"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$tech_contact</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a151">151</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Description for public</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$commandresults">FormModelBase::$commandresults</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$error">FormModelBase::$error</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$message">FormModelBase::$message</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a162">162</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">unknown</span>&nbsp;<span class="var-name">$domlist</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$domlist</span><span class="var-description">: Parameter description (if any) ...</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/FormModelBase.html#method__construct">FormModelBase::__construct()</a></dt>
+						<dd>constructor, creates commandresults array</dd>
+					</dl>
+			
+	</div>
+<a name="methodattributeLabels" id="attributeLabels"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">attributeLabels</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a238">238</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return description (if any) ...</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			attributeLabels
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodrules" id="rules"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">rules</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return description (if any) ...</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			rules
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsetDefaults" id="setDefaults"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setDefaults</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsDomains_Details.php.html#a178">178</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short description for function</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDefaults
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$domlist</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$domlist</span><span class="var-description">: Parameter description (if any) ...</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Constructor.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#method__construct">FormModelBase::__construct()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodforceCaseOfFields">FormModelBase::forceCaseOfFields()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodonBeforeValidate">FormModelBase::onBeforeValidate()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodtrimNewlines">FormModelBase::trimNewlines()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:56 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

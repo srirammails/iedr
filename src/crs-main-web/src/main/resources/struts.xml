@@ -1,0 +1,1274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <!-- contains undecorated actions -->
+    <package name="dojo" namespace="/dojo" extends="struts-default">
+        <global-exception-mappings>
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.NicHandleNotFoundException" result="error"
+                               name="error">
+                <param name="message">NicHandle not found</param>
+            </exception-mapping>
+        </global-exception-mappings>
+        <action name="template-*" method="{1}" class="ticketResponseAction">
+            <result name="input">/jsp/tickets/dojo/msg-templates.jsp</result>
+            <result>/jsp/tickets/dojo/msg-templates.jsp</result>
+            <result name="errhistor">/jsp/tickets/dojo/msg-templates.jsp</result>
+        </action>
+        <action name="contacts-search" class="contactSearch">
+            <result>/jsp/tickets/dojo/contacts-result.jsp</result>
+        </action>
+        <action name="contacts-search-extended" class="contactSearch">
+            <result>/jsp/tickets/dojo/contacts-result-extended.jsp</result>
+        </action>
+        <action name="default-tech-contact" method="execute" class="defaultTechContact">
+            <result name="success">/jsp/domains/dojo/tech-contact.jsp</result>
+            <result name="error">/jsp/domains/dojo/tech-contact.jsp</result>
+        </action>
+    </package>
+
+
+    <package name="crs-web" extends="struts-default">
+        <interceptors>
+            <!-- custom interceptors -->
+            <interceptor name="authentication" class="pl.nask.crs.web.security.AuthenticationInterceptor"/>
+            <interceptor name="authorization" class="pl.nask.crs.web.security.AuthorizationInterceptor"/>
+            <interceptor name="menu" class="pl.nask.crs.web.menu.MenuInterceptor"/>
+            <interceptor name="exception" class="pl.nask.crs.web.exception.ExceptionInterceptor"/>
+            <interceptor name="trim" class="pl.nask.crs.web.TrimmingInterceptor"/>
+            <interceptor name="dynamicParams" class="pl.nask.crs.web.DynamicInterceptorProperties"/>
+            <interceptor name="defvalidation" class="pl.nask.crs.web.DefaultMaxLengthValidationInterceptor"/>
+
+            <interceptor-stack name="actionLog">
+                <interceptor-ref name="timer"/>
+                <interceptor-ref name="logger"/>
+            </interceptor-stack>            
+
+            <interceptor-stack name="thisStack">
+                <interceptor-ref name="actionLog"/>
+                <interceptor-ref name="menu"/>
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="debugging"/>
+                <interceptor-ref name="profiling"/>
+                <interceptor-ref name="scopedModelDriven"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="trim"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="defvalidation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                    <param name="excludeFields">document.domainNames</param>
+                    <param name="maxLength">255</param>
+                </interceptor-ref>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+
+            <interceptor-stack name="user">
+                <interceptor-ref name="menu"/>
+                <interceptor-ref name="authentication"/>
+                <interceptor-ref name="authorization"/>
+                <interceptor-ref name="thisStack"/>
+            </interceptor-stack>
+
+            <interceptor-stack name="user-submit">
+                <interceptor-ref name="tokenSession"/>
+                <interceptor-ref name="user"/>
+            </interceptor-stack>
+
+            <interceptor-stack name="guest">
+                <interceptor-ref name="menu"/>
+                <interceptor-ref name="thisStack"/>
+            </interceptor-stack>
+
+
+        </interceptors>
+
+        <default-interceptor-ref name="user"/>
+
+
+        <global-results>
+            <result name="login" type="redirectAction">log-input.action</result>
+            <result name="access-denied" type="redirect">guest-access-denied.action</result>
+            <result name="error" type="redirect">guest-error.action</result>
+            <result name="exception" type="redirect">guest-exception.action</result>
+            <result name="input" type="redirect">guest-error.action</result>              
+        </global-results>
+
+
+        <global-exception-mappings>
+            <exception-mapping exception="pl.nask.crs.app.AccessDeniedException" result="error" name="error">
+                <param name="message">Access denied.</param>
+            </exception-mapping>
+            <exception-mapping exception="org.springframework.dao.DataAccessException" name="error" result="error">
+                <param name="message">Database error occurred. See logs for details.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.commons.exceptions.EmptyRemarkException" result="error"
+                               name="error">
+                <param name="message">Empty hostmasters remark</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.user.exceptions.PasswordAlreadyExistsException" result="error">
+                <param name="message">New password entered was the same as the original</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.accounts.exceptions.AccountNotFoundException" result="error"
+                               name="error">
+                <param name="message">Account Number not found in the system.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.accounts.exceptions.AccountNotActiveException" result="error"
+                               name="error">
+                <param name="message">Account is not Active.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.contacts.exceptions.ContactNotFoundException" result="error"
+                               name="error">
+                <param name="message">Contact not found in the system.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.contacts.exceptions.ContactNotActiveException" result="error"
+                               name="error">
+                <param name="message">Contact is not Active.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.contacts.exceptions.ContactAlreadyAssignedToAccountException"
+                               result="error"
+                               name="error">
+                <param name="message">This contact is already associated with another account.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.NicHandleIsAccountBillingContactException"
+                               result="error" name="error">
+                <param name="message">Account Number cannot be changed. The nic handle is billing contact for this
+                    account.
+                </param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.NicHandleNotFoundException" result="error"
+                               name="error">
+                <param name="message">NicHandle not found</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.NicHandleDeletedException" result="error"
+                               name="error">
+                <param name="message">NicHandle has deleted status</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketNotFoundException" result="error"
+                               name="error">
+                <param name="message">Ticket not found</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.InvalidStatusException" result="error"
+                               name="error">
+                <param name="message">Invalid ticket status</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.security.authentication.InvalidUsernameException" result="error"
+                               name="error">
+                <param name="message">Invalid username</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.security.authentication.InvalidPasswordException" result="error"
+                               name="error">
+                <param name="message">Invalid password</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.security.authentication.NoLoginPermissionException" result="error"
+                               name="error">
+                <param name="message">No login permission for user</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.security.authentication.PasswordExpiredException" result="error"
+                               name="error">
+                <param name="message">Password expired</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.security.authentication.AuthenticationException" result="error"
+                               name="error">
+                <param name="message">Authentication error occurred. See logs for details.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketResponseNotFoundException" result="error"
+                               name="error">
+                <param name="message">The ticket response not found</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketResponseAlreadyExistsException"
+                               result="error" name="error">
+                <param name="message">The ticket response with the title already exists</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketAlreadyCheckedOutException" result="error"
+                               name="error">
+                <param name="message">Ticket is already checked-out</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketNotCheckedOutException" result="error"
+                               name="error">
+                <param name="message">Ticket is not checked-out</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketCheckedOutToOtherException" result="error"
+                               name="error">
+                <param name="message">Ticket is checked-out to other hostmaster</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.NicHandleNotFoundException" result="error"
+                               name="error">
+                <param name="message">Nic handle not found</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketEmailException" result="error"
+                               name="error">
+                <param name="message">Error sending email</param>
+            </exception-mapping>
+
+
+            <!-- faxes -->
+            <exception-mapping exception="pl.nask.crs.documents.exception.NoSuchDirectoryException" result="error"
+                               name="error">
+                <param name="message">Cannot access directory</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.documents.exception.WrongFaxFileExtensionException" result="error"
+                               name="error">
+                <param name="message">File extension not supported</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.documents.exception.NoSuchDocumentException" result="error"
+                               name="error">
+                <param name="message">Document not found</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.documents.exception.DocumentFileMovingException" result="error"
+                               name="error">
+                <param name="message">Internal error: DocumentFileMovingException</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.commons.email.service.EmailSendingException" result="error"
+                               name="error">
+                <param name="message">Error sending email</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.documents.exception.DocumentGeneralException" result="error"
+                               name="error">
+                <param name="message">Internal error while processing action</param>
+            </exception-mapping>
+
+            <!-- domains -->
+            <exception-mapping exception="pl.nask.crs.domains.exceptions.DomainTransferException" name="error"
+                               result="error">
+                <param name="message">Cannot transfer domain. Old and new account are the same.</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.domains.exceptions.DirectDomainTransferException" name="error"
+                               result="error">
+                <param name="message">Cannot transfer domain. Old and new billing contacts are the same.</param>
+            </exception-mapping>
+            <exception-mapping exception="pl.nask.crs.domains.exceptions.DomainEmailException" result="error"
+                               name="error">
+                <param name="message">Error sending email</param>
+            </exception-mapping>
+            <!-- nic handles -->
+            <exception-mapping exception="pl.nask.crs.commons.exceptions.NicHandleAssignedToDomainException"
+                               result="error" name="error">
+                <param name="message">Cannot alter status to DELETED. The nic handle is assigned to a domain.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.EmptyPasswordException" result="error"
+                               name="error">
+                <param name="message">New password cannot be empty.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.PasswordsDontMatchException" result="error"
+                               name="error">
+                <param name="message">New passwords don't match.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.PasswordTooEasyException" result="error"
+                               name="error">
+                <param name="message">New passwords must be at least 8 chars long, mixed case, alpha/numeric.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.nichandle.exception.NicHandleEmailException" result="error"
+                               name="error">
+                <param name="message">Error sending e-mail.</param>
+            </exception-mapping>
+
+            <exception-mapping exception="pl.nask.crs.domains.exceptions.DuplicatedAdminContact" result="error"
+                               name="error">
+                <param name="message">Cannot use the same nic handle in "admin contact 1" and "admin contact 2"
+                    fields.
+                </param>
+            </exception-mapping>              
+
+			<exception-mapping exception="pl.nask.crs.ticket.exceptions.TicketEditFlagException" name="error" result="error">
+                <param name="message">Edit Ticket flag is not set for reseller account - ticket editing is prohibited</param>
+            </exception-mapping>
+
+			<exception-mapping exception="pl.nask.crs.commons.exceptions.ThirdDecimalPlaceException" name="error" result="error">
+                <param name="message">Validation error: more than 2 decimal places after applying VAT rate.</param>
+                <param name="useExceptionMsg">true</param>                
+            </exception-mapping>
+
+            <exception-mapping exception="java.lang.Exception" name="error" result="error">
+                <param name="message">Internal error occurred. See logs for details.</param>
+                <param name="useExceptionMsg">true</param>
+            </exception-mapping>
+
+        </global-exception-mappings>
+
+
+        <!-- guest action lets us display error messages even, if the user is not logged in -->
+        <action name="guest-*">
+            <result>/jsp/{1}.jsp</result>
+            <result name="input">/jsp/{1}.jsp</result>
+            <interceptor-ref name="guest"/>
+        </action>
+
+
+        <!-- Tickets Search Action -->
+        <action name="tickets-*" method="{1}" class="ticketSearch">
+            <result name="input">/jsp/tickets/tickets-search.jsp</result>
+            <result name="success">/jsp/tickets/tickets-search.jsp</result>
+            <result name="error">/jsp/tickets/tickets-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="ticketshistory-*" method="{1}" class="ticketHistorySearch">
+            <result name="input">/jsp/tickets/tickets-history-search.jsp</result>
+            <result name="success">/jsp/tickets/tickets-history-search.jsp</result>
+            <result name="error">/jsp/tickets/tickets-history.jsp</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:excludeMethods:*</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="ticketbrowser-*" method="{1}" class="ticketBrowser">
+            <result name="success" type="redirectAction">tickets-input.action</result>
+            <result name="error" type="redirect">actionFailed.action</result>
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+            <!--<result name="error" type="chain">tickets-input</result>-->
+        </action>
+
+        <!-- Tickets Revise Action -->
+        <action name="ticketrevise-*" method="{1}" class="ticketRevise">
+            <result name="input">/jsp/tickets/ticket-revise.jsp</result>
+            <result name="success">/jsp/tickets/ticket-revise.jsp</result>
+            <result name="error">/jsp/tickets/ticket-revise.jsp</result>
+            <result name="emailerror" type="chain">tickets-input</result>
+            <result name="search" type="redirectAction">tickets-input.action</result>
+            <result name="cancel" type="redirectAction">tickets-input.action</result>
+            <result name="edit" type="redirectAction">
+                <param name="actionName">ticketedit-input?id=${id}</param>
+            </result>
+            <interceptor-ref name="scope">
+                <param name="session">ticketModel, id</param>
+            </interceptor-ref>
+            <interceptor-ref name="params">
+                <param name="excludeParams">dojo\..*</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+            
+            <result name="illegalStateError" type="chain">tickets-input</result>
+            <exception-mapping result="illegalStateError" exception="pl.nask.crs.ticket.exceptions.TicketNotFoundException" />            
+            <exception-mapping result="illegalStateError" exception="java.lang.IllegalStateException"/>
+        </action>
+
+        <!-- Tickets Edit Action -->
+        <action name="ticketedit-*" method="{1}" class="ticketEdit">
+            <result name="input">/jsp/tickets/ticket-edit.jsp</result>
+            <result name="success">/jsp/tickets/ticket-edit.jsp</result>
+            <result name="cancel" type="redirectAction">
+                <param name="actionName">ticketrevise-input</param>
+            </result>
+            <result name="revise" type="redirectAction">
+                <param name="actionName">ticketrevise-input</param>
+            </result>
+            <result name="error">/jsp/tickets/ticket-edit.jsp</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">ticketModel</param>
+            </interceptor-ref>
+            <interceptor-ref name="params">
+                <param name="excludeParams">dojo\..*</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+            
+            <result name="illegalStateError" type="chain">tickets-input</result>
+            <exception-mapping result="illegalStateError" exception="pl.nask.crs.ticket.exceptions.TicketNotFoundException" />            
+            <exception-mapping result="illegalStateError" exception="java.lang.IllegalStateException"/>
+        </action>
+
+        <action name="ticketview-*" method="{1}" class="ticketView">
+            <result name="success">/jsp/tickets/ticket-view.jsp</result>
+            <result name="search" type="redirectAction">tickets-input.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">id, changeId, ticketModel,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+            <result name="error">/jsp/tickets/ticket-view.jsp</result>
+            
+			<result name="illegalStateError" type="chain">tickets-input</result>
+            <exception-mapping result="illegalStateError" exception="pl.nask.crs.ticket.exceptions.TicketNotFoundException" />            
+            <exception-mapping result="illegalStateError" exception="java.lang.IllegalStateException"/>
+        </action>
+
+        <!-- Email Templates -->
+        <action name="emailtemplates-search" method="search" class="emailTemplatesSearch">
+            <result name="success">/jsp/email/emailtemplates-list.jsp</result>
+        </action>
+
+        <action name="emailtemplate-save" method="save" class="emailTemplateAction">
+            <result name="success" type="redirectAction">emailtemplate-view?id=${id}</result>
+            <result name="input">/jsp/email/emailtemplate-input.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">template,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailtemplate-*" method="{1}" class="emailTemplateAction">
+            <result name="success">/jsp/email/emailtemplate-view.jsp</result>
+            <result name="input">/jsp/email/emailtemplate-input.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">template,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <!-- Email Groups -->
+        <action name="emailgroups-search" method="search" class="emailGroupSearch">
+            <result name="success">/jsp/email/emailgroups-list.jsp</result>
+        </action>
+
+        <action name="emailgroup-update" method="update" class="emailGroupAction">
+            <result name="success" type="redirectAction">emailgroup-view?id=${id}</result>
+            <result name="input">/jsp/email/emailgroup-input.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailgroup-new" method="newGroup" class="emailGroupAction">
+            <result name="input">/jsp/email/emailgroup-new.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailgroup-create" method="create" class="emailGroupAction">
+            <result name="success" type="redirectAction">emailgroup-view?id=${id}</result>
+            <result name="input">/jsp/email/emailgroup-new.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailgroup-delete" method="delete" class="emailGroupAction">
+            <result name="success" type="redirectAction">emailgroups-search</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailgroup-edit" method="input" class="emailGroupAction">
+            <result name="input">/jsp/email/emailgroup-input.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="emailgroup-view" method="view" class="emailGroupAction">
+            <result name="success">/jsp/email/emailgroup-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">group,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <!-- Incoming Documents -->
+
+        <action name="documents-menu">
+            <result>/jsp/documents/documents-menu.jsp</result>
+        </action>
+
+        <!--<action name="documents-*" method="{1}" class="documentsAction" >-->
+        <!--<result name="incoming">/jsp/documents/documents-incoming.jsp</result>-->
+        <!--<result name="assigned">/jsp/documents/documents-assigned.jsp</result>-->
+        <!--<result name="search">/jsp/documents/documents-assigned.jsp</result>-->
+        <!--<result name="view">/jsp/documents/documents-view.jsp</result>-->
+        <!--<result name="update" type="redirectAction">documents-incoming.action</result>-->
+        <!--<result name="delete" type="redirectAction">documents-incoming.action</result>-->
+        <!--</action>-->
+
+        <action name="documents-incoming" method="incoming" class="documentsAction">
+            <result name="incoming">/jsp/documents/documents-incoming.jsp</result>
+            <result name="error">/jsp/documents/documents-incoming.jsp</result>
+        </action>
+
+        <action name="documents-assigned" method="assigned" class="documentsAction">
+            <result name="assigned">/jsp/documents/documents-assigned.jsp</result>
+            <result name="error">/jsp/documents/documents-assigned.jsp</result>
+        </action>
+
+        <action name="documents-search" method="search" class="documentsAction">
+            <result name="success">/jsp/documents/documents-assigned.jsp</result>
+            <result name="error">/jsp/documents/documents-assigned.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>            
+        </action>
+
+        <action name="documents-view-new" method="view" class="documentsAction">
+            <result name="view">/jsp/documents/documents-view.jsp</result>
+            <result name="error">/jsp/documents/documents-incoming.jsp</result>
+        </action>
+        
+        <action name="documents-view-update" method="view" class="documentsAction">
+            <result name="view">/jsp/documents/documents-nameUpdate.jsp</result>
+            <result name="error">/jsp/documents/documents-assigned.jsp</result>
+        </action>
+
+        <action name="documents-nameUpdate" method="nameUpdate" class="documentsAction">
+            <result name="nameUpdate" type="redirectAction">documents-assigned.action</result>
+            <result name="error">/jsp/documents/documents-assigned.jsp</result>
+            <result name="input">/jsp/documents/documents-nameUpdate.jsp</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="documents-view-assigned" method="view" class="documentsAction">
+            <result name="view">/jsp/documents/documents-view.jsp</result>
+            <result name="error">/jsp/documents/documents-assigned.jsp</result>
+        </action>
+
+        <action name="documents-update" method="update" class="documentsAction">
+            <result name="update" type="redirectAction">documents-incoming.action</result>
+            <result name="error">/jsp/documents/documents-incoming.jsp</result>
+            <!-- required by Struts validation mechanism -->
+            <result name="input">/jsp/documents/documents-view.jsp</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="documents-delete" method="delete" class="documentsAction">
+            <result name="delete" type="redirectAction">documents-incoming.action</result>
+            <result name="error">/jsp/documents/documents-incoming.jsp</result>
+        </action>
+        <action name="documents-list" method="list" class="documentsAction">
+            <result name="list">/jsp/documents/documents-list.jsp</result>
+            <result name="error">/jsp/documents/documents-list.jsp</result>
+        </action>
+
+
+        <!-- Nic Handles Actions-->
+        <action name="nic-handles-input" method="search" class="nicHandleSearchAction">
+            <result name="success">/jsp/nichandles/nic-handles-search.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handles-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handles-search" method="search" class="nicHandleSearchAction">
+            <result name="success">/jsp/nichandles/nic-handles-search.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handles-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handle-view" method="input" class="nicHandleViewAction">
+            <result name="view">/jsp/nichandles/nic-handle-view.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handles-search.jsp</result>
+            <result name="cancel" type="redirectAction">${previousAction}</result>
+            <interceptor-ref name="scope">
+                <param name="session">nicHandleId, nicHandle, wrapper, previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handle-edit" class="nicHandleEditAction">
+            <result name="input">/jsp/nichandles/nic-handle-edit.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-edit.jsp</result>
+            <result name="save" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">nicHandle, wrapper, accountNumberWrapper</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handle-browser-*" method="{1}" class="nicHandleViewAction">
+            <result name="error">/jsp/nichandles/nic-handle-view.jsp</result>
+            <result name="view" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>
+            <interceptor-ref name="scope">
+                <param name="session">nicHandle, wrapper,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handle-reset-password-*" method="{1}" class="nicHandleResetPasswordAction">
+            <result name="input">/jsp/nichandles/nic-handle-reset-password.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-reset-password.jsp</result>
+            <result name="success" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>
+            <!-- don't trim passwords! -->
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">trim:excludeTrim:newPassword1:newPassword2</param>
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">nicHandle</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="nic-handle-tfa-*" method="{1}" class="nicHandleTfaAction">
+            <result name="input">/jsp/nichandles/nic-handle-tfa.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-tfa.jsp</result>
+            <result name="success" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>
+            <interceptor-ref name="scope">
+                <param name="session">nicHandleId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="nic-handle-access-level-*" method="{1}" class="nicHandleAccessLevelAction">
+            <result name="input">/jsp/nichandles/nic-handle-access-level-input.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">wrapper,nicHandleId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="nic-handle-access-editGroups-*" method="{1}" class="nicHandleAccessLevelAction">
+            <result name="input">/jsp/nichandles/nic-handle-access-level-edit.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-access-level-edit.jsp</result>
+            <result name="success">/jsp/nichandles/nic-handle-access-level-input.jsp</result>
+            <!--<result name="cancel" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>-->
+            <interceptor-ref name="scope">
+                <param name="session">wrapper,nicHandleId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>       
+        
+        <action name="nic-handle-access-editPerms-*" method="{1}" class="nicHandleAccessLevelAction">
+            <result name="input">/jsp/nichandles/nic-handle-access-level-permissions.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-access-level-permissions.jsp</result>
+            <result name="success">/jsp/nichandles/nic-handle-access-level-permissions.jsp</result>
+            <!--<result name="cancel" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}</result>-->
+            <interceptor-ref name="scope">
+                <param name="session">wrapper,nicHandleId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+               
+
+        <action name="nic-handle-create-*" method="{1}" class="nicHandleCreateAction">
+            <result name="input">/jsp/nichandles/nic-handle-create.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-create.jsp</result>
+            <result name="create" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}&amp;previousAction=nic-handles-search</result>
+            <result name="emailError" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}&amp;previousAction=nic-handles-search&amp;actionErrors=${actionErrors}</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+                         
+            <!--<exception-mapping result="emailError" exception="pl.nask.crs.nichandle.exception.NicHandleEmailException">
+            	<param name="message">Error sending notification email</param>
+            </exception-mapping>            
+        --></action>
+        
+        <action name="nic-handle-createFrom*" method="{1}" class="nicHandleCreateFromAction">
+            <result name="input">/jsp/nichandles/nic-handle-create.jsp</result>
+            <result name="error">/jsp/nichandles/nic-handle-create.jsp</result>
+            <result name="create" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}&amp;previousAction=nic-handles-search</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+            <!-- 
+            <result name="emailError" type="redirectAction">nic-handle-view?nicHandleId=${nicHandleId}&amp;previousAction=nic-handles-search</result>
+            <exception-mapping result="emailError" exception="pl.nask.crs.nichandle.exception.NicHandleEmailException">
+            	<param name="message">Error sending notification email</param>
+            </exception-mapping>
+             -->
+        </action>
+
+
+        <action name="log-*" method="{1}" class="pl.nask.crs.web.security.LogonAction">
+            <result name="input">/jsp/logon.jsp</result>
+            <result name="error">/jsp/logon.jsp</result>
+            <result name="success" type="redirectAction">home.action</result>
+            <result name="expired" type="redirectAction">logchange-input?username=${username}</result>
+            <!-- don't trim password! -->
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">trim:excludeTrim:password</param>
+            </interceptor-ref>
+            <interceptor-ref name="guest"/>
+        </action>
+
+        <action name="logchange-*" method="{1}" class="pl.nask.crs.web.security.LogonWithPassChangeAction">
+            <result name="input">/jsp/logon-change-password.jsp</result>
+            <result name="error">/jsp/logon-change-password.jsp</result>
+            <result name="success" type="redirectAction">home.action</result>
+            <!-- don't trim password! -->
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">trim:excludeTrim:password</param>
+            </interceptor-ref>
+            <interceptor-ref name="guest"/>
+        </action>
+
+        <!-- Domains Actions -->       
+        <action name="domains-list" method="search" class="domainSearch">
+            <result name="input">/jsp/domains/domains-list.jsp</result>
+            <result name="success">/jsp/domains/domains-list.jsp</result>
+            <result name="error">/jsp/domains/domains-list.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="domains-*" method="{1}" class="domainSearch">
+            <result name="input">/jsp/domains/domains-search.jsp</result>
+            <result name="success">/jsp/domains/domains-search.jsp</result>
+            <result name="error">/jsp/domains/domains-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="domainview-*" method="{1}" class="domainView">
+            <result name="success">/jsp/domains/domain-view.jsp</result>
+            <result name="error">/jsp/domains/domain-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction, domainName, changeId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="actionFailed">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <result>/jsp/errorMessage.jsp</result>
+        </action>
+
+        <action name="domainalterstatus-*" method="{1}" class="domainAlterStatus">
+            <result name="success" type="redirectAction">domainview?domainName=${domainName}</result>
+            <result name="error" type="redirect">actionFailed.action</result>
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="domainChangeHolderType-*" method="{1}" class="domainChangeHolderType">
+            <result name="success" type="redirectAction">domainview?domainName=${domainName}</result>
+            <result name="error" type="redirect">actionFailed.action</result>
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="domainWipo-*" method="{1}" class="domainWipo">
+            <result name="success" type="redirectAction">domainview?domainName=${domainName}</result>
+            <result name="error" type="redirect">actionFailed.action</result>
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="domainedit-*" method="{1}" class="domainEdit">
+            <result name="input">/jsp/domains/domain-edit.jsp</result>
+            <result name="execute">/jsp/domains/domain-edit.jsp</result>
+            <result name="save" type="redirectAction">domainview?domainName=${domainName}&amp;previousAction=${previousAction}</result>
+            <result name="error">/jsp/domains/domain-edit.jsp</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true,defvalidation:excludeFields:domainWrapper.newRemark</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">domainWrapper,oldAdminContacts,oldTechContacts</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="domainExportAuthCodes-input" method="input" class="domainExportAuthCodes">
+            <result name="input">/jsp/domains/export-authcodes.jsp</result>
+            <result name="error" type="redirectAction">actionFailed.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,selected</param>
+            </interceptor-ref>
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="domainExportAuthCodes-*" method="{1}" class="domainExportAuthCodes">
+            <result name="success" type="redirectAction">domainExportAuthCodes-input.action</result>
+            <result name="error" type="redirectAction">domainExportAuthCodes-input.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,selected</param>
+            </interceptor-ref>
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <!-- Historical Domain Action-->
+        <action name="historical-domain-search" method="search" class="historicalDomain">
+            <result name="success">/jsp/domains/historical-domain-search.jsp</result>
+            <result name="error">/jsp/domains/historical-domain-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="historical-domain-view" method="view" class="historicalDomain">
+            <result name="view">/jsp/domains/domain-view.jsp</result>
+            <result name="error">/jsp/domains/domain-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">searchCriteria.domainName, previousAction,changeId,historicalDomain</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+
+        <!-- Accounts Actions -->
+        <action name="accounts-search" method="search" class="accountSearchAction">
+            <result name="success">/jsp/accounts/accounts-search.jsp</result>
+            <result name="error">/jsp/accounts/accounts-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="account-view-*" method="{1}" class="accountViewAction">
+            <result name="view">/jsp/accounts/account-view.jsp</result>
+            <result name="error">/jsp/accounts/account-view.jsp</result>
+            <result name="input">/jsp/accounts/account-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">account,previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="account-edit-*" method="{1}" class="accountEditAction">
+            <result name="input">/jsp/accounts/account-edit.jsp</result>
+            <result name="error">/jsp/accounts/account-edit.jsp</result>
+            <result name="save" type="redirectAction">account-view-view?id=${id}</result>
+            <interceptor-ref name="dynamicParams">
+                <param name="dynamicParams">defvalidation:enable:true</param>
+            </interceptor-ref>
+            <interceptor-ref name="scope">
+                <param name="session">account,previousAction,hostmastersRemark,wrapper</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="account-create-*" method="{1}" class="accountCreateAction">
+            <result name="input">/jsp/accounts/account-create.jsp</result>
+            <result name="error">/jsp/accounts/account-create.jsp</result>
+            <result name="error_email">/jsp/accounts/account-view.jsp</result>
+            <result name="create" type="redirectAction">account-view-view?id=${id}</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction,hostmastersRemark,accountCreateWrapper,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="deposit-view-*" method="{1}" class="accountDepositViewAction">
+        	<result name="input">/jsp/accounts/account-deposit-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="deposit-correct-*" method="{1}" class="accountDepositEditAction">
+        	<result name="input">/jsp/accounts/account-deposit-correct.jsp</result>
+        	<result name="edit">/jsp/accounts/account-deposit-correct.jsp</result>
+            <result name="error">/jsp/accounts/account-deposit-correct.jsp</result>
+            <result name="success" type="redirectAction">deposit-view-input?id=${id}</result>                       
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="deposit-topup-*" method="{1}" class="accountDepositEditAction">
+            <result name="input">/jsp/accounts/account-deposit-topup.jsp</result>
+            <result name="edit">/jsp/accounts/account-deposit-topup.jsp</result>
+            <result name="error">/jsp/accounts/account-deposit-topup.jsp</result>
+            <result name="success" type="redirectAction">deposit-view-input?id=${id}</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <!-- Reports Search Action -->
+        <action name="reports-*" method="{1}" class="reportsSearch">
+            <result name="input">/jsp/reports/reports-search.jsp</result>
+            <result name="success">/jsp/reports/reports-search.jsp</result>
+            <result name="error">/jsp/reports/reports-search.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+
+        <action name="forceDSMevent-*" method="{1}" class="domainForceDSMEventChangeAction">
+            <result name="input">/jsp/domains/domain-force-dsm-event.jsp</result>
+            <result name="error">/jsp/domains/domain-force-dsm-event.jsp</result>
+            <result name="success">/jsp/domains/domain-force-dsm-event.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="forceDSMstate-*" method="{1}" class="domainForceDSMStateChangeAction">
+            <result name="input">/jsp/domains/domain-force-dsm-state.jsp</result>
+            <result name="error">/jsp/domains/domain-force-dsm-state.jsp</result>
+            <result name="success">/jsp/domains/domain-force-dsm-state.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+
+        <action name="task-create-*" method="{1}" class="taskCreateAction">
+            <result name="input">/jsp/tasks/task-create.jsp</result>
+            <result name="create" type="redirect">task-view-input.action</result>
+            <result name="success" type="redirect">task-view-input.action</result>
+            <result name="error">/jsp/tasks/task-create.jsp</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="task-view-*" method="{1}" class="taskViewAction">
+            <result name="input">/jsp/tasks/task-view.jsp</result>
+            <result name="error">/jsp/tasks/task-view.jsp</result>
+            <result name="success" type="redirect">task-view-input.action</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="task-edit-*" method="{1}" class="taskEditAction">
+            <result name="input">/jsp/tasks/task-edit.jsp</result>
+            <result name="error">/jsp/tasks/task-edit.jsp</result>
+            <result name="success" type="redirect">task-view-input.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction,wrapper</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="job-view-*" method="{1}" class="jobViewAction">
+            <result name="input">/jsp/tasks/job-view.jsp</result>
+            <result name="success">/jsp/tasks/job-view.jsp</result>
+            <result name="error">/jsp/tasks/job-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="job-hist-view-*" method="{1}" class="jobHistViewAction">
+            <result name="input">/jsp/tasks/job-hist-view.jsp</result>
+            <result name="success">/jsp/tasks/job-hist-view.jsp</result>
+            <result name="error">/jsp/tasks/job-hist-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="vatView-*" method="{1}" class="vatViewAction">
+            <result name="input">/jsp/vat/vat-view.jsp</result>
+            <result name="success">/jsp/vat/vat-view.jsp</result>
+            <result name="error">/jsp/vat/vat-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="vatCreate-*" method="{1}" class="vatCreateAction">
+            <result name="input">/jsp/vat/vat-create.jsp</result>
+            <result name="error">/jsp/vat/vat-create.jsp</result>
+            <result name="success" type="redirect">vatView-input.action</result>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="priceView-*" method="{1}" class="priceViewAction">
+            <result name="input">/jsp/price/price-view.jsp</result>
+            <result name="error">/jsp/price/price-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction,id</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="priceEdit-*" method="{1}" class="priceEditAction">
+            <result name="input">/jsp/price/price-edit.jsp</result>
+            <result name="error">/jsp/price/price-edit.jsp</result>
+            <result name="success" type="redirect">priceView-input.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction,wrapper</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="priceCreate-*" method="{1}" class="priceCreateAction">
+            <result name="input">/jsp/price/price-create.jsp</result>
+            <result name="error">/jsp/price/price-create.jsp</result>
+            <result name="success" type="redirect">priceView-input.action</result>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="configView-*" method="{1}" class="configViewAction">
+            <result name="input">/jsp/config/config-view.jsp</result>
+            <result name="error">/jsp/config/config-view.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+        <action name="configEdit-*" method="{1}" class="configEditAction">
+            <result name="input">/jsp/config/config-edit.jsp</result>
+            <result name="error">/jsp/config/config-edit.jsp</result>
+            <result name="success" type="redirect">configView-input.action</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+        
+		<action name="bulkTransferCreate-*" method="{1}" class="bulkTransferCreate">
+			<result name="input">/jsp/domains/bulk-transfer-create.jsp</result>
+			<result name="error">/jsp/domains/bulk-transfer-create.jsp</result>
+			<result name="success" type="redirect">bulkTransferView-input.action?id=${id}</result>
+			<interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+		</action>
+
+		<action name="bulkTransferView-*" method="{1}" class="bulkTransferView">
+			<result name="input">/jsp/domains/bulk-transfer-add-domains.jsp</result>
+			<result name="error">/jsp/domains/bulk-transfer-add-domains.jsp</result>
+			<result name="success" type="redirect">bulkTransferView-input.action?id=${id}</result>
+			<interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+		</action>
+		
+
+		<action name="bulkTransferList-*" method="{1}" class="bulkTransferList">
+			<result name="input">/jsp/domains/bulk-transfer-list.jsp</result>						
+			<interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+		</action>        
+
+        <action name="depositAccount-*" method="{1}" class="depositAccount">
+            <result name="input">/jsp/reports/deposit-actual-balance.jsp</result>
+            <result name="success">/jsp/reports/deposit-actual-balance.jsp</result>
+            <result name="error">/jsp/reports/deposit-actual-balance.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="transactionsReport-*" method="{1}" class="transactionsReportAction">
+            <result name="input">/jsp/reports/transactions-report.jsp</result>
+            <result name="error">/jsp/reports/transactions-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="transactionsHistReport-*" method="{1}" class="transactionsHistReportAction">
+            <result name="input">/jsp/reports/transactions-hist-report.jsp</result>
+            <result name="success">/jsp/reports/transactions-hist-report.jsp</result>
+            <result name="error">/jsp/reports/transactions-hist-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction,nicHandleId</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="viewTransactionInfo-*" method="{1}" class="transactionInfoReportAction">
+            <result name="input">/jsp/reports/transaction-info.jsp</result>
+            <result name="error">/jsp/reports/transaction-info.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+
+        <action name="viewInvoices-*" method="{1}" class="invoicesReportAction">
+            <result name="input">/jsp/reports/invoices.jsp</result>
+            <result name="success">/jsp/reports/invoices.jsp</result>
+            <result name="error">/jsp/reports/invoices.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="viewExtendedInvoices-*" method="{1}" class="extendedInvoicesReportAction">
+            <result name="input">/jsp/reports/extended-invoices.jsp</result>
+            <result name="success">/jsp/reports/extended-invoices.jsp</result>
+            <result name="error">/jsp/reports/extended-invoices.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="bankReceipts-*" method="{1}" class="extendedInvoicesReportAction">
+            <result name="input">/jsp/reports/bank-receipts.jsp</result>
+            <result name="success">/jsp/reports/bank-receipts.jsp</result>
+            <result name="error">/jsp/reports/bank-receipts.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="viewInvoiceInfo-*" method="{1}" class="invoiceInfoReport">
+            <result name="input">/jsp/reports/invoice-info.jsp</result>
+            <result name="error">/jsp/reports/invoice-info.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="viewPDF" method="getPDF" class="viewPDFAction">
+            <result name="success" type="stream">
+                <param name="inputName">inputStream</param>
+                <param name="contentType">application/pdf</param>
+                <param name="contentDisposition">filename="invoice.pdf"</param>
+                <param name="bufferSize">2048</param>
+            </result>
+        </action>
+
+        <action name="nrpDomains-*" method="{1}" class="nrpDomainReportAction">
+            <result name="input">/jsp/reports/nrp-domains.jsp</result>
+            <result name="success">/jsp/reports/nrp-domains.jsp</result>
+            <result name="error">/jsp/reports/nrp-domains.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="charityDomains-*" method="{1}" class="charityDomainReportAction">
+            <result name="input">/jsp/reports/charity-domains.jsp</result>
+            <result name="success">/jsp/reports/charity-domains.jsp</result>
+            <result name="error">/jsp/reports/charity-domains.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="totalDomainsReport-*" method="{1}" class="totalDomainsReportAction">
+            <result name="input">/jsp/reports/total-domains-report.jsp</result>
+            <result name="error">/jsp/reports/total-domains-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="totalDomainsPerDateReport-*" method="{1}" class="totalDomainsPerDateReportAction">
+            <result name="input">/jsp/reports/domains-per-date-report.jsp</result>
+            <result name="success">/jsp/reports/domains-per-date-report.jsp</result>
+            <result name="error">/jsp/reports/domains-per-date-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="viewDOA-*" method="{1}" class="doaReportAction">
+            <result name="input">/jsp/reports/view-doa.jsp</result>
+            <result name="success">/jsp/reports/view-doa.jsp</result>
+            <result name="error">/jsp/reports/view-doa.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="domainsPerClassReport-*" method="{1}" class="domainsPerClassReportAction">
+            <result name="input">/jsp/reports/domains-per-class-report.jsp</result>
+            <result name="success">/jsp/reports/domains-per-class-report.jsp</result>
+            <result name="error">/jsp/reports/domains-per-class-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <action name="deleted-*" method="{1}" class="deletedDomainReportAction">
+            <result name="input">/jsp/reports/deleted-report.jsp</result>
+            <result name="success">/jsp/reports/deleted-report.jsp</result>
+            <result name="error">/jsp/reports/deleted-report.jsp</result>
+            <interceptor-ref name="scope">
+                <param name="session">hiddenSearchCriteria,tableParams,previousAction</param>
+            </interceptor-ref>
+            <interceptor-ref name="user"/>
+        </action>
+
+        <!-- default action -->
+        <action name="*">
+            <result>/jsp/{1}.jsp</result>
+        </action>
+    </package>
+</struts>

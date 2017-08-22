@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie/" />
+<title>register_success</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">register_success</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/domaindetails/validavailabledomains/WUW%3DWBW%253DV0tXPWEyNjM0MzA2YzNhOWIyZGIxY2E5ZWRiMGZlZjA5NDVjNGQ4ZjgxYWFXU1c9YToxOntzOjEzOiJ0ZXN0aW5ndHdvLmllIjtzOjEzOiJ0ZXN0aW5ndHdvLmllIjt9</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Register New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_RegNew_domain_names</td>
+	<td>test1-domain.ie</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_holder</td>
+	<td>test Domain</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>Domains_Details_applicant</td>
+	<td>label=Publication Name</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_remarks</td>
+	<td>RBN 123</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_admin_contact_nic_1</td>
+	<td>AAE809-IEDR</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_tech_contact</td>
+	<td>ABC1-IEDR</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_1</td>
+	<td>ns1.asdasd.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_2</td>
+	<td>ns2.asdasd.ie</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>Domains_Details_accept_tnc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTitle</td>
+	<td>IEDR Registrar's Console - Domains Created</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTable</td>
+	<td>//div[@id='content']/table.1.1</td>
+	<td>OK</td>
+</tr>
+</tbody></table>
+</body>
+</html>

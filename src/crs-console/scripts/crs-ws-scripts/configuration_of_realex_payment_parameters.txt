@@ -1,0 +1,39 @@
+
+XML:	crs-payment-logic/src/main/resources/payment-config.xml
+
+	<bean id="paymentService" class="pl.nask.crs.payment.service.impl.PaymentServiceImpl">
+		<constructor-arg ref="depositDAO"/>
+		<constructor-arg ref="receiptDAO"/>
+		<constructor-arg ref="paymentUtilsDAO"/>
+		<constructor-arg ref="invoiceDAO"/>
+		<constructor-arg ref="pendingPaymentDAO"/>
+
+			<constructor-arg value="internettest"/> <!-- paymentAccount -->
+			<constructor-arg value="iedr"/>			<!-- paymentMerchant -->
+			<constructor-arg value="TrQrZhJ8vm"/>	<!-- paymentPassword -->
+
+		<constructor-arg ref="paymentSender"/>
+		<constructor-arg ref="domainSearchService"/>
+		<constructor-arg ref="domainService"/>
+		<constructor-arg ref="billingStatusFactory"/>
+		<constructor-arg ref="nicHandleSearchService"/>
+		<constructor-arg ref="userSearchService"/>
+		<constructor-arg ref="entitiesService"/>
+		<constructor-arg ref="paymentEmailSender"/>
+	</bean>
+
+The file is included in target :
+	crs-payment-logic/target/crs-payment-logic-1.5.0.jar
+		(in the root of the jar, not in a subdirectory)
+
+
+That Jar appears in the WAR files which are eventually deployed
+
+	crs-iedr-api/target/crs-iedr-api-1.0.6.war
+
+		.. contains WEB-INF/lib/crs-payment-logic-1.5.0.jar
+
+	crs-web-services/target/crs-web-services-0.9.4.war
+
+		.. contains WEB-INF/lib/crs-payment-logic-1.5.0.jar
+

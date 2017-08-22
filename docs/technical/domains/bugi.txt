@@ -1,0 +1,20 @@
+1. blad w phoenixie - historia domen nie jest od razu odswiezana po zmianie status, tzreba pzreloadowac cala domene
+
+2. phoenix czasami wywala sie przy usuwaniu dnsow
+3. blad przy przenoszeniu domen
+
+Pytania
+
+1.If it's a guest account and Admin Contact is Billing contact on another table
+'then don't allow update of account number.
+
+
+2.You not allow to transfer a non-account billing contact " 
+                       " to another non-account billing contact
+
+I have a question about changing domain account number.
+Domain 02.ie account number is 1. I've tried to change it to 2 but I couldn't because nic handle for this domain is listed as billing contact on another domain. How does it work? When can I change account number and when I can't?  
+
+
+
+

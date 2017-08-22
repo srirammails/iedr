@@ -1,0 +1,37 @@
+<!-- START protected/views/accounts_history_payments/transfers.php -->
+<?php
+/**
+ * View page for Accounts History Payments -  Transfers
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Rpts_nrc_xfer_pay_hist_Model, Accounts_history_paymentsController::actionTransfers(), GridUtility::makeDateSelectUpdateForm(), jqGridWidget
+ */
+
+$pg = 'Transfer Payment History';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+GridUtility::makeDateSelectUpdateForm($this,$pg,'nrc_xfer_pay_hist', $model);
+
+echo "<p>There were " . $model->totalrows . " domains included in the payment period you selected.</p>";
+echo '</div>';
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+        'caption'               => 'Transfers Payment History from \''.Yii::app()->user->name.'\'  for the month of ' . $model->month . ' ' . $model->year,
+        'thisfile'              => $this->createUrl('accounts_history_payments/transfers',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_history_payments/getgriddataNrc_xfer_pay_hist',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_history_payments/transfers.php -->

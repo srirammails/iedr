@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * defines functions related to offline payments, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * gets offline batch payments for a Nic Handle
+ * 
+ * @param  string $nic Nic Handle
+ * @return array  maps batch session IDs to result-row-objects (Sess_Id,Nic_Handle,A_Name,Trans_Dt,Batch_Total,Outstanding,NumDomains)
+ */
+function get_offline_batches($nic)
+	{
+	$d = DB::get_db();
+	$sql = 'select /*get_offline_batches*/ * from nrc_mngoff_sessions where Nic_Handle=\''.$nic.'\' order by Trans_Dt';
+	$d->query($sql,__FILE__,__LINE__);
+	$batches = array();
+	while($r = $d->fetch())
+		{
+		$batches[$r->Sess_Id] = $r;
+		}
+	return $batches;
+	}
+
+/**
+ * gets the 1st pending payment record for a passed offline payment batch ID
+ * 
+ * @param  string $session offline payment batch ID
+ * @return object PendingPayment row object (D_Name,Nic_Handle,Inv_No,Trans_Dt,Sess_ID,Remote_IP,VAT,Amount,Batch_Total)
+ */
+function get_batch_details($session)
+	{
+	$d = DB::get_db();
+	$sql = 'select /*get_batch_details*/ p.* from PendingPayment p where Sess_ID = \''.$session.'\' limit 1';
+	$d->query($sql,__FILE__,__LINE__);
+	return $d->fetch();
+	}
+
+/**
+ * removes a domain name from an offline payment batch, within a transaction
+ * 
+ * @param  string  $batch  offline payment batch ID
+ * @param  string  $domain Domain Name
+ * @return boolean true on success, rolls-back transaction and returns false on error
+ */
+function delete_domain_from_batch($batch,$domain)
+	{
+	$ok = false;
+	$d = DB::get_db();
+	$autocommit = false;
+	$r = $d->delete('DELETE /*delete_domain_from_batch:1*/ FROM PendingPayment Where Sess_ID = \''.$batch.'\' AND (D_Name IS NULL or D_Name = \''.$domain.'\');',__FILE__,__LINE__,$autocommit);
+	if($r != null)
+		{
+		$d->query('SELECT /*delete_domain_from_batch:2*/ ifnull(sum(VAT + Amount),0) as RowTot From PendingPayment Where Sess_ID = \''.$batch.'\';',__FILE__,__LINE__,$autocommit);
+		if($rec = $d->fetch())
+			{
+			$ok = $d->update('UPDATE /*delete_domain_from_batch:3*/ PendingPayment SET Batch_Total = '.($rec->RowTot).' Where Sess_ID = \''.$batch.'\'',__FILE__,__LINE__,$autocommit);
+			}
+		}
+	if($ok) $d->write_commit(); else $d->rollback();
+	return $ok;
+	}
+
+/**
+ * get domain transfer records for a Nic Handle
+ * 
+ * @param  string $nic Nic Handle
+ * @return array  maps batch session IDs to result-row-objects (D_Name,Old_Nic_Handle,New_Nic_Handle)
+ */
+function get_offline_transfers($nic)
+	{
+	$d = DB::get_db();
+	$sql = 'select /*get_offline_transfers*/ * from nrc_mngoff_transfers where Nic_Handle=\''.$nic.'\' order by Trans_Dt';
+	$d->query($sql,__FILE__,__LINE__);
+	$batches = array();
+	while($r = $d->fetch())
+		{
+		$batches[$r->Sess_Id] = $r;
+		}
+	return $batches;
+	}
+

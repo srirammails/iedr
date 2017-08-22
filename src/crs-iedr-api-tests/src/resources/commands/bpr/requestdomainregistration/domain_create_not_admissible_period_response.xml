@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd" xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2102">
+            <msg>Parameter value policy error</msg>
+            <reason code="158">Period value is not admissible</reason>
+        </result>
+    </response>
+</ieapi>

@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="seleniumTests">
+    <!--//Local tests-->
+    <parameter name="selenium.host" value="localhost"/>
+    <parameter name="selenium.port" value="4444"/>
+    <parameter name="selenium.browser" value="*firefox"/>
+    <parameter name="selenium.url" value="http://localhost:5556/"/>
+
+    <test name="functionalTests">
+        <packages>
+            <package name="pl.nask.crs.selenium" />
+        </packages>
+    </test>
+</suite>
+

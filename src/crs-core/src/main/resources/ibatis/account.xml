@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="account">
+
+
+    <!--<cacheModel id="accountCache" type="LRU" readOnly="false">-->
+    <!--<flushInterval hours="24"/>-->
+    <!--<flushOnExecute  statement="account.updateAccount"/>-->
+    <!--<property name="size" value="1000"/>-->
+    <!--todo czy tu nie powinno byc CacheSize zamiast size?-->
+    <!--</cacheModel>-->
+
+    <resultMap id="internalAccount" class="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount" groupBy="id">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="billingContactId" column="billingContactId"/>
+        <result property="billingContactName" column="billingContactName"/>
+        <result property="billingContactEmail" column="billingContactEmail"/>
+        <result property="billingContactCompanyName" column="billingContactCompanyName"/>
+        <result property="billingContactCountry" column="billingContactCountry"/>
+        <result property="status" column="status"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="country" column="country"/>
+        <result property="webAddress" column="webAddress"/>
+        <result property="invoiceFreq" column="invoiceFreq"/>
+        <result property="nextInvMonth" column="nextInvMonth"/>
+        <result property="phone" column="phone"/>
+        <result property="fax" column="fax"/>
+        <result property="tariff" column="tariff"/>
+        <result property="remark" column="remark"/>
+        <result property="creationDate" column="creationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="statusChangeDate" column="statusChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <!-- feature #2373 -->
+        <result property="agreementSigned" column="agreementSigned" javaType="boolean" nullValue="false"/>
+        <result property="ticketEdit" column="ticketEdit" javaType="boolean" nullValue="false"/>
+        <result property="vatCategory" column="vatCategory"/>
+    </resultMap>
+
+    <typeAlias alias="internalRegistrar" type="pl.nask.crs.accounts.InternalRegistrar"/>
+
+    <sql id="selectAccount">
+        SELECT
+        distinct(a.A_Number) AS id,
+        a.A_Name AS name,
+        a.Billing_NH AS billingContactId,
+        nh.NH_Name AS billingContactName,
+        nh.NH_Email AS billingContactEmail,
+        nh.Co_Name AS billingContactCompanyName,
+        nh.NH_Country AS billingContactCountry,
+        a.A_Status AS status,
+        a.Address AS address,
+        a.County AS county,
+        a.Country AS country,
+        a.Web_Address AS webAddress,
+        a.Invoice_Freq AS invoiceFreq,
+        a.Next_Invoice_Month AS nextInvMonth,
+        a.Phone AS phone,
+        a.Fax AS fax,
+        a.A_Tariff AS tariff,
+        a.A_Remarks AS remark,
+        a.A_Reg_Dt AS creationDate,
+        a.A_Status_Dt AS statusChangeDate,
+        a.A_TStamp AS changeDate,
+        af.agreement_signed AS agreementSigned,
+        af.ticket_edit AS ticketEdit,
+        a.Vat_Category AS vatCategory
+    </sql>
+    
+
+    <sql id="accountOffsetLimit">
+        <dynamic >
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="accountSort">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="dynamicJoinWhereAccount">
+        <dynamic>
+            <isNotNull property="criteria.domainName">
+                LEFT OUTER JOIN Domain d
+                ON d.A_Number = a.A_Number
+            </isNotNull>
+        </dynamic>
+        LEFT OUTER JOIN AccountFlags af ON a.A_Number = af.A_Number 
+        , NicHandle as nh 
+        WHERE
+        a.Billing_NH = nh.Nic_Handle
+        <dynamic>
+            <isNotNull property="criteria.id" prepend="and">
+                a.A_Number = #criteria.id#
+            </isNotNull>
+            <isNotNull property="criteria.nicHandle" prepend="and">
+                a.Billing_NH like #criteria.nicHandle,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull property="criteria.name" prepend="and">
+                a.A_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull property="criteria.domainName" prepend="and">
+                d.D_Name like  #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull property="criteria.negativeStatus" prepend="and">
+                a.A_Status NOT like #criteria.negativeStatus,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#    
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!--<select id="getAccountById" cacheModel="accountCache" resultClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount" parameterClass="long">-->
+    <select id="getAccountById" resultMap="internalAccount" parameterClass="long">
+        <include refid="selectAccount"/>
+        FROM Account AS a LEFT OUTER JOIN AccountFlags af ON a.A_Number = af.A_Number, NicHandle AS nh 
+        WHERE
+        a.A_Number=#id#
+        AND a.Billing_NH = nh.Nic_Handle
+    </select>
+
+    <!--<select id="findAccounts" cacheModel="accountCache" parameterClass="java.util.Map" resultClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount">-->
+    <select id="findAccounts" parameterClass="java.util.Map" resultMap="internalAccount">
+        <include refid="selectAccount"/>
+        FROM Account as a
+        <include refid="dynamicJoinWhereAccount"/>
+        <include refid="accountSort"/>
+        <include refid="accountOffsetLimit"/>
+    </select>
+
+    <select id="countTotalSearchResult" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        SELECT A_Name
+        FROM Account as a
+        <include refid="dynamicJoinWhereAccount"/>
+        ) AS CNT
+    </select>
+
+    <update id="updateAccount" parameterClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount">
+        UPDATE Account
+        SET A_Name = #name#,
+        Address = #address#,
+        County = #county#,
+        Country = #country#,
+        Web_Address = #webAddress#,
+        Billing_NH = #billingContactId#,
+        Invoice_Freq = #invoiceFreq#,
+        Next_Invoice_Month = #nextInvMonth#,
+        Phone = #phone#,
+        Fax = #fax#,
+        A_Tariff = #tariff#,
+        A_Remarks = #remark#,
+        A_Status = #status#,
+        A_Status_Dt = #statusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        A_TStamp = #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        Vat_Category = #vatCategory#
+        WHERE
+        A_Number = #id#;
+    </update>
+
+    <insert id="createAccount" parameterClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount">
+        INSERT INTO Account (
+        A_Name,
+        Billing_NH,
+        Address,
+        County,
+        Country,
+        Web_Address,
+        Phone,
+        Fax,
+        A_Status,
+        A_Status_Dt,
+        A_Tariff,
+        A_Reg_Dt,
+        A_TStamp,
+        Invoice_Freq,
+        Next_Invoice_Month,
+        A_Remarks,
+        Vat_Category
+        ) VALUES (
+        #name#,
+        #billingContactId#,
+        #address#,
+        #county#,
+        #country#,
+        #webAddress#,
+        #phone#,
+        #fax#,
+        #status#,
+        #statusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #tariff#,
+        #creationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #invoiceFreq#,
+        #nextInvMonth#,
+        #remark#,
+        #vatCategory#
+        );
+        <selectKey keyProperty="id" resultClass="long">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+    
+    <insert id="createOrUpdateAccountFlags" parameterClass="pl.nask.crs.accounts.dao.ibatis.objects.InternalAccount">
+        INSERT INTO AccountFlags(A_Number, Agreement_Signed, Ticket_Edit, TStamp)
+        VALUES (
+            #id#, #agreementSigned#, #ticketEdit#, #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        )
+        ON DUPLICATE KEY UPDATE
+            Agreement_Signed = #agreementSigned#,
+            Ticket_Edit = #ticketEdit#,
+            TStamp = #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+    </insert>
+    
+    <select id="getLockedAccountById" parameterClass="java.lang.Long" resultClass="java.lang.String">
+        SELECT
+            A.A_Number
+        FROM Account A
+        WHERE
+            A.A_Number = #id#
+        FOR UPDATE
+    </select>
+
+    <select id="getInternalRegistrar" resultClass="internalRegistrar">
+        SELECT
+        A_Name as accountName,
+        Billing_NH as billingNH
+        FROM Account
+        LEFT JOIN Domain ON Domain.A_Number = Account.A_Number
+        WHERE Account.A_Number > 100 GROUP BY Account.A_Number HAVING count(*) > 1 order by 1
+    </select>
+</sqlMap>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "sql-map-2.dtd">
+
+<sqlMap namespace="login-attempts">
+
+    <resultMap id="loginAttempt" class="pl.nask.crs.security.LoginAttempt">
+        <result property="id" column="id"/>
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="date" column="date"/>
+        <result property="clientIP" column="clientIP"/>
+        <result property="cause" column="cause" typeHandler="pl.nask.crs.security.dao.ibatis.handlers.CauseHandler"/>
+        <result property="failureCount" column="failureCount"/>
+    </resultMap>
+
+    <sql id="selectAttempt">
+        SELECT
+        id as id,
+        nic as nicHandleId,
+        attempted as date,
+        client_ip as clientIP,
+        failure_cause as cause,
+        subsequent_failure_count as failureCount
+        FROM login_attempts
+    </sql>
+
+    <select id="getById" parameterClass="java.lang.Long" resultMap="loginAttempt">
+        <include refid="selectAttempt"/>
+        WHERE
+        id = #id#
+    </select>
+
+    <select id="getLastByIP" parameterClass="java.lang.String" resultMap="loginAttempt">
+        <include refid="selectAttempt"/>
+        WHERE
+        client_ip = #clientIP#
+        ORDER BY ID DESC
+        LIMIT 1
+    </select>
+
+    <select id="getLastByNic" parameterClass="java.lang.String" resultMap="loginAttempt">
+        <include refid="selectAttempt"/>
+        WHERE
+        nic = #nicHandleId#
+        ORDER BY ID DESC
+        LIMIT 1
+    </select>
+
+    <insert id="createAttempt" parameterClass="pl.nask.crs.security.LoginAttempt">
+        INSERT INTO
+        login_attempts(
+        nic,
+        attempted,
+        client_ip,
+        failure_cause,
+        subsequent_failure_count
+        ) VALUES (
+        #nicHandleId#,
+        #date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #clientIP#,
+        #cause,handler=pl.nask.crs.security.dao.ibatis.handlers.CauseHandler#,
+        #failureCount#
+        );
+        <selectKey keyProperty="id" resultClass="long">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</sqlMap>

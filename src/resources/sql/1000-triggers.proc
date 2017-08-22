@@ -1,0 +1,5 @@
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `BU_Ticket` BEFORE UPDATE ON `Ticket` FOR EACH ROW BEGIN
+        IF NEW.Admin_NH2 = '' THEN
+SET NEW.Admin_NH2 = NULL;
+END IF;
+    END */ //

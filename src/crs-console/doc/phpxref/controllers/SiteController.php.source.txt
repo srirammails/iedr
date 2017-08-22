@@ -1,0 +1,214 @@
+<?php
+
+/**
+ * defines SiteController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * This controller class handles general web app actions, including index, error, login, logout
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class SiteController extends Controller
+	{
+	/**
+	 * defines captcha and view actions to use CCaptchaAction and CViewAction respectively
+	 *
+         * @access public
+	 */
+	public function actions()
+	{
+		return array(
+			// captcha action renders the CAPTCHA image displayed on the contact page
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xFFFFFF,
+				),
+			// page action renders "static" pages stored under 'protected/views/site/pages'
+			// They can be accessed via: index.php?r=site/page&view=FileName
+			'page'=>array(
+				'class'=>'CViewAction',
+				'basePath'=>'application.views.site.pages',
+				),
+		);
+	}
+
+	/**
+	 * This is the default 'index' action that is invoked
+	 * when an action is not explicitly requested by users.
+	 *
+	 * Renders the view file 'protected/views/site/index.php'
+	 * using the default layout 'protected/views/layouts/main.php'
+	 * 
+         * @access public
+         * @see    views/site/index.php
+	 */
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+
+	/**
+	 * This is the action to handle external exceptions.
+	 *
+         * @access public
+	 */
+	public function actionError()
+	{
+		if($error=Yii::app()->errorHandler->error)
+		{
+			if(Yii::app()->request->isAjaxRequest)
+				echo $error['message'];
+			else
+				$this->render('error', $error);
+		}
+	}
+
+	/**
+	 * Displays account summary iframe, 'protected/views/site/summaryframe.php'
+	 *
+         * @access public
+         * @see summaryframe.php
+	 */
+	public function actionSummaryFrame()
+	{
+		$this->renderpartial('summaryframe');
+	}
+
+	/**
+	 * Account summary IFrame fetches several numbers via Ajax calls, which are all handled by this action function.
+	 *
+	 * This function outputs formatted numbers for the account summary display
+	 *
+         * @access public
+         * @see summaryframe.php
+	 */
+	public function actionSummary()
+		{
+		$billing_accno = Yii::app()->user->id;
+		$billing_nic   = Yii::app()->user->name;
+		switch($_GET['id'])
+			{
+			case 'DepositBalance':		echo number_format(get_stats_DepositBalance($billing_nic),2); break;
+			case 'DomainCount':		echo number_format(get_stats_DomainCount($billing_accno)); break;
+			case 'NewRegs':			echo get_stats_NewRegs($billing_accno); break;
+			case 'PassedTickets':		echo get_stats_PassedTickets($billing_accno); break;
+			case 'PendingTickets':		echo get_stats_PendingTickets($billing_accno); break;
+			case 'StatementBalance':	echo number_format(get_stats_StatementBalance($billing_nic),2); break;
+			case 'TicketCount':		echo get_stats_TicketCount($billing_accno); break;
+			case 'TransfersIn':		echo get_stats_TransfersIn($billing_nic); break;
+			case 'TransfersOut':		echo get_stats_TransfersOut($billing_nic); break;
+			}
+		}
+
+	/**
+	 * Displays the contact page (unused)
+	 *
+         * @access public
+         * @see    contact.php, ContactForm
+	 */
+	public function actionContact()
+	{
+		$model=new ContactForm();
+		if(isset($_POST['ContactForm']))
+		{
+			$model->attributes=$_POST['ContactForm'];
+			if($model->validate())
+			{
+				$headers="From: {$model->email}\r\nReply-To: {$model->email}";
+				mail(Yii::app()->params['adminEmail'],$model->subject,$model->body,$headers);
+				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+				$this->refresh();
+			}
+		}
+		$this->render('contact',array('model'=>$model));
+	}
+
+	/**
+	 * Displays the login page, or handles a login request - on success, redirecting to originating url, if any
+	 *
+         * @access public
+         * @see    LoginForm, login.php, NicHandleIdentity
+	 */
+	public function actionLogin()
+	{
+		$model=new LoginForm();
+
+		// if it is ajax validation request
+		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+
+		// collect user input data
+		if(isset($_POST['LoginForm']))
+		{
+			$model->attributes=$_POST['LoginForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->login())
+				$this->redirect(Yii::app()->user->returnUrl);
+		}
+		// display the login form
+		$this->render('login',array('model'=>$model));
+	}
+
+
+
+        /**
+         * Changes the password of the logged in user.
+	 *
+         * @access public
+         * @see    changePassword.php, ChangePasswordForm
+         */
+        public function actionChangePassword()
+        {
+                $model=new ChangePasswordForm();
+
+		if($_POST['yt0'] == "Change Password?"){ 
+			$model->attributes=$_POST['ChangePasswordForm'];
+                	if($model->validate())
+			{
+				CRSNicHandleAppService_service::saveNewPassword(&$errs, Yii::app()->user->authenticatedUser, Yii::app()->user->name, $model->new_password, $model->repeat_new_password);
+
+				if($errs){	 
+					$model->addError('repeat_new_password', 'Password must be at least 8 chars long, mixed case and alphanumberic');   
+					$model->addError('new_password', '');   
+				}
+				else{	
+					$model->unsetAttributes();
+					$model->msg = "Password updated successfully.";
+				}
+			}
+
+		}
+                $this->render('changePassword',array('model'=>$model));
+        }
+
+
+	/**
+	 * Logs out the current user and redirect to homepage.
+	 *
+         * @access public
+	 */
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
+	}
+}

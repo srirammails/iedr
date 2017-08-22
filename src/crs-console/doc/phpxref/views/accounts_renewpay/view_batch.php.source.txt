@@ -1,0 +1,58 @@
+<!-- START protected/views/accounts_renewpay/view_batch.php -->
+<?php
+/**
+ * View page for Accounts Renewal-Payments - View Batch
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       OfflineBatchSelectionModel, Accounts_renewpayController::actionViewbatch(), Accounts_renewpayController::actionGetgriddatabatch(), jqGridComandButtonsWidget, jqGridWidget
+ */
+
+$pg = 'View Batch';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+
+<table class="gridtable">
+	<tr>
+		<td class="gridtablecell"><b>Invoice</b></td>
+		<td class="gridtablecell"><b>Batch Total</b></td>
+		<td class="gridtablecell"><b>Session ID</b></td>
+		<td class="gridtablecell"><b>Transaction Date</b></td>
+		<td class="gridtablecell"><b>Remote IP</b></td>
+	</tr>
+	<tr>
+		<td class="gridtablecell"><?php echo $model->Inv_No; ?></td>
+		<td class="gridtablecell"><?php echo Utility::currencyAmount($model->Batch_Total); ?></td>
+		<td class="gridtablecell"><?php echo $model->Sess_ID; ?></td>
+		<td class="gridtablecell"><?php echo $model->Trans_Dt; ?></td>
+		<td class="gridtablecell"><?php echo $model->Remote_IP; ?></td>
+	</tr>
+</table>
+<?php
+$this->widget('application.widgets.jqGrid.jqGridComandButtonsWidget', array(
+	'pk_column_index'	=> 0,
+	'actionurl'		=> $this->createUrl('accounts_renewpay/confirm_removefrombatch'),
+	'returnurl'		=> $this->createUrl('accounts_renewpay/outstanding_payments'),
+	'invoiceType'		=> $model->session, // BUG Ugly Hack : repurposing non-generic variable jqGridComandButtonsWidget->invoiceType, ewwww.
+	'commandlist'		=> array(
+					'remove_from_batch' => 'Remove %n Domains From Batch',
+					),
+	));
+
+Yii::log('Calling jqGridWidget', 'debug', 'accounts_renewpay/view_batch.php');
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> 'Domains In Batch',
+	'thisfile'	=> $this->createUrl('accounts_renewpay/view_batch',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_renewpay/getgriddatabatch',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	'selections'	=> true,
+	));
+?>
+<!-- END protected/views/accounts_renewpay/view_batch.php -->

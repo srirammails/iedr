@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="ticket">
+    <resultMap id="ticketResult" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalTicket">
+        <result property="dataSetType" nullValue="simple" column="_resultType_"/>
+        <result property="id" column="id"/>
+
+        <result property="type" column="type"
+                typeHandler="pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler"/>
+
+        <result property="domainName" column="domainName"/>
+        <result property="domainNameFailureReason" column="domainNameFR"/>
+
+        <result property="domainHolder" column="domainHolder"/>
+        <result property="domainHolderFailureReason" column="domainHolderFR"/>
+
+        <result property="domainHolderClass" column="domainHolderClass"/>
+        <result property="domainHolderClassFailureReason" column="domainHolderClassFR"/>
+
+        <result property="domainHolderCategory" column="domainHolderCat"/>
+        <result property="domainHolderCategoryFailureReason" column="domainHolderCatFR"/>
+
+        <result property="resellerAccountId" column="resellerAccountId"/>
+        <result property="resellerAccountName" column="resellerAccountName"/>
+        <result property="resellerAccountFailureReason" column="resellerAccountFR"/>
+        <result property="resellerAccountAgreementSigned" column="agreementSigned" javaType="boolean" nullValue="false"/>
+        <result property="resellerAccountTicketEdit" column="ticketEdit" javaType="boolean" nullValue="false"/>
+        <result property="adminContact1NicHandle" column="adminContact1NH"/>
+        <result property="adminContact1Name" column="adminContact1Name"/>
+        <result property="adminContact1Email" column="adminContact1Email"/>
+        <result property="adminContact1CompanyName" column="adminContact1CompanyName"/>
+        <result property="adminContact1Country" column="adminContact1Country"/>
+        <result property="adminContact1FailureReason" column="adminContact1FR"/>
+
+        <result property="adminContact2NicHandle" column="adminContact2NH"/>
+        <result property="adminContact2Name" column="adminContact2Name"/>
+        <result property="adminContact2Email" column="adminContact2Email"/>
+        <result property="adminContact2CompanyName" column="adminContact2CompanyName"/>
+        <result property="adminContact2Country" column="adminContact2Country"/>
+        <result property="adminContact2FailureReason" column="adminContact2FR"/>
+
+        <result property="techContactNicHandle" column="techContactNH"/>
+        <result property="techContactName" column="techContactName"/>
+        <result property="techContactEmail" column="techContactEmail"/>
+        <result property="techContactCompanyName" column="techContactCompanyName"/>
+        <result property="techContactCountry" column="techContactCountry"/>
+        <result property="techContactFailureReason" column="techContactFR"/>
+
+        <result property="billingContactNicHandle" column="billingContactNH"/>
+        <result property="billingContactName" column="billingContactName"/>
+        <result property="billingContactEmail" column="billingContactEmail"/>
+        <result property="billingContactCompanyName" column="billingContactCompanyName"/>
+        <result property="billingContactCountry" column="billingContactCountry"/>
+        <result property="billingContactFailureReason" column="billingContactFR"/>
+
+        <result property="requestersRemark" column="requestersRemark"/>
+        <result property="hostmastersRemark" column="hostmastersRemark"/>
+
+        <result property="adminStatus" column="adminStatus"/>
+        <result property="adminStatusChangeDate" column="adminStatusChangeDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+
+        <result property="techStatus" column="techStatus"/>
+        <result property="techStatusChangeDate" column="techStatusChangeDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+                
+		<result property="financialStatus" column="financialStatus"/>
+        <result property="financialStatusChangeDate" column="financialStatusChangeDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>                
+
+        <result property="customerStatus" column="customerStatus"/>
+              <result property="customerStatusChangeDate" column="customerStatusChangeDate"
+                      typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+
+        <result property="checkedOut" column="checkedOut"/>
+        <result property="checkedOutToNicHandle" column="checkedOutToNH"/>
+        <result property="checkedOutToName" column="checkedOutToName"/>
+
+        <result property="creatorNicHandle" column="creatorNH"/>
+        <result property="creatorName" column="creatorName"/>
+        <result property="creatorEmail" column="creatorEmail"/>
+        <result property="creatorCompanyName" column="creatorCompanyName"/>
+        <result property="creatorCountry" column="creatorCountry"/>
+        <result property="creationDate" column="creationDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="changeDate" column="changeDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="renewalDate" column="renewalDate"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="clikPaid" column="clikPaid"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="domainPeriod" column="domainPeriod"/>
+        <result property="charityCode" column="charityCode"/>
+        <result property="documentsCount" column="docsCNT"/>
+    </resultMap>
+
+    <resultMap extends="ticket.ticketResult" id="extendedTicketResult" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalTicket">
+        <result property="dataSetType" nullValue="full" column="_resultType_"/>
+        <result property="nameservers" column="id" select="ticket.getNameserversForTicket"/>
+    </resultMap>
+
+    <resultMap id="ticketNameserver" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalTicketNameserver">
+        <result property="name" column="TN_Name"/>
+        <result property="nameFailureReason" column="TN_Name_Fail_Cd"/>
+        <result property="ip" column="TN_IP" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.EmptyStringAsNullTypeHandler"/>
+        <result property="ipFailureReason" column="TN_IP_Fail_Cd"/>
+    </resultMap>
+
+    <sql id="select">
+        SELECT
+            null as _resultType_,
+            T.T_Number as id,
+            T.T_Type as type,
+            T.D_Name as domainName,
+            T.DN_Fail_Cd as domainNameFR,
+            T.D_Holder as domainHolder,
+            T.DH_Fail_Cd as domainHolderFR,
+            T.A_Number as resellerAccountId,
+            A.A_Name as resellerAccountName,
+            AF.Agreement_Signed as agreementSigned,
+            AF.Ticket_Edit as ticketEdit,
+            T.AC_Fail_Cd as resellerAccountFR,
+            T.T_Class as domainHolderClass,
+            T.T_Class_Fail_Cd as domainHolderClassFR,
+            T.T_Category as domainHolderCat,
+            T.T_Category_Fail_Cd as domainHolderCatFR,
+            T.Admin_NH1 as adminContact1NH,
+            AC1.NH_Name as adminContact1Name,
+            AC1.NH_Email as adminContact1Email,
+            AC1.Co_Name as adminContact1CompanyName,
+            AC1.NH_Country as adminContact1Country,
+            T.ANH1_Fail_Cd as adminContact1FR,
+            T.Admin_NH2 as adminContact2NH,
+            AC2.NH_Name as adminContact2Name,
+            AC2.NH_Email as adminContact2Email,
+            AC2.Co_Name as adminContact2CompanyName,
+            AC2.NH_Country as adminContact2Country,
+            T.ANH2_Fail_Cd as adminContact2FR,
+            T.Tech_NH as techContactNH,
+            TC.NH_Name as techContactName,
+            TC.NH_Email as techContactEmail,
+            TC.Co_Name as techContactCompanyName,
+            TC.NH_Country as techContactCountry,
+            T.TNH_Fail_Cd as techContactFR,
+            T.Bill_NH as billingContactNH,
+            BC.NH_Name as billingContactName,
+            BC.NH_Email as billingContactEmail,
+            BC.Co_Name as billingContactCompanyName,
+            BC.NH_Country as billingContactCountry,
+            T.BNH_Fail_Cd as billingContactFR,
+            T.Creator_NH as creatorNH,
+            Creator.NH_Name as creatorName,
+            Creator.NH_Email as creatorEmail,
+            Creator.Co_Name as creatorCompanyName,
+            Creator.NH_Country as creatorCountry,
+            T.Admin_Status as adminStatus,
+            T.Ad_StatusDt as adminStatusChangeDate,
+            T.Tech_Status as techStatus,
+            T.T_Status_Dt as techStatusChangeDate,
+            T.Financial_Status as financialStatus,
+            T.F_Status_Dt as financialStatusChangeDate,
+            T.Customer_Status as customerStatus,
+            T.C_Status_Dt as customerStatusChangeDate,
+            T.CheckedOut as checkedOut,
+            T.CheckedOutTo as checkedOutToNH,
+            CheckedOutTo.NH_Name as checkedOutToName,
+            T.T_Ren_Dt as renewalDate,
+            T.T_TStamp as changeDate,
+            T.T_Remark as requestersRemark,
+            T.H_Remark as hostmastersRemark,
+            T.T_Created_TS as creationDate,
+            T.T_ClikPaid as clikPaid,
+            T.Period as domainPeriod,
+            T.CharityCode as charityCode,
+            count(IDD.DOC_ID) as docsCNT
+        FROM
+            Ticket as T
+        LEFT JOIN Account as A
+            ON (T.A_Number = A.A_Number)
+        LEFT JOIN NicHandle as AC1
+            ON (T.Admin_NH1 = AC1.Nic_Handle)
+        LEFT JOIN NicHandle as AC2
+            ON (T.Admin_NH2 = AC2.Nic_Handle)
+        LEFT JOIN NicHandle as TC
+            ON (T.Tech_NH = TC.Nic_Handle)
+        LEFT JOIN NicHandle as BC
+            ON (T.Bill_NH = BC.Nic_Handle)
+        LEFT JOIN NicHandle as Creator
+            ON (T.Creator_NH = Creator.Nic_Handle)
+        LEFT JOIN NicHandle as CheckedOutTo
+            ON (T.CheckedOutTo = CheckedOutTo.Nic_Handle)
+        LEFT JOIN
+            (
+                INCOMING_DOC_DOMAINS as IDD
+                INNER JOIN INCOMING_DOC as IND
+                ON IDD.DOC_ID = IND.DOC_ID
+                AND DATEDIFF(CURDATE(), IND.CR_DATE) <![CDATA[<=]]> 60
+            )
+            ON (T.D_Name = IDD.DOMAIN_NAME)
+        LEFT OUTER JOIN AccountFlags as AF
+            ON (AF.A_Number = A.A_Number)
+    </sql>
+
+<!-- group by is needed because count(T_Number) is used -->
+    <select id="geTicketById" parameterClass="long" resultMap="extendedTicketResult">
+        <include refid="ticket.select"/>
+        where
+        T_Number = #id#
+        group by T_Number
+    </select>
+
+    <select id="getLockedTicketById" parameterClass="java.lang.Long" resultClass="java.lang.String">
+        SELECT
+            T_Number
+        FROM
+            Ticket
+        WHERE
+            T_Number = #id#
+        FOR UPDATE
+    </select>
+
+    <sql id="fragNoDomainHolder">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.adminStatus">
+                T.Admin_Status = #criteria.adminStatus#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.techStatus">
+                T.Tech_Status = #criteria.techStatus#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.customerStatus">
+                T.Customer_Status = #criteria.customerStatus,handler=pl.nask.crs.ticket.dao.ibatis.handlers.CustomerStatusHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.nicHandle">
+                T.CheckedOutTo = #criteria.nicHandle#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                T.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.from">
+                T.T_Created_TS >= #criteria.from,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.to">
+                T.T_Created_TS <![CDATA[<=]]> #criteria.to,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+			<isNotNull prepend="and" property="criteria.changeDateFrom">
+                T.T_TStamp >= #criteria.changeDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.changeDateTo">
+                T.T_TStamp <![CDATA[<=]]> #criteria.changeDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>            
+            <isNotNull prepend="and" property="criteria.accountId">
+                T.A_Number = #criteria.accountId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.category">
+                T.T_Category = #criteria.category#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.clazz">
+                T.T_Class = #criteria.clazz#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.billNicHandle">
+                T.Bill_NH = #criteria.billNicHandle#
+            </isNotNull>
+            <!--<isNotNull prepend="and" property="criteria.ticketType">-->
+            	<!--T.T_Type = #criteria.ticketType,handler=pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler#-->
+            <!--</isNotNull>-->
+            <isNotEmpty prepend="and" property="criteria.type">
+                T.T_Type IN
+                <iterate property="criteria.type" open="(" close=")" conjunction=",">
+                    #criteria.type[].code:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            <isNotNull prepend="and" property="criteria.financialStatus">
+                T.Financial_Status = #criteria.financialStatus,handler=pl.nask.crs.ticket.dao.ibatis.handlers.FinancialStatusHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.creatorNh">
+                T.Creator_NH = #criteria.creatorNh#
+            </isNotNull>
+        </dynamic>
+    </sql>
+    
+    <sql id="frag">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                T.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+        <include refid="ticket.fragNoDomainHolder"/>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+    
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findTicket" parameterClass="java.util.Map" resultMap="ticketResult">
+        <include refid="ticket.select"/>
+        where
+        0 = 0
+        <include refid="ticket.frag"/>
+        group by id
+        <include refid="ticket.sortFrag"/>
+        <include refid="ticket.limitFrag" />
+    </select>
+
+    <select id="countTotalSearchResult" parameterClass="java.util.Map" resultClass="int">
+        select
+        count(T.T_Number)
+        from
+        Ticket as T
+        left join Account as A
+        on (T.A_Number = A.A_Number)
+        <!--left join NicHandle as AC1-->
+        <!--on (T.Admin_NH1 = AC1.Nic_Handle)-->
+        <!--left join NicHandle as AC2-->
+        <!--on (T.Admin_NH2 = AC2.Nic_Handle)-->
+        <!--left join NicHandle as TC-->
+        <!--on (T.Tech_NH = TC.Nic_Handle)-->
+        <!--left join NicHandle as BC-->
+        <!--on (T.Bill_NH = BC.Nic_Handle)-->
+        <!--left join NicHandle as Creator-->
+        <!--on (T.Creator_NH = Creator.Nic_Handle)-->
+        <!--left join NicHandle as CheckedOutTo-->
+        <!--on (T.CheckedOutTo = CheckedOutTo.Nic_Handle)-->
+        where
+        0 = 0
+        <include refid="ticket.frag"/>
+    </select>
+
+    <update id="updateTicket" parameterClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalTicket">
+        update
+        Ticket T
+        set
+        T.T_Remark = #requestersRemark#,
+        T.H_Remark = #hostmastersRemark#,
+        T.Admin_Status = #adminStatus#,
+        T.Ad_StatusDt = #adminStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        T.Tech_Status = #techStatus#,
+        T.T_Status_Dt = #techStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        T.Financial_Status = #financialStatus#,
+        T.F_Status_Dt = #financialStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        T.Customer_Status = #customerStatus#,
+        T.C_Status_Dt = #customerStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        T.CheckedOut = #checkedOut#,
+        T.CheckedOutTo = #checkedOutToNicHandle#,
+        T.T_TStamp = #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        T.DN_Fail_Cd = #domainNameFailureReason#,
+        T.D_Holder = #domainHolder#,
+        T.DH_Fail_Cd = #domainHolderFailureReason#,
+        T.A_Number = #resellerAccountId#,
+        T.AC_Fail_Cd = #resellerAccountFailureReason#,
+        T.T_Class = #domainHolderClass#,
+        T.T_Class_Fail_Cd = #domainHolderClassFailureReason#,
+        T.T_Category = #domainHolderCategory#,
+        T.T_Category_Fail_Cd = #domainHolderCategoryFailureReason#,
+        T.Admin_NH1 = #adminContact1NicHandle#,
+        T.ANH1_Fail_Cd = #adminContact1FailureReason#,
+        T.Admin_NH2 = #adminContact2NicHandle#,
+        T.ANH2_Fail_Cd = #adminContact2FailureReason#,
+        T.Tech_NH = #techContactNicHandle#,
+        T.TNH_Fail_Cd = #techContactFailureReason#,
+        T.Bill_NH = #billingContactNicHandle#,
+        T.BNH_Fail_Cd = #billingContactFailureReason#,
+        T.T_ClikPaid = #clikPaid,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        where
+        T_Number = #id#
+    </update>
+
+    <select id="findDomainNames" parameterClass="java.util.Map" resultClass="string">
+    	select T.D_Name from Ticket T
+    	where 
+    	0=0
+    	<dynamic>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                T.D_Holder = #criteria.domainHolder#
+            </isNotNull>
+        </dynamic>
+        <include refid="ticket.fragNoDomainHolder"/>
+    	<include refid="ticket.limitFrag"/>
+    </select>
+
+    <insert id="insertTicket" parameterClass="java.util.Map">
+        INSERT INTO Ticket (
+        T_Number,
+        T_Type,
+        D_Name,
+        DN_Fail_Cd,
+        D_Holder,
+        DH_Fail_Cd,
+        A_Number,
+        AC_Fail_Cd,
+        T_Class,
+        T_Category,
+        T_Remark,
+        Admin_NH1,
+        ANH1_Fail_Cd,
+        Admin_NH2,
+        ANH2_Fail_Cd,
+        Tech_NH,
+        TNH_Fail_Cd,
+        Bill_NH,
+        BNH_Fail_Cd,
+        Creator_NH,
+        Admin_Status,
+        Ad_StatusDt,
+        Tech_Status,
+        T_Status_Dt,
+        Financial_Status,
+        F_Status_Dt,
+        Customer_Status,
+        C_Status_Dt,
+        CheckedOut,
+        CheckedOutTo,
+        <!--
+            T_Reg_Dt,
+        -->
+        T_Ren_Dt,
+        T_TStamp,
+        H_Remark,
+        T_Class_Fail_Cd,
+        T_Category_Fail_Cd,
+        T_Created_TS,
+        Opt_Cert,
+        T_ClikPaid,
+        Period,
+        CharityCode
+        )VALUES(
+        #internalTicket.id#,
+        #internalTicket.type,handler=pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler#,
+        #internalTicket.domainName#,
+        #internalTicket.domainNameFailureReason#,
+        #internalTicket.domainHolder#,
+        #internalTicket.domainHolderFailureReason#,
+        #internalTicket.resellerAccountId#,
+        #internalTicket.resellerAccountFailureReason#,
+        #internalTicket.domainHolderClass#,
+        #internalTicket.domainHolderCategory#,
+        #internalTicket.requestersRemark#,
+        #internalTicket.adminContact1NicHandle#,
+        #internalTicket.adminContact1FailureReason#,
+        #internalTicket.adminContact2NicHandle#,
+        #internalTicket.adminContact2FailureReason#,
+        #internalTicket.techContactNicHandle#,
+        #internalTicket.techContactFailureReason#,
+        #internalTicket.billingContactNicHandle#,
+        #internalTicket.billingContactFailureReason#,
+        #internalTicket.creatorNicHandle#,
+        #internalTicket.adminStatus#,
+        #internalTicket.adminStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.techStatus#,
+        #internalTicket.techStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.financialStatus#,
+        #internalTicket.financialStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.customerStatus#,
+        #internalTicket.customerStatusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.checkedOut#,
+        #internalTicket.checkedOutToNicHandle#,
+        #internalTicket.renewalDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #internalTicket.hostmastersRemark#,
+        #internalTicket.domainHolderClassFailureReason#,
+        #internalTicket.domainHolderCategoryFailureReason#,
+        #internalTicket.creationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #optCert#,
+        #internalTicket.clikPaid,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #internalTicket.domainPeriod#,
+        #internalTicket.charityCode#
+        );      
+    </insert>
+
+    <delete id="deleteTicket" parameterClass="long">
+        DELETE FROM Ticket where T_Number=#id#
+    </delete>
+
+    <select id="getNameserversForTicket" parameterClass="java.lang.Long" resultMap="ticketNameserver">
+        SELECT
+            `TN_Name`,
+            `TN_Name_Fail_Cd`,
+            `TN_IP`,
+            `TN_IP_Fail_Cd`
+        FROM
+            `TicketNameserver`
+        WHERE
+            `T_Number` = #id#
+        ORDER BY
+            `TN_Order` ASC
+    </select>
+
+    <insert id="createTicketNameserver" parameterClass="java.util.Map">
+        INSERT INTO `TicketNameserver` (
+            `T_Number`,
+            `TN_Name`,
+            `TN_Name_Fail_Cd`,
+            `TN_IP`,
+            `TN_IP_Fail_Cd`,
+            `TN_Order`)
+        VALUES (
+            #ticketId#,
+            #nameserver.name#,
+            #nameserver.nameFailureReason#,
+            #nameserver.ip,handler=pl.nask.crs.commons.dao.ibatis.handlers.EmptyStringAsNullTypeHandler#,
+            #nameserver.ipFailureReason#,
+            #order#
+        )
+    </insert>
+
+    <delete id="deleteTicketNameserver" parameterClass="java.util.Map">
+        DELETE FROM
+            `TicketNameserver`
+        WHERE
+            `T_Number` = #ticketId#
+        AND
+            `TN_Name` = #nameserver.name#
+    </delete>
+
+</sqlMap>
+
+

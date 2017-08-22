@@ -1,0 +1,138 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class GridSelectionModel
+	extends DynamicDomainListModel
+	{
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $command,$returnurl,$needCreditCard,$invoiceType,$needRenewalOption;
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function __construct()
+		{
+		#Yii::log('CTOR', 'debug', 'GridSelectionModel::__construct()');
+		parent::__construct();
+		$this->needCreditCard=0;
+		$this->needRenewalOption=0;
+		$this->val_rules   = array(
+			array('domainlist,command,returnurl,invoiceType,needCreditCard,needRenewalOption', 'required'),
+			array('command', 'validateCommand'),
+			array('invoiceType', 'validateInvoiceAttribute'),
+			array('needCreditCard,needRenewalOption', 'boolean'),
+			);
+		$this->attr_labels = array('domainlist' => 'Domains to be Processed',);
+		// add members from CreditCardFormSegmentModel
+		$this->addMixinModel(new CreditCardFormSegmentModel());
+		#/* Uncomment For Testing */ CreditCardFormSegmentModel::setTestVals($this,'A');
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $attrib Parameter description (if any) ...
+     * @param  unknown $params Parameter description (if any) ...
+     * @return string  Return description (if any) ...
+     * @access public 
+     */
+	public function validateCommand($attrib,$params)
+		{
+		$v = ' is not a valid Command';
+		switch($this->$attrib)
+			{
+			case 'on': case 'off': case 'dep': case 'msd': case 'mra': $v = null; break;
+			default : break;
+			}
+		return $v;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $attrib Parameter description (if any) ...
+     * @param  unknown $params Parameter description (if any) ...
+     * @return string  Return description (if any) ...
+     * @access public 
+     */
+	public function validateInvoiceAttribute($attrib,$params)
+		{
+		$v = ' is not a valid Invoice Type';
+		switch($this->$attrib)
+			{
+			case CRSPaymentAppService_invoiceType::_TRAN:
+			case CRSPaymentAppService_invoiceType::_TRAN_ADV:
+			case CRSPaymentAppService_invoiceType::_FUT_REN:
+			case CRSPaymentAppService_invoiceType::_CURR_REN_REG:
+			case CRSPaymentAppService_invoiceType::_MSD:
+				$v = null; break;
+			default : break;
+			}
+		return $v;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $p Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function setFromPOST($p)
+		{
+		parent::setFromPOST($p);
+		// set scenario if needed
+		if($this->needCreditCard==1)
+			$this->setScenario(CreditCardFormSegmentModel::$without_amount_scenario);
+		}
+	}
+

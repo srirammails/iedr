@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie:8080/" />
+<title>New Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php?r=accounts_renewpay_currinv/current_newandrenewals</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Renewals and New Registrations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0188.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0179.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0178.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0177.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0134.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>NB - Promise to pay, not an actual payment</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='content']/div/table/tbody/tr[2]/td[5]</td>
+	<td>€ 75.00</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='content']/div/table/tbody/tr[2]/td[6]</td>
+	<td>€ 15.75</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='content']/div/table/tbody/tr[2]/td[7]</td>
+	<td>€ 90.75</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//input[@value='Print This Page']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Manage Offline Payments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=ABC1-IEDR-20110602221219</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0134.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0177.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_remove_from_batch</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Please Confirm you want to Remove From Batch these Domains:</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Settlement Completed SuccessfullyYou have successfully modified the batch . The new batch total is € 72.60Domains Removed From BatchResultexample0134.ie<br />example0177.ie<br />OK</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Return']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Transfers - Pay Current Invoice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0128.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0130.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Renewals and New Registrations</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0022.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0059.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0077.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Return']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0078.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0088.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0090.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0094.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0096.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Return']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0099.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0100.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0122.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0124.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0131.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_off</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Return']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Manage Offline Payments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=ABC1-IEDR-20110602223041</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0099.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>jqg_thisJqGrid_example0100.ie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>gridaction_remove_from_batch</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_name</td>
+	<td>Mary McTester</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_email</td>
+	<td>adasd@asds.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>lksakjasdkjasd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_faxes</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>123123</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_faxes</td>
+	<td>1asd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_faxes</td>
+	<td>+35314944865</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>1234</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_companyName</td>
+	<td>ASDLKJ ASLKDJASD</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_address</td>
+	<td>1 ROAD, <br /></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ol[@id='rso']/li[1]/div/span/h3/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@name='word']</td>
+	<td>ROAD</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='go']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='go']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_address</td>
+	<td>1 ROAD, <br /> bóthar, WICKLOW</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>Nichandle_Details_county</td>
+	<td>label=Co. Limerick</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>nic_created_message</td>
+	<td>NIC Handle Created : ANC366-IEDR</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class DNS_BulkMod
+	extends Domains_RegNew
+	{
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $ns = array();#array of nameservers
+
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $ip = array();#array of glue
+
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $message = array();
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $domainlist; // as sent by grid command-button
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return array  Return description (if any) ...
+     * @access public
+     */
+	public function rules()
+		{
+		$a = parent::rules();
+		$a[] = array('domain_names', 'validateDomainExistsOnAccount');
+		$a[] = array('domainlist', 'safe'); // will be parsed and checked
+		$a[] = array('ns', 'required');
+		$a[] = array('ns', 'checkNS');
+		$a[] = array('ip', 'checkGlue');
+		return $a;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $event Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function onBeforeValidate($event)
+		{
+		// fill $this->domain_names array with unique list of domains parsed from $this->domainlist (looks like "${dns_seq}_${domain},${dns_seq}_${domain},...")
+		$arr = array_unique(explode(',',preg_replace('/^[0-7]*_/', ',', preg_replace('/,[0-7]*_/', ',', $this->domainlist))));
+
+		#If the user has submitted more than one domain, then the glue must be cleared.
+		if(count($arr)>1) $this->ip = array();
+
+		// next, $this->domain_names gets validated according to rules in the parent Domains_RegNew class
+		$this->domain_names = implode(',', $arr);
+
+		Yii::log(print_r($this->domainlist,true), 'debug', 'DNS_BulkMod->onBeforeValidate()');
+		Yii::log(print_r($arr,true), 'debug', 'DNS_BulkMod->onBeforeValidate()');
+		}
+
+	#Validate Glue records.
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return boolean Return description (if any) ...
+     * @access public 
+     */
+	public function checkGlue(){
+		$errCount = 0;
+
+		#Only need to do this if the user has submitted one domain.
+		if(substr_count($this->domainlist, ",")==0) {
+			#Remove the blank nameservers + glue.
+			if($this->ip){
+				$this->ip = array_filter($this->ip);
+				$this->ns = array_filter($this->ns);
+			}
+
+			#Need to check if the user has put the ip and ns out of sequence?
+			foreach($this->ip as $key=>$anIP){
+				if(!$this->ns[$key]){
+					$errCount++;
+					$this->addError('ip[' . $key . ']',"Glue not needed for $key ($anIP).");
+				}
+			}
+
+			#Check if Glue is required.
+			foreach($this->ns as $key=>$aNS){
+				if (eregi($this->domainlist, $aNS) and (!$this->ip[$key])){
+					$errCount++;
+					$this->addError('ip[' . $key . ']',"Glue needed for $key ($aNS).");
+				}
+				elseif (!eregi($this->domainlist, $aNS) and ($this->ip[$key])){
+					$errCount++;
+					$this->addError('ip[' . $key . ']',"Glue not needed for $key ($aNS). Please remove");
+				}
+				else{
+				}
+			}
+
+			if(count($this->ip) > count($this->ns)){
+				$this->addError('ip','You cannot provide more Glue than Nameserver labels.  Please remove the extra Glue record.');
+				$errCount++;
+			}
+
+			#Determine if duplicate IP addresses were provided.
+			if($this->ip){
+				if(count(array_filter($this->ip)) >  count(array_unique(array_filter($this->ip)))){
+					$this->addError('ip','Duplicate IP Address found.  Please remove the duplicate');
+					$errCount++;
+				}
+
+				#Remove the blank nameservers.
+				$this->ip = array_filter($this->ip);
+
+				#Check for IP4/6 validation.
+				$ip4v = new IPV4AddressValidator();
+				$ip6v = new IPV6AddressValidator();
+
+				foreach($this->ip as $key=>$anIP){
+					if(!$ip4v->validateValue($anIP)){
+						$this->addError('ip[' . $key . ']',"IP4 syntax of Glue record $key ($anIP) is invalid.");
+						if($ip6v->validateValue($anIP)){
+							$errCount++;
+							$this->addError('ip[' . $key . ']',"Please email  <a href=\"mailto:asd@iedr.ie?Subject=IPv6 Glue\">asd@iedr.ie</a> if you require IP6 glue records $key ($anIP).");
+						}
+					}
+				}
+			}
+		}
+		
+		#If any errors were found.
+		if($errCount){ return false; }
+		return true;
+	}
+
+	#Validate Nameserver list.
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return boolean Return description (if any) ...
+     * @access public 
+     */
+	public function checkNS(){
+		$errCount = 0;
+		$count = 0;
+
+		#Determine if duplicate NS labels were provided.
+		if(count(array_filter($this->ns)) >  count(array_unique(array_filter($this->ns)))){
+			$this->addError('ns','Duplicate Nameserver found.  Please remove the duplicate');
+			$errCount++;
+		}
+
+		#Remove the blank nameservers.
+		$this->ns = array_filter($this->ns);
+
+		#Take a look at the number of NS supplied.  There must be at least 2.
+		if(count($this->ns) < 2){
+		 	$this->addError('ns','Must supply at least 2 distinct nameservers.');
+			$errCount++;
+		}
+
+		#Take a look at the syntax of the hostnames used for the nameserver labels.
+		$hv = new HostNameValidator();
+		foreach($this->ns as $key=>$aNS){
+			if(!$hv->validateValue($aNS)){
+				$errCount++;
+				$this->addError('ns[' . $key . ']',"DNS syntax of Nameserver $key ($aNS) is invalid.");
+			}
+		}
+
+		#If any errors were found.
+		if($errCount){ return false; }
+		return true;
+	}
+
+	#Validate Domain List
+
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return boolean Return description (if any) ...
+     * @access public 
+     */
+	public function validateDomainExistsOnAccount()
+		{
+		$allValid = true;
+		foreach($this->getDomainsAsArray() as $dom)
+			{
+			$errArr = array();
+			if(!Utility::domainExists($dom, Yii::app()->user->id))
+				{
+				$errArr[] = $dom;
+				}
+			if(!$allValid)
+				$this->addError('domainlist','The domain(s) '.implode(', ',$errArr).' are not registered under your account, please remove.');
+			}
+		return $allValid;
+		}
+	}
+

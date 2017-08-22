@@ -1,0 +1,217 @@
+<?php
+
+/**
+ * defines GridModelBase class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * base class for models used in rendering jqGrid views
+ * 
+ * contains jqGrid column model ({@link http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options}), and helper methods for handling searching and sorting
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       http://www.trirand.net/demophp.aspx
+ */
+class GridModelBase
+	extends ReturningModelBase
+	{
+
+    /**
+     * redefined CFormModel fn
+     * 
+     * @return array array of strings
+     * @access public 
+     * @see http://www.yiiframework.com/doc/api/1.1/CFormModel#attributeNames-detail
+     */
+	public function attributeNames() { return null; }
+
+    /**
+     * redefined CModel fn
+     * 
+     * @return array  array of rule structures
+     * @access public
+     * @see http://www.yiiframework.com/doc/api/1.1/CModel#rules-detail
+     */
+	public function rules() { return array(); }
+
+    /**
+     * total number of rows in returned data set for current request
+     * 
+     * @var    integer
+     * @access public 
+     */
+	var $totalrows;
+
+    /**
+     * default sort-column key (in $columns) of column which the results will be sorted by default
+     * 
+     * @var    string
+     * @access public
+     */
+	var $defaultSortColumn = 'A';
+
+    /**
+     * column model for grid data structures; used by jqGrid widget to create colmodel {@link http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options} (in jqGridWidget's view)
+     * 
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+			'A' => array(
+				'resultfield'=>'name',
+				'criteriafield'=>'domainName',
+				'label'=>'Domain Name',
+				'width'=>60,
+				'type'=>'string',
+				'link'=>'../site/viewsomething/',
+				)
+			);
+
+    /**
+     * queries the column model data to transform a grid-column-model-oriented column-name and sort-order into a backend-query-oriented column-name and sort-order
+     * 
+     * @param  array  $sortparams created by {@link getDataReq} from request data
+     * @return object Return WSAPI sortCriterion object instance for running backend query
+     * @access public
+     */
+	public function getSort($sortparams)
+		{
+		Yii::log('GOT '.print_r($sortparams,true), 'debug', 'GridModelBase::getSort()');
+		$sort = new CRSDomainAppService_sortCriterion();
+		$sort->ascending = (strtolower($sortparams['ord'])==='desc') ? false : true;
+		$sort->sortBy = $this->columns[$sortparams['col']]['resultfield'];
+		Yii::log('returning '.print_r($sort,true), 'debug', 'GridModelBase::getSort()');
+		return $sort;
+		}
+
+    /**
+     * return an array of key-value pairs in a jqGrid colmodel select-list format string
+     * 
+     * see {@link http://www.trirand.com/jqgridwiki/doku.php?id=wiki:search_config} table 'property', row 'value'
+     * 
+     * @param  array  $arr array of key-value pairs for a select-list based search
+     * @return string jqGrid select-list format string
+     * @access public
+     */
+	public function arrayAsColModelSelectOptions($arr)
+		{
+		$s = ':(any);'; $i=0; $n=count($arr);
+		foreach($arr as $k => $v)
+			$s .= $k.':'.$v.(++$i < $n ? ';' : '');
+		return $s;
+		}
+
+    /**
+     * get base search criteria object for use in backend requests
+     * 
+     * not usually overridden, should serve as the lowest common denominator for search objects in derived classes
+     * 
+     * @return object WSAPI search criteria object with accountId set to the current logged-in user account number
+     * @access public
+     */
+	public function getSearchBase()
+		{
+		// override to set the filter
+		$criteria = new CRSDomainAppService_domainSearchCriteria();
+		$criteria->accountId = Yii::app()->user->id;
+		return $criteria;
+		}
+
+    /**
+     * Add the current request's search-filter parameters to the search-object-instance returned by {@link getSearchBase}
+     * 
+     * The request filter parameters are sent by the jqGrid as a JSON-encoded structure, referencing colModel column names and values.
+     * This function is called after JSON-demarshalling (as in 'C' below) and must determine which criteria field to use based on the
+     * 'field' filter field (by getting the 'criteriafield' member in the {@link columns} array), and add the filter value to the criteria object instance,
+     * as show in step 'D' below.
+     * 
+     * (A) HTTP request
+     * 
+     * 	GET ...&filters=%7B%22groupOp%22%3A%22AND%22%2C%22rules%22%3A%5B%7B%22field%22%3A%22A%22%2C%22op%22%3A%22bw%22%2C%22data%22%3A%22blahblah%22%7D%5D%7D
+     * 
+     * (B) URL-decoded filter
+     * 
+     *     [filters] => {"groupOp":"AND","rules":[{"field":"A","op":"bw","data":"blahblah"}]}
+     * 
+     * (C) JSON-Decoded filter rules
+     *	(note: jqGrid filter-operation 'bw' is 'begins-with', though in NRC we interpret all filters as 'contains')
+     * 
+     * 		[field] => A
+     * 		[op] => bw
+     * 		[data] => blahblah
+     * 
+     * (D) search-criteria object filled with filter value(s)
+     * 
+     * 	CRSDomainAppService_domainSearchCriteria Object
+     * 		(
+     * 		...
+     * 		[domainName] => blahblah
+     * 		...
+     * 		)
+     * 
+     * 
+     * @param  array  $searchparams deserialised jqGrid search filter
+     * @return object Return WSAPI search-criteria object instance
+     * @access public
+     */
+	public function getSearch($searchparams)
+		{
+		Yii::log('searchparams = '.print_r($searchparams,true), 'debug', 'GridModelBase::getSearch()');
+		$criteria = $this->getSearchBase();
+		foreach($searchparams as $k => $r)
+			{
+			Yii::log('searchparam k='.print_r($k,true).' => '.print_r($r,true), 'debug', 'GridModelBase::getSearch()');
+			$f = $this->columns[$r->field]['criteriafield'];
+			Yii::log('criteriafield='.print_r($f,true), 'debug', 'GridModelBase::getSearch()');
+			if($f != null)
+				{
+				$d = $r->data;
+				if($r->wildcardpadding)
+					{
+					switch($r->wildcardpadding)
+						{
+						case 'NONE' : break;
+						case 'LEFT' : $d = '%'.$d   ;  break;
+						case 'RIGHT': $d =     $d.'%'; break;
+						case 'BOTH' : default: $d = '%'.$d.'%'; break;
+						}
+					}
+				$criteria->$f = $d;
+				}
+			}
+		Yii::log('returning '.print_r($criteria,true), 'debug', 'GridModelBase::getSearch()');
+		return $criteria;
+		}
+
+    /**
+     * called by backend data-fetching code return an array.
+     * 
+     * Backend code typically retrieves a deserialised SOAP object, or an SQL row;
+     * this Fn must return an array whose Keys correspond to the {@link column} keys, 
+     * making use of the 'resultfield' data
+     * 
+     * @param  object $o backend data object
+     * @return array  backend data in expected array format
+     * @access public
+     */
+	public function addResults($o)
+		{
+		// override to beautify raw results
+		return array('A'=>$o->A, 'B'=>$o->B, 'C'=>$o->C,);
+		}
+	}
+

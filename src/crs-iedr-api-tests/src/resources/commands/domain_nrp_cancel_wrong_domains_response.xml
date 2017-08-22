@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd" xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+ <result code="2303">
+            <msg>Object does not exist</msg>
+            <value>
+				<domain:name xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3">vnrpCancelNotReadyDomain.ie</domain:name>
+			</value>
+            <reason code="200">Domain name does not exist</reason>
+        </result>
+    </response>
+</ieapi>

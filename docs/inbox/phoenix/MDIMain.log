@@ -1,0 +1,12 @@
+Line 16: Class MSComDlg.CommonDialog of control dlgHelp was not a loaded control class.
+Line 23: Class MSComctlLib.ImageList of control ILMain was not a loaded control class.
+Line 19: The property name _ExtentX in dlgHelp is invalid.
+Line 20: The property name _ExtentY in dlgHelp is invalid.
+Line 21: The property name _Version in dlgHelp is invalid.
+Line 26: The property name _ExtentX in ILMain is invalid.
+Line 27: The property name _ExtentY in ILMain is invalid.
+Line 29: The property name ImageWidth in ILMain is invalid.
+Line 30: The property name ImageHeight in ILMain is invalid.
+Line 31: The property name MaskColor in ILMain is invalid.
+Line 32: The property name _Version in ILMain is invalid.
+Line 55: The property name Images in ILMain is invalid.

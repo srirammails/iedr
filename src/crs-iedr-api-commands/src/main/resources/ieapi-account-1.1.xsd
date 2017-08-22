@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://www.domainregistry.ie/ieapi-account-1.1"
+	xmlns:account="http://www.domainregistry.ie/ieapi-account-1.1"
+	xmlns:ieapi="http://www.domainregistry.ie/ieapi-1.1"
+	xmlns:ieapicom="http://www.domainregistry.ie/ieapicom-1.1"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<import namespace="http://www.domainregistry.ie/ieapicom-1.1"
+		schemaLocation="ieapicom-1.1.xsd" />
+	<import namespace="http://www.domainregistry.ie/ieapi-1.1"
+		schemaLocation="ieapi-1.1.xsd" />
+
+	<annotation>
+		<documentation>
+			IEAPI Protocol v1.1 account management schema.
+		</documentation>
+	</annotation>
+
+	<element name="query" type="account:queryType" />
+	<element name="payOffline" type="account:payOfflineType" />
+	<element name="payOnline" type="account:payOnlineType" />
+	<element name="payFromDeposit" type="account:payFromDepositType" />
+	<element name="depositFunds" type="account:depositFundsType"/>
+	<element name="checkDeposit" type="account:checkDepositType"/>
+	<element name="msdReActivation" type="account:msdReActivationType"/>
+
+	<complexType name="creditCardType">
+		<sequence>
+			<element name="cardHolderName" type="token" />
+			<element name="cardNumber" type="token" />
+			<element name="expiryDate" type="gYearMonth" />
+			<element name="cardType" type="account:cardTypeType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="msdReActivationType">
+		<sequence>
+			<element name="domain" type="ieapicom:labelType"
+				maxOccurs="unbounded" />
+			<element name="creditCard" type="account:creditCardType"
+				minOccurs="0" />
+			<element name="payFromDeposit"
+				minOccurs="0" />
+		</sequence>
+		<attribute name="test" type="boolean" default="true" />
+	</complexType>
+
+	<complexType name="queryType">
+		<attribute name="type" type="account:queryTypeType" />
+		<attribute name="month" type="gYearMonth" use="optional" />
+		<attribute name="page" type="int" use="optional" default="1" />
+	</complexType>
+
+	<simpleType name="queryTypeType">
+		<restriction base="token">
+			<!-- Current Renewals and New Reg's -->
+			<enumeration value="currRenReg" />
+			<!-- Future Renewals - Pay now -->
+			<enumeration value="futRen" />
+			<!-- Domains in the MSD Process - Reactivate -->
+			<enumeration value="msd" />
+			<!-- Transfers - Pay in Advance of Invoice -->
+			<enumeration value="tranAdv" />
+			<!-- Transfers - Pay Current Invoice -->
+			<enumeration value="tran" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="depositFundsType">
+		<sequence>
+			<element name="value" type="account:depositValueType" />
+			<element name="creditCard" type="account:creditCardType" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="depositValueType">
+		<restriction base="float">
+			<minInclusive value="0.00" />
+			<pattern value="\d{1,6}(\.\d{2})?" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="checkDepositType">
+	</complexType>
+
+	<complexType name="payFromDepositType">
+		<sequence>
+			<element name="domain" type="ieapicom:labelType"
+				maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="type" type="account:queryTypeType" />
+		<attribute name="test" type="boolean" default="true" />
+		<attribute name="period" type="integer" use="optional" />
+	</complexType>
+
+	<complexType name="payOfflineType">
+		<sequence>
+			<element name="domain" type="ieapicom:labelType"
+				maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="type" type="account:queryTypeType" />
+		<attribute name="test" type="boolean" default="true" />
+	</complexType>
+
+	<complexType name="payOnlineType">
+		<sequence>
+			<element name="domain" type="ieapicom:labelType"
+				maxOccurs="unbounded" />
+			<element name="creditCard" type="account:creditCardType" />
+		</sequence>
+		<attribute name="type" type="account:queryTypeType" />
+		<attribute name="test" type="boolean" default="true" />
+	</complexType>
+
+	<simpleType name="cardTypeType">
+		<restriction base="token">
+			<enumeration value="VISA" />
+			<enumeration value="MC" />
+			<enumeration value="LASER" />
+		</restriction>
+	</simpleType>
+
+	<element name="resData" type="account:resDataType" />
+	<element name="payOfflineData" type="account:payOfflineDataType" />
+	<element name="payOnlineData" type="account:payOnlineDataType" />
+	<element name="payFromDepositData" type="account:payFromDepositDataType" />
+	<element name="depositFundsData" type="account:depositFundsDataType" />
+	<element name="chkDepositData" type="account:chkDepositDataType" />
+	<element name="msdReActivationData" type="account:msdReActivationDataType" />
+
+
+	<complexType name="msdReActivationDataType">
+		<sequence>
+			<element name="fee" type="decimal" />
+			<element name="vat" type="decimal" />
+			<element name="total" type="decimal" />
+		</sequence>
+	</complexType>
+
+	<complexType name="resDataType">
+		<sequence>
+			<element name="page" type="int" />
+			<element name="totalPages" type="int" />
+			<element name="resRecord" type="account:resRecordType"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="resRecordType">
+		<sequence>
+			<element name="domain" type="ieapicom:labelType" />
+			<element name="holder" type="token" />
+			<element name="status" type="token" minOccurs="0" />
+			<element name="invoice" type="token" minOccurs="0" />
+			<element name="regDate" type="date" />
+			<element name="renDate" type="date" />
+			<element name="trnDate" type="date" minOccurs="0" />
+			<element name="msdDate" type="date" minOccurs="0" />
+			<element name="amount" type="decimal" minOccurs="0" />
+			<element name="vat" type="decimal" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<simpleType name="statusType">
+		<restriction base="token">
+			<enumeration value="will be mailed on" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="payOfflineDataType">
+		<sequence>
+			<element name="invoice" type="token" />
+			<element name="amount" type="decimal" />
+			<element name="orderID" type="token" />
+		</sequence>
+	</complexType>
+
+	<complexType name="payOnlineDataType">
+		<sequence>
+			<element name="fee" type="decimal" />
+			<element name="vat" type="decimal" />
+			<element name="total" type="decimal" />
+		</sequence>
+	</complexType>
+
+	<complexType name="payFromDepositDataType">
+		<sequence>
+			<element name="fee" type="decimal" />
+			<element name="vat" type="decimal" />
+			<element name="total" type="decimal" />
+		</sequence>
+	</complexType>
+
+	<complexType name="depositFundsDataType">
+		<sequence>
+			<element name="oldValue" type="decimal"/>
+			<element name="newValue" type="decimal"/>
+			<element name="transDate" type="dateTime"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="chkDepositDataType">
+		<sequence>
+			<element name="value" type="decimal"/>
+			<element name="transDate" type="dateTime" minOccurs="0"/>
+		</sequence>
+	</complexType>
+
+</schema>

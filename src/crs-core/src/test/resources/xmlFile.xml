@@ -1,0 +1,263 @@
+<!-- BPR 2012 Invoice XML Sample 0.1 Based on XML Schema: TBD General structure 
+	here for discussion and review. -->
+
+<invoice xmlns="http://www.domainregistry.ie/invoice-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="invoiceSchema.xsd">
+
+	<number>0000123456</number> <!--- the unique, sequential invoice number -->
+	<date>2012-02-16</date> <!--- invoice date -->
+	<currency>EUR</currency> <!--- currency for all monetary values in the invoice -->
+
+	<vatRates> <!--- the VAT rate table applicable at the tax point of the invoice (invoice 
+			date) -->
+		<rate>
+			<id>1</id> <!--- internal ID of the VAT rate -->
+			<code>A</code> <!--- vat code / label used -->
+			<rate>23</rate> <!--- actual vat rate as percentage -->
+		</rate>
+		<rate>
+			<id>2</id>
+			<code>B</code>
+			<rate>0</rate>
+		</rate>
+		<rate>
+			<id>3</id>
+			<code>C</code>
+			<rate>0</rate>
+		</rate>
+	</vatRates>
+
+	<account> <!--- the customer details -->
+
+		<name>Irish Domains</name>
+		<address1>123 Some Place</address1>
+		<address2>Somewhere</address2>
+		<address3></address3>
+		<county>Dublin</county>
+		<country>Ireland</country>
+		<accountNo>12343</accountNo>
+		<billC>EA1-IEDR</billC>
+		<vatNo>XX 123456Y</vatNo>  <!--- customer VAT number -->
+	</account>
+
+	<iedr> <!--- IEDR details -->
+
+		<name>IE Domain Registry</name>
+		<address1>Harbour Square</address1>
+		<address2>4th Floor</address2>
+		<address3>Dun Laoghaire</address3>
+		<county>Co. Dublin</county>
+		<country>Ireland</country>
+		<email>accounts@iedr.ie</email>
+		<vatNo>IE 6335315V</vatNo>  <!--- IEDR VAT number -->
+	</iedr>
+
+	<totalExVAT>60.00</totalExVAT>  <!--- total of all items ex VAT -->
+	<totalVAT>13.80</totalVAT> <!--- total of all items VAT amounts -->
+	<totalIncVAT>73.80</totalIncVAT> <!--- total of all items inclusive of VAT -->
+	<payment>
+		<method>ADP</method> <!--- payment method (ADP / Credit Card / Debit Card) -->
+		<amount>-73.80</amount>
+	</payment>
+	<balanceDue>0.00</balanceDue>
+	<transactions>
+
+		<transaction>  <!--- a transaction is equivalent to an order -->
+
+			<id>7004</id> <!--- transaction id == order id -->
+			<method>ADP</method> <!--- ADP | Credit Card | Debit Card -->
+			<type>registration</type> <!--- registration | renewal | transfer -->
+
+			<!-- Item corresponds to a reservation. -->
+			<item>
+
+				<id>1234</id> <!--- item id == reservation id -->
+				<product>
+					<!-- from Product table. Prices can change over time. -->
+
+					<id>123</id>
+					<product>1 Year Reseller Registration Rate</product>
+					<years>1</years>
+				</product>
+
+				<domain>
+					<name>example1.ie</name>
+					<registrationDate>2012-03-16</registrationDate> <!--- the original registration date of the domain -->
+					<renewalDate>2014-07-19</renewalDate> <!--- the renewal date of the domain after this transaction has updated it -->
+					<transferDate>2013-07-19</transferDate> <!--- the transfer date of the domain; only applicable for transfer transactions. 
+						Is the date the transfer took place. -->
+				</domain>
+
+				<holder>
+					<name>Some Holder Name Ltd.</name> <!--- the name of the domain holder -->
+				</holder>
+
+				<period>
+					<startDate>2013-07-19</startDate> <!--- the start date of the registration period being paid for -->
+					<endDate>2014-07-19</endDate> <!--- end date of the registration period being paid for -->
+				</period>
+
+				<unit>10.00</unit> <!--- the ex VAT product cost 1 year equivalent -->
+				<cost>10.00</cost> <!--- the ex VAT product cost -->
+				<VATRateID>1</VATRateID> <!--- the id of the rate from the VAT rate table -->
+				<VATCode>A</VATCode> <!--- the VAT code -->
+				<VATRate>23</VATRate> <!--- the VAT rate as a percentage -->
+				<VATAmount>2.30</VATAmount> <!--- the VAT amount -->
+				<total>12.30</total> <!--- the total inc. VAT -->
+			</item>
+
+			<item>
+
+				<id>1235</id>
+				<product>
+					<id>123</id>
+					<product>1 Year Reseller Registration Rate</product>
+					<years>1</years>
+				</product>
+
+				<domain>
+					<name>example2.ie</name>
+					<registrationDate>2012-03-16</registrationDate>
+					<renewalDate>2014-07-19</renewalDate>
+					<transferDate>2013-07-19</transferDate>
+				</domain>
+
+				<holder>
+					<name>Some Holder Name Ltd.</name>
+				</holder>
+
+				<period>
+					<startDate>2013-07-19</startDate>
+					<endDate>2014-07-19</endDate>
+				</period>
+
+				<unit>10.00</unit>
+				<cost>10.00</cost>
+				<VATRateID>3</VATRateID>
+				<VATCode>A</VATCode>
+				<VATRate>23</VATRate>
+				<VATAmount>2.30</VATAmount>
+				<total>12.30</total>
+			</item>
+		</transaction>
+
+		<transaction>
+
+			<id>7900</id>
+			<method>ADP</method>
+			<type>renewal</type>
+
+
+			<!-- Item corresponds to a reservation. -->
+			<item>
+
+				<id>1236</id>
+				<product>
+					<!-- from Product table. Prices can change over time. -->
+
+					<id>123</id>
+					<name>1 Year Reseller Registration Rate</name>
+					<years>1</years>
+				</product>
+
+				<domain>
+					<name>example3.ie</name>
+					<registrationDate>2012-03-16</registrationDate>
+					<renewalDate>2014-07-19</renewalDate>
+					<transferDate>2013-07-19</transferDate>
+				</domain>
+
+				<holder>
+					<name>Some Holder Name Ltd.</name>
+				</holder>
+
+				<period>
+					<startDate>2013-07-19</startDate>
+					<endDate>2014-07-19</endDate>
+				</period>
+
+				<unit>10.00</unit>
+				<cost>10.00</cost>
+				<VATRateID>3</VATRateID>
+				<VATCode>A</VATCode>
+				<VATRate>23</VATRate>
+				<VATAmount>2.30</VATAmount>
+				<total>12.30</total>
+			</item>
+
+			<item>
+
+				<id>1237</id>
+				<product>
+
+					<!-- from Product table. Prices can change over time. -->
+					<id>123</id>
+					<name>5 Year Reseller Registration Rate</name>
+					<years>5</years>
+				</product>
+
+				<domain>
+					<name>example3.ie</name>
+					<registrationDate>2012-03-16</registrationDate>
+					<renewalDate>2014-07-19</renewalDate>
+					<transferDate>2013-07-19</transferDate>
+				</domain>
+
+				<holder>
+					<name>Some Holder Name Ltd.</name>
+				</holder>
+
+				<period>
+					<startDate>2013-07-19</startDate>
+					<endDate>2014-07-19</endDate>
+				</period>
+
+				<unit>8.00</unit>
+				<cost>40.00</cost>
+				<VATRateID>3</VATRateID>
+				<VATCode>A</VATCode>
+				<VATRate>23</VATRate>
+				<VATAmount>9.20</VATAmount>
+				<total>49.20</total>
+			</item>
+		</transaction>
+		
+		<!-- this is to fill the page to make the document be multipaged (to test bug #9778) -->
+		<transaction>
+
+			<id>7901</id>
+			<method>ADP</method>
+			<type>renewal</type>
+			<!-- Item corresponds to a reservation. -->
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			<item><id>2000</id><product><id>123</id><name>bla</name><years>1</years></product><domain><name>bla.ie</name><registrationDate>2012-03-16</registrationDate><renewalDate>2014-07-19</renewalDate></domain><holder><name>Some Holder Name Ltd.</name></holder><period><startDate>2013-07-19</startDate><endDate>2014-07-19</endDate></period><unit>10.00</unit><cost>10.00</cost><VATRateID>3</VATRateID><VATCode>A</VATCode><VATRate>23</VATRate><VATAmount>2.30</VATAmount><total>12.30</total></item>
+			
+		</transaction>
+	</transactions>
+</invoice>

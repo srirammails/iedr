@@ -1,0 +1,1 @@
+<p>Welcome to the domain management console for customers. This system provides IEDR’s customers with online domain-by-domain management capability for their .ie domains on a 24/7/365 basis.</p>

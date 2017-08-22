@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<acc>
+  <id>3423</id> <!-- Identifier, unique across all account update operations (create / modify). Should match in XML filename. -->
+  <timestamp>20120319235612</timestamp> <!-- timestamp of when the operation occurred, in yyyymmddhhmmss format.  -->
+  <account> <!--- the customer details -->
+    <name>Irish Domains</name> 
+    <address1>123 Some Place</address1> 
+    <address2>Somewhere</address2>
+    <address3></address3>
+    <county>Dublin</county>
+    <country>Ireland</country>
+    <accountNo>12343</accountNo>
+    <billC>EA1-IEDR</billC>
+    <vatNo>XX 123456Y</vatNo>  <!--- customer VAT number -->
+    <vatCategory>A</vatCategory>
+  </account>
+</acc> 

@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class CreateExcelSpreadsheet</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> CreateExcelSpreadsheet</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Excel file creation class</p>
+<p class="description"><p>derived from:  	Easy way to create XLS file from PHP  	Posted on Wednesday, October 11 @ 09:52:55 ICT by apples  	http://www.appservnetwork.com/modules.php?name=News&amp;file=article&amp;sid=8  see also  	http://sc.openoffice.org/excelfileformat.pdf  	http://www.zedwood.com/article/133/generate-xls-spreadsheet-files-with-php  	http://pear.php.net/package/Spreadsheet_Excel_Writer  	http://www.the-art-of-web.com/php/dataexport/  	http://support.microsoft.com/kb/214233</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> References to other sections (if any)...</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---CreateExcelSpreadsheet.php.html">/components/CreateExcelSpreadsheet.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a39">39</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$colheads" title="details" class="var-name">$colheads</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$data" title="details" class="var-name">$data</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$filename" title="details" class="var-name">$filename</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																							
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, <span class="var-type">array-of-string</span>&nbsp;<span class="var-name">$colheads</span>, <span class="var-type">array-of-array-of-string</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#headers" title="details" class="method-name">headers</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#output" title="details" class="method-name">output</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#xlsBOF" title="details" class="method-name">xlsBOF</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">mixed</span>
+										<a href="#xlsEOF" title="details" class="method-name">xlsEOF</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#xlsWriteLabel" title="details" class="method-name">xlsWriteLabel</a>
+											(<span class="var-type">integer</span>&nbsp;<span class="var-name">$Row</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$Col</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$Value</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#xlsWriteNumber" title="details" class="method-name">xlsWriteNumber</a>
+											(<span class="var-type">integer</span>&nbsp;<span class="var-name">$Row</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$Col</span>, <span class="var-type">number</span>&nbsp;<span class="var-name">$Value</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$colheads" id="$colheads"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$colheads</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a53">53</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">column names string array ; copied from constructor param</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$data" id="$data"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$data</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a59">59</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">array of arrays of strings to output in csv format ; copied from constructor param</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$filename" id="$filename"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$filename</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a47">47</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">filename to use in returned http header ; copied from constructor param</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a72">72</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">constructor with parameters filename, column-names, data</p>
+<p class="description"><p>Long description (if any) ...</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, <span class="var-type">array-of-string</span>&nbsp;<span class="var-name">$colheads</span>, <span class="var-type">array-of-array-of-string</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span><span class="var-description">: filename for http header</span>			</li>
+					<li>
+				<span class="var-type">array-of-string</span>
+				<span class="var-name">$colheads</span><span class="var-description">: column names</span>			</li>
+					<li>
+				<span class="var-type">array-of-array-of-string</span>
+				<span class="var-name">$data</span><span class="var-description">: data to output in csv format</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodheaders" id="headers"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">headers</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a84">84</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">outputs appropriate http headers for an Excel file</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			headers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodoutput" id="output"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">output</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a99">99</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns Excel file</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> binary excel file data</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			output
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodxlsBOF" id="xlsBOF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">xlsBOF</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns BIFF5 header record</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> BIFF5 header record</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			xlsBOF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodxlsEOF" id="xlsEOF"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">xlsEOF</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a131">131</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns BIFF5 EOF</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> BIFF5 EOF</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			xlsEOF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodxlsWriteLabel" id="xlsWriteLabel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">xlsWriteLabel</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a157">157</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns BIFF5 formatted string</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> BIFF5 formatted string</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			xlsWriteLabel
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$Row</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$Col</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$Value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$Row</span><span class="var-description">: row number</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$Col</span><span class="var-description">: column number</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$Value</span><span class="var-description">: cell value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodxlsWriteNumber" id="xlsWriteNumber"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">xlsWriteNumber</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreateExcelSpreadsheet.php.html#a144">144</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns BIFF5 formatted number</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Return BIFF5 formatted number</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			xlsWriteNumber
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$Row</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$Col</span>, <span class="var-type">number</span>&nbsp;<span class="var-name">$Value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$Row</span><span class="var-description">: row number</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$Col</span><span class="var-description">: column number</span>			</li>
+					<li>
+				<span class="var-type">number</span>
+				<span class="var-name">$Value</span><span class="var-description">: cell value</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:49 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

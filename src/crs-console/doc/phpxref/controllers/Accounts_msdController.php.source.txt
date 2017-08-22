@@ -1,0 +1,350 @@
+<?php
+
+/**
+ * defines Accounts_msdController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * controller for MSD account queries and operations
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Accounts_msdController
+	extends AccountsGridController
+	{
+
+    /**
+     * Type of MSD query to run (last/current/future/over-last-year)
+     * 
+     * @var    CRSPaymentAppService_renewalDateType
+     * @access protected
+     */
+	protected $MSD_Type = '';
+
+    /**
+     * constructor, sets defaults
+     * 
+     * @return void  
+     * @access public
+     */
+	public function __construct()
+		{
+		$this->exportFileName = 'Domains_In_MSD_';
+		$this->invoiceType = CRSPaymentAppService_invoiceType::_MSD;
+		$this->MSD_Type = CRSPaymentAppService_renewalDateType::_CURRENT;
+		}
+
+    /**
+     * renders menu-view
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('accounts_msd/menu'); }
+
+    /**
+     * renders confirmation page
+     * 
+     * @return void  
+     * @access public
+     * @see    confirm_action.php, MSDSelectionModel
+     */
+	public function actionConfirm() { $this->showConfirmPage(); }
+
+    /**
+     * Current Mails, Suspensions & Deletions
+     * 
+     * @return void  
+     * @access public
+     * @see    Accounts_msdController::actionGetgriddata_recent(), MSDModel, recent.php
+     */
+	public function actionRecent()
+		{
+		$this->MSD_Type = CRSPaymentAppService_renewalDateType::_CURRENT;
+		$model = new MSDModel($this);
+		$this->render('accounts_msd/recent',array('model'=>$model));
+		}
+
+    /**
+     * returns Grid Data for Recent MSD domains
+     * 
+     * @access public 
+     * @see    Accounts_msdController::actionRecent(), MSDModel, recent.php
+     */
+	public function actionGetgriddata_recent()
+		{
+		$this->MSD_Type = CRSPaymentAppService_renewalDateType::_CURRENT;
+		$this->actionGetgriddata();
+		}
+
+    /**
+     * render view page for Mails, Suspensions & Deletions Over Last Year
+     * 
+     * @return void  
+     * @access public
+     * @see    Accounts_msdController::actionGetgriddata_deletions(), MSDDeletionsModel, year.php
+     */
+	public function actionYear()
+		{
+		$this->exportFileName = 'Domains_In_MSD_Over_Last_Year_';
+		$this->MSD_Type = 'OVER_LAST_YEAR';
+		$model = new MSDDeletionsModel($this);
+		$this->render('accounts_msd/year',array('model'=>$model));
+		}
+
+    /**
+     * returns Grid Data for Mails, Suspensions & Deletions Over Last Year
+     * 
+     * @access public
+     * @see    Accounts_msdController::actionYear(), MSDDeletionsModel, year.php
+     */
+	public function actionGetgriddata_deletions()
+		{
+		$this->exportFileName = 'Domains_In_MSD_Over_Last_Year_';
+		$this->MSD_Type = 'OVER_LAST_YEAR';
+		$this->actionGetgriddata();
+		}
+
+    /**
+     * renders confirmation page
+     * 
+     * @return void     
+     * @access protected
+     * @see    Accounts_msdController::actionConfirm(), accounts_msd/confirm_action.php, MSDSelectionModel
+     */
+	protected function showConfirmPage()
+		{
+		$postedForm = is_array($_POST['gridactionpay']) ? $_POST['gridactionpay'] : ( is_array($_POST['gridactionnopay']) ? $_POST['gridactionnopay'] : null );
+		if($postedForm != null)
+			{
+			// TODO validate request is coming from a grid-commmand-confirm with a domainlist, action, confirmation
+			$msd_model = $this->getSelectionModel();
+			$msd_model->setFromPOST($postedForm);
+			switch($msd_model->command)
+				{
+				case 'payonline':
+					$msd_model->needCreditCard=1;
+					break;
+				case 'paydeposit': case 'reactivate': default:
+					$msd_model->needCreditCard=0;
+					break;
+				}
+
+			Yii::log('redirect to confirmation page, with serialized model='.print_r($msd_model,true), 'debug', 'Accounts_msdController::showConfirmPage()');
+			$this->redirect(array('accounts_msd/confirmaction','id'=>self::safeSerializeObj($msd_model) ));
+			}
+		else
+			{
+			Yii::log('not a POST["gridactionpay"] or POST["gridactionnopay"] request', 'error', 'Accounts_msdController::showConfirmPage()');
+			$this->redirect($msd_model->returnurl,true);
+			}
+		}
+
+    /**
+     * returns the MSD-Domains count in object format
+     * 
+     * As the NASK APIs are inconsistent, it is convenient to reformat similar results into a standard format.
+     * This Fn returns an object with a 'count' attribute containing the raw integer result.
+     * 
+     * @param  object  $criteria MSD search criteria
+     * @return object  object containing 'count' integer attribute
+     * @access public 
+     */
+	public function getMSDInvoicesSummary($criteria)
+		{
+		$result = null;
+		CRSPaymentAppService_service::getAllMsdDomainsCount($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $criteria);
+		if(count($this->backend_errors)==0)
+			{
+			$num = $result;
+			$result = new stdClass();
+			$result->count = $num;
+			$result->invoiceNumber = 'N/A';
+			Yii::log('getMsdInvoiceCount='.print_r($result,true), 'debug', 'Accounts_msdController::getMSDInvoicesSummary()'.__LINE__);
+			}
+		else Yii::log(print_r($this->backend_errors,true), 'error', 'Accounts_msdController::getMSDInvoicesSummary()'.__LINE__);
+		return $result;
+		}
+
+    /**
+     * returns a string used by base class fns to locate view file overrides
+     * 
+     * @return string    view-file path element
+     * @access protected
+     */
+	protected function getViewBase()
+		{
+		return '/accounts_msd/';
+		}
+
+    /**
+     * returns a grid selection model
+     * 
+     * @return MSDSelectionModel  Selection Data Model
+     * @access protected
+     */
+	protected function getSelectionModel()
+		{
+		return new MSDSelectionModel($this->MSD_Type);
+		}
+
+    /**
+     * return selection-model class name for base class
+     * 
+     * @return string    selection-model class name
+     * @access protected
+     */
+	protected function getSelectionModelName()
+		{
+		return 'MSDSelectionModel';
+		}
+
+    /**
+     * Get Grid data with search and sort parameters; return Array.
+     * 
+     * Called from GridController::actionGetgriddata()->GridController::getDataReq() when fetching JSON grid data
+     * 
+     * @param  object    $model    data model containing column model and criteria
+     * @param  object    $criteria search criteria
+     * @param  object    $sort     sort criteria
+     * @param  integer   $perpage  rows per page, used to calculate 1st row of 'pagenum' page
+     * @param  integer   $pagenum  pagenum to return data for
+     * @return array     array containing metadata and row array
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		switch($this->MSD_Type)
+			{
+			case 'OVER_LAST_YEAR':
+				return $this->getDeletedData($model,$criteria,$sort,$perpage,$pagenum);
+				break;
+			default:
+				return $this->getInvoicesData($model,$criteria,$sort,$perpage,$pagenum);
+				break;
+			}
+		}
+
+    /**
+     * Get Deleted-in-last-year Grid data with search and sort parameters; return Array.
+     * 
+     * @param  object    $model    data model containing column model and criteria
+     * @param  object    $criteria search criteria
+     * @param  object    $sort     sort criteria
+     * @param  integer   $perpage  rows per page, used to calculate 1st row of 'pagenum' page
+     * @param  integer   $pagenum  pagenum to return data for
+     * @return array     array containing metadata and row array
+     * @access protected
+     */
+	protected function getDeletedData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset 	= $perpage * ($pagenum-1);
+		$limit  	= $perpage;
+		// API SOAP call
+		$result 	= new CRSDomainAppService_deletedDomainsDataVO();
+
+		CRSDomainAppService_service::getDeletedDomains($result,$this->backend_errors, Yii::app()->user->authenticatedUser, Yii::app()->user->nicHandle->nicHandleId, $offset, $limit);
+		if(count($this->backend_errors)==0)
+			{
+			Yii::log('getDeletedDomains results : '.print_r($result,true), 'warning', 'Accounts_msdController::getDeletedData()'.__LINE__);
+			// records = total records on all pages
+			$pagedata['records']	= $result->total;
+			// total = total num result pages = (t div p)+1
+			$pagedata['total']	= math_div($pagedata['records'],$perpage)+1;
+			$pagedata['rows']       = array();
+			if(isset($result->deletedDomains) and is_array($result->deletedDomains) and is_object($result->deletedDomains[0]))
+				foreach($result->deletedDomains as $o) {
+					Yii::log('calling addResult : '.print_r($o,true), 'debug', 'Accounts_msdController::getDeletedData()');
+					$r = $this->addResult($model,$o);
+					if($r != null) $pagedata['rows'][] = $r;
+					}
+			else
+				if(is_object($result) and $result->deletedDomains)
+					{
+					$r = $this->addResult($model,$result->deletedDomains);
+					if($r != null) $pagedata['rows'][] = $r;
+					}
+				else
+					Yii::log('no results : '.print_r($result,true), 'warning', 'Accounts_msdController::getDeletedData()'.__LINE__);
+			}
+		else Yii::log(print_r($this->backend_errors,true), 'error', 'Accounts_msdController::getDeletedData()'.__LINE__);
+
+		Yii::log(print_r($pagedata,true), 'debug', 'Accounts_msdController::getDeletedData()');
+
+		return $pagedata;
+		}
+
+    /**
+     * Get Recent-MSD Grid data with search and sort parameters; return Array.
+     * 
+     * @param  object    $model    data model containing column model and criteria
+     * @param  object    $criteria search criteria
+     * @param  object    $sort     sort criteria
+     * @param  integer   $perpage  rows per page, used to calculate 1st row of 'pagenum' page
+     * @param  integer   $pagenum  pagenum to return data for
+     * @return array     array containing metadata and row array
+     * @access protected
+     */
+	protected function getInvoicesData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		$noPendingPayment = true;
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset 	= $perpage * ($pagenum-1);
+		$limit  	= $perpage;
+		// API SOAP call
+		$result 	= new CRSPaymentAppService_invoiceVO();
+		$invSummary = $this->getMSDInvoicesSummary($criteria);
+		$count = $invSummary->count;
+		if($count != null and $count > 0)
+			{
+			/*need for reliability, api breaks if 'nil' xml tag sent */ // (TODO NASK fixed?) $criteria->billingStatus=null; unset($criteria->billingStatus); // NASK#4246
+			Yii::log('crit : '.print_r($criteria,true), 'debug', 'Accounts_msdController::getInvoicesData()');
+
+			CRSPaymentAppService_service::getAllMsdDomains($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $criteria, $offset, $limit, $sort);
+			if(count($this->backend_errors)==0)
+				{
+				// records = total records on all pages
+				$pagedata['records']	= $count;
+				// total = total num result pages = (t div p)+1
+				$pagedata['total']	= math_div($count,$perpage)+1; // BUG when numrows is exact multiple of pagesize, this goes off by 1 ; check all other instances!
+				if(is_array($result) and is_object($result[0]))
+					{
+					foreach($result as $k => $o) {
+						#Yii::log('calling addResult : '.print_r($o,true), 'debug', 'Accounts_msdController::getInvoicesData()');
+						$r = $this->addResult($model,$o);
+						if($r != null) $pagedata['rows'][] = $r;
+						}
+					}
+				else
+					if(is_object($result))
+						{
+						$r = $this->addResult($model,$result);
+						if($r != null) $pagedata['rows'][] = $r;
+						}
+					else
+						Yii::log('no results : '.print_r($result,true), 'warning', 'Accounts_msdController::getInvoicesData()'.__LINE__);
+				}
+			else Yii::log(print_r($this->backend_errors,true), 'error', 'Accounts_msdController::getInvoicesData()'.__LINE__);
+			}
+		return $pagedata;
+		}
+	}
+

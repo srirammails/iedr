@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Rpts_nrc_cn_on_invs_msddels_Model
+	extends RptsNrcYearMonthModelBase
+	{
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'A';
+
+    /**
+     * Description for var
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+			'A' => array(
+				'resultfield'=>'I_DName',
+				'criteriafield'=>'I_DName',
+				'label'=>'Domain Name',
+				'width'=>60,
+				'link'=>'domains/viewdomain',
+				'type'=>'string',
+				),
+			'B' => array(
+				'resultfield'=>'I_Inv_No',
+				'criteriafield'=>'I_Inv_No',
+				'label'=>'Invoice Number',
+				'width'=>20,
+				'type'=>'string',
+				),
+			'C' => array(
+				'resultfield'=>'I_Inv_Dt',
+				'criteriafield'=>'I_Inv_Dt',
+				'label'=>'Invoice Date',
+				'width'=>20,
+				'type'=>'date',
+				),
+			'D' => array(
+				'resultfield'=>'Cr_Note_Dt',
+				'criteriafield'=>'Cr_Note_Dt',
+				'label'=>'Credit Note Date',
+				'width'=>20,
+				'type'=>'date',
+				),
+			'D' => array(
+				'resultfield'=>'C_Nt_Ts',
+				'criteriafield'=>'C_Nt_Ts',
+				'label'=>'Credit Notes Timestamp',
+				'width'=>60,
+				'type'=>'string',
+				),
+			);
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  array  $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'A'=>$o['I_DName'],
+			'B'=>cleanString($o['I_Inv_No']),
+			'C'=>$o['I_Inv_Dt'],
+			'D'=>$o['Cr_Note_Dt'],
+			'E'=>$o['C_Nt_Ts'],
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return string    Return description (if any) ...
+     * @access protected
+     */
+	protected function getExportFilenameTag()
+		{
+		return 'Rpts_nrc_cn_on_invs_msddels_Model_';
+		}
+	}
+

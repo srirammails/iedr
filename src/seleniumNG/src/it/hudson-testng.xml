@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="seleniumTests">
+    <!--// Hudson tests-->
+    <parameter name="selenium.host" value="148.81.193.214"/>
+    <parameter name="selenium.port" value="5555"/>
+    <parameter name="selenium.browser" value="Fedora:*firefox"/>
+    <parameter name="selenium.url" value="http://drotest3.nask.net.pl:5556/crs/"/>
+
+    <test name="functionalTests">
+        <packages>
+            <package name="pl.nask.crs.selenium" />
+        </packages>
+    </test>
+</suite>
+

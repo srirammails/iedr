@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Todo List</title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+											</head>
+		<body>
+						<div align="center"><h1>Todo List</h1></div>
+<h2>IEDR_New_Registrars_Console</h2>
+<h3><a href="IEDR_New_Registrars_Console/ViewTicketModel.html#var$ticketEdit">ViewTicketModel::$ticketEdit</a></h3>
+<ul>
+    <li>initialise this variable in the constructor to Yii::app()-&gt;user-&gt;ticketEdit</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/ProductCodeValidator.html#methodaddErrMsgToModel">ProductCodeValidator::addErrMsgToModel()</a></h3>
+<ul>
+    <li>could be refactored to reuse functionality in other validators</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/NicHandleIdentity.html#methodcanSwitchAccounts">NicHandleIdentity::canSwitchAccounts()</a></h3>
+<ul>
+    <li>this implementation is incomplete - always returns true</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/NicHandleIdentity.html#methodswitchToAccount">NicHandleIdentity::switchToAccount()</a></h3>
+<ul>
+    <li>As of &quot;CRS version r2746 (2011-06-21 11:54)&quot;, Nask have updated their Authentication API        to use a real cryptographic hash - instead of simply a copy of the username - as the API        authentication token, so the current strategy (this function) will no longer work.        What needs to be implemented instead a new CRS API that performs a &quot;login as&quot; functionality        using username, password, and login-as-username.        After NASK implement that, this class will need to be somewhat rewritten.</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/EmailAddrValidator.html#methodvalidateAttribute">EmailAddrValidator::validateAttribute()</a></h3>
+<ul>
+    <li>could be refactored to make better use of base class functionality</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/VAT_Number_Validator.html#methodvalidateAttribute">VAT_Number_Validator::validateAttribute()</a></h3>
+<ul>
+    <li>could be refactored to make better use of base class functionality</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/ProductCodeValidator.html#methodvalidateAttribute">ProductCodeValidator::validateAttribute()</a></h3>
+<ul>
+    <li>could be refactored to make better use of base class functionality</li>
+</ul>
+<h3><a href="IEDR_New_Registrars_Console/CreditCardValidator.html#methodvalidateAttribute">CreditCardValidator::validateAttribute()</a></h3>
+<ul>
+    <li>could be refactored to make better use of base class functionality</li>
+</ul>
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:28 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>

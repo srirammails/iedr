@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+	<command>
+		<create>
+			<domain:autocreate
+				xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+				xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+				ieapi-domain-1.3.xsd">
+				<domain:name>exampleCharityGibo.ie</domain:name>
+				<domain:period unit="y">1</domain:period>
+				<domain:ns>
+					<domain:nsName>ns1.exampleCharityGibo.ie</domain:nsName>
+					<domain:nsAddr>192.1.2.3</domain:nsAddr>
+				</domain:ns>
+				<domain:ns>
+					<domain:nsName>ns1.example2.ie</domain:nsName>
+				</domain:ns>
+				<domain:holder class="Natural Person">
+					<domain:holderName category="Personal Name">
+						John Doe
+					</domain:holderName>
+					<domain:holderRemarks />
+				</domain:holder>
+				<domain:contact type="admin">APITS2-IEDR</domain:contact>
+				<domain:contact type="tech">APITS2-IEDR</domain:contact>
+				<domain:chy>dadas</domain:chy>
+			</domain:autocreate>
+		</create>
+	</command>
+</ieapi>

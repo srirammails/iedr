@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2304">
+            <msg>Object status prohibits operation</msg>
+            <value>
+                <domain:name xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3">thedomena2.ie</domain:name>
+            </value>
+            <reason code="202">Domain modification pending</reason>
+        </result>
+    </response>
+</ieapi>

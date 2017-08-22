@@ -1,0 +1,31 @@
+/*
+	menu css elements
+	for color defs see main.css
+*/
+
+
+.smd-menu-top {
+	height: 19px;
+	font-weight: bold;
+	background: #CBE4C8;
+}
+
+tr:first-child>td.smd-menu-top {
+	display: none;
+}
+
+.smd-menu-item {
+	width: 100%;
+}
+
+img.smd-menu {
+	vertical-align: middle;
+	margin-top: -3px;
+}
+
+a.smd-menu {
+	padding: 5px;
+
+	width: 125px;
+	text-decoration: none;
+}

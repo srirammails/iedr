@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="domain-test">
+
+    <select id="getFromAssocTable" parameterClass="java.util.Map" resultClass="java.lang.String">
+        select D_Name
+        from $table$
+        where
+        D_Name = #domainName#
+    </select>
+
+    <select id="getCreatorContact" parameterClass="java.lang.String" resultClass="java.lang.String">
+        select Contact_NH
+        from Contact
+        where
+        D_Name = #domainName#
+        and
+        Type = 'C'
+    </select>
+
+    <select id="getAccountNo" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+        select A_Number
+        from NicHandle
+        where
+        Nic_Handle = #nichandle#
+    </select>
+</sqlMap>

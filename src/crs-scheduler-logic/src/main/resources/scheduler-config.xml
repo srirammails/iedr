@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
+       default-autowire="no">
+	<import resource="classpath:application-services-config.xml" />
+	    
+	<bean id="schedulerSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:scheduler-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+	    
+    <bean name="schedulerDao" class="pl.nask.crs.scheduler.dao.SchedulerDAOImpl">
+    	<property name="sqlMapClient" ref="schedulerSqlMapClient" />
+    </bean>
+
+    <bean name="schedulerListener" class="pl.nask.crs.scheduler.SchedulerListenerImpl">
+        <constructor-arg ref="schedulerDao"/>
+        <constructor-arg ref="emailTemplateSender" />
+        <constructor-arg ref="emailSender" />
+    </bean>
+
+    <bean name="schedulerCron" class="pl.nask.crs.scheduler.SchedulerCronImpl" destroy-method="stop">
+        <constructor-arg ref="schedulerDao"/>
+        <constructor-arg ref="schedulerListener"/>
+        <property name="registry" ref="jobRegistry" />
+    </bean>
+    
+    <bean name="jobRegistry" class="pl.nask.crs.scheduler.JobRegistry">
+    	<constructor-arg>
+    		<map>
+    			<entry key="PushQ">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.PushQ">
+    					<constructor-arg ref="domainAppService" />
+    				</bean>
+    			</entry>
+    			
+    			<entry key="Invoicing">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.InvoicingJob">
+    					<constructor-arg ref="invoicingAppService" />
+    				</bean>
+    			</entry>
+    			
+    			<entry key="TransactionInvalidation">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.TransactionInvalidationJob">
+    					<constructor-arg ref="invoicingAppService" />
+    				</bean>
+    			</entry>
+
+				<entry key="RenewalNotification">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.RenewalNotificationJob">
+                        <constructor-arg ref="domainAppService"/>
+    				</bean>
+    			</entry>
+    			
+    			<entry key="NicHandleCleanup">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.NicHandleCleanupJob">
+    					<constructor-arg ref="nicHandleAppService" />
+    				</bean>
+    			</entry>
+    			
+    			<entry key="Autorenewal">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.AutorenewalJob">
+                        <constructor-arg ref="services"/>
+                        <constructor-arg ref="paymentAppService"/>
+    				</bean>
+    			</entry>
+    			
+    			<entry key="DnsCheckFailureNotification">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.DnsCheckFailureNotificationJob">
+                        <constructor-arg ref="dnsNotificationService"/>
+    				</bean>
+    			</entry>
+    			
+    			<entry key="DomainTicketCleanup">    			
+    				<bean class="pl.nask.crs.scheduler.jobs.DomainTicketCleanupJob">
+                        <constructor-arg ref="commonAppService"/>
+    				</bean>
+    			</entry>
+
+    			<entry key="Updater">
+    				<bean class="pl.nask.crs.scheduler.jobs.UpdaterJob">
+    					<property name="cron" ref="schedulerCron" />
+    				</bean>
+    			</entry>
+
+                <entry key="TriplePass">
+                    <bean class="pl.nask.crs.scheduler.jobs.TriplePassJob">
+                        <constructor-arg ref="tripleCheckAppService"/>
+                    </bean>
+                </entry>
+
+                <entry key="ExpiringTicketEmail">
+                    <bean class="pl.nask.crs.scheduler.jobs.ExpiringTicketEmailJob">
+                        <constructor-arg ref="ticketAppService" />
+                    </bean>
+                </entry>
+
+                <entry key="AuthCodeCleanup">
+                    <bean class="pl.nask.crs.scheduler.jobs.AuthCodeCleanupJob">
+                        <constructor-arg ref="domainAppService" />
+                    </bean>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+    
+    
+    <aop:config>
+    
+    <aop:aspect ref="simpleNamedPermissionAspect">
+            <aop:pointcut id="cronSimpleOperations" expression="
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.modifyJobConfig(..)) ||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.removeJobConfig(..)) ||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.addJobConfig(..))	||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.findJobsHistory(..))	||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.findJobs(..))		||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.getJobConfigs(..))	||
+                execution(public * pl.nask.crs.scheduler.SchedulerCron.getJobConfig(..))
+                "/>
+            <aop:before method="checkPermission" pointcut-ref="cronSimpleOperations"/>
+        </aop:aspect>
+        </aop:config>
+</beans>

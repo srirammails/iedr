@@ -1,0 +1,48 @@
+<!-- START protected/views/accounts_reports/transferaway.php -->
+<?php
+/**
+ * View page for Accounts Reports - Transfers Away
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Rpts_NicXfersModel, Accounts_reportsController::actionTransferaway(), Accounts_reportsController::actionGetgriddataxferaway()
+ */
+
+$pg = 'Transfers Away';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+$form = $this->beginWidget('CActiveForm', array('id'=>'xferredDoms','enableAjaxValidation'=>true,));
+echo '<div class="row"><h2>';
+echo CHtml::encode($pg).' in the last ';
+
+echo $form->textField($model,'days',array('size'=>4));
+echo $form->error($model,'days');
+echo ' days';
+echo CHtml::submitButton('Update');
+echo '</div>';
+
+$this->endWidget();
+echo '</div>';
+echo "<p>There were " . $model->totalrows . " domains transferred away from your account over the last " .  $model->days . " days or " . round($model->totalrows/date('t'),2) . " per day<br>";
+echo "In accordance with IEDR transfer billing policy :- &quot;At month end a credit note will be issued in respect of domains transferred away with 30 days of invoice date.&quot;</p>";
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+        'caption'               => 'Domains Transferred from \''.Yii::app()->user->name.'\' in the last ' . $model->days . ' days ',
+        'thisfile'              => $this->createUrl('accounts_reports/transferaway',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_reports/getgriddataxferaway',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_reports/transferaway.php -->

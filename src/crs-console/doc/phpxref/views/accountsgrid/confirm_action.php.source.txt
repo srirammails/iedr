@@ -1,0 +1,102 @@
+<!-- START protected/views/accountsgrid/confirm_action.php -->
+<?php
+/**
+ * View page for accounts operation confirmation
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       GridController, AccountsGridController, GridSelectionModel
+ */
+
+$pg = 'Confirm Action';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+
+Yii::log('model:'.print_r($model,true), 'debug', 'AccountsGrid/confirm_action.php');
+
+// model = GridSelectionModel
+$cmdString = '';
+switch($model->command)
+	{
+	case 'paydeposit': case 'dep':
+		$cmdString = 'Pay From Deposit'; break;
+	case 'payonline': case 'on':
+		$cmdString = 'Pay Online'; break;
+	case 'off':
+		$cmdString = 'Pay Offline'; break;
+	case 'msd':
+		$cmdString = 'Send to Mail/Suspend/Delete'; break;
+	case 'reactivate':
+		$cmdString = 'Reactivate Without Payment'; break; 
+	}
+// renewal prices
+$registration_option_list = array();
+if($model->needRenewalOption==1)
+	{
+	$regarr = get_reg_prices();
+	foreach($regarr['REN'] as $code => $prod)
+		$registration_option_list[$code] = $prod->description;
+	}
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<h4>Please Confirm you want to <b><i><?php echo $cmdString; ?></i></b> these Domains:</h4>
+<?php
+$form=$this->beginWidget('CActiveForm', array('id'=>'ConfirmAction','enableAjaxValidation'=>true,));
+
+	echo $form->hiddenField($model,'domainlist');
+	echo $form->hiddenField($model,'command');
+	echo $form->hiddenField($model,'invoiceType');
+	echo $form->hiddenField($model,'returnurl');
+	echo $form->hiddenField($model,'needRenewalOption');
+	echo $form->hiddenField($model,'needCreditCard');
+
+	foreach(array('domainlist','command','invoiceType') as $f)
+		{
+		$e = $form->error($model,$f);
+		if($e) echo '<span class="error">'.$e.'</span><br>';
+		}
+
+	echo '<table class="formfields gridtable">';
+	foreach($model->domainListToArray() as $k => $v)
+		{
+		$mbrnam = DynamicDomainListModel::domainToVarPrefix($v);
+		$mbr_conf = $mbrnam.'_confirmed';
+		if($model->needRenewalOption==1)
+			{
+			// dropdown list
+			$mbr_prodcode = $mbrnam.'_prodcode';
+			echo '<tr><td class="gridtablecell"><div class="row">';
+			echo $form->error($model,$mbr_prodcode);
+			echo $form->dropDownList($model,$mbr_prodcode,$registration_option_list);
+			}
+		else
+			{
+			// hidden field
+			$mbr_prodcode = $mbrnam.'_prodcode';
+			echo $form->hiddenField($model,$mbr_prodcode);
+			}
+		echo '</div></td><td class="gridtablecell"><div class="row">';
+		echo $form->error($model,$mbr_conf);
+		echo $form->checkBox($model,$mbr_conf);
+		echo '</div></td><td class="gridtablecell"><div class="row">';
+		echo $form->labelEx($model,$mbr_conf);
+		echo '</div></td></tr>';
+		}
+	echo '</table>';
+	if($model->needCreditCard==1)
+		{
+		$this->widget('application.widgets.credit_card_payment.CreditCardFormSegmentWidget', array(
+			'form'		=> $form,
+			'model'		=> $model,
+			));
+		}
+	echo '<div class="row buttons">'.CHtml::submitButton('Proceed').'</div><br>';
+
+$this->endWidget();
+echo AuthOnlyBaseController::returnToUrlButton($model->returnurl);
+?>
+<!-- END protected/views/accountsgrid/confirm_action.php -->

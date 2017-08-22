@@ -1,0 +1,62 @@
+[Version]
+Version=1.5.0.0
+
+[Phoenix.exe <0009>]
+Dest=$(AppPath)
+Date=25/01/2006
+Time=16:08
+Version=1.5.0.0
+CABFilename=Phoenix.CAB
+CABINFFile=Phoenix.INF
+Uses1=msvbvm60.dll
+Uses2=OLEAUT32.DLL
+Uses3=OLEPRO32.DLL
+Uses4=ASYCFILT.DLL
+Uses5=STDOLE2.TLB
+Uses6=COMCAT.DLL
+Uses7=diCrPKI.dll
+Uses8=msado25.tlb
+Uses9=MSCOMCTL.OCX
+Uses10=MSHFLXGD.OCX
+Uses11=MSCOMCT2.OCX
+Uses12=crystl32.ocx
+Uses13=COMDLG32.OCX
+Uses14=MSWINSCK.OCX
+Uses15=MSBIND.DLL
+Uses16=R002.rpt
+Uses17=R004.rpt
+Uses18=R005.rpt
+Uses19=r006.rpt
+Uses20=r001.rpt
+Uses21=TicketBatch.exe
+Uses22=Invoices.exe
+Uses23=Remittals.exe
+Uses24=GenBillingTxn.exe
+Uses25=PHOENIX.HLP
+Uses26=Phoenix.cnt
+Uses27=r003.rpt
+Uses28=r007.rpt
+
+[TicketBatch.exe <0009>]
+Dest=$(AppPath)
+Date=25/01/2006
+Time=16:08
+Version=1.0.0.0
+
+[Invoices.exe <0009>]
+Dest=$(AppPath)
+Date=25/01/2006
+Time=16:08
+Version=1.0.0.0
+
+[Remittals.exe <0009>]
+Dest=$(AppPath)
+Date=25/01/2006
+Time=16:08
+Version=1.0.0.0
+
+[GenBillingTxn.exe <0009>]
+Dest=$(AppPath)
+Date=25/01/2006
+Time=16:08
+Version=1.0.0.0

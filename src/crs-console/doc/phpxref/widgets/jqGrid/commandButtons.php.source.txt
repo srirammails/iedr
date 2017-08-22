@@ -1,0 +1,91 @@
+<!-- START protected/widgets/jqGrid/commandButtons.php -->
+<?php
+/**
+ * defines view html for Command Button widget.
+ * 
+ * This page outputs some javascript functions (only once if there are multiple commandButton widgets on the same page;)
+ * Then the commandButton Html form is output.
+ * The jqGrid on the same page has a callback function 'checkBoxClicked' which will call a function 'handleCheckBoxClicked' here.
+ * 'handleCheckBoxClicked' will then add the selected ID (usually a domain name) to an array in an instance of the javascript class 'SelectedDomainsClass'.
+ * When a command Button is clicked, this array is sent by HTTP POST to the 'actionUrl'.
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       view.php, jqGridWidget, jqGridComandButtonsWidget, GridModelBase
+ */
+
+if(!defined('COMMANDBUTTON_INC_JSCRIPT'))
+	{
+/**
+ * in case of multiple command button widgets, only output the scripts the first time.
+ */
+	define('COMMANDBUTTON_INC_JSCRIPT',1);
+?>
+<script>
+function SelectedDomainsClass()
+    {
+    this.list = [];
+    this.dpush = function(domain) { if(this.list.indexOf(domain) === -1) { /* if unique */ this.list.push(domain); } };
+    this.dpop = function (domain) { var n = this.list.indexOf(domain); if(n >= 0) { this.list.splice(n, 1); } };
+    this.getCount = function () { return this.list.length; };
+    this.domainSelected = function (isChecked,domain) { if(isChecked) { this.dpush(domain); } else { this.dpop(domain); } };
+    }
+
+var selectedDomains = new SelectedDomainsClass();
+
+function handleSelectedRow(id) {
+	handleCheckBoxClicked(id);
+	}
+
+function handleCheckBoxClicked(id) {
+	if(id)
+		{
+		var cell = jQuery('#thisJqGrid').getCell(id, 1);
+		if(cell)
+			{
+			var cbIsChecked = (jQuery(cell).attr('checked') == 'checked') ? true : false;
+			selectedDomains.domainSelected(cbIsChecked,id);
+			}
+		}
+	}
+</script>
+<?php
+	} // end if not defined COMMANDBUTTON_INC_JSCRIPT
+?>
+<form id="<?php echo $this->formid; ?>" action="<?php echo $this->actionurl; ?>" method="post">
+	<input id="<?php echo $this->formid; ?>_invoiceType"	name="<?php echo $this->formid; ?>[invoiceType]" type="hidden" value="<?php echo $this->invoiceType; ?>">
+	<input id="<?php echo $this->formid; ?>_returnurl"	name="<?php echo $this->formid; ?>[returnurl]" type="hidden" value="<?php echo $this->returnurl; ?>">
+	<input id="<?php echo $this->formid; ?>_command"	name="<?php echo $this->formid; ?>[command]" type="hidden" value="to_be_filled_by_javascript">
+	<input id="<?php echo $this->formid; ?>_domainlist"	name="<?php echo $this->formid; ?>[domainlist]" type="hidden" value="to_be_filled_by_javascript">
+<?php
+	$hr = Yii::app()->getRequest();
+	echo '	<input name="'.$hr->csrfTokenName.'" type="hidden" value="'.$hr->getCsrfToken().'">'.BR;
+	foreach($this->commandlist as $cmd => $str)
+		echo '	<input id="'.$this->formid.'_'.$cmd.'" name="'.$this->formid.'[do_'.$cmd.']" type="submit" value="" onclick="jQuery(\'#'.$this->formid.'_command\').val(\''.$cmd.'\'); return true;">'.BR;
+?>
+</form>
+<script>
+function setButtonText_<?php echo $this->formid; ?>(n) {
+<?php
+	foreach($this->commandlist as $cmd => $str) {
+		$s = str_replace('%n','"+n+"',$str);
+		echo '	jQuery(\'#'.$this->formid.'_'.$cmd.'\').val("'.$s.' ...");'.BR;
+		}
+?>
+	}
+
+handleCheckBoxClicked_pre<?php echo $this->formid; ?> = handleCheckBoxClicked;
+handleCheckBoxClicked = function (id) {
+	handleCheckBoxClicked_pre<?php echo $this->formid; ?>(id);
+	jQuery('#<?php echo $this->formid; ?>_domainlist').val(selectedDomains.list.toString());
+	setButtonText_<?php echo $this->formid; ?>(selectedDomains.getCount());
+	}
+
+setButtonText_<?php echo $this->formid; ?>(0);
+</script>
+<!-- END protected/widgets/jqGrid/commandButtons.php -->

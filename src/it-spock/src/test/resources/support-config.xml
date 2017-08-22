@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost/crsdb"/>
+        <property name="username" value="crsuser"/>
+        <property name="password" value="crspassword"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg value="test-mailer"/>
+        <constructor-arg value="smtp.nask.waw.pl"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+    </bean>
+
+    <bean id="paymentEmailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg value="test-mailer"/>
+        <constructor-arg value="smtp.nask.waw.pl"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="marcint@nask.pl"/>
+    </bean>
+
+    <bean id="paymentTopUpEmailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+        <constructor-arg value="test-mailer"/>
+        <constructor-arg value="smtp.nask.waw.pl"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="test"/>
+        <constructor-arg value="marcint@nask.pl"/>
+    </bean>
+
+    <bean id="paymentSender" class="pl.nask.crs.it.PaymentSenderTestImpl"/>
+
+</beans>

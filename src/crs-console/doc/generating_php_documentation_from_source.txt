@@ -1,0 +1,110 @@
+
+PHPDOC
+
+	1 fetch phpdoc
+
+		curl -v -x squid.domainregistry.ie:3128 -o PhpDocumentor-1.4.3.zip "http://sunet.dl.sourceforge.net/project/phpdocu/PhpDoc/phpDocumentor-1.4.3/PhpDocumentor-1.4.3.zip"
+
+	2 unpack and install
+
+		unzip PhpDocumentor-1.4.3.zip
+		dos2unix PhpDocumentor/phpdoc
+		chmod +x PhpDocumentor/phpdoc
+		sudo ln -s $PWD/PhpDocumentor/phpdoc /usr/local/bin/
+
+	3 ensure timezone is set in php.ini
+
+		---/etc/php.ini---
+		[Date]
+		date.timezone=Europe/Dublin
+
+PHPXREF
+
+	1 fetch phpxref
+
+		curl -v -x squid.domainregistry.ie:3128 -o phpxref-0.7.1.tar.gz "http://puzzle.dl.sourceforge.net/project/phpxref/phpxref/0.7.1/phpxref-0.7.1.tar.gz"
+
+	2 unpack
+
+		tar -xzf phpxref-0.7.1.tar.gz
+
+	3 modify config
+
+		johnm@hudson:/usr/src/phpxref-0.7.1$ diff -U 0 phpxref.cfg phpxref_IEDR.cfg 
+		--- phpxref.cfg	2010-12-30 00:55:43.000000000 +0000
+		+++ phpxref_IEDR.cfg	2011-07-29 11:41:29.000000000 +0100
+		@@ -9,2 +9 @@
+		-#SOURCE=C:\webserver\sites\www.myhost.com\htdocs
+		-SOURCE=source
+		+SOURCE=/var/www/trunk/src/www/protected
+		@@ -13,2 +12 @@
+		-#OUTPUT=C:\phpxref\output
+		-OUTPUT=output
+		+OUTPUT=/var/www/trunk/doc/phpxref
+		@@ -17 +15 @@
+		-PROJECT=Unnamed Project
+		+PROJECT=New Registrars Console
+		@@ -23 +21 @@
+		-COOKIE=phpxref
+		+COOKIE=phpxref_nrc
+		@@ -36 +34 @@
+		-CHARSET=iso-8859-1
+		+CHARSET=UTF-8
+		@@ -61 +59 @@
+		-EXPLORE_SOURCE=0
+		+EXPLORE_SOURCE=1
+		@@ -78,2 +75,0 @@
+		-BAD_DIRNAME=CVS
+		-BAD_DIRNAME=SCCS
+		@@ -81,0 +78,6 @@
+		+BAD_DIRNAME=runtime
+		+BAD_DIRNAME=commands
+		+BAD_DIRNAME=data
+		+BAD_DIRNAME=extensions
+		+BAD_DIRNAME=messages
+		+BAD_DIRNAME=modules
+		@@ -90,4 +91,0 @@
+		-BAD_EXT=bz2
+		-BAD_EXT=gz
+		-BAD_EXT=zip
+		-BAD_EXT=exe
+		@@ -95 +93 @@
+		-BAD_EXT=dat
+		+BAD_EXT=bz2
+		@@ -96,0 +95,3 @@
+		+BAD_EXT=css
+		+BAD_EXT=dat
+		+BAD_EXT=exe
+		@@ -97,0 +99,2 @@
+		+BAD_EXT=gz
+		+BAD_EXT=ico
+		@@ -98,0 +102,2 @@
+		+BAD_EXT=js
+		+BAD_EXT=log
+		@@ -100,0 +106,3 @@
+		+BAD_EXT=sql
+		+BAD_EXT=tar
+		+BAD_EXT=tbz
+		@@ -102 +110 @@
+		-BAD_EXT=ico
+		+BAD_EXT=zip
+		@@ -106 +114 @@
+		-# GOOD_EXT=php
+		+GOOD_EXT=php
+		@@ -112 +119,0 @@
+		-DOC_TAG=author
+		@@ -115,0 +123,3 @@
+		+DOC_TAG=see
+		+DOC_TAG=access
+		+DOC_TAG=link
+		@@ -130 +140 @@
+		-DB_HOST=localhost
+		+DB_HOST=127.0.0.1
+		@@ -132,3 +142,3 @@
+		-DB_NAME=mydb
+		-DB_USER=dbuser
+		-DB_PASS=dbpassword
+		+DB_NAME=phoenixdb
+		+DB_USER=crsuser
+		+DB_PASS=crspassword
+

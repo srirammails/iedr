@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="transaction">
+
+    <resultMap id="internalTransaction" class="pl.nask.crs.payment.dao.ibatis.objects.InternalTransaction">
+        <result property="id" column="id"/>
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="invoiceId" column="invoiceId"/>
+        <result property="invoiceNumber" column="invoiceNumber"/>
+        <result property="settlementStarted" column="settlementStarted" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="settlementEnded" column="settlementEnded" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="totalCost" column="totalCost"/>
+        <result property="totalNetAmount" column="totalNetAmount"/>
+        <result property="totalVatAmount" column="totalVatAmount"/>
+        <result property="cancelled" column="cancelled" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="cancelledDate" column="cancelledDate"/>
+        <result property="financiallyPassedDate" column="financiallyPassedDate"/>
+        <result property="reservations" column="id" select="transaction.getReservationsForTransaction"/>
+        <result property="orderId" column="orderId"/>
+        <result property="invalidated" column="invalidated" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="invalidatedDate" column="invalidatedDate"/>
+        <result property="reauthorisedId" column="reauthorisedId"/>
+        <result property="settlementDate" column="settlementDate"/>
+        <result property="paymentMethod" column="paymentMethod" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler"/>
+        <result property="operationType" column="operationType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler"/>
+        <result property="realexAuthcode" column="realexAuthcode"/>
+        <result property="realexPassref" column="realexPassref"/>
+    </resultMap>
+
+    <insert id="insertTransaction" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalTransaction">
+        INSERT INTO Transaction
+        (ID, Invoice_ID,
+        Settlement_Started,
+        Settlement_Ended,
+        Total_Cost,
+        Total_Net_Amount,
+        Total_Vat_Amount,
+        Cancelled,
+        Cancelled_Date,
+        Financially_Passed_Date,
+        Order_ID,
+        Invalidated,
+        Invalidated_Date,
+        Reauthorised_ID,
+        Realex_Authcode,
+        Realex_Passref
+        ) VALUES (
+        #id#,
+        #invoiceId#,
+        #settlementStarted,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #settlementEnded,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #totalCost#,
+        #totalNetAmount#,
+        #totalVatAmount#,
+        #cancelled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #cancelledDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #financiallyPassedDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #orderId#,
+        #invalidated,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #invalidatedDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #reauthorisedId#,
+		#realexAuthcode#,
+        #realexPassref#
+        );       
+    </insert>
+
+    <sql id="selectTransaction">
+        SELECT DISTINCT
+        T.ID as id,
+        R.Nic_Handle as nicHandleId,
+        Invoice_ID as invoiceId,
+        Order_ID as orderId,
+        Settlement_Started as settlementStarted,
+        Settlement_Ended as settlementEnded,
+        T.Total_Cost as totalCost,
+        T.Total_Net_Amount as totalNetAmount,
+        T.Total_Vat_Amount as totalVatAmount,
+        Cancelled as cancelled,
+        Cancelled_Date as cancelledDate,
+        Financially_Passed_Date as financiallyPassedDate,
+        Invalidated as invalidated,
+        Invalidated_Date as invalidatedDate,
+        Reauthorised_ID as reauthorisedId,
+        R.Settled_Date as settlementDate,
+        R.Payment_Method as paymentMethod,
+        R.Operation_Type as operationType,
+        I.Invoice_Number as invoiceNumber,
+        Realex_Authcode as realexAuthcode,
+        Realex_Passref as realexPassref
+        FROM
+        Transaction T
+        left join Reservation R on (R.Transaction_ID = T.ID)
+        left join Invoice I on (I.ID = T.Invoice_ID)
+    </sql>
+
+    <select id="selectTransactionById" resultMap="internalTransaction">
+        <include refid="transaction.selectTransaction"/>
+        WHERE
+        T.ID = #id#
+        GROUP BY T.ID
+    </select>
+
+    <select id="selectTransactionLockedById" resultClass="java.lang.String">
+        SELECT
+            ID
+        FROM
+            Transaction
+        WHERE
+            ID = #id#
+        FOR UPDATE
+    </select>
+
+    <select id="selectAll" resultMap="internalTransaction">
+        <include refid="transaction.selectTransaction"/>
+        GROUP BY T.ID
+    </select>
+
+    <update id="updateTransaction" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalTransaction">
+        UPDATE
+        Transaction T
+        SET
+        T.Settlement_Started = #settlementStarted,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        T.Settlement_Ended = #settlementEnded,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        T.Cancelled = #cancelled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        T.Cancelled_Date = #cancelledDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        T.Financially_Passed_Date = #financiallyPassedDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        T.Invoice_ID = #invoiceId#,
+        T.Invalidated = #invalidated,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        T.Invalidated_Date = #invalidatedDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        T.Reauthorised_ID = #reauthorisedId#,
+		T.Realex_Authcode = #realexAuthcode#,
+        T.Realex_Passref = #realexPassref#
+        WHERE
+        T.ID = #id#
+    </update>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="transactionCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.billingNH">
+                R.Nic_Handle = #criteria.billingNH#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.cancelled">
+                Cancelled = #criteria.cancelled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settlementStarted">
+                Settlement_Started = #criteria.settlementStarted,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settlementEnded">
+                Settlement_Ended = #criteria.settlementEnded,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.readyForSettlement" compareValue="true">
+                Financially_Passed_Date IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.readyForSettlement" compareValue="false">
+                Financially_Passed_Date IS NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.invoiceAssociated" compareValue="true">
+                Invoice_ID IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.invoiceAssociated" compareValue="false">
+                Invoice_ID IS NULL
+            </isEqual>
+            <isNotNull prepend="and" property="criteria.invalidated">
+                Invalidated = #criteria.invalidated,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.paymentMethod">
+                R.Payment_Method = #criteria.paymentMethod,handler=pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.reauthorised" compareValue="true">
+                Reauthorised_ID IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.reauthorised" compareValue="false">
+                Reauthorised_ID IS NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.ticketExists" compareValue="true">
+                TK.T_Number IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.ticketExists" compareValue="false">
+                TK.T_Number IS NULL
+            </isEqual>
+        </dynamic>
+    </sql>
+
+    <sql id="joinTicket">
+        <dynamic>
+            <isNotNull property="criteria.ticketExists">
+                left join Ticket TK on (R.Ticket_ID = TK.T_Number)
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="getTransactions" resultMap="internalTransaction">
+        <include refid="transaction.selectTransaction"/>
+        <include refid="transaction.joinTicket"/>
+        <include refid="transaction.transactionCriteria"/>
+        GROUP BY T.ID
+        <include refid="sortFrag"/>
+    </select>
+
+    <select id="getReservationsForTransaction" resultMap="reservation.internalReservation">
+        <include refid="reservation.selectReservation"/>
+        WHERE
+        Transaction_ID = #id#
+    </select>
+
+    <delete id="deleteTransactionById" parameterClass="java.lang.Long">
+        DELETE from Transaction where ID = #id#
+    </delete>
+
+    <select id="countFindTransactions" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(DISTINCT(T.ID)) as cnt
+        FROM
+        Transaction T
+        left join Reservation R on (R.Transaction_ID = T.ID)
+        <include refid="transaction.joinTicket"/>
+        <include refid="transaction.transactionCriteria"/>
+    </select>
+
+
+    <select id="findTransactions" resultMap="internalTransaction">
+        <include refid="transaction.selectTransaction"/>
+        <include refid="transaction.joinTicket"/>
+        <include refid="transaction.transactionCriteria"/>
+        GROUP BY T.ID
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+</sqlMap>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="document-reports">
+
+    <resultMap id="documentReportResult" class="pl.nask.crs.documents.dao.ibatis.objects.InternalDocumentReport">
+        <result property="hostmasterName" column="hostmasterName"/>
+        <result property="documentsCount" column="documentsCount"/>
+        <result property="reportForDate" column="reportForDate"/>
+    </resultMap>
+
+    <sql id="frag">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.hostmasterName">
+                INC.DOC_CREATOR = #criteria.hostmasterName#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.from">
+                INC.CR_DATE >= #criteria.from,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.to">
+                INC.CR_DATE <![CDATA[<=]]> #criteria.to,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="offsetLimit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="getDocumentReport">
+        SELECT
+        COUNT(*) as documentsCount,
+        INC.DOC_CREATOR as hostmasterName,
+        INC.CR_DATE as reportForDate
+        FROM INCOMING_DOC as INC
+        WHERE
+        INC.DOC_CREATOR IS NOT NULL
+        <include refid="document-reports.frag"/>
+    </sql>
+    
+        <sql id="getDocumentReport4count">
+        SELECT
+        INC.DOC_CREATOR as hostmasterName,
+        INC.CR_DATE as reportForDate
+        FROM INCOMING_DOC as INC
+        WHERE
+        INC.DOC_CREATOR IS NOT NULL
+        <include refid="document-reports.frag"/>
+    </sql>
+
+    <select id="getDocumentReportsDayGranulation" parameterClass="java.util.Map" resultMap="documentReportResult">
+        <include refid="document-reports.getDocumentReport"/>
+        GROUP BY hostmasterName, DATE_FORMAT(reportForDate, '%Y %M %D')
+        <include refid="document-reports.sortFrag"/>
+        <include refid="document-reports.offsetLimit"/>
+    </select>
+
+    <select id="getDocumentReportsMonthGranulation" parameterClass="java.util.Map" resultMap="documentReportResult">
+        <include refid="document-reports.getDocumentReport"/>
+        GROUP BY hostmasterName, DATE_FORMAT(reportForDate, '%Y %M')
+        <include refid="document-reports.sortFrag"/>
+        <include refid="document-reports.offsetLimit"/>
+    </select>
+
+    <select id="getDocumentReportsYearGranulation" parameterClass="java.util.Map" resultMap="documentReportResult">
+        <include refid="document-reports.getDocumentReport"/>
+        GROUP BY hostmasterName, YEAR(reportForDate)
+        <include refid="document-reports.sortFrag"/>
+        <include refid="document-reports.offsetLimit"/>
+    </select>
+
+    <select id="getDocumentReportsCountDayGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="document-reports.getDocumentReport4count"/>
+        GROUP BY hostmasterName, DATE_FORMAT(reportForDate, '%Y %M %D')
+        ) as total
+    </select>
+
+    <select id="getDocumentReportsCountMonthGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="document-reports.getDocumentReport4count"/>
+        GROUP BY hostmasterName, DATE_FORMAT(reportForDate, '%Y %M')
+        ) as total
+    </select>
+
+    <select id="getDocumentReportsCountYearGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="document-reports.getDocumentReport4count"/>
+        GROUP BY hostmasterName, YEAR(reportForDate)
+        ) as total
+    </select>
+
+</sqlMap>

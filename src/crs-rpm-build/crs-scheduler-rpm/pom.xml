@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>pl.nask.crs</groupId>
+    <artifactId>crs-rpm-build</artifactId>
+    <version>1.6.44-SNAPSHOT</version>
+  </parent>
+  <name>CRS IEDR Scheduler Tomcat RPM</name>
+  <groupId>pl.nask.crs</groupId>
+  <version>1.6.44-SNAPSHOT</version>
+  <artifactId>crs-scheduler-rpm</artifactId>
+  <packaging>rpm</packaging>
+  <description>This package delivers WAR file for the IEDR Scheduler application.</description>
+  <dependencies>
+    <dependency>
+      <groupId>pl.nask.crs</groupId>
+      <artifactId>crs-scheduler</artifactId>
+      <version>1.6.44-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <version>2.1-alpha-3</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>generate-rpm</id>
+            <goals>
+              <goal>rpm</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <copyright>2014, IE Domain Registry</copyright>
+          <distribution>IEDR CRS 2014</distribution>
+          <group>Application/Business</group>
+          <packager>IEDR</packager>
+          <prefix>/</prefix>
+<!--    THIS IS NOT RHEL5 compatible
+          <keyname>${gpg-key}</keyname>
+          <keyPassphrase><passphrase>${gpg-pass}</passphrase></keyPassphrase>
+-->
+          <requires>
+<!--    THIS IS NOT RHEL5 compatible
+              <require>tomcat6 &gt;= 6.0.24</require>
+-->
+              <require>crs-tools</require>
+          </requires>
+<!--
+          <conflicts>
+              <conflict>crs-web-services-rpm</conflict>
+              <conflict>crs-main-web-rpm</conflict>
+              <conflict>crs-iedr-api-rpm</conflict>
+          </conflicts>
+-->
+          <defaultDirmode>755</defaultDirmode>
+          <defaultFilemode>644</defaultFilemode>
+          <defaultUsername>tomcat</defaultUsername>
+          <defaultGroupname>tomcat</defaultGroupname>
+          <mappings>
+            <mapping>
+              <directory>/opt/crs/tomcat/webapps</directory>
+              <filemode>770</filemode>
+              <username>tomcat</username>
+              <groupname>tomcat</groupname>
+              <dependency>
+                <stripVersion>true</stripVersion>
+                <includes>
+                  <include>pl.nask.crs:crs-scheduler</include>
+                </includes>
+              </dependency>
+            </mapping>
+            <mapping>
+              <directory>/var/lib/tomcat6/webapps</directory>
+              <filemode>770</filemode>
+              <username>tomcat</username>
+              <groupname>tomcat</groupname>
+              <dependency>
+                <stripVersion>true</stripVersion>
+                <includes>
+                  <include>pl.nask.crs:crs-scheduler</include>
+                </includes>
+              </dependency>
+            </mapping>
+            <mapping>
+              <directory>/var/batch-logs</directory>
+              <filemode>755</filemode>
+              <username>tomcat</username>
+              <groupname>tomcat</groupname>
+            </mapping>
+          </mappings>
+          <preinstallScriptlet>
+            <scriptFile>src/main/scripts/preinstall</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </preinstallScriptlet>
+          <postinstallScriptlet>
+            <scriptFile>src/main/scripts/postinstall</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </postinstallScriptlet>
+          <preremoveScriptlet>
+            <scriptFile>src/main/scripts/preremove</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </preremoveScriptlet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

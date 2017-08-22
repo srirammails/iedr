@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="authenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullAuthenticationService">
+		<property name="userDao" ref="userDAO" />
+        <property name="loginAttemptDAO" ref="loginAttemptDAO"/>
+    </bean>
+
+    <bean id="wsAuthenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullWsAuthenticationServiceImpl">
+        <constructor-arg type="pl.nask.crs.user.dao.UserDAO" ref="userDAO"/>
+        <constructor-arg type="java.util.List">
+            <list value-type="pl.nask.crs.commons.HashAlgorithm">
+                <ref bean="saltedHashAlg"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg ref="applicationConfig"/>
+        <constructor-arg ref="loginAttemptDAO"/>
+    </bean>
+
+</beans>

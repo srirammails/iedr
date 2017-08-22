@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="invoice">
+
+    <resultMap id="internalInvoice" class="pl.nask.crs.payment.dao.ibatis.objects.InternalInvoice">
+        <result property="id" column="id"/>
+        <result property="invoiceNumber" column="invoiceNumber"/>
+        <result property="accountName" column="accountName"/>
+        <result property="accountNumber" column="accountNumber"/>
+        <result property="address1" column="address1"/>
+        <result property="address2" column="address2"/>
+        <result property="address3" column="address3"/>
+        <result property="billingNicHandle" column="billingNicHandle"/>
+        <result property="billingNicHandleName" column="billingNicHandleName"/>
+        <result property="completed" column="completed" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="country" column="country"/>
+        <result property="county" column="county"/>
+        <result property="crsVersion" column="crsVersion"/>
+        <result property="invoiceDate" column="invoiceDate"/>
+        <result property="MD5" column="MD5"/>
+        <result property="transactions" column="id" select="invoice.getTransactionsForInvoice"/>
+        <result property="totalCost" column="totalCost"/>
+        <result property="totalNetAmount" column="totalNetAmount"/>
+        <result property="totalVatAmount" column="totalVatAmount"/>
+        <result property="settlementDate" column="settlementDate"/>
+        <result property="paymentMethod" column="paymentMethod" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler"/>
+    </resultMap>
+
+    <resultMap id="domainInfo" class="pl.nask.crs.payment.DomainInfo">
+        <result property="domainName" column="domainName"/>
+        <result property="orderId" column="orderId"/>
+        <result property="regDate" column="regDate"/>
+        <result property="renDate" column="renDate"/>
+        <result property="transferDate" column="transferDate"/>
+        <result property="operationType" column="operationType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler"/>
+        <result property="durationMonths" column="durationMonths"/>
+        <result property="netAmount" column="netAmount"/>
+        <result property="vatAmount" column="vatAmount"/>
+
+    </resultMap>
+
+    <resultMap id="internalExtendedInvoice" class="pl.nask.crs.payment.dao.ibatis.objects.InternalExtendedInvoice">
+        <result property="domainName" column="domainName"/>
+        <result property="invoiceNumber" column="invoiceNumber"/>
+        <result property="billingNicHandle" column="billingNicHandle"/>
+        <result property="billingNicHandleName" column="billingNicHandleName"/>
+        <result property="paymentMethod" column="paymentMethod" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler"/>
+        <result property="customerType" column="customerType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.CustomerTypeHandler"/>
+        <result property="settledDate" column="settledDate"/>
+        <result property="invoiceDate" column="invoiceDate"/>
+        <result property="creationDate" column="creationDate"/>
+        <result property="durationMonths" column="durationMonths"/>
+        <result property="renewalDate" column="renewalDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="netAmount" column="netAmount"/>
+        <result property="vatAmount" column="vatAmount"/>
+        <result property="startDate" column="startDate"/>
+        <result property="orderId" column="orderId"/>
+    </resultMap>
+
+    <insert id="insertInvoice" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalInvoice">
+        INSERT INTO Invoice
+        (Invoice_Number,
+        Account_Name,
+        Account_Number,
+        Address1,
+        Address2,
+        Address3,
+        Billing_Nic_Handle,
+        Completed,
+        Country,
+        County,
+        Crs_Version,
+        Invoice_Date,
+        MD5,
+        Total_Cost,
+        Total_Net_Amount,
+        Total_Vat_Amount
+        ) VALUES (
+        #invoiceNumber#,
+        #accountName#,
+        #accountNumber#,
+        #address1#,
+        #address2#,
+        #address3#,
+        #billingNicHandle#,
+        #completed,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #country#,
+        #county#,
+        #crsVersion#,
+        #invoiceDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #MD5#,
+        #totalCost#,
+        #totalNetAmount#,
+        #totalVatAmount#
+        );
+        <selectKey keyProperty="id" resultClass="int">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <sql id="selectInvoice">
+        SELECT
+        I.ID as id,
+        I.Invoice_Number as invoiceNumber,
+        I.Account_Name as accountName,
+        I.Account_Number as accountNumber,
+        I.Address1 as address1,
+        I.Address2 as address2,
+        I.Address3 as address3,
+        I.Billing_Nic_Handle as billingNicHandle,
+        N.NH_Name as billingNicHandleName,
+        I.Completed as completed,
+        I.Country as country,
+        I.County as county,
+        I.Crs_Version as crsVersion,
+        I.Invoice_Date as invoiceDate,
+        I.MD5 as MD5,
+        I.Total_Cost as totalCost,
+        I.Total_Net_Amount as totalNetAmount,
+        I.Total_Vat_Amount as totalVatAmount,
+        R.Settled_Date as settlementDate,
+        R.Payment_Method as paymentMethod
+        FROM
+        Invoice I
+        LEFT JOIN NicHandle N ON (N.Nic_Handle = CONVERT(I.Billing_Nic_Handle USING latin1) AND I.Account_Number = N.A_Number)
+        LEFT JOIN TransactionHist T ON (I.ID = T.Invoice_ID)
+        LEFT JOIN ReservationHist R ON (T.ID = R.Transaction_ID)
+    </sql>
+
+    <select id="selectInvoiceById" resultMap="internalInvoice">
+        <include refid="invoice.selectInvoice"/>
+        WHERE
+        I.ID = #id#
+        GROUP BY I.ID
+    </select>
+
+    <select id="selectInvoiceByNumber" resultMap="internalInvoice">
+        <include refid="invoice.selectInvoice"/>
+        WHERE
+        I.Invoice_Number = #invoiceNumber#
+        GROUP BY I.ID
+    </select>
+
+    <select id="selectInvoiceLockedById" resultClass="java.lang.String">
+        SELECT
+            ID
+        FROM
+            Invoice
+        WHERE
+            ID = #id#
+        FOR UPDATE
+    </select>
+
+    <select id="selectAll" resultMap="internalInvoice">
+        <include refid="invoice.selectInvoice"/>
+        GROUP BY I.ID
+    </select>
+
+    <select id="getTransactionsForInvoice" resultMap="transaction-hist.internalTransaction">
+        <include refid="transaction-hist.selectHistTransaction"/>
+        WHERE
+        Invoice_ID = #id#
+        GROUP BY T.ID
+    </select>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="invoicesCriteria">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="and" property="criteria.billingNhId">
+                I.Billing_Nic_Handle = #criteria.billingNhId#
+           	</isNotNull>
+            <isNotNull prepend="and" property="criteria.accountName">
+                I.Account_Name = #criteria.accountName#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.paymentMethod">
+                R.Payment_Method = #criteria.paymentMethod,handler=pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler#
+           	</isNotNull>
+            <isNotNull prepend="and" property="criteria.settledFrom">
+                R.Settled_Date >= #criteria.settledFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settledTo">
+                R.Settled_Date <![CDATA[<=]]> #criteria.settledTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.type" compareValue="DIRECT">
+                I.Account_Number = 1
+            </isEqual>
+            <isEqual prepend="and" property="criteria.type" compareValue="REGISTRAR">
+                I.Account_Number != 1
+            </isEqual>
+            <isNotNull prepend="and" property="criteria.invoiceNumber">
+                I.Invoice_Number = #criteria.invoiceNumber#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceNumberFrom">
+                I.Invoice_Number >= #criteria.invoiceNumberFrom#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceNumberTo">
+                I.Invoice_Number <![CDATA[<=]]> #criteria.invoiceNumberTo#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceDateFrom">
+                I.Invoice_Date >= #criteria.invoiceDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceDateTo">
+                I.Invoice_Date <![CDATA[<=]]> #criteria.invoiceDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceDateLike">
+                I.Invoice_Date LIKE #criteria.invoiceDateLike,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixPostfixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settlementDateLike">
+                R.Settled_Date LIKE #criteria.settlementDateLike,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixPostfixHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="findInvoice">
+        SELECT
+        I.ID as id,
+        I.Invoice_Number as invoiceNumber,
+        I.Billing_Nic_Handle as billingNicHandle,
+        I.Invoice_Date as invoiceDate,
+        I.Total_Cost as totalCost,
+        I.Total_Net_Amount as totalNetAmount,
+        I.Total_Vat_Amount as totalVatAmount,
+        R.Settled_Date as settlementDate,
+        R.Payment_Method as paymentMethod,
+        N.NH_Name as billingNicHandleName,
+        NULL as accountName,
+        -1 as accountNumber,
+        NULL as address1,
+        NULL as address2,
+        NULL as address3,
+        false as completed,
+        NULL as country,
+        NULL as county,
+        NULL as crsVersion,
+        NULL as MD5
+        FROM
+        Invoice I
+        LEFT JOIN
+        NicHandle N ON (N.Nic_Handle = CONVERT(I.Billing_Nic_Handle USING latin1))
+        LEFT JOIN
+        TransactionHist T ON (I.ID = T.Invoice_ID)
+        LEFT JOIN
+        ReservationHist R ON (T.ID = R.Transaction_ID)
+    </sql>
+
+    <select id="findInvoices" parameterClass="java.util.Map" resultMap="internalInvoice">
+        <include refid="findInvoice"/>
+        <include refid="invoicesCriteria"/>
+        GROUP BY I.ID
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="countFindInvoices" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*) FROM (
+            SELECT
+            I.ID as id
+            FROM
+            Invoice I
+            LEFT JOIN TransactionHist T ON (I.ID = T.Invoice_ID)
+            LEFT JOIN ReservationHist R ON (T.ID = R.Transaction_ID)
+            <include refid="invoicesCriteria"/>
+            GROUP BY I.ID
+        ) as invoices
+    </select>
+
+    <sql id="findSimpleInvoice">
+        SELECT
+        I.ID as id,
+        I.Invoice_Number as invoiceNumber,
+        I.Billing_Nic_Handle as billingNicHandle,
+        I.Invoice_Date as invoiceDate,
+        I.Total_Cost as totalCost,
+        I.Total_Net_Amount as totalNetAmount,
+        I.Total_Vat_Amount as totalVatAmount,
+        R.Settled_Date as settlementDate,
+        R.Payment_Method as paymentMethod,
+        NULL as billingNicHandleName,
+        NULL as accountName,
+        -1 as accountNumber,
+        NULL as address1,
+        NULL as address2,
+        NULL as address3,
+        false as completed,
+        NULL as country,
+        NULL as county,
+        NULL as crsVersion,
+        NULL as MD5
+        FROM
+        Invoice I
+        LEFT JOIN
+        TransactionHist T ON (I.ID = T.Invoice_ID)
+        LEFT JOIN
+        ReservationHist R ON (T.ID = R.Transaction_ID)
+    </sql>
+
+    <select id="findSimpleInvoices" parameterClass="java.util.Map" resultMap="internalInvoice">
+        <include refid="findSimpleInvoice"/>
+        <include refid="invoicesCriteria"/>
+        GROUP BY I.ID
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="getInvoiceInfo" parameterClass="string" resultMap="domainInfo">
+        SELECT
+        R.Domain_Name as domainName,
+        T.Order_ID as orderId,
+        D.D_Reg_Dt as regDate,
+        R.Period_End as renDate,
+        D.D_Transfer_Dt as transferDate,
+        R.Operation_Type as operationType,
+        R.Duration_Months as durationMonths,
+        R.Amount as netAmount,
+        R.Vat_Amount as vatAmount
+        FROM
+        Invoice I
+        INNER JOIN TransactionHist T ON (I.ID = T.Invoice_ID)
+        INNER JOIN ReservationHist R ON (T.ID = R.Transaction_ID)
+        LEFT JOIN Domain D ON (R.Domain_Name = D.D_Name)
+        WHERE
+        I.Invoice_Number = #invoiceNumber#
+        ORDER BY domainName ASC
+    </select>
+
+    <update id="updateInvoice" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalInvoice">
+        UPDATE
+        Invoice I
+        SET
+        I.MD5 = #MD5#,
+        I.Completed = #completed,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        WHERE
+        I.ID = #id#
+    </update>
+
+    <sql id="extendedInvoicesCriteria">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="and" property="criteria.settledFrom">
+                R.Settled_Date >= #criteria.settledFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settledTo">
+                R.Settled_Date <![CDATA[<=]]> #criteria.settledTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceDateFrom">
+                I.Invoice_Date >= #criteria.invoiceDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceDateTo">
+                I.Invoice_Date <![CDATA[<=]]> #criteria.invoiceDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceNumber">
+                I.Invoice_Number = #criteria.invoiceNumber#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceNumberFrom">
+                I.Invoice_Number >= #criteria.invoiceNumberFrom#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.invoiceNumberTo">
+                I.Invoice_Number <![CDATA[<=]]> #criteria.invoiceNumberTo#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="selectExtended">
+        SELECT
+        I.Invoice_Number as invoiceNumber,
+        R.Domain_Name as domainName,
+        I.Billing_Nic_Handle as billingNicHandle,
+        N.NH_Name as billingNicHandleName,
+        R.Payment_Method as paymentMethod,
+        I.Account_Number as customerType,
+        R.Settled_Date as settledDate,
+        I.Invoice_Date as invoiceDate,
+        R.Creation_Date as creationDate,
+        R.Period_Start as startDate,
+        R.Duration_Months as durationMonths,
+        R.Period_End as renewalDate,
+        R.Amount as netAmount,
+        R.Vat_Amount as vatAmount,
+        R.Amount + R.Vat_Amount as total,
+        T.Order_ID as orderId
+        FROM
+        ReservationHist R
+        LEFT JOIN TransactionHist T ON (R.Transaction_ID = T.ID)
+        LEFT JOIN Invoice I ON (T.Invoice_ID = I.ID)
+        LEFT JOIN NicHandle N ON (N.Nic_Handle = CONVERT(I.Billing_Nic_Handle USING latin1) AND I.Account_Number = N.A_Number)
+    </sql>
+
+    <select id="countFindExtendedReservations" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*) FROM (
+        SELECT
+        R.Domain_Name as domainName
+        FROM
+        ReservationHist R
+        LEFT JOIN TransactionHist T ON (R.Transaction_ID = T.ID)
+        LEFT JOIN Invoice I ON (T.Invoice_ID = I.ID)
+        <include refid="extendedInvoicesCriteria"/>
+        ) as invoices
+    </select>
+
+    <select id="findExtendedReservations" parameterClass="java.util.Map" resultMap="internalExtendedInvoice">
+        <include refid="selectExtended"/>
+        <include refid="extendedInvoicesCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+</sqlMap>

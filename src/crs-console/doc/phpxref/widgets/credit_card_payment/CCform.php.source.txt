@@ -1,0 +1,75 @@
+<!-- START protected/widgets/credit_card_payment/CCform.php -->
+<?php
+/**
+ * defines html view rendering for CreditCardFormSegmentModel data as part of CreditCardFormSegmentWidget
+ * 
+ * Part of this for is rendered conditionally:
+ * 
+ * - if the model's scenario is 'topup', then a euros-amount field is rendered.
+ * 
+ * - if the model's scenario is NOT 'topup', then a euros-amount field is rendered hidden and set with a value of 1 euro (which the backend is expected to ignore).
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       CreditCardFormSegmentModel, CreditCardFormSegmentWidget
+ */
+?>
+<p class="note">Please fill in the form below. <font color="red">Note:</font> Fields marked with an asterisk (*) must be completed.</p>
+<table class="formfields">
+	<tr>
+		<td><div class="row"><?php echo $this->form->labelEx($this->model,'holder'); echo $this->form->error($this->model,'holder'); ?></div></td>
+		<td colspan="3"><div class="row"><?php echo $this->form->textField($this->model,'holder'); ?></div></td>
+	</tr>
+	<tr>
+		<td><div class="row"><?php echo $this->form->labelEx($this->model,'creditcardno'); echo $this->form->error($this->model,'creditcardno'); ?></div></td>
+		<td colspan="3">
+			<img src="images/laser.gif" width="54" height="36">
+			<img src="images/master.gif" width="54" height="36">
+			<img src="images/visa.gif" width="54" height="36">
+			<br/>
+			<div class="row"><?php echo $this->form->textField($this->model,'creditcardno',array('maxlength'=>20,'size'=>20)); ?></div>
+		</td>
+	</tr>
+
+	<tr>
+		<td><div class="row"><?php echo $this->form->labelEx($this->model,'exp_date'); ?></div></td>
+		<td colspan="3"><div class="row"><?php
+			echo $this->form->textField($this->model,'exp_month',array('maxlength'=>2,'size'=>2));
+			echo ' / 20';
+			echo $this->form->textField($this->model,'exp_year',array('maxlength'=>2,'size'=>2));
+		?></div></td>
+	</tr>
+	<tr>
+		<td colspan="3"><div class="row"><?php
+			echo $this->form->error($this->model,'exp_month');
+			echo $this->form->error($this->model,'exp_year');
+		?></div></td>
+	</tr>
+
+<?php
+if(!(stristr($this->model->getScenario(),'topup')===false))
+	{
+?>
+	<tr>
+		<td><div class="row"><?php echo $this->form->labelEx($this->model,'euros_amount'); echo $this->form->error($this->model,'euros_amount'); ?></div></td>
+		<td colspan="3"><div class="row"><?php echo $this->form->textField($this->model,'euros_amount'); ?></div></td>
+	</tr>
+<?php
+	}
+else
+	{
+	$this->model->euros_amount=1;
+	echo $this->form->hiddenField($this->model,'euros_amount');
+	}
+?>
+	<tr>
+		<td><div class="row"><?php echo $this->form->labelEx($this->model,'cvn'); echo $this->form->error($this->model,'cvn'); ?></div></td>
+		<td colspan="3"><div class="row"><?php echo $this->form->textField($this->model,'cvn',array('maxlength'=>4,'size'=>4)); ?></div></td>
+	</tr>
+</table>
+<!-- END protected/widgets/credit_card_payment/CCform.php -->

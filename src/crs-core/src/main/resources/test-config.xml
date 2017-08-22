@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!--Authorization Groups-->
+
+	<bean id="authorizationGroupsFactory"
+          class="pl.nask.crs.user.service.impl.AuthorizationGroupsFactoryImpl"
+          autowire="constructor"
+          >
+    </bean>     
+
+    <bean id="technicalLead" class="pl.nask.crs.user.Group">
+        <constructor-arg value="TechnicalLead"/>
+        <constructor-arg value="Lead Technical"/>
+        <constructor-arg type="java.util.Set">
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="technical" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Technical"/>
+        <constructor-arg value="Technical"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="hostmasterLead" class="pl.nask.crs.user.Group">
+        <constructor-arg value="HostmasterLead"/>
+        <constructor-arg value="Lead Hostmaster"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="hostmaster" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Hostmaster"/>
+        <constructor-arg value="Hostmaster"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="finance" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Finance"/>
+        <constructor-arg value="Finance"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="registrar" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Registrar"/>
+        <constructor-arg value="Registrar"/>
+        <constructor-arg>
+            <set>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="batch" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Batch"/>
+        <constructor-arg value="Batch"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="superRegistrar" class="pl.nask.crs.user.Group">
+        <constructor-arg value="SuperRegistrar"/>
+        <constructor-arg value="SuperRegistrar"/>
+        <constructor-arg>
+            <set>
+                <ref bean="fullAccess"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <!--Permissions-->
+
+    <bean id="fullAccess" class="pl.nask.crs.user.permissions.FullAccessPermission">
+    	<constructor-arg value="fullAccess"/>
+        <constructor-arg value="fullAccess"/>
+    </bean>
+    
+    <bean id="direct" class="pl.nask.crs.user.Group">
+        <constructor-arg value="Direct"/>
+        <constructor-arg value="Direct Registrant"/>
+        <constructor-arg>
+            <set>
+            	<ref bean="fullAccess" />
+            </set>
+        </constructor-arg>
+    </bean> 
+
+</beans>

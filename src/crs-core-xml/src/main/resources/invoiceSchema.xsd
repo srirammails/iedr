@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.domainregistry.ie/invoice-1.0" 
+	xmlns:invoice="http://www.domainregistry.ie/invoice-1.0" 
+	elementFormDefault="qualified">
+	 
+	<element name="invoice" type="invoice:invoiceType" />
+
+	<complexType name="invoiceType">
+		<all>
+			<element name="number" type="normalizedString">
+				<annotation>
+					<documentation>The unique, sequential invoice number</documentation>
+				</annotation>
+			</element>
+			
+			<element name="date" type="date">
+				<annotation>
+					<documentation>Invoice date</documentation>
+				</annotation>
+			</element>
+            <element name="dateString" type="normalizedString">
+                <annotation>
+                    <documentation>Invoice formated date</documentation>
+                </annotation>
+            </element>
+			<element name="currency" type="invoice:currencyType">
+				<annotation>
+					<documentation>Currency for all monetary values in the invoice</documentation>
+				</annotation>
+			</element>
+			
+			<element name="vatRates" type="invoice:vatRatesType">
+				<annotation>
+					<documentation>The VAT rate table applicable at the tax point of the invoice (invoice date)</documentation>
+				</annotation>
+			</element>
+			
+			<element name="account" type="invoice:accountType">
+				<annotation>
+					<documentation>Customer details</documentation>
+				</annotation>
+			</element>
+			
+			<element name="iedr" type="invoice:iedrType">
+				<annotation>
+					<documentation>IEDR details</documentation>
+				</annotation>
+			</element>
+			
+			<element name="totalExVAT" type="invoice:money">
+				<annotation>
+					<documentation>Total of all item ex VAT</documentation>
+				</annotation>
+			</element>
+			
+			<element name="totalVAT" type="invoice:vatTotalType">
+				<annotation>
+					<documentation>Total of all items VAT amounts</documentation>
+				</annotation>
+			</element>
+			
+			<element name="totalIncVAT" type="invoice:money">
+				<annotation>
+					<documentation>Total of all items inclusive of VAT</documentation>
+				</annotation>
+			</element>
+			
+			<element name="payment" type="invoice:paymentType" />
+			
+			<element name="paidBy" type="string" />
+			
+			<element name="transactions" type="invoice:transactionList" />						
+		</all>
+	</complexType>
+	
+	<simpleType name="currencyType">
+		<restriction base="token">
+			<enumeration value="EUR" />
+		</restriction>
+	</simpleType>
+	
+	<complexType name="vatRatesType">
+		<sequence>
+			<element name="rate" type="invoice:vatRateItem" maxOccurs="unbounded" />		
+		</sequence>
+	</complexType>
+	
+	<complexType name="vatRateItem">
+		<all>
+			<element name="id" type="invoice:vatRateIdType">
+				<annotation><documentation>Internal ID of the VAT rate</documentation></annotation>
+			</element>
+			<element name="code" type="invoice:vatRateCodeType">
+				<annotation><documentation>VAT code/label used</documentation></annotation>
+			</element>
+			<element name="rate" type="invoice:vatRateRateType">
+				<annotation><documentation>Actual VAT rate as percentage</documentation></annotation>
+			</element>
+		</all>
+	</complexType>
+	
+	<simpleType name="vatRateRateType">
+		<restriction base="decimal">
+			<fractionDigits value="2" />
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="vatRateCodeType">
+		<restriction base="normalizedString" />
+	</simpleType>
+	
+	<simpleType name="vatRateIdType">
+		<restriction base="int" />
+	</simpleType>
+
+	<complexType name="accountType">
+		<all>
+			<element name="name" type="normalizedString" />
+			<element name="address1" type="normalizedString" />
+			<element name="address2" type="normalizedString" minOccurs="0" />
+			<element name="address3" type="normalizedString" minOccurs="0" />
+			<element name="county" type="normalizedString" />
+			<element name="country" type="normalizedString" />
+			<element name="vatNo" type="normalizedString" minOccurs="0"/>
+			<element name="accountNo" type="long" />
+			<element name="billC" type="normalizedString" />
+		</all>
+	</complexType>	
+	
+	<complexType name="iedrType">
+		<all>
+			<element name="name" type="normalizedString" />
+			<element name="address1" type="string" />
+			<element name="address2" type="string" minOccurs="0" />
+			<element name="address3" type="string" minOccurs="0" />
+			<element name="county" type="normalizedString" />
+			<element name="country" type="normalizedString" />
+			<element name="vatNo" type="normalizedString" minOccurs="0"/>
+		</all>
+	</complexType>	
+
+    <complexType name="vatTotalType">
+        <all>
+            <element name="total" type="invoice:money"/>
+            <element name="vatRateTotal" type="invoice:vatRateTotalType"/>
+        </all>
+    </complexType>
+
+    <complexType name="vatRateTotalType">
+   		<sequence>
+   			<element name="rate" type="invoice:vatRateTotalItem" maxOccurs="unbounded" />
+   		</sequence>
+   	</complexType>
+
+    <complexType name="vatRateTotalItem">
+   		<all>
+   			<element name="rate" type="invoice:vatRateRateType">
+   				<annotation><documentation>Actual VAT rate as percentage</documentation></annotation>
+   			</element>
+            <element name="total" type="invoice:money">
+                <annotation><documentation>Total of all items VAT amounts per rate</documentation></annotation>
+            </element>
+   		</all>
+   	</complexType>
+
+
+	<simpleType name="money">
+		<restriction base="decimal">
+			<fractionDigits value="2" />
+		</restriction>
+	</simpleType>
+	
+	<complexType name="paymentType">
+		<all>
+			<element name="method" type="invoice:paymentMethod" />
+			<element name="amount" type="invoice:money" />				
+		</all> 
+	</complexType>
+	
+	<simpleType name="paymentMethod">
+		<restriction base="token">
+			<enumeration value="ADP" />
+			<enumeration value="CC" />
+			<enumeration value="DEB" />
+		</restriction>
+	</simpleType>
+	
+	<complexType name="transactionList">
+		<sequence>
+			<element name="transaction" type="invoice:transactionType" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="transactionType">
+		<sequence>
+			<element name="method" type="invoice:paymentMethod" />
+			<element name="type" type="invoice:operationType" />
+			<element name="orderID" type="normalizedString" />
+			<element name="date" type="date" />
+            <element name="dateString" type="normalizedString" />
+            <element name="time" type="time" />
+			<element name="item" type="invoice:itemType" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+	
+	<simpleType name="operationType">
+		<restriction base="token">
+			<enumeration value="registration" />
+			<enumeration value="renewal" />
+			<enumeration value="transfer" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="itemType">
+		<all>
+			<element name="id" type="long" />
+			<element name="product" type="invoice:productType" />
+			<element name="domain" type="invoice:domainType" />
+			<element name="holder" type="invoice:holderType" />
+			<element name="period" type="invoice:periodType" />
+			<element name="unit" type="invoice:money" />
+			<element name="cost" type="invoice:money" />
+			<element name="VATRateID" type="invoice:vatRateIdType" />
+			<element name="VATCode" type="invoice:vatRateCodeType" />
+			<element name="VATRate" type="invoice:vatRateRateType" />
+			<element name="VATAmount" type="invoice:money" />
+			<element name="total" type="invoice:money" />
+		</all>
+	</complexType>	
+	
+	<complexType name="productType">
+		<all>	
+			<element name="id" type="normalizedString" />
+			<element name="product" type="normalizedString" />
+			<element name="years" type="int" />
+		</all>
+	</complexType>
+	
+	<complexType name="domainType">
+		<all>
+			<element name="name" type="normalizedString" />
+			<element name="registrationDate" type="date" />
+			<element name="renewalDate" type="date" />
+			<element name="transferDate" type="date" minOccurs="0" />
+		</all>
+	</complexType>
+
+	<complexType name="holderType">
+		<sequence>
+			<element name="name" type="normalizedString" />
+		</sequence>
+	</complexType>				
+
+	<complexType name="periodType">
+		<all>
+			<element name="startDate" type="date" />
+			<element name="endDate" type="date" />
+		</all>
+	</complexType>
+</schema>

@@ -1,0 +1,10 @@
+List of automatic tasks:
+
+Batch - ? (Every day)
+DNS_Full - 2 times per day at 12 and 17 pm
+DNS_Partial - ?
+Zones export - 2 times per day ?
+Invoicing - first working day of a new month
+Clear Down - first working day of a new month
+MSD - every second Friday
+Automatic Domain Renew - ?

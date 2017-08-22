@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://www.domainregistry.ie/ieapicom-1.1"
+	xmlns:ieapicom="http://www.domainregistry.ie/ieapicom-1.1"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<annotation>
+		<documentation>
+			IEAPI Protocol v1.1 shared structures schema.
+		</documentation>
+	</annotation>
+
+	<!--
+		Abstract client and object identifier type.
+	-->
+	<simpleType name="clIDType">
+		<restriction base="token">
+			<minLength value="3" />
+			<maxLength value="16" />
+		</restriction>
+	</simpleType>
+
+	<!--
+		DNS label type.
+	-->
+	<simpleType name="labelType">
+		<restriction base="token">
+			<minLength value="1" />
+			<maxLength value="255" />
+		</restriction>
+	</simpleType>
+
+	<!--
+		Non-empty token type.
+	-->
+	<simpleType name="minTokenType">
+		<restriction base="token">
+			<minLength value="1" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="hAddrType">
+		<restriction base="token">
+			<minLength value="3" />
+			<maxLength value="45" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="holderCategoryType">
+		<restriction base="token">
+			<enumeration value="Personal Name" />
+			<enumeration value="Personal Trading Name" />
+			<enumeration value="Corporate Name" />
+			<enumeration value="Registered Trade Mark Name" />
+			<enumeration value="Registered Business Name" />
+			<enumeration value="State Agency Name" />
+			<enumeration value="Publication Name" />
+			<enumeration value="School/Educational Institution Name" />
+			<enumeration value="Politician's Name" />
+			<enumeration value="Unincorporated Association Name" />
+			<enumeration value="Discretionary Name" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="holderClassType">
+		<restriction base="token">
+			<enumeration value="Natural Person" />
+			<enumeration value="Body Corporate" />
+			<enumeration value="Sole Trader" />
+			<enumeration value="School/Educational Institution" />
+			<enumeration value="Unincorporated Association" />
+			<enumeration value="Statutory Body" />
+			<enumeration value="Constitutional Body" />
+			<enumeration value="Discretionary Applicant" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="contactAttrType">
+		<restriction base="token">
+			<enumeration value="admin" />
+			<enumeration value="tech" />
+		</restriction>
+	</simpleType>
+
+</schema>
+

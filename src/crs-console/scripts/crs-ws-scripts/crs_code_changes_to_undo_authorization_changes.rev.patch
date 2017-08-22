@@ -1,0 +1,3185 @@
+Index: crs-security-logic/src/main/java/pl/nask/crs/security/authentication/impl/AuthenticatedUserImpl.java
+===================================================================
+--- crs-security-logic/src/main/java/pl/nask/crs/security/authentication/impl/AuthenticatedUserImpl.java	(revision 2738)
++++ crs-security-logic/src/main/java/pl/nask/crs/security/authentication/impl/AuthenticatedUserImpl.java	(revision 2746)
+@@ -12,18 +12,26 @@
+ class AuthenticatedUserImpl implements AuthenticatedUser {
+ 
+     private String username;
++    private String token;
+ 
+     public AuthenticatedUserImpl(String username) {
+         Validator.assertNotEmpty(username, "username");
+         this.username = username;
+     }
+ 
++    public AuthenticatedUserImpl(String username, String token) {
++        Validator.assertNotEmpty(username, "username");
++        Validator.assertNotEmpty(token, "token");
++        this.username = username;
++        this.token = token;
++    }
++
+     public String getUsername() {
+         return username;
+     }
+     
+     public String getAuthenticationToken() {
+-    	return username;
++    	return token;
+     }
+ 
+ 	@Override
+Index: crs-security-logic/src/main/profiles/development/security-config.xml
+===================================================================
+--- crs-security-logic/src/main/profiles/development/security-config.xml	(revision 2738)
++++ crs-security-logic/src/main/profiles/development/security-config.xml	(revision 2746)
+@@ -7,4 +7,10 @@
+ 	<bean id="authenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullAuthenticationService">
+ 		<property name="userDao" ref="userDAO" />
+ 	</bean>
++
++    <bean id="wsAuthenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullWsAuthenticationServiceImpl">
++        <property name="userDAO" ref="userDAO" />
++        <!--session timeout in minutes-->
++        <property name="sessionTimeout" value="10"/>
++    </bean>
+ </beans>
+\ No newline at end of file
+Index: crs-security-logic/src/main/profiles/production/security-config.xml
+===================================================================
+--- crs-security-logic/src/main/profiles/production/security-config.xml	(revision 2738)
++++ crs-security-logic/src/main/profiles/production/security-config.xml	(revision 2746)
+@@ -3,16 +3,28 @@
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+-	<import resource="classpath:users-config.xml" />    	
+-    
+-        <bean id="authenticationService" class="pl.nask.crs.security.authentication.impl.AuthenticationServiceImpl">
+-            <constructor-arg type="pl.nask.crs.user.dao.UserDAO" ref="userDAO"/>
+-            <constructor-arg type="java.util.List">
+-            	<list value-type="pl.nask.crs.commons.HashAlgorithm">
+-            	<ref bean="sha1HashAlg"/>            	
+-            	<ref bean="oldPasswordHashAlg"/>
+-            	</list>
+-            </constructor-arg>
+-        </bean>
+-    
++    <import resource="classpath:users-config.xml"/>
++
++    <bean id="authenticationService" class="pl.nask.crs.security.authentication.impl.AuthenticationServiceImpl">
++        <constructor-arg type="pl.nask.crs.user.dao.UserDAO" ref="userDAO"/>
++        <constructor-arg type="java.util.List">
++            <list value-type="pl.nask.crs.commons.HashAlgorithm">
++                <ref bean="sha1HashAlg"/>
++                <ref bean="oldPasswordHashAlg"/>
++            </list>
++        </constructor-arg>
++    </bean>
++
++    <bean id="wsAuthenticationService" class="pl.nask.crs.security.authentication.impl.WsAuthenticationServiceImpl">
++        <constructor-arg type="pl.nask.crs.user.dao.UserDAO" ref="userDAO"/>
++        <constructor-arg type="java.util.List">
++            <list value-type="pl.nask.crs.commons.HashAlgorithm">
++                <ref bean="sha1HashAlg"/>
++                <ref bean="oldPasswordHashAlg"/>
++            </list>
++        </constructor-arg>
++        <!--session timeout in minutes-->
++        <constructor-arg type="java.lang.Long" value="20"/>
++    </bean>
++
+ </beans>
+\ No newline at end of file
+Index: crs-security-logic/src/main/profiles/drotest3/security-config.xml
+===================================================================
+--- crs-security-logic/src/main/profiles/drotest3/security-config.xml	(revision 2738)
++++ crs-security-logic/src/main/profiles/drotest3/security-config.xml	(revision 2746)
+@@ -7,4 +7,10 @@
+ 	<bean id="authenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullAuthenticationService">
+ 		<property name="userDao" ref="userDAO" />
+ 	</bean>
++
++    <bean id="wsAuthenticationService" class="pl.nask.crs.security.authentication.impl.TrustfullWsAuthenticationServiceImpl">
++        <property name="userDAO" ref="userDAO" />
++        <!--session timeout in minutes-->
++        <property name="sessionTimeout" value="10"/>
++    </bean>
+ </beans>
+\ No newline at end of file
+Index: pom.xml
+===================================================================
+--- pom.xml	(revision 2738)
++++ pom.xml	(revision 2746)
+@@ -17,7 +17,7 @@
+ 		<aversion>1.5.5</aversion>
+ 		
+ 		<!-- version for the IEDR-API module -->
+-		<iedrApiVersion>1.0.15</iedrApiVersion>
++		<iedrApiVersion>1.0.16</iedrApiVersion>
+ 		<iedrApiCommandsVersion>1.2.0</iedrApiCommandsVersion>
+ 		
+ 		<!-- version number for the CRS-WS-API (crs-web-services and crs-api module) -->
+Index: crs-api/src/test/java/pl/nask/crs/api/domain/DomainSaveTest.java
+===================================================================
+--- crs-api/src/test/java/pl/nask/crs/api/domain/DomainSaveTest.java	(revision 2738)
++++ crs-api/src/test/java/pl/nask/crs/api/domain/DomainSaveTest.java	(revision 2746)
+@@ -6,6 +6,7 @@
+ import java.util.List;
+ 
+ import org.junit.Assert;
++import org.junit.Before;
+ import org.junit.Test;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.test.context.ContextConfiguration;
+@@ -13,50 +14,48 @@
+ 
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.AuthenticatedUserVO;
+ import pl.nask.crs.api.vo.DomainVO;
+ import pl.nask.crs.api.vo.ExtendedDomainInfoVO;
+ import pl.nask.crs.api.vo.NameserverVO;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.commons.exceptions.EmptyRemarkException;
+-import pl.nask.crs.domains.Domain;
+ import pl.nask.crs.domains.exceptions.DomainNotFoundException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotActiveException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
++import pl.nask.crs.security.authentication.WsAuthenticationService;
+ 
+ @ContextConfiguration(locations = {"/crs-api-config.xml"})
+ public class DomainSaveTest extends AbstractTransactionalJUnit4SpringContextTests {
+ 	@Autowired
+ 	CRSDomainAppService service;
++
++    @Autowired
++    WsAuthenticationService authenticationService;
+ 	
+ 	private String hostmasterRemark = "test";
+-	private AuthenticatedUserVO user = new AuthenticatedUserVO();
++	private AuthenticatedUserVO user = null;
+ 
+ 	private String domainName = "castlebargolfclub.ie";
+     private List<String> domainsNames = new ArrayList<String>();
+ 	{
+-		user.setUsername("IDL2-IEDR");
+-		user.setAuthenticationToken("IDL2-IEDR");
++//		user.setUsername("IDL2-IEDR");
++//		user.setAuthenticationToken("IDL2-IEDR");
+         domainsNames.add(domainName);
+ 	}
+-	
+-	
+-	
+-	/*
+-	  ValidationHelper.validate(user);
+-      Validator.assertNotEmpty(domainName, "domain name");
+-      Validator.assertNotEmpty(domainHolder, "domain holder");
+-      Validator.assertNotEmpty(domainClass, "domain class");
+-      Validator.assertNotEmpty(domainCategory, "domain category");
+-      Validator.assertNotEmpty(billingStatus, "billing status");
+-      Validator.assertNotEmpty(adminContacts, "contacts admin");
+-      Validator.assertNotEmpty(techContacts, "contacts tech");
+-      Validator.assertNotEmpty(nameservers, "nameservers");
+-      Validator.assertNotNull(hostmasterRemark, "hostmaster remark");
+-	*/
+-	        
++
++    @Before
++    public void init() throws Exception {
++        user = new AuthenticatedUserVO(authenticationService.authenticate("IDL2-IEDR", "", false));
++    }
++
+     @Test
+-	public void saveDomainHolder() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveDomainHolder() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	String domainHolder = "123test domain holder";
+     	service.save(user, domainsNames, domainHolder, null, null, null, null, null, null, null, hostmasterRemark );
+ 		ExtendedDomainInfoVO d = service.view(user, domainName);
+@@ -64,7 +63,9 @@
+ 	}
+     
+     @Test
+-	public void saveDomainClass() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveDomainClass() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	String domainClass = "nonexistent class";
+     	service.save(user, domainsNames, null, domainClass, null, null, null, null, null, null, hostmasterRemark);
+     	ExtendedDomainInfoVO d = service.view(user, domainName);
+@@ -72,7 +73,9 @@
+ 	}
+     
+     @Test
+-	public void saveDomainCategory() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveDomainCategory() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	String domainCategory = "nonexistent category";
+     	service.save(user, domainsNames, null, null, domainCategory, null, null, null, null, null, hostmasterRemark);
+     	DomainVO d = service.view(user, domainName).getDomain();
+@@ -80,7 +83,9 @@
+ 	}
+     
+     @Test
+-	public void saveDomainClassCategory() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveDomainClassCategory() throws NicHandleNotFoundException, NicHandleNotActiveException,
++            AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException,
++            AccountNotActiveException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	String domainClass = "nonexistent class";
+     	String domainCategory = "nonexistent category";
+     	service.save(user, domainsNames, null, domainClass, domainCategory, null, null, null, null, null, hostmasterRemark);
+@@ -90,7 +95,9 @@
+ 	}
+ 
+     @Test
+-	public void saveBillingStatus() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveBillingStatus() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	String billingStatus = "Y";
+     	service.save(user, domainsNames, null, null, null, billingStatus, null, null, null, null, hostmasterRemark);
+     	DomainVO d = service.view(user, domainName).getDomain();
+@@ -98,7 +105,9 @@
+ 	}
+ 	
+     @Test
+-	public void saveAdminContacts() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveAdminContacts() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	List<String> adminContacts = Arrays.asList("NTG1-IEDR");
+ 		service.save(user, domainsNames, null, null, null, null, adminContacts , null, null, null, hostmasterRemark);
+ 		DomainVO d = service.view(user, domainName).getDomain();		
+@@ -107,7 +116,9 @@
+ 	}
+     
+     @Test
+-	public void saveTechContacts() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveTechContacts() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	List<String> techContacts = Arrays.asList("AAI538-IEDR");
+ 		service.save(user, domainsNames, null, null, null, null, null, techContacts , null, null, hostmasterRemark);
+ 		DomainVO d = service.view(user, domainName).getDomain();		
+@@ -116,7 +127,9 @@
+ 	}
+     
+     @Test
+-	public void saveNameservers() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException {
++	public void saveNameservers() throws NicHandleNotFoundException, NicHandleNotActiveException, AccessDeniedException,
++            DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	List<NameserverVO> nameservers = new ArrayList<NameserverVO>();
+     	NameserverVO ns = new NameserverVO();
+     	ns.setName("NS3.NOVARA.IE");
+Index: crs-api/src/main/java/pl/nask/crs/api/authentication/AuthenticationServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/authentication/AuthenticationServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/authentication/AuthenticationServiceEndpoint.java	(revision 2746)
+@@ -29,8 +29,7 @@
+      */
+ 	public AuthenticatedUserVO authenticate (String username, String password)
+ 				throws InvalidUsernameException, InvalidPasswordException,
+-						PasswordExpiredException, IllegalArgumentException,
+-							AuthenticationException {
++						PasswordExpiredException, IllegalArgumentException, AuthenticationException {
+ 		
+ 		log.info("called authenticate with username: "+username+" and passwd: "+password);
+ 		log.debug("calling service method");
+Index: crs-api/src/main/java/pl/nask/crs/api/users/UserAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/users/UserAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/users/UserAppServiceEndpoint.java	(revision 2746)
+@@ -6,6 +6,8 @@
+ 
+ import javax.jws.WebService;
+ 
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.AuthenticatedUserVO;
+ import pl.nask.crs.api.vo.UserHistorySearchResultVO;
+@@ -15,11 +17,13 @@
+ import pl.nask.crs.commons.search.LimitedSearchResult;
+ import pl.nask.crs.commons.utils.Validator;
+ import pl.nask.crs.history.HistoricalObject;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.user.Level;
+ import pl.nask.crs.user.User;
+ 
+ @WebService(serviceName="CRSPermissionsAppService", endpointInterface="pl.nask.crs.api.users.CRSPermissionsAppService")
+-public class UserAppServiceEndpoint implements CRSPermissionsAppService {
++public class UserAppServiceEndpoint extends WsSessionAware implements CRSPermissionsAppService {
+ 
+ 	private UserAppService service;
+ 	
+@@ -31,22 +35,23 @@
+      * @see pl.nask.crs.api.users.CRSPermissionsAppService#changePermissionGroups(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, java.util.Set, java.util.Set)
+      */
+ 	public void changePermissionGroups(AuthenticatedUserVO hostmaster, String nicHandleId, Set<String> remove, Set<String> add)
+-	throws AccessDeniedException 
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+         ValidationHelper.validate(hostmaster);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
++        validateSession(hostmaster);
+ 		service.changePermissions(hostmaster, nicHandleId, remove, add);
+ 	}
+ 
+ 	/* (non-Javadoc)
+      * @see pl.nask.crs.api.users.CRSPermissionsAppService#getHistory(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, int, int)
+      */
+-    public UserHistorySearchResultVO getHistory(AuthenticatedUserVO hostmaster, String nicHandleId, int offset, int limit) 
+-    	throws AccessDeniedException 
++    public UserHistorySearchResultVO getHistory(AuthenticatedUserVO hostmaster, String nicHandleId, int offset, int limit)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(hostmaster);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
+-
++        validateSession(hostmaster);
+     	LimitedSearchResult<HistoricalObject<User>> result = service.getHistory(hostmaster, nicHandleId, offset, limit);
+     	
+     	List<UserHistoryVO> list = new ArrayList<UserHistoryVO>();
+@@ -59,9 +64,10 @@
+     }
+ 
+     public boolean isUserInGroup(AuthenticatedUserVO user, Level level)
+-            throws AccessDeniedException {
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotNull(level, "nic handle level");
++        validateSession(user);
+         return service.isUserInGroup(user, level);
+     }
+ }
+Index: crs-api/src/main/java/pl/nask/crs/api/users/CRSPermissionsAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/users/CRSPermissionsAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/users/CRSPermissionsAppService.java	(revision 2746)
+@@ -6,9 +6,12 @@
+ import javax.jws.WebParam;
+ import javax.jws.WebService;
+ 
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.AuthenticatedUserVO;
+ import pl.nask.crs.api.vo.UserHistorySearchResultVO;
+ import pl.nask.crs.app.AccessDeniedException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.user.Level;
+ 
+ @WebService(targetNamespace = "http://domainregistry.ie/")
+@@ -21,13 +24,16 @@
+      * @param remove names of the privilages t be removed, optional
+      * @param add names of the privilages to be added, optional
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     public abstract void changePermissionGroups(
+             @WebParam(name = "user") AuthenticatedUserVO hostmaster,
+             @WebParam(name = "nicHandleId") String nicHandleId,
+             @WebParam(name = "removedGroups") Set<String> remove,
+             @WebParam(name = "addedGroups") Set<String> add)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns historical users list. Result is limited by offset and limit parameters.
+@@ -38,13 +44,17 @@
+      * @param limit maximum number of users to be retuned, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract UserHistorySearchResultVO getHistory(
+             @WebParam(name = "user") AuthenticatedUserVO hostmaster,
+             @WebParam(name = "nicHandleId") String nicHandleId,
+             @WebParam(name = "offset") int offset,
+-            @WebParam(name = "limit") int limit) throws AccessDeniedException;
++            @WebParam(name = "limit") int limit)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks if user is in group defined by level parameter
+@@ -53,10 +63,14 @@
+      * @param level access level, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract boolean isUserInGroup(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+-            @WebParam(name = "level")Level level) throws AccessDeniedException;
++            @WebParam(name = "level")Level level)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+ }
+\ No newline at end of file
+Index: crs-api/src/main/java/pl/nask/crs/api/ticket/TicketAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/ticket/TicketAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/ticket/TicketAppServiceEndpoint.java	(revision 2746)
+@@ -6,6 +6,8 @@
+ 
+ import javax.jws.WebService;
+ 
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+@@ -31,6 +33,8 @@
+ import pl.nask.crs.history.HistoricalObject;
+ import pl.nask.crs.nichandle.exception.NicHandleEmailException;
+ import pl.nask.crs.payment.exceptions.NotAdmissiblePeriodException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.statuses.Status;
+ import pl.nask.crs.ticket.AdminStatus;
+ import pl.nask.crs.ticket.TechStatus;
+@@ -49,7 +53,7 @@
+ import pl.nask.crs.ticket.services.impl.TicketSortCriteria;
+ 
+ @WebService(serviceName="CRSTicketAppService", endpointInterface="pl.nask.crs.api.ticket.CRSTicketAppService")
+-public class TicketAppServiceEndpoint implements CRSTicketAppService {
++public class TicketAppServiceEndpoint extends WsSessionAware implements CRSTicketAppService {
+ 	private static final String DEFAULT_HOSTMASTERS_REMARK = "changed with crs-api";
+ 	private TicketAppService service;	
+     private TicketSearchService ticketSearchService;
+@@ -82,18 +86,18 @@
+     * @see pl.nask.crs.api.ticket.CRSTicketAppService#view(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+     */
+     public TicketVO view(AuthenticatedUserVO user, long ticketId) 
+-    throws AccessDeniedException, TicketNotFoundException 
++    throws AccessDeniedException, TicketNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+-    	
++        validateSession(user);
+     	return new TicketVO(service.view(user, ticketId));
+     }
+ 
+     public TicketVO viewTicketForDomain(AuthenticatedUserVO user, String domainName) 
+-    throws AccessDeniedException
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+-
++        validateSession(user);
+     	TicketSearchCriteria criteria = new TicketSearchCriteria();
+         criteria.setDomainName(domainName);
+         List<Ticket> ticketList = ticketSearchService.find(criteria, 0 , 10, null).getResults();
+@@ -106,10 +110,10 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#history(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+      */
+     public List<HistoricalTicketVO> history(AuthenticatedUserVO user, long ticketId) 
+-    throws AccessDeniedException, TicketNotFoundException 
++    throws AccessDeniedException, TicketNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+-    	
++        validateSession(user);
+ 		TicketModel h = service.history(user, ticketId);
+ 		List<HistoricalTicketVO> res = new ArrayList<HistoricalTicketVO>();
+ 		for(HistoricalObject<Ticket> t: h.getHistory()) {
+@@ -123,9 +127,10 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#revise(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+      */
+     public TicketVO revise(AuthenticatedUserVO user, long ticketId) 
+-	throws AccessDeniedException, TicketNotFoundException 
++	throws AccessDeniedException, TicketNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+     	ValidationHelper.validate(user);
++        validateSession(user);
+ 		return new TicketVO(service.revise(user, ticketId));
+ 	}
+ 
+@@ -133,9 +138,10 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#edit(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+      */
+     public TicketVO edit(AuthenticatedUserVO user, long ticketId) 
+-	throws AccessDeniedException, TicketNotFoundException 
++	throws AccessDeniedException, TicketNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+     	ValidationHelper.validate(user);
++        validateSession(user);
+ 		return new TicketVO(service.edit(user, ticketId));
+ 	}
+ 
+@@ -143,11 +149,11 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#checkOut(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+      */
+ 	public void checkOut(AuthenticatedUserVO user, long ticketId) 
+-		throws AccessDeniedException, TicketNotFoundException, TicketAlreadyCheckedOutExceptionVO
++		throws AccessDeniedException, TicketNotFoundException, TicketAlreadyCheckedOutExceptionVO, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+-		try {
+-			ValidationHelper.validate(user);
+-			
++        ValidationHelper.validate(user);
++        validateSession(user);
++        try {
+ 			service.checkOut(user, ticketId);
+ 		} catch (TicketAlreadyCheckedOutException e){
+ 			throw new TicketAlreadyCheckedOutExceptionVO(e);
+@@ -158,11 +164,12 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#checkIn(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String)
+      */
+     public void checkIn(AuthenticatedUserVO user, long ticketId, AdminStatusEnum status) 
+-    throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException, TicketCheckedOutToOtherException 
++    throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException, TicketCheckedOutToOtherException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {    
+     	ValidationHelper.validate(user);
+     	Validator.assertNotNull(status, "status");
+-    	
++        validateSession(user);
+     	service.checkIn(user, ticketId, adminStatusFor(status));
+     }
+ 
+@@ -170,11 +177,12 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#alterStatus(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String)
+      */
+     public void alterStatus(AuthenticatedUserVO user, long ticketId, AdminStatusEnum status) 
+-    throws AccessDeniedException, TicketNotFoundException, TicketCheckedOutToOtherException, TicketNotCheckedOutException 
++    throws AccessDeniedException, TicketNotFoundException, TicketCheckedOutToOtherException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+     	Validator.assertNotNull(status, "status");
+-
++        validateSession(user);
+     	service.alterStatus(user, ticketId, adminStatusFor(status));
+     }
+ 
+@@ -182,11 +190,12 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#reassign(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String)
+      */
+     public void reassign(AuthenticatedUserVO user, long ticketId, String hostmasterHandle) 
+-    throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException
++    throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+     	Validator.assertNotEmpty(hostmasterHandle, "hostmasterNicHandle");
+-    	
++        validateSession(user);
+     	service.reassign(user, ticketId, hostmasterHandle);
+     }
+ 
+@@ -194,11 +203,12 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#save(pl.nask.crs.api.vo.AuthenticatedUserVO, long, pl.nask.crs.api.vo.FailureReasonsVO, java.lang.String)
+      */
+     public void save(AuthenticatedUserVO user, long ticketId, FailureReasonsEditVO failureReasons, String remark)
+-    throws AccessDeniedException, TicketNotFoundException, EmptyRemarkException, TicketCheckedOutToOtherException, TicketNotCheckedOutException {
++    throws AccessDeniedException, TicketNotFoundException, EmptyRemarkException, TicketCheckedOutToOtherException,
++            TicketNotCheckedOutException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	// FIXME: refactoring needed
+     	
+     	ValidationHelper.validate(user);
+-    	
++        validateSession(user);
+     	TicketModel ticket = service.revise(user, ticketId);
+     	DomainOperation top = ticket.getTicket().getOperation();
+     	DomainOperation domainOp = failureReasons.makeDomainOperations(top.getType(), top.getRenewalDate());
+@@ -209,11 +219,12 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#accept(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String)
+      */
+     public void accept(AuthenticatedUserVO user, long ticketId, String remark) 
+-    throws AccessDeniedException, TicketNotFoundException, TicketEmailException, TicketCheckedOutToOtherException, TicketNotCheckedOutException 
++    throws AccessDeniedException, TicketNotFoundException, TicketEmailException, TicketCheckedOutToOtherException,
++            TicketNotCheckedOutException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+     	Validator.assertNotEmpty(remark, "hostmaster remark");
+-    	
++        validateSession(user);
+     	service.accept(user, ticketId, remark, DEFAULT_HOSTMASTERS_REMARK);
+     }
+ 
+@@ -221,11 +232,14 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#reject(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String, pl.nask.crs.api.vo.FailureReasonsVO, java.lang.String)
+      */
+     public void reject(AuthenticatedUserVO user, long ticketId, AdminStatusEnum adminStatus, FailureReasonsEditVO failureReasons, String remark)
+-    throws AccessDeniedException, TicketNotFoundException, InvalidStatusException, EmptyRemarkException, TicketEmailException, TicketCheckedOutToOtherException, TicketNotCheckedOutException
++    throws AccessDeniedException, TicketNotFoundException, InvalidStatusException,
++            EmptyRemarkException, TicketEmailException, TicketCheckedOutToOtherException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+     	Validator.assertNotNull(adminStatus, "adminStatus");
+-    	
++        validateSession(user);
++
+     	TicketModel ticket = service.revise(user, ticketId);
+     	DomainOperation top = ticket.getTicket().getOperation();
+     	DomainOperation domainOp = failureReasons.makeDomainOperations(top.getType(), top.getRenewalDate());
+@@ -236,12 +250,14 @@
+      * @see pl.nask.crs.api.ticket.CRSTicketAppService#update(pl.nask.crs.api.vo.AuthenticatedUserVO, long, pl.nask.crs.api.vo.FailureReasonsVO, java.lang.String, boolean)
+      */
+     public void update(AuthenticatedUserVO user, long ticketId, FailureReasonsEditVO domainOperation, String remark, boolean clikPaid)
+-    throws AccessDeniedException, TicketNotFoundException, EmptyRemarkException, TicketCheckedOutToOtherException, TicketNotCheckedOutException, ContactNotActiveException, TicketEditFlagException, ContactNotFoundException
++    throws AccessDeniedException, TicketNotFoundException, EmptyRemarkException, TicketCheckedOutToOtherException,
++            TicketNotCheckedOutException, ContactNotActiveException, TicketEditFlagException, ContactNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+     	ValidationHelper.validate(user);
+     	ValidationHelper.validate(domainOperation);
++        validateSession(user);
+     	
+-    	
+     	TicketModel ticket = service.edit(user, ticketId);
+     	DomainOperation top = ticket.getTicket().getOperation();
+     	DomainOperation domainOp = domainOperation.makeDomainOperations(top.getType(), top.getRenewalDate());
+@@ -262,8 +278,13 @@
+ 	}
+ 
+     public long create(AuthenticatedUserVO user, TicketCreateVO newTicket, int period) 
+-            throws AccessDeniedException, NotAdmissiblePeriodException, HolderClassNotExistException, HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException, DomainNotFoundException, NicHandleNotFoundException, CreateTicketValidationException, NicHandleRecreateException, NicHandleEmailException {
++            throws AccessDeniedException, NotAdmissiblePeriodException, HolderClassNotExistException,
++            HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException,
++            DomainNotFoundException, NicHandleNotFoundException, CreateTicketValidationException,
++            NicHandleRecreateException, NicHandleEmailException, UserNotAuthenticatedException,
++            InvalidTokenException, SessionExpiredException {
+     	ValidationHelper.validate(user);
++        validateSession(user);
+ //    	full validation is performed in TicketAppService
+     	
+     	// 'correct' ticket data
+@@ -277,11 +298,13 @@
+     	return service.create(user, newTicket.toTicket(), period, null);
+     }
+     
+-    public TicketSearchResultVO find(AuthenticatedUserVO user, TicketSearchCriteria searchCriteria, long offset, long limit, List<SortCriterion> sortCriteria) throws AccessDeniedException {
++    public TicketSearchResultVO find(AuthenticatedUserVO user, TicketSearchCriteria searchCriteria, long offset, long limit, List<SortCriterion> sortCriteria)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	ValidationHelper.validate(user);
+     	TicketSortCriteria.validate(sortCriteria);
++        validateSession(user);
++
+     	
+-    	
+     	LimitedSearchResult<Ticket> sres = ticketSearchService.find(searchCriteria, offset, limit, sortCriteria);
+     	List<TicketVO> list = new ArrayList<TicketVO>();
+     	for (Ticket t: sres.getResults()) {
+@@ -293,9 +316,11 @@
+     }	
+ 	
+ 	public void delete(AuthenticatedUserVO user, String domainName)
+-	throws AccessDeniedException, TicketNotFoundException {
++            throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
+ 		Validator.assertNotEmpty(domainName, "domainName");
++        validateSession(user);
+ 
+ 		TicketSearchCriteria criteria = new TicketSearchCriteria();
+ 		criteria.setDomainName(domainName);
+@@ -307,11 +332,17 @@
+ 		service.delete(user, ticketId);
+ 	}
+ 
+-    public List<StatusVO> getAdminStatuses() {
++    public List<StatusVO> getAdminStatuses(AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toStatusVOList(adminStatusDictionary.getEntries());
+     }
+ 
+-    public List<StatusVO> getTechStatuses() {
++    public List<StatusVO> getTechStatuses(AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toStatusVOList(techStatusDictionary.getEntries());
+     }
+ 
+@@ -325,7 +356,10 @@
+         return ret;
+     }
+ 
+-    public List<EnchantedEntityClassVO> getClassesWithCategories() {
++    public List<EnchantedEntityClassVO> getClassesWithCategories(AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toEnchantedEntityClassVOList(entityClassFactory.getEntries());
+     }
+ 
+@@ -339,7 +373,10 @@
+         return ret;
+     }
+ 
+-    public List<EntityClassVO> getClasses() {
++    public List<EntityClassVO> getClasses(AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toEntityClassVOList(entityClassFactory.getEntries());
+     }
+ 
+@@ -353,7 +390,10 @@
+         return ret;
+     }
+ 
+-    public List<EntityCategoryVO> getCategoriesForClass(long classId) {
++    public List<EntityCategoryVO> getCategoriesForClass(AuthenticatedUserVO user, long classId)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toEntityCategoryVOList(entityClassFactory.getEntry(classId));
+     }
+ 
+Index: crs-api/src/main/java/pl/nask/crs/api/ticket/CRSTicketAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/ticket/CRSTicketAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/ticket/CRSTicketAppService.java	(revision 2746)
+@@ -6,6 +6,7 @@
+ import javax.jws.WebParam;
+ import javax.jws.WebService;
+ 
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.app.tickets.exceptions.CreateTicketValidationException;
+@@ -14,6 +15,8 @@
+ import pl.nask.crs.commons.search.SortCriterion;
+ import pl.nask.crs.contacts.exceptions.ContactNotActiveException;
+ import pl.nask.crs.contacts.exceptions.ContactNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.ticket.exceptions.InvalidStatusException;
+ import pl.nask.crs.ticket.exceptions.NicHandleNotFoundException;
+ import pl.nask.crs.ticket.exceptions.TicketCheckedOutToOtherException;
+@@ -53,12 +56,16 @@
+      * @return full ticket object 
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException if no ticket with given id exists
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract TicketVO view(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId)
+-            throws AccessDeniedException, TicketNotFoundException;
++            throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * If a domain has an open ticket (every domain may have one open ticket), the method would return this ticket. If not, null would be returned.
+@@ -70,11 +77,15 @@
+      * @param domainName name of a domain for which tickets will be returned
+      * @return ticket object with the same data, as obtained from {@link #view(AuthenticatedUserVO, long)}, or null, if the domain has no ticket open.
+      * @throws AccessDeniedException 
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract TicketVO viewTicketForDomain (
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+-            @WebParam(name = "domainName") String domainName) throws AccessDeniedException;
++            @WebParam(name = "domainName") String domainName)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns ticket historical objects (ticket history) for the given ticketId. 
+@@ -84,12 +95,16 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract List<HistoricalTicketVO> history(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId)
+-            throws AccessDeniedException, TicketNotFoundException;
++            throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns a ticket to revise - only failure reasons can be updated. 
+@@ -100,12 +115,16 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract TicketVO revise(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId)
+-            throws AccessDeniedException, TicketNotFoundException;
++            throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns a ticket to edit
+@@ -115,12 +134,16 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract TicketVO edit(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId)
+-            throws AccessDeniedException, TicketNotFoundException;
++            throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks out the ticket to given user
+@@ -130,12 +153,16 @@
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
+      * @throws TicketAlreadyCheckedOutExceptionVO
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void checkOut(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId)
+-            throws AccessDeniedException, TicketNotFoundException, TicketAlreadyCheckedOutExceptionVO;
++            throws AccessDeniedException, TicketNotFoundException, TicketAlreadyCheckedOutExceptionVO,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Releases the ticket and sets new admin status.
+@@ -147,6 +174,9 @@
+      * @throws TicketNotFoundException
+      * @throws TicketNotCheckedOutException
+      * @throws TicketCheckedOutToOtherException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void checkIn(
+@@ -154,7 +184,8 @@
+             @WebParam(name = "ticketId") long ticketId,
+             @WebParam(name = "adminStatus") AdminStatusEnum status)
+             throws AccessDeniedException, TicketNotFoundException,
+-            TicketNotCheckedOutException, TicketCheckedOutToOtherException;
++            TicketNotCheckedOutException, TicketCheckedOutToOtherException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates admin alter status.
+@@ -166,6 +197,9 @@
+      * @throws TicketNotFoundException
+      * @throws TicketCheckedOutToOtherException
+      * @throws TicketNotCheckedOutException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void alterStatus(
+@@ -173,7 +207,8 @@
+             @WebParam(name = "ticketId") long ticketId,
+             @WebParam(name = "adminStatus") AdminStatusEnum status)
+             throws AccessDeniedException, TicketNotFoundException,
+-            TicketCheckedOutToOtherException, TicketNotCheckedOutException;
++            TicketCheckedOutToOtherException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks out the ticket to new hosmaster. 
+@@ -184,13 +219,17 @@
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
+      * @throws TicketNotCheckedOutException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void reassign(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticketId") long ticketId,
+             @WebParam(name = "hostmasterNicHandle") String hostmasterHandle)
+-            throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException;
++            throws AccessDeniedException, TicketNotFoundException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates ticket's failure reasons
+@@ -204,6 +243,9 @@
+      * @throws EmptyRemarkException
+      * @throws TicketCheckedOutToOtherException
+      * @throws TicketNotCheckedOutException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void save(
+@@ -213,7 +255,7 @@
+             @WebParam(name = "remark") String remark)
+             throws AccessDeniedException, TicketNotFoundException,
+             EmptyRemarkException, TicketCheckedOutToOtherException,
+-            TicketNotCheckedOutException;
++            TicketNotCheckedOutException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Accepts the ticket - all failure reasons are being cleared. 
+@@ -227,6 +269,9 @@
+      * @throws TicketEmailException if there was an error sending confirmation email - throwing this exception does not prevent the ticket from being accepted
+      * @throws TicketCheckedOutToOtherException 
+      * @throws TicketNotCheckedOutException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void accept(
+@@ -235,7 +280,7 @@
+             @WebParam(name = "remark") String remark)
+             throws AccessDeniedException, TicketNotFoundException,
+             TicketEmailException, TicketCheckedOutToOtherException,
+-            TicketNotCheckedOutException;
++            TicketNotCheckedOutException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Rejects the ticket - all failre reasons are being populated.
+@@ -252,6 +297,9 @@
+      * @throws TicketEmailException
+      * @throws TicketCheckedOutToOtherException
+      * @throws TicketNotCheckedOutException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void reject(
+@@ -262,7 +310,8 @@
+             @WebParam(name = "remark") String remark)
+             throws AccessDeniedException, TicketNotFoundException,
+             InvalidStatusException, EmptyRemarkException, TicketEmailException,
+-            TicketCheckedOutToOtherException, TicketNotCheckedOutException;
++            TicketCheckedOutToOtherException, TicketNotCheckedOutException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates ticket
+@@ -280,6 +329,9 @@
+      * @throws ContactNotActiveException
+      * @throws TicketEditFlagException
+      * @throws ContactNotFoundException 
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void update(
+@@ -290,7 +342,8 @@
+             @WebParam(name = "clikPaid") boolean clikPaid) throws AccessDeniedException,
+             TicketNotFoundException, EmptyRemarkException,
+             TicketCheckedOutToOtherException, TicketNotCheckedOutException,
+-            ContactNotActiveException, TicketEditFlagException, ContactNotFoundException;
++            ContactNotActiveException, TicketEditFlagException, ContactNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Creates new ticket.
+@@ -307,14 +360,25 @@
+      * @throws pl.nask.crs.entities.exceptions.HolderCategoryNotExistException
+      * @throws ClassDontMatchCategoryException
+      * @throws pl.nask.crs.entities.exceptions.ClassCategoryPermissionException
++     * @throws DomainNotFoundException
++     * @throws NicHandleNotFoundException
++     * @throws CreateTicketValidationException
++     * @throws NicHandleRecreateException
+      * @throws NicHandleEmailException 
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract long create(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "ticket")TicketCreateVO newTicket,
+             @WebParam(name = "period") int period)
+-            throws AccessDeniedException, NotAdmissiblePeriodException, HolderClassNotExistException, HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException, DomainNotFoundException, NicHandleNotFoundException, CreateTicketValidationException, NicHandleRecreateException, NicHandleEmailException;
++            throws AccessDeniedException, NotAdmissiblePeriodException, HolderClassNotExistException,
++            HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException,
++            DomainNotFoundException, NicHandleNotFoundException, CreateTicketValidationException,
++            NicHandleRecreateException, NicHandleEmailException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns ticket list. Result is limited by offset and limit parameters.
+@@ -346,6 +410,9 @@
+      * 
+      * @return 
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public TicketSearchResultVO find(
+@@ -354,7 +421,7 @@
+     		@WebParam(name = "offset") long offset, 
+     		@WebParam(name = "limit") long limit,
+     		@WebParam(name = "sortCriteria" ) List<SortCriterion> sortCriteria
+-    		) throws AccessDeniedException;
++    		) throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Deletes ticket identified by the domain name
+@@ -363,52 +430,86 @@
+      * @param name domain name that identify ticket
+      * @throws AccessDeniedException
+      * @throws TicketNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+ 	public void delete(
+ 			@WebParam(name = "user") AuthenticatedUserVO user, 
+ 			@WebParam(name = "domainName") String name
+-			) throws AccessDeniedException, TicketNotFoundException ;
++			) throws AccessDeniedException, TicketNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns admin statuses.
+      *
++     * @param user authentication token, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public abstract List<StatusVO> getAdminStatuses();
++    public abstract List<StatusVO> getAdminStatuses(
++            @WebParam(name = "user") AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns tech statuses.
+      *
++     * @param user authentication token, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public abstract List<StatusVO> getTechStatuses();
++    public abstract List<StatusVO> getTechStatuses(
++            @WebParam(name = "user") AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns all holder classes and corresponding categories.
+      *
++     * @param user authentication token, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public abstract List<EnchantedEntityClassVO> getClassesWithCategories();
++    public abstract List<EnchantedEntityClassVO> getClassesWithCategories(
++            @WebParam(name = "user") AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns all holder classes.
+      *
++     * @param user authentication token, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public abstract List<EntityClassVO> getClasses();
++    public abstract List<EntityClassVO> getClasses(
++            @WebParam(name = "user") AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns holder categories for corresponding class id.
+      *
++     * @param user authentication token, required
+      * @param classId class id categories will be returned, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract List<EntityCategoryVO> getCategoriesForClass(
+-            @WebParam(name = "classId") long classId);
++            @WebParam(name = "user") AuthenticatedUserVO user,
++            @WebParam(name = "classId") long classId)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ }
+\ No newline at end of file
+Index: crs-api/src/main/java/pl/nask/crs/api/nichandle/CRSNicHandleAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/nichandle/CRSNicHandleAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/nichandle/CRSNicHandleAppService.java	(revision 2746)
+@@ -8,6 +8,7 @@
+ 
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.commons.exceptions.EmptyRemarkException;
+@@ -24,6 +25,8 @@
+ import pl.nask.crs.nichandle.exception.PasswordTooEasyException;
+ import pl.nask.crs.nichandle.exception.PasswordsDontMatchException;
+ import pl.nask.crs.nichandle.search.NicHandleSearchCriteria;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.user.exceptions.PasswordAlreadyExistsException;
+ 
+ @WebService(targetNamespace = "http://domainregistry.ie/")
+@@ -36,12 +39,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws NicHandleNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract NicHandleVO get(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "nicHandle") String nicHandleId)
+-            throws AccessDeniedException, NicHandleNotFoundException;
++            throws AccessDeniedException, NicHandleNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Searches for historical nic handle objects.
+@@ -53,14 +59,18 @@
+      * @return HistoricalNicHandleSearchResultVO object containing total count of historical objects and list of HistoricalNicHandleVO objects limited by offset and limit parameters
+      * @throws AccessDeniedException
+      * @throws NicHandleNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract HistoricalNicHandleSearchResultVO history(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "nicHandleId") String nicHandleId,
+             @WebParam(name = "offset") int offset,
+-            @WebParam(name = "limit") int limit) throws AccessDeniedException,
+-            NicHandleNotFoundException;
++            @WebParam(name = "limit") int limit)
++            throws AccessDeniedException,
++            NicHandleNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Alters nic handle status.
+@@ -75,6 +85,9 @@
+      * @throws NicHandleAssignedToDomainException
+      * @throws NicHandleIsAccountBillingContactException
+      * @throws NicHandleIsTicketContactException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void alterStatus(
+@@ -85,7 +98,7 @@
+             throws AccessDeniedException, EmptyRemarkException,
+             NicHandleNotFoundException, NicHandleAssignedToDomainException,
+             NicHandleIsAccountBillingContactException,
+-            NicHandleIsTicketContactException;
++            NicHandleIsTicketContactException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates nic handle identified by nicHandleId param.
+@@ -103,6 +116,9 @@
+      * @throws NicHandleEmailException
+      * @throws InvalidCountryException
+      * @throws InvalidCountyException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     public abstract void save(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+@@ -111,7 +127,8 @@
+             @WebParam(name = "remark") String hostmastersRemark) throws AccessDeniedException,
+             NicHandleNotFoundException, EmptyRemarkException,
+             AccountNotFoundException, AccountNotActiveException,
+-            NicHandleIsAccountBillingContactException, NicHandleEmailException, InvalidCountryException, InvalidCountyException;
++            NicHandleIsAccountBillingContactException, NicHandleEmailException, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Saves new password for nic handle identified by nicHandleId param.
+@@ -127,6 +144,9 @@
+      * @throws AccessDeniedException
+      * @throws NicHandleEmailException
+      * @throws PasswordAlreadyExistsException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void saveNewPassword(
+@@ -136,8 +156,8 @@
+             @WebParam(name = "repeatedPassword") String newPassword2)
+             throws EmptyPasswordException, PasswordsDontMatchException,
+             PasswordTooEasyException, NicHandleNotFoundException,
+-            AccessDeniedException, 
+-            NicHandleEmailException, PasswordAlreadyExistsException;
++            AccessDeniedException, NicHandleEmailException,
++            PasswordAlreadyExistsException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Generates new password for nic handle identified by nicHandleId param.
+@@ -149,14 +169,17 @@
+      * @throws EmptyRemarkException
+      * @throws NicHandleEmailException
+      * @throws PasswordAlreadyExistsException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void generateNewPassword(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "nicHandle") String nicHandleId)
+             throws NicHandleNotFoundException, AccessDeniedException,
+-            EmptyRemarkException, NicHandleEmailException,
+-            PasswordAlreadyExistsException;
++            EmptyRemarkException, NicHandleEmailException, PasswordAlreadyExistsException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Creates new nic handle.
+@@ -174,6 +197,9 @@
+      * @throws PasswordAlreadyExistsException
+      * @throws InvalidCountryException
+      * @throws InvalidCountyException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract String create(
+@@ -183,32 +209,45 @@
+             throws AccessDeniedException, AccountNotFoundException,
+             AccountNotActiveException, NicHandleNotFoundException,
+             EmptyRemarkException, NicHandleEmailException,
+-            PasswordAlreadyExistsException, InvalidCountryException, InvalidCountyException;
++            PasswordAlreadyExistsException, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Searches for nic handles matching given criteria in the given order.
+      * Result is limited by offset and limit parameters.
+      *
++     * @param user authentication token, required
+      * @param criteria nic ahndle search criteria, required
+      * @param offset, required
+      * @param limit, maximum number of nic handles to be retuned, required
+      * @param orderBy sorting criteria, optional
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public NicHandleSearchResultVO find(
++            @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name="criteria") NicHandleSearchCriteria criteria, 
+             @WebParam(name="offset") long offset, 
+             @WebParam(name="limit") long limit, 
+-            @WebParam(name="sortCriteria") List<SortCriterion> orderBy);
++            @WebParam(name="sortCriteria") List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Return reseller defaults(tech contact, nameservers)
+      *
++     * @param user authentication token, required
+      * @param nicHandle nic handle identifier, required
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public ResellerDefaultsVO getDefaults(
+-            @WebParam(name = "nicHandle") String nicHandle);
++            @WebParam(name = "user") AuthenticatedUserVO user,
++            @WebParam(name = "nicHandle") String nicHandle)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ }
+\ No newline at end of file
+Index: crs-api/src/main/java/pl/nask/crs/api/nichandle/NicHandleAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/nichandle/NicHandleAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/nichandle/NicHandleAppServiceEndpoint.java	(revision 2746)
+@@ -8,6 +8,8 @@
+ 
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+@@ -30,10 +32,12 @@
+ import pl.nask.crs.nichandle.exception.PasswordsDontMatchException;
+ import pl.nask.crs.nichandle.search.NicHandleSearchCriteria;
+ import pl.nask.crs.nichandle.service.NicHandleSearchService;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.user.exceptions.PasswordAlreadyExistsException;
+ 
+ @WebService(serviceName="CRSNicHandleAppService", endpointInterface="pl.nask.crs.api.nichandle.CRSNicHandleAppService")
+-public class NicHandleAppServiceEndpoint implements CRSNicHandleAppService {
++public class NicHandleAppServiceEndpoint extends WsSessionAware implements CRSNicHandleAppService {
+ 
+ 	private NicHandleAppService service;
+     private NicHandleSearchService searchService;
+@@ -50,10 +54,11 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#get(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String)
+      */
+ 	public NicHandleVO get(AuthenticatedUserVO user, String nicHandleId)
+-    throws AccessDeniedException, NicHandleNotFoundException 
++    throws AccessDeniedException, NicHandleNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
++        validateSession(user);
+ 		return new NicHandleVO(service.get(user, nicHandleId));	
+ 	}
+ 
+@@ -61,9 +66,10 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#history(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, int, int)
+      */
+ 	public HistoricalNicHandleSearchResultVO history(AuthenticatedUserVO user, String nicHandleId, int offset, int limit)
+-    throws AccessDeniedException, NicHandleNotFoundException {
++    throws AccessDeniedException, NicHandleNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
++        validateSession(user);
+ 		return new HistoricalNicHandleSearchResultVO(service.history(user, nicHandleId, offset, limit));
+ 	}
+ 
+@@ -72,12 +78,14 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#alterStatus(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, pl.nask.crs.nichandle.NicHandle.Status, java.lang.String)
+      */
+ 	public void alterStatus(AuthenticatedUserVO user, String nicHandleId, NicHandle.NHStatus status, String hostmastersRemark)
+-    throws AccessDeniedException, EmptyRemarkException, NicHandleNotFoundException, NicHandleAssignedToDomainException, NicHandleIsAccountBillingContactException, NicHandleIsTicketContactException
++    throws AccessDeniedException, EmptyRemarkException, NicHandleNotFoundException, NicHandleAssignedToDomainException,
++            NicHandleIsAccountBillingContactException, NicHandleIsTicketContactException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
+         Validator.assertNotNull(status, "nic handle status");
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		service.alterStatus(user, nicHandleId, status, hostmastersRemark);
+     }
+ 
+@@ -85,12 +93,16 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#save(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, pl.nask.crs.api.vo.NicHandleEditVO, java.lang.String)
+      */
+ 	public void save(AuthenticatedUserVO user, String nicHandleId, NicHandleEditVO nicHandleData,String hostmastersRemark)
+-    throws AccessDeniedException, NicHandleNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException, NicHandleIsAccountBillingContactException, NicHandleEmailException, InvalidCountryException, InvalidCountyException
++    throws AccessDeniedException, NicHandleNotFoundException, EmptyRemarkException,
++            AccountNotFoundException, AccountNotActiveException, NicHandleIsAccountBillingContactException,
++            NicHandleEmailException, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
+         ValidationHelper.validate(nicHandleData);
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		// FIXME: refactoring needed
+ 		NicHandle nh = service.get(user, nicHandleId);
+ 		nicHandleData.copyTo(nh);
+@@ -102,12 +114,15 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#saveNewPassword(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String, java.lang.String, java.lang.String)
+      */
+ 	public void saveNewPassword(AuthenticatedUserVO user, String nicHandleId, String newPassword1, String newPassword2)
+-    throws EmptyPasswordException, PasswordsDontMatchException, PasswordTooEasyException, NicHandleNotFoundException, AccessDeniedException, NicHandleEmailException, PasswordAlreadyExistsException
++    throws EmptyPasswordException, PasswordsDontMatchException, PasswordTooEasyException, NicHandleNotFoundException,
++            AccessDeniedException, NicHandleEmailException, PasswordAlreadyExistsException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
+         Validator.assertNotEmpty(newPassword1, "new password 1");
+         Validator.assertNotEmpty(newPassword2, "new password 2");
++        validateSession(user);
+ 		service.saveNewPassword(user, newPassword1, newPassword2, nicHandleId);
+ 	}
+ 
+@@ -115,10 +130,12 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#generateNewPassword(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String)
+      */
+ 	public void generateNewPassword(AuthenticatedUserVO user, String nicHandleId)
+-    throws NicHandleNotFoundException, AccessDeniedException, EmptyRemarkException, NicHandleEmailException, PasswordAlreadyExistsException
++    throws NicHandleNotFoundException, AccessDeniedException, EmptyRemarkException, NicHandleEmailException,
++            PasswordAlreadyExistsException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(nicHandleId, "nic handle id");
++        validateSession(user);
+ 		service.generateNewPassword(user, nicHandleId);
+ 	}
+ 
+@@ -127,24 +144,33 @@
+      * @see pl.nask.crs.api.nichandle.CRSNicHandleAppService#create(pl.nask.crs.api.vo.AuthenticatedUserVO, pl.nask.crs.api.vo.NicHandleEditVO, java.lang.String)
+      */
+ 	public String create (AuthenticatedUserVO user, NicHandleEditVO nicHandleCreateWrapper, String hostmastersRemark)
+-    throws AccessDeniedException, AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException, EmptyRemarkException, NicHandleEmailException, PasswordAlreadyExistsException, InvalidCountryException, InvalidCountyException 
++    throws AccessDeniedException, AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException,
++            EmptyRemarkException, NicHandleEmailException, PasswordAlreadyExistsException, InvalidCountryException,
++            InvalidCountyException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(nicHandleCreateWrapper);
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		return service.create(user, nicHandleCreateWrapper.toNewNicHandle(), hostmastersRemark, true).getNicHandleId();
+ 	}
+ 
+     @Override
+-    public NicHandleSearchResultVO find(NicHandleSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy) {
++    public NicHandleSearchResultVO find(AuthenticatedUserVO user, NicHandleSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
+         // TODO Auto-generated method stub
++        ValidationHelper.validate(user);
+         Validator.assertNotNull(criteria, "criteria");
++        validateSession(user);
+         LimitedSearchResult<NicHandle> searchRes = searchService.findNicHandle(criteria, offset, limit, orderBy);
+         NicHandleSearchResultVO res = new NicHandleSearchResultVO(searchRes);
+         return res ;
+     }
+ 
+-    public ResellerDefaultsVO getDefaults(String nicHandle) {
++    @Override
++    public ResellerDefaultsVO getDefaults(AuthenticatedUserVO user, String nicHandle) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         ResellerDefaults defaults = searchService.getResellerDefaults(nicHandle);
+         return defaults == null ? null : new ResellerDefaultsVO(defaults);
+     }
+Index: crs-api/src/main/java/pl/nask/crs/api/domain/CRSDomainAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/domain/CRSDomainAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/domain/CRSDomainAppService.java	(revision 2746)
+@@ -9,6 +9,7 @@
+ 
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.commons.exceptions.EmptyRemarkException;
+@@ -30,6 +31,8 @@
+ import pl.nask.crs.nichandle.exception.NicHandleIsAccountBillingContactException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotActiveException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ 
+ @WebService(targetNamespace = "http://domainregistry.ie/")
+ public interface CRSDomainAppService {
+@@ -43,12 +46,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws DomainNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract ExtendedDomainInfoVO view(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName") String domainName)
+-            throws AccessDeniedException, DomainNotFoundException;
++            throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns detailed domain info containing domain object, list of realted domains, list of pending domains
+@@ -59,12 +65,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws DomainNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract ExtendedDomainInfoVO edit(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName") String domainName)
+-            throws AccessDeniedException, DomainNotFoundException;
++            throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns plain domain object.
+@@ -74,12 +83,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws DomainNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract DomainVO viewPlain(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName") String domainName)
+-    		throws AccessDeniedException, DomainNotFoundException;
++    		throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates domain
+@@ -102,6 +114,9 @@
+      * @throws AccountNotActiveException
+      * @throws NicHandleNotFoundException
+      * @throws NicHandleNotActiveException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void save(
+@@ -119,7 +134,7 @@
+             throws AccessDeniedException, DomainNotFoundException,
+             EmptyRemarkException, AccountNotFoundException,
+             AccountNotActiveException, NicHandleNotFoundException,
+-            NicHandleNotActiveException;
++            NicHandleNotActiveException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Transfers domain to new reseller
+@@ -146,6 +161,9 @@
+      * @throws DuplicatedAdminContact
+      * @throws InvalidCountryException
+      * @throws InvalidCountyException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void transfer(
+@@ -162,60 +180,79 @@
+             AccountNotFoundException, AccountNotActiveException,
+             NicHandleNotFoundException, DomainEmailException,
+             DomainTransferException, NicHandleEmailException,
+-            NicHandleNotActiveException, DuplicatedAdminContact, InvalidCountryException, InvalidCountyException;
++            NicHandleNotActiveException, DuplicatedAdminContact, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Searches for domains matching given criteria in the given order. Domain objects from the result don't carry information about contacts or nameservers.
+      * Result is limited by offset and limit parameters.
+      *
++     * @param user authentication token (required)
+      * @param criteria domain search criteria, required
+      * @param offset, required
+      * @param limit maximum number of domains to be returned, required
+      * @param orderBy sorting criteria, optional
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract DomainSearchResultVO findDomains(
++            @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name="criteria")DomainSearchCriteria criteria,
+             @WebParam(name="offset") long offset,
+             @WebParam(name="limit") long limit,
+-            @WebParam(name="sortCriteria")List<SortCriterion> orderBy);
++            @WebParam(name="sortCriteria")List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+ 
+     /**
+      * Searches for domains matching given criteria in the given order. Domain objects from the result carry information about contacts or nameservers.
+      * Result is limited by offset and limit parameters.
+      *
++     * @param user authentication token (required)
+      * @param criteria domain search criteria, required
+      * @param offset, required
+      * @param limit maximum number of domains to be returned, required
+      * @param orderBy sorting criteria, optional
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      * @return
+      */
+     @WebMethod
+     public abstract DomainSearchResultVO findFullDomains(
++            @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name="criteria")DomainSearchCriteria criteria,
+             @WebParam(name="offset") long offset,
+             @WebParam(name="limit") long limit,
+-            @WebParam(name="sortCriteria")List<SortCriterion> orderBy);
++            @WebParam(name="sortCriteria")List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Searches for transfered domains matching given criteria.
+      * Domain objects from the result don't carry information about contacts or nameservers.
+      * Result is limited by offset and limit parameters
+      *
++     * @param user authentication token (required)
+      * @param criteria transfered domain search criteria, required
+      * @param offset, required
+      * @param limit maximum number of domains to be returned, required
+      * @param isCurrent determines if domain was transfered in current month, required
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      * @return
+      */
+     @WebMethod
+     public abstract DomainSearchResultVO findTransferedDomains(
++            @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "criteria")TransferedDomainSearchCriteria criteria,
+             @WebParam(name = "offset") long offset,
+             @WebParam(name = "limit") long limit,
+-            @WebParam(name = "isCurrent") boolean isCurrent);
++            @WebParam(name = "isCurrent") boolean isCurrent)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks, if the domain is MSD 
+@@ -223,11 +260,15 @@
+      * @param user authenticationToken, required
+      * @param domainName domain name to be checked, required
+      * @return true, if the domain is MSD
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract boolean isMsd(
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+-            @WebParam(name = "domainName")String domainName);
++            @WebParam(name = "domainName")String domainName)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Moves the domain to MSD (Mailed)
+@@ -237,12 +278,15 @@
+      * 
+      * @throws AccessDeniedException 
+      * @throws DomainNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void moveToMsd(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName") String domainName)
+-            throws AccessDeniedException, DomainNotFoundException;
++            throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Creates new domain with default DomainStatus "Post-Registration Audit"
+@@ -256,12 +300,16 @@
+      * @throws HolderCategoryNotExistException
+      * @throws ClassDontMatchCategoryException
+      * @throws ClassCategoryPermissionException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void create(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domain") DomainCreateVO domain)
+-            throws AccessDeniedException, NicHandleNotFoundException, NicHandleNotActiveException, HolderClassNotExistException, HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException;
++            throws AccessDeniedException, NicHandleNotFoundException, NicHandleNotActiveException, HolderClassNotExistException, HolderCategoryNotExistException,
++            ClassDontMatchCategoryException, ClassCategoryPermissionException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Alters domain status.
+@@ -274,6 +322,9 @@
+      * @throws DomainNotFoundException
+      * @throws EmptyRemarkException
+      * @throws DomainEmailException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public abstract void alterStatus(
+@@ -281,23 +332,52 @@
+             @WebParam(name = "domainName") String domainName,
+             @WebParam(name = "hostmasterRemark") String hostmastersRemark,
+             @WebParam(name = "newStatus") Domain.DomainStatus newStatus)
+-            throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, DomainEmailException;
++            throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, DomainEmailException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns billing statuses.
+      *
++     * @param user authentication token (required)
++     *
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public abstract List<BillingStatusVO> getBillingStatuses();
++    public abstract List<BillingStatusVO> getBillingStatuses(
++            @WebParam(name = "user") AuthenticatedUserVO user) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
++    /**
++     *
++     * @param user authentication token (required)
++     * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
++     */
+     @WebMethod
+-    public abstract List<DomainPriceVO> getDomainPricing();
++    public abstract List<DomainPriceVO> getDomainPricing(
++            @WebParam(name = "user") AuthenticatedUserVO user) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
++    /**
++     * Return deleted domains over last year
++     *
++     * @param user authentication token (required)
++     * @param billingNicHandleId, billing nic handle of deleted domains
++     * @param offset, required
++     * @param limit maximum number of domains to be returned, required
++     * @return
++     * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
++     */
+     @WebMethod
+     public abstract DeletedDomainsDataVO getDeletedDomains(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "billingNicHandleId") String billingNicHandleId,
+             @WebParam(name = "offset") int offset,
+-            @WebParam(name = "limit") int limit) throws AccessDeniedException;
++            @WebParam(name = "limit") int limit) throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ }
+\ No newline at end of file
+Index: crs-api/src/main/java/pl/nask/crs/api/domain/DomainAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/domain/DomainAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/domain/DomainAppServiceEndpoint.java	(revision 2746)
+@@ -8,6 +8,8 @@
+ 
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.converter.Converter;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.AuthenticatedUserVO;
+@@ -50,6 +52,8 @@
+ import pl.nask.crs.nichandle.exception.NicHandleIsAccountBillingContactException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotActiveException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ 
+ /**
+  * Endpoint for the {@link DomainAppService}
+@@ -58,7 +62,7 @@
+  *
+  */
+ @WebService(serviceName="CRSDomainAppService", endpointInterface="pl.nask.crs.api.domain.CRSDomainAppService")
+-public class DomainAppServiceEndpoint implements CRSDomainAppService {
++public class DomainAppServiceEndpoint extends WsSessionAware implements CRSDomainAppService {
+ 
+ 	private DomainAppService service;
+     private DomainSearchService domainSearchService;
+@@ -85,29 +89,32 @@
+     * @see pl.nask.crs.api.domain.CRSDomainAppService#view(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String)
+     */
+ 	public ExtendedDomainInfoVO view (AuthenticatedUserVO user, String domainName) 
+-	throws AccessDeniedException, DomainNotFoundException 
++	throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain.name");
+-		return new ExtendedDomainInfoVO(service.view(user, domainName));
++        validateSession(user);
++        return new ExtendedDomainInfoVO(service.view(user, domainName));
+ 	}
+ 	
+ 	/* (non-Javadoc)
+      * @see pl.nask.crs.api.domain.CRSDomainAppService#edit(pl.nask.crs.api.vo.AuthenticatedUserVO, java.lang.String)
+      */
+ 	public ExtendedDomainInfoVO edit (AuthenticatedUserVO user, String domainName) 
+-	throws AccessDeniedException, DomainNotFoundException 
++	throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain.name");
++        validateSession(user);
+ 		return new ExtendedDomainInfoVO(service.edit(user, domainName));
+ 	}
+ 
+     public DomainVO viewPlain(AuthenticatedUserVO user, String domainName)
+-            throws AccessDeniedException, DomainNotFoundException
++            throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain.name");
++        validateSession(user);
+         return new DomainVO(service.viewPlain(user, domainName));
+     }
+ 
+@@ -118,10 +125,11 @@
+ 					String domainClass, String domainCategory, String billingStatus,
+ 					List<String> adminContacts, List<String> techContacts,
+ 					List<NameserverVO> nameservers, Date renewDate, String hostmasterRemark)
+-	throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException, NicHandleNotActiveException
++	throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException, NicHandleNotActiveException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domains list");
++        validateSession(user);
+         for (String name : domainName) {
+             Validator.assertNotEmpty(name, "domain name");
+         }
+@@ -207,7 +215,10 @@
+     public void transfer (AuthenticatedUserVO user, String domainName, long newAccountId, 
+     						String newBillingContact, List<String> newAdminContacts, List<String> newTechContacts, 
+     						List<NameserverVO> newNameservers, String hostmastersRemark)
+-	throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, NicHandleIsAccountBillingContactException, AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException, DomainEmailException, DomainTransferException, NicHandleEmailException, NicHandleNotActiveException, DuplicatedAdminContact, InvalidCountryException, InvalidCountyException
++	throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, NicHandleIsAccountBillingContactException,
++            AccountNotFoundException, AccountNotActiveException, NicHandleNotFoundException, DomainEmailException, DomainTransferException,
++            NicHandleEmailException, NicHandleNotActiveException, DuplicatedAdminContact, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
+@@ -216,13 +227,16 @@
+         Validator.assertNotEmpty(newTechContacts, "new tech contacts");
+         Validator.assertNotEmpty(newNameservers, "new nameservers");
+         Validator.assertNotNull(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		// FIXME should expose new transfer methods (transfer with new signature and transferToGuest ) in the application layer service.		
+ 		service.transfer2(user, domainName, newAccountId, newBillingContact, newAdminContacts, newTechContacts, toNameserversList(newNameservers), hostmastersRemark);
+ 	}
+ 
+-    public DomainSearchResultVO findDomains(DomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy)
++    public DomainSearchResultVO findDomains(AuthenticatedUserVO user, DomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
++        ValidationHelper.validate(user);
+         ValidationHelper.validate(criteria);
++        validateSession(user);
+         LimitedSearchResult<Domain> searchResult = null;
+         if (isDeletedDomainFind(criteria)) {
+             searchResult = domainSearchService.findDeleted(criteria, offset, limit, orderBy);
+@@ -237,54 +251,65 @@
+         return criteria != null && criteria.getDomainStatus() != null && criteria.getDomainStatus().equals(Domain.DomainStatus.Deleted);
+     }
+ 
+-    public DomainSearchResultVO findFullDomains(DomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy) {
++    public DomainSearchResultVO findFullDomains(AuthenticatedUserVO user, DomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> orderBy) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
+         ValidationHelper.validate(criteria);
++        validateSession(user);
+         LimitedSearchResult<Domain> searchResult = domainSearchService.fullFind(criteria, offset, limit, orderBy);
+         DomainSearchResultVO res = new DomainSearchResultVO(searchResult);
+         return res;
+     }
+ 
+-    public DomainSearchResultVO findTransferedDomains(TransferedDomainSearchCriteria criteria, long offset, long limit, boolean isCurrent)
++    public DomainSearchResultVO findTransferedDomains(AuthenticatedUserVO user, TransferedDomainSearchCriteria criteria, long offset, long limit, boolean isCurrent) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
++        ValidationHelper.validate(user);
+         ValidationHelper.validate(criteria);
++        validateSession(user);
+         LimitedSearchResult<String> searchRes = domainSearchService.findTransferedDomainNames(criteria, offset, limit, isCurrent);
+         return new DomainSearchResultVO(searchRes, searchRes.getTotalResults());
+     }
+ 
+-    public boolean isMsd(AuthenticatedUserVO user, String domainName)
++    public boolean isMsd(AuthenticatedUserVO user, String domainName) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
++        validateSession(user);
+         return service.isMsd(user, domainName);
+     }
+ 
+     public void moveToMsd(AuthenticatedUserVO user, String domainName)
+-            throws AccessDeniedException, DomainNotFoundException
++            throws AccessDeniedException, DomainNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
++        validateSession(user);
+         service.moveToMsd(user, domainName);
+     }
+ 
+     public void create(AuthenticatedUserVO user, DomainCreateVO domain)
+-            throws AccessDeniedException, NicHandleNotFoundException, NicHandleNotActiveException, HolderClassNotExistException, HolderCategoryNotExistException, ClassDontMatchCategoryException, ClassCategoryPermissionException
++            throws AccessDeniedException, NicHandleNotFoundException, NicHandleNotActiveException, HolderClassNotExistException, HolderCategoryNotExistException,
++            ClassDontMatchCategoryException, ClassCategoryPermissionException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(domain);
++        validateSession(user);
+         service.create(user, domain.toDomain());
+     }
+ 
+     public void alterStatus(AuthenticatedUserVO user, String domainName, String hostmastersRemark, Domain.DomainStatus newStatus)
+-            throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, DomainEmailException
++            throws AccessDeniedException, DomainNotFoundException, EmptyRemarkException, DomainEmailException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
+         Validator.assertNotNull(newStatus , "new domain status");
++        validateSession(user);
+         service.alterStatus(user, domainName, hostmastersRemark, newStatus);
+     }
+ 
+-    public List<BillingStatusVO> getBillingStatuses() {
++    public List<BillingStatusVO> getBillingStatuses(AuthenticatedUserVO user) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return  toBillingStatusVOList(billingStatusDictionary.getEntries());
+     }
+ 
+@@ -298,7 +323,9 @@
+         return ret;
+     }
+ 
+-    public List<DomainPriceVO> getDomainPricing() {
++    public List<DomainPriceVO> getDomainPricing(AuthenticatedUserVO user) throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toDomainPricingVOList(pricingDictionary.getEntries());
+     }
+ 
+@@ -312,7 +339,10 @@
+         return ret;
+     }
+ 
+-    public DeletedDomainsDataVO getDeletedDomains(AuthenticatedUserVO user, String billingNicHandleId, int offset, int limit) throws AccessDeniedException {
++    public DeletedDomainsDataVO getDeletedDomains(AuthenticatedUserVO user, String billingNicHandleId, int offset, int limit)
++            throws AccessDeniedException , UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return new DeletedDomainsDataVO(service.findDeletedDomains(user, billingNicHandleId, offset, limit));
+     }
+ }
+Index: crs-api/src/main/java/pl/nask/crs/api/account/ResellerAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/account/ResellerAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/account/ResellerAppServiceEndpoint.java	(revision 2746)
+@@ -14,6 +14,8 @@
+ import pl.nask.crs.accounts.services.AccountSearchService;
+ import pl.nask.crs.accounts.services.impl.AccountSortCriteria;
+ import pl.nask.crs.accounts.services.impl.CreateAccountContener;
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+@@ -34,10 +36,12 @@
+ import pl.nask.crs.nichandle.exception.NicHandleIsAccountBillingContactException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotActiveException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ import pl.nask.crs.statuses.Status;
+ 
+ @WebService(serviceName="CRSResellerService", endpointInterface="pl.nask.crs.api.account.CRSResellerAppService")
+-public class ResellerAppServiceEndpoint implements CRSResellerAppService {
++public class ResellerAppServiceEndpoint extends WsSessionAware implements CRSResellerAppService {
+ 
+ 	private AccountAppService service;
+ 	
+@@ -75,11 +79,12 @@
+      * @see pl.nask.crs.api.account.CRSResellerAppService#alterStatus(pl.nask.crs.api.vo.AuthenticatedUserVO, long, java.lang.String, java.lang.String)
+      */	
+ 	public void alterStatus(AuthenticatedUserVO user, long accountId, String newStatus, String hostmastersRemark)
+-		throws AccessDeniedException, EmptyRemarkException, AccountNotFoundException, NicHandleAssignedToDomainException
++		throws AccessDeniedException, EmptyRemarkException, AccountNotFoundException, NicHandleAssignedToDomainException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(newStatus, "new status");
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		service.alterStatus(user, accountId, newStatus, hostmastersRemark);
+ 	}
+ 
+@@ -88,8 +93,10 @@
+      * @see pl.nask.crs.api.account.CRSResellerAppService#history(pl.nask.crs.api.vo.AuthenticatedUserVO, long)
+      */
+ 	public List<HistoricalAccountVO> history(AuthenticatedUserVO user, long id) 
+-		throws AccessDeniedException, AccountNotFoundException 
++		throws AccessDeniedException, AccountNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+ 	{
++        ValidationHelper.validate(user);
++        validateSession(user);
+ 		// repack data here?		
+ 		List<HistoricalObject<Account>> hist = service.history(user, id);
+ 		
+@@ -106,11 +113,14 @@
+      * @see pl.nask.crs.api.account.CRSResellerAppService#save(pl.nask.crs.api.vo.AuthenticatedUserVO, long, pl.nask.crs.api.vo.AccountEditVO, java.lang.String)
+      */
+ 	public void save(AuthenticatedUserVO user, long accountId, AccountEditVO accountData, String hostmastersRemark)
+-		throws AccessDeniedException, AccountNotFoundException, EmptyRemarkException, ContactNotFoundException, NicHandleNotFoundException, NicHandleIsAccountBillingContactException, NicHandleEmailException, ContactCannotChangeException 
++		throws AccessDeniedException, AccountNotFoundException, EmptyRemarkException, ContactNotFoundException,
++            NicHandleNotFoundException, NicHandleIsAccountBillingContactException, NicHandleEmailException, ContactCannotChangeException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(accountData);
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+ 		//FIXME: refactoring needed!
+ 		Account oldAccount = service.get(user, accountId); 
+ 		accountData.copyTo(oldAccount);
+@@ -124,11 +134,15 @@
+      * @see pl.nask.crs.api.account.CRSResellerAppService#create(pl.nask.crs.api.vo.AuthenticatedUserVO, pl.nask.crs.api.vo.AccountEditVO, java.lang.String)
+      */
+ 	public long create(AuthenticatedUserVO user, AccountEditVO newAccount, String hostmastersRemark)
+-    	throws AccessDeniedException, ContactNotFoundException, EmptyRemarkException, NicHandleNotFoundException, NicHandleNotActiveException, AccountNotFoundException, AccountNotActiveException, NicHandleIsAccountBillingContactException, NicHandleEmailException, AccountEmailException, InvalidCountryException, InvalidCountyException
++    	throws AccessDeniedException, ContactNotFoundException, EmptyRemarkException, NicHandleNotFoundException,
++            NicHandleNotActiveException, AccountNotFoundException, AccountNotActiveException, NicHandleIsAccountBillingContactException,
++            NicHandleEmailException, AccountEmailException, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException
+     {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(newAccount);
+         Validator.assertNotEmpty(hostmastersRemark, "hostmaster remark");
++        validateSession(user);
+         CreateAccountContener cac = new CreateAccountContener(
+                 newAccount.getName(), newAccount.getAddress(), newAccount.getCounty(), newAccount.getCountry(),
+                 newAccount.getWebAddress(), newAccount.getInvoiceFreq(),
+@@ -146,16 +160,20 @@
+ 
+ 
+ 	@Override
+-	public ResellerSearchResult find(AuthenticatedUserVO user, AccountSearchCriteria searchCriteria, long offset, long limit, List<SortCriterion> orderBy) {
++	public ResellerSearchResult find(AuthenticatedUserVO user, AccountSearchCriteria searchCriteria, long offset, long limit, List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
+ 		ValidationHelper.validate(user);
+ 		AccountSortCriteria.validate(orderBy);
+-		
++        validateSession(user);
+ 		LimitedSearchResult<Account> res = searchService.findAccount(searchCriteria, offset, limit, orderBy);
+ 		
+ 		return new ResellerSearchResult(res.getTotalResults(), convertToVo(res.getResults()));
+ 	}
+ 
+-    public List<StatusVO> getAccountTariffs() {
++    public List<StatusVO> getAccountTariffs(AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return toStatusVOList(tariffsDictionary.getEntries());
+     }
+ 
+Index: crs-api/src/main/java/pl/nask/crs/api/account/CRSResellerAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/account/CRSResellerAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/account/CRSResellerAppService.java	(revision 2746)
+@@ -10,6 +10,7 @@
+ import pl.nask.crs.accounts.exceptions.AccountNotActiveException;
+ import pl.nask.crs.accounts.exceptions.AccountNotFoundException;
+ import pl.nask.crs.accounts.search.AccountSearchCriteria;
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.commons.exceptions.EmptyRemarkException;
+@@ -23,6 +24,8 @@
+ import pl.nask.crs.nichandle.exception.NicHandleIsAccountBillingContactException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotActiveException;
+ import pl.nask.crs.nichandle.exception.NicHandleNotFoundException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ 
+ @WebService(targetNamespace = "http://domainregistry.ie/")
+ public interface CRSResellerAppService {
+@@ -34,12 +37,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws AccountNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public AccountVO get(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "accountId") long id)
+-            throws AccessDeniedException, AccountNotFoundException;
++            throws AccessDeniedException, AccountNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updates account status
+@@ -52,6 +58,9 @@
+      * @throws EmptyRemarkException
+      * @throws AccountNotFoundException
+      * @throws NicHandleAssignedToDomainException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public void alterStatus(
+@@ -60,7 +69,7 @@
+             @WebParam(name = "newStatus") String newStatus,
+             @WebParam(name = "hostmasterRemark") String hostmastersRemark)
+             throws AccessDeniedException, EmptyRemarkException,
+-            AccountNotFoundException, NicHandleAssignedToDomainException;
++            AccountNotFoundException, NicHandleAssignedToDomainException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns list of historical accounts
+@@ -70,12 +79,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws AccountNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public List<HistoricalAccountVO> history(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "accountId") long id)
+-            throws AccessDeniedException, AccountNotFoundException;
++            throws AccessDeniedException, AccountNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Updated account
+@@ -92,6 +104,9 @@
+      * @throws NicHandleIsAccountBillingContactException
+      * @throws NicHandleEmailException
+      * @throws ContactCannotChangeException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public void save(
+@@ -103,7 +118,7 @@
+             EmptyRemarkException, ContactNotFoundException,
+             NicHandleNotFoundException,
+             NicHandleIsAccountBillingContactException, NicHandleEmailException,
+-            ContactCannotChangeException;
++            ContactCannotChangeException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Creates new account
+@@ -124,6 +139,9 @@
+      * @throws AccountEmailException
+      * @throws InvalidCountryException
+      * @throws InvalidCountyException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public long create(
+@@ -135,7 +153,8 @@
+             NicHandleNotActiveException, AccountNotFoundException,
+             AccountNotActiveException,
+             NicHandleIsAccountBillingContactException, NicHandleEmailException,
+-            AccountEmailException, InvalidCountryException, InvalidCountyException;
++            AccountEmailException, InvalidCountryException, InvalidCountyException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+     
+     /**
+      * Allows to perform a search through resellers. 
+@@ -151,6 +170,9 @@
+         statusChangeDate, changeDate, agreementSigned, ticketEdit
+      *
+      * @return search result, never null
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     public ResellerSearchResult find (
+@@ -158,13 +180,21 @@
+     		@WebParam (name = "searchCriteria") AccountSearchCriteria searchCriteria, 
+     		@WebParam (name = "offset") long offset, 
+     		@WebParam (name = "limit") long limit, 
+-    		@WebParam (name = "orderBy") List<SortCriterion> orderBy);
++    		@WebParam (name = "orderBy") List<SortCriterion> orderBy)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns account tariffs.
+      *
++     * @param user authentication token (required)
++     *
+      * @return
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+-    public List<StatusVO> getAccountTariffs();
++    public List<StatusVO> getAccountTariffs(
++            @WebParam(name = "user") AuthenticatedUserVO user)
++            throws UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ }
+\ No newline at end of file
+Index: crs-api/src/main/java/pl/nask/crs/api/payment/PaymentAppServiceEndpoint.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/payment/PaymentAppServiceEndpoint.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/payment/PaymentAppServiceEndpoint.java	(revision 2746)
+@@ -7,6 +7,8 @@
+ 
+ import org.apache.log4j.Logger;
+ 
++import pl.nask.crs.api.SessionExpiredException;
++import pl.nask.crs.api.WsSessionAware;
+ import pl.nask.crs.api.converter.Converter;
+ import pl.nask.crs.api.validation.ValidationHelper;
+ import pl.nask.crs.api.vo.*;
+@@ -32,13 +34,15 @@
+ import pl.nask.crs.payment.exceptions.PaymentTypeException;
+ import pl.nask.crs.payment.exceptions.ProductPriceNotFoundException;
+ import pl.nask.crs.payment.exceptions.ReceiptAlreadyExistsException;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ 
+ /**
+  * @author: Marcin Tkaczyk
+  */
+ 
+ @WebService(serviceName = "CRSPaymentService", endpointInterface="pl.nask.crs.api.payment.CRSPaymentAppService")
+-public class PaymentAppServiceEndpoint implements CRSPaymentAppService {
++public class PaymentAppServiceEndpoint extends WsSessionAware implements CRSPaymentAppService {
+ 	private Logger log = Logger.getLogger(CRSPaymentAppService.class);
+ 	
+     private PaymentAppService service;
+@@ -47,50 +51,61 @@
+         this.service = service;
+     }
+ 
+-    public DepositVO viewDeposit(AuthenticatedUserVO user) throws AccessDeniedException, DepositNotFoundException {
++    public DepositVO viewDeposit(AuthenticatedUserVO user)
++            throws AccessDeniedException, DepositNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         return new DepositVO(service.viewDeposit(user));
+     }
+ 
+     public InvoicesSummaryVO getInvoicesSummary(AuthenticatedUserVO user, InvoiceType invoiceType, String domainName, String month)
+-            throws AccessDeniedException {
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotNull(invoiceType, "invoice type");
++        validateSession(user);
+         return new InvoicesSummaryVO(service.getInvoicesSummary(user, invoiceType, domainName, month));
+     }
+     
+     @Override
+-    public int getMsdInvoiceCount(AuthenticatedUserVO user, boolean noPendingPayment, RenewalDateType renewalDateType) throws AccessDeniedException {
++    public int getMsdInvoiceCount(AuthenticatedUserVO user, boolean noPendingPayment, RenewalDateType renewalDateType)
++            throws AccessDeniedException , UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	ValidationHelper.validate(user);
++        validateSession(user);
+     	return service.getMsdInvoicesSummary(user, noPendingPayment, renewalDateType).getCount();
+     }
+ 
+     @Override
+     public List<InvoiceVO> getInvoicesWithLimit(AuthenticatedUserVO user, InvoiceType invoiceType, InvoiceSearchCriteria criteria,
+-            long offset, long limit, List<SortCriterion> sortBy) throws AccessDeniedException {
++            long offset, long limit, List<SortCriterion> sortBy)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotNull(invoiceType, "invoice type");
++        validateSession(user);
+         return convertList(service.getInvoices(user, invoiceType, criteria, offset, limit, sortBy));
+     }
+     
+     @Override
+     public List<InvoiceVO> getMsdInvoicesWithLimit(AuthenticatedUserVO user,
+     		boolean noPendingPayment, long offset, long limit, RenewalDateType renewalDateType)
+-    		throws AccessDeniedException {
++    		throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         return convertList(service.getMsdInvoices(user, noPendingPayment, offset, limit, renewalDateType));
+     }
+ 
+-    public boolean hasUnpaidInvoice(AuthenticatedUserVO user, String domainName) throws AccessDeniedException {
++    public boolean hasUnpaidInvoice(AuthenticatedUserVO user, String domainName)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
++        validateSession(user);
+         return service.hasUnpaidInvoice(user, domainName);
+     }
+     
+     @Override
+     public ShortInvoiceVO getCurRegRenShortInvoice(AuthenticatedUserVO user)
+-    		throws AccessDeniedException {
++    		throws AccessDeniedException , UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException{
+     	ValidationHelper.validate(user);
++        validateSession(user);
+     	InvoiceSummary inv = service.getCurRegRenShortInvoice(user);
+     	if (inv == null) {
+     		return null;
+@@ -100,8 +115,10 @@
+     }
+ 
+     @Override
+-    public ShortInvoiceVO getTransferShortInvoice(AuthenticatedUserVO user) throws AccessDeniedException {
++    public ShortInvoiceVO getTransferShortInvoice(AuthenticatedUserVO user)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         InvoiceSummary inv = service.getTransferShortInvoice(user);
+         if (inv == null) {
+             return null;
+@@ -110,75 +127,91 @@
+         }
+     }
+ 
+-    public boolean isReceiptExists(AuthenticatedUserVO user, String domainName) throws AccessDeniedException {
++    public boolean isReceiptExists(AuthenticatedUserVO user, String domainName)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(domainName, "domain name");
++        validateSession(user);
+         return service.isReceiptExists(user, domainName);
+     }
+ 
+     public LimitsPairVO getDepositLimits(AuthenticatedUserVO user)
+-            throws AccessDeniedException {
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         return new LimitsPairVO(service.getDepositLimits(user));
+     }
+ 
+-    public DepositVO depositFunds(AuthenticatedUserVO user, PaymentRequestVO pRequest) throws AccessDeniedException, PaymentException {
++    public DepositVO depositFunds(AuthenticatedUserVO user, PaymentRequestVO pRequest)
++            throws AccessDeniedException, PaymentException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(pRequest, true);
++        validateSession(user);
+         return new DepositVO(service.depositFunds(user, pRequest.toPaymentRequest()));
+     }
+ 
+     public PaymentDataVO payFromDeposit(AuthenticatedUserVO user, String remoteAddr, List<DomainWithPeriodVO> domains, InvoiceType invoiceType, boolean isTest)
+             throws AccessDeniedException, NotAdmissiblePeriodException, NotEnoughtDepositFundsException, DomainNotFoundException, EmptyRemarkException,
+             DuplicatedAdminContact, NicHandleNotFoundException, NicHandleNotActiveException, DomainManagedByAnotherResellerException,
+-            DomainIncorrectStateForPaymentException, ReceiptAlreadyExistsException, InvalidPeriodException {
++            DomainIncorrectStateForPaymentException, ReceiptAlreadyExistsException, InvalidPeriodException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(remoteAddr, "remote address");
+         ValidationHelper.validate(domains);
+         Validator.assertNotNull(invoiceType, "invoice type");
++        validateSession(user);
+         return new PaymentDataVO(service.payFromDeposit(user, remoteAddr, Converter.convertDomainsWithPeriodToMap(domains), invoiceType, isTest));
+     }
+ 
+     public PaymentDataVO payOnline(AuthenticatedUserVO user, PaymentRequestVO pRequest, String remoteAddr, List<String> domains, InvoiceType type, boolean isTest)
+             throws AccessDeniedException, PaymentException, NotEnoughtDepositFundsException, DomainNotFoundException, EmptyRemarkException,
+-            DuplicatedAdminContact, NicHandleNotFoundException, NicHandleNotActiveException, DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException {
++            DuplicatedAdminContact, NicHandleNotFoundException, NicHandleNotActiveException,
++            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(pRequest, true);
+         Validator.assertNotEmpty(remoteAddr, "remote address");
+         Validator.assertNotEmpty(domains, "domains");
+         Validator.assertNotNull(type, "invoice type");
++        validateSession(user);
+         return new PaymentDataVO(service.payOnline(user, pRequest.toPaymentRequest(), remoteAddr, domains, type, isTest));
+     }
+ 
+     public PaymentDataVO payOffline(AuthenticatedUserVO user, String remoteAddr, List<String> domains, InvoiceType type, boolean isTest)
+-            throws AccessDeniedException , DomainNotFoundException, NicHandleNotFoundException, DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException {
++            throws AccessDeniedException, DomainNotFoundException, NicHandleNotFoundException,
++            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         Validator.assertNotEmpty(remoteAddr, "remote address");
+         Validator.assertNotEmpty(domains, "domains");
+         Validator.assertNotNull(type, "invoice type");
++        validateSession(user);
+         return new PaymentDataVO(service.payOffline(user, remoteAddr, domains, type, isTest));
+     }
+ 
+     public PaymentDataVO payMsdReactivation(AuthenticatedUserVO user, PaymentRequestVO pRequest, String remoteAddr, List<String> domains, boolean isCardPayment, boolean isTest)
+             throws AccessDeniedException, PaymentException, NotEnoughtDepositFundsException, MsdCategoriesException, ProductPriceNotFoundException, PaymentTypeException,
+             DomainNotFoundException, EmptyRemarkException, NicHandleNotFoundException, NicHandleNotActiveException, DomainEmailException,
+-            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException {
++            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
+         ValidationHelper.validate(pRequest, isCardPayment);
+         Validator.assertNotEmpty(remoteAddr, "remote address");
+         Validator.assertNotEmpty(domains, "domains");
++        validateSession(user);
+         return new PaymentDataVO(service.payMsdreactivation(user, pRequest != null ? pRequest.toPaymentRequest() : null, remoteAddr, domains, isCardPayment, isTest));
+     }
+ 
+     @Override
+-    public void payAutoCreatedDomain(AuthenticatedUserVO user, String remoteAddr, String domainName) throws AccessDeniedException,
++    public void payAutoCreatedDomain(AuthenticatedUserVO user, String remoteAddr, String domainName)
++            throws AccessDeniedException,
+     		NotAdmissiblePeriodException, NotEnoughtDepositFundsException,
+     		DomainNotFoundException, NicHandleNotFoundException,
+-    		NicHandleNotActiveException {
++    		NicHandleNotActiveException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+     	ValidationHelper.validate(user);
+         Validator.assertNotEmpty(remoteAddr, "remote address");
+         Validator.assertNotEmpty(domainName, "domainName");
+-    	
++        validateSession(user);
+         service.payAutoCreatedDomain(user, remoteAddr, domainName);
+     }
+ 
+@@ -195,70 +228,85 @@
+     }
+ 
+ 	@Override
+-	public float getFee(AuthenticatedUserVO user) throws AccessDeniedException {
++	public float getFee(AuthenticatedUserVO user)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getFee(user);
+ 	}
+ 
+ 	@Override
+ 	public Date getLastInvoiceDate(AuthenticatedUserVO user)
+-			throws AccessDeniedException {
++			throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getLastInvoiceDate(user);
+ 	}
+ 
+ 	@Override
+ 	public float getProductPrice(AuthenticatedUserVO user, int period)
+-			throws AccessDeniedException, ProductPriceNotFoundException {
++			throws AccessDeniedException, ProductPriceNotFoundException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getProductPrice(user, period);
+ 	}
+ 
+ 	@Override
+ 	public float getProductPromoPrice(AuthenticatedUserVO user, int period,
+-			Date renewDate) throws ProductPriceNotFoundException, AccessDeniedException {
++			Date renewDate) throws ProductPriceNotFoundException, AccessDeniedException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getProductPromoPrice(user, period, renewDate);
+ 	}
+ 
+ 	@Override
+ 	public float getRegistrarFee(AuthenticatedUserVO user)
+-			throws AccessDeniedException {
++			throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getRegistrarFee(user);
+ 	}
+ 
+ 	@Override
+ 	public InvoiceVO getUnpaidInvoice(AuthenticatedUserVO user,
+-			String domainName) throws AccessDeniedException {
++			String domainName) throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
+ 		Validator.assertNotEmpty(domainName, "domainName");
++        validateSession(user);
+ 		return new InvoiceVO(service.getUnpaidInvoice(user, domainName));
+ 	}
+ 
+ 	@Override
+ 	public float getVatValue(AuthenticatedUserVO user)
+-			throws AccessDeniedException {
++			throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.getVatValue(user);
+ 	}
+ 
+ 	@Override
+ 	public boolean isVat(AuthenticatedUserVO user, String nicHandleId)
+-			throws AccessDeniedException {
++			throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+ 		ValidationHelper.validate(user);
++        validateSession(user);
+ 		return service.isVat(user, nicHandleId);
+ 	}
+ 
+     @Override
+-    public InvoiceTransactionsSummaryVO getTransactionsForInvoice(AuthenticatedUserVO user, String invoiceId) throws AccessDeniedException {
++    public InvoiceTransactionsSummaryVO getTransactionsForInvoice(AuthenticatedUserVO user, String invoiceId)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         return new InvoiceTransactionsSummaryVO(service.getTransactionsForInvoice(user, invoiceId));
+     }
+ 
+     @Override
+-    public List<MsdDomainVO> getAllMsdDomains(AuthenticatedUserVO user, MsdDomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> sortBy) throws AccessDeniedException {
++    public List<MsdDomainVO> getAllMsdDomains(AuthenticatedUserVO user, MsdDomainSearchCriteria criteria, long offset, long limit, List<SortCriterion> sortBy)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
+         ValidationHelper.validate(user);
++        validateSession(user);
+         return convertToDomainList(service.getAllMsdDomains(user, criteria, offset, limit, sortBy));
+     }
+ 
+@@ -275,7 +323,10 @@
+     }
+ 
+     @Override
+-    public int getAllMsdDomainsCount(AuthenticatedUserVO user, MsdDomainSearchCriteria criteria) throws AccessDeniedException {
++    public int getAllMsdDomainsCount(AuthenticatedUserVO user, MsdDomainSearchCriteria criteria)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException {
++        ValidationHelper.validate(user);
++        validateSession(user);
+         return service.getAllMsdDomainsCount(user, criteria);
+     }
+ }
+Index: crs-api/src/main/java/pl/nask/crs/api/payment/CRSPaymentAppService.java
+===================================================================
+--- crs-api/src/main/java/pl/nask/crs/api/payment/CRSPaymentAppService.java	(revision 2738)
++++ crs-api/src/main/java/pl/nask/crs/api/payment/CRSPaymentAppService.java	(revision 2746)
+@@ -9,6 +9,7 @@
+ import javax.jws.WebParam;
+ import javax.jws.WebService;
+ 
++import pl.nask.crs.api.SessionExpiredException;
+ import pl.nask.crs.api.vo.*;
+ import pl.nask.crs.app.AccessDeniedException;
+ import pl.nask.crs.commons.exceptions.EmptyRemarkException;
+@@ -23,6 +24,8 @@
+ import pl.nask.crs.payment.MsdDomainSearchCriteria;
+ import pl.nask.crs.payment.RenewalDateType;
+ import pl.nask.crs.payment.exceptions.*;
++import pl.nask.crs.security.authentication.InvalidTokenException;
++import pl.nask.crs.security.authentication.UserNotAuthenticatedException;
+ 
+ /**
+  * @author: Marcin Tkaczyk
+@@ -37,11 +40,14 @@
+      * @return <code>DepositVO</code> object that contans deposit data : <code>nicHandleId</code>, <code>trnasactionDate</code>, <code>openBal</code>, <code>closeBal</code>.
+      * @throws AccessDeniedException
+      * @throws DepositNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     DepositVO viewDeposit(
+             @WebParam(name = "user")AuthenticatedUserVO user)
+-            throws AccessDeniedException, DepositNotFoundException;
++            throws AccessDeniedException, DepositNotFoundException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns summary for invoices (total invoices count, total count, total vat) for specified parameters.
+@@ -52,6 +58,9 @@
+      * @param month if exist only invoices from specified month are returned, optional (used only with FUT_REN invoice type)
+      * @return invoices count
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     InvoicesSummaryVO getInvoicesSummary(
+@@ -59,27 +68,35 @@
+             @WebParam(name = "invoiceType") InvoiceType invoiceType,
+             @WebParam(name = "domainName") String domainName,
+             @WebParam(name = "month") String month)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+     
+     /**
+      * Returns the short summary of an curr-reg-ren invoice for the current user (authentication token)
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     ShortInvoiceVO getCurRegRenShortInvoice (
+-    		@WebParam(name="user") AuthenticatedUserVO user) throws AccessDeniedException;
++    		@WebParam(name="user") AuthenticatedUserVO user)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+     
+     /**
+      * Returns the short summary of an tran invoice for the current user (authentication token)
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     ShortInvoiceVO getTransferShortInvoice (
+-    		@WebParam(name="user") AuthenticatedUserVO user) throws AccessDeniedException;
++    		@WebParam(name="user") AuthenticatedUserVO user)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns MSD invoices number for specified parameters.
+@@ -89,13 +106,16 @@
+      * @param renewalDateType type of renewal date, optional
+      * @return invoices count
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     int getMsdInvoiceCount(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "noPendingPayment") boolean noPendingPayment,
+             @WebParam(name = "renewalDateType") RenewalDateType renewalDateType)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns invoices list for specified parameters : invoiceType, domainName, month.
+@@ -109,6 +129,9 @@
+      * @param sortBy sorting criteria, optional
+      * @return invoice list
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     List<InvoiceVO> getInvoicesWithLimit(
+@@ -118,7 +141,7 @@
+             @WebParam(name = "offset")long offset,
+             @WebParam(name = "limit")long limit,
+             @WebParam(name = "sortCriteria") List<SortCriterion> sortBy)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+     
+     /**
+      * Returns MSD invoices list for the current nichandle.
+@@ -131,6 +154,9 @@
+      * @param renewalDateType type of renewal date, optional
+      * @return invoice list
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     List<InvoiceVO> getMsdInvoicesWithLimit(
+@@ -139,7 +165,7 @@
+     		@WebParam(name = "offset")long offset,
+             @WebParam(name = "limit")long limit,
+             @WebParam(name = "renewalDateType") RenewalDateType renewalDateType)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks if specified user has unpayed invoice for specified domainName
+@@ -148,12 +174,15 @@
+      * @param domainName domain name to check, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     boolean hasUnpaidInvoice(
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName")String domainName)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      *  Checks if receipt already exist for specified user and domainName
+@@ -162,12 +191,15 @@
+      * @param domainName domain name receipt exist for, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     boolean isReceiptExists(
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "domainName")String domainName)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns system deposit limits
+@@ -175,11 +207,14 @@
+      * @param user authentication token, required
+      * @return <code>LimitsPairVO</code> object containing <code>min</code> and <code>max</code> values.
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     LimitsPairVO getDepositLimits(
+             @WebParam(name = "user") AuthenticatedUserVO user)
+-            throws AccessDeniedException;
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Deposits user funds using online payment. All data required to online payment contains pRequest param.
+@@ -189,12 +224,15 @@
+      * @return <code>DepositVO</code> object that contains current deposit data
+      * @throws AccessDeniedException
+      * @throws PaymentException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     DepositVO depositFunds(
+             @WebParam(name = "user")AuthenticatedUserVO user,
+             @WebParam(name = "pRequest")PaymentRequestVO pRequest)
+-            throws AccessDeniedException, PaymentException;
++            throws AccessDeniedException, PaymentException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Renews domains specified in domains param. Payment is from deposit.
+@@ -219,6 +257,9 @@
+      * @throws DomainIncorrectStateForPaymentException
+      * @throws DomainManagedByAnotherResellerException
+      * @throws ReceiptAlreadyExistsException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     PaymentDataVO payFromDeposit(
+@@ -229,7 +270,8 @@
+             @WebParam(name = "isTest") boolean isTest) 
+             throws AccessDeniedException, NotAdmissiblePeriodException, NotEnoughtDepositFundsException, DomainNotFoundException, EmptyRemarkException,
+             DuplicatedAdminContact, NicHandleNotFoundException, NicHandleNotActiveException, DomainManagedByAnotherResellerException,
+-            DomainIncorrectStateForPaymentException, ReceiptAlreadyExistsException, InvalidPeriodException;
++            DomainIncorrectStateForPaymentException, ReceiptAlreadyExistsException, InvalidPeriodException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Renews domains specified in domains param using online payment.
+@@ -249,6 +291,11 @@
+      * @throws DuplicatedAdminContact
+      * @throws NicHandleNotFoundException
+      * @throws NicHandleNotActiveException
++     * @throws DomainManagedByAnotherResellerException
++     * @throws DomainIncorrectStateForPaymentException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     PaymentDataVO payOnline(
+@@ -259,7 +306,8 @@
+             @WebParam(name = "invoiceType") InvoiceType type,
+             @WebParam(name = "isTest") boolean isTest)
+             throws AccessDeniedException, PaymentException, NotEnoughtDepositFundsException, DomainNotFoundException, EmptyRemarkException, DuplicatedAdminContact,
+-            NicHandleNotFoundException, NicHandleNotActiveException, DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException;
++            NicHandleNotFoundException, NicHandleNotActiveException, DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Creates pending payment invoices for domain specified in domains param.
+@@ -271,6 +319,13 @@
+      * @param isTest determines if method is for test purposes, required
+      * @return <code>PaymentDataVO</code> object containing payment specific data.
+      * @throws AccessDeniedException
++     * @throws DomainNotFoundException
++     * @throws NicHandleNotFoundException
++     * @throws DomainManagedByAnotherResellerException
++     * @throws DomainIncorrectStateForPaymentException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     PaymentDataVO payOffline(
+@@ -279,7 +334,9 @@
+             @WebParam(name = "domains") List<String> domains,
+             @WebParam(name = "invoiceType") InvoiceType type,
+             @WebParam(name = "isTest") boolean isTest)
+-            throws AccessDeniedException, DomainNotFoundException, NicHandleNotFoundException, DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException;
++            throws AccessDeniedException, DomainNotFoundException, NicHandleNotFoundException,
++            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Renews MSD domains specified in domains param.
+@@ -303,6 +360,11 @@
+      * @throws NicHandleNotFoundException
+      * @throws NicHandleNotActiveException
+      * @throws DomainEmailException
++     * @throws DomainManagedByAnotherResellerException
++     * @throws DomainIncorrectStateForPaymentException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     PaymentDataVO payMsdReactivation(
+@@ -314,7 +376,7 @@
+             @WebParam(name = "isTest") boolean isTest)
+             throws AccessDeniedException, PaymentException, NotEnoughtDepositFundsException, MsdCategoriesException, ProductPriceNotFoundException, PaymentTypeException,
+             DomainNotFoundException, EmptyRemarkException, NicHandleNotFoundException, NicHandleNotActiveException, DomainEmailException,
+-            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException;
++            DomainManagedByAnotherResellerException, DomainIncorrectStateForPaymentException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Allows to pay for auto created domain. Payment is from deposit. After payment creates receipt.
+@@ -330,13 +392,18 @@
+      * @throws DomainNotFoundException
+      * @throws NicHandleNotFoundException
+      * @throws NicHandleNotActiveException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     @WebMethod
+     void payAutoCreatedDomain(
+     		@WebParam(name = "user") AuthenticatedUserVO user, 
+     		@WebParam(name = "remoteAddr") String remoteAddr, 
+     		@WebParam(name = "domainName") String domainName) 
+-    throws AccessDeniedException, NotAdmissiblePeriodException, NotEnoughtDepositFundsException, DomainNotFoundException, NicHandleNotFoundException, NicHandleNotActiveException;
++    throws AccessDeniedException, NotAdmissiblePeriodException, NotEnoughtDepositFundsException,
++            DomainNotFoundException, NicHandleNotFoundException, NicHandleNotActiveException,
++            UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Checks if nic handle specified by nicHandleId param have to pay vat.
+@@ -345,11 +412,14 @@
+      * @param nicHandleId nic handle identifier, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     boolean isVat(
+     		@WebParam(name = "user") AuthenticatedUserVO user, 
+     		@WebParam(name = "nicHandleId") String nicHandleId)
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns system vat rate.
+@@ -357,10 +427,13 @@
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     float getVatValue(
+             @WebParam(name = "user") AuthenticatedUserVO user)
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns product price for specified period.
+@@ -370,11 +443,15 @@
+      * @return
+      * @throws AccessDeniedException
+      * @throws ProductPriceNotFoundException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     float getProductPrice(
+     		@WebParam(name = "user") AuthenticatedUserVO user, 
+     		@WebParam(name="period") int period) 
+-    throws AccessDeniedException, ProductPriceNotFoundException;
++    throws AccessDeniedException, ProductPriceNotFoundException, UserNotAuthenticatedException,
++            InvalidTokenException, SessionExpiredException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns product promo price for specified period and renewDate.
+@@ -385,12 +462,15 @@
+      * @return
+      * @throws ProductPriceNotFoundException
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     float getProductPromoPrice(
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+     		@WebParam(name = "period") int period, 
+     		@WebParam(name = "renewDate") Date renewDate)
+-    throws ProductPriceNotFoundException, AccessDeniedException;
++    throws ProductPriceNotFoundException, AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns system trade rate.
+@@ -398,10 +478,13 @@
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     float getFee(
+     		@WebParam(name = "user") AuthenticatedUserVO user) 
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns system registrar rate.
+@@ -409,10 +492,13 @@
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     float getRegistrarFee(
+     		@WebParam(name = "user") AuthenticatedUserVO user) 
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns last invoice date.
+@@ -420,10 +506,13 @@
+      * @param user authentication token, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     Date getLastInvoiceDate(
+     		@WebParam(name = "user") AuthenticatedUserVO user) 
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns unpaid invoice for specified domainName
+@@ -432,11 +521,14 @@
+      * @param domainName domain name unpaid invoice will be returned, required
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     InvoiceVO getUnpaidInvoice(
+     		@WebParam(name = "user") AuthenticatedUserVO user,
+     		@WebParam(name = "domainName") String domainName)
+-    throws AccessDeniedException;
++    throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns lists of paid and selected for offline payment domains.
+@@ -445,10 +537,14 @@
+      * @param invoiceId invoice identificator
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     InvoiceTransactionsSummaryVO getTransactionsForInvoice(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+-            @WebParam(name = "invoiceId") String invoiceId) throws AccessDeniedException;
++            @WebParam(name = "invoiceId") String invoiceId)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns list of msd domains
+@@ -460,13 +556,17 @@
+      * @param sortBy sorting criteria, optional
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     List<MsdDomainVO> getAllMsdDomains(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+             @WebParam(name = "criteria")MsdDomainSearchCriteria criteria,
+             @WebParam(name = "offset") long offset,
+             @WebParam(name = "limit") long limit,
+-            @WebParam(name = "sortCriteria") List<SortCriterion> sortBy) throws AccessDeniedException;
++            @WebParam(name = "sortCriteria") List<SortCriterion> sortBy)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ 
+     /**
+      * Returns count of mds domains
+@@ -475,8 +575,12 @@
+      * @param criteria, msd domain search criteria, optional
+      * @return
+      * @throws AccessDeniedException
++     * @throws UserNotAuthenticatedException
++     * @throws InvalidTokenException
++     * @throws SessionExpiredException
+      */
+     int getAllMsdDomainsCount(
+             @WebParam(name = "user") AuthenticatedUserVO user,
+-            @WebParam(name = "criteria") MsdDomainSearchCriteria criteria) throws AccessDeniedException;
++            @WebParam(name = "criteria") MsdDomainSearchCriteria criteria)
++            throws AccessDeniedException, UserNotAuthenticatedException, InvalidTokenException, SessionExpiredException;
+ }
+Index: crs-api/src/main/resources/crs-api-config.xml
+===================================================================
+--- crs-api/src/main/resources/crs-api-config.xml	(revision 2738)
++++ crs-api/src/main/resources/crs-api-config.xml	(revision 2746)
+@@ -7,45 +7,50 @@
+     http://jax-ws.dev.java.net/spring/core https://jax-ws.dev.java.net/spring/core.xsd
+     http://jax-ws.dev.java.net/spring/servlet https://jax-ws.dev.java.net/spring/servlet.xsd">
+ 
+-  <import resource="classpath:application-services-config.xml"/>
+-   
+-  <bean id="CRSAuthenticationService" class="pl.nask.crs.api.authentication.AuthenticationServiceEndpoint" >
+-  	<property name="authenticationService" ref="authenticationService" />
+-  </bean>
+-  
+- 
+-  <bean id="CRSDomainAppService" class="pl.nask.crs.api.domain.DomainAppServiceEndpoint">
+-  	<property name="service" ref="domainAppService" />
+-    <property name="domainSearchService" ref="domainSearchService"/>
+-    <property name="billingStatusDictionary" ref="billingStatusFactory"/>
+-    <property name="pricingDictionary" ref="domainPricingFactory"/>
+-  </bean>
+-  
+-  <bean id="CRSResellerService" class="pl.nask.crs.api.account.ResellerAppServiceEndpoint">
+-  	<property name="service" ref="accountAppService" />
+-  	<property name="searchService" ref="accountSearchService"/>
+-    <property name="tariffsDictionary" ref="tariffsDictionary"/>
+-  </bean>
++    <import resource="classpath:application-services-config.xml"/>
+ 
+-  <bean id="CRSNicHandleAppService" class="pl.nask.crs.api.nichandle.NicHandleAppServiceEndpoint">
+-  	<property name="service" ref="nicHandleAppService" />
+-  	<property name="searchService" ref="nicHandleSearchService" />
+-  </bean>
++    <bean id="CRSAuthenticationService" class="pl.nask.crs.api.authentication.AuthenticationServiceEndpoint">
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
+ 
+-  <bean id="CRSTicketAppService" class="pl.nask.crs.api.ticket.TicketAppServiceEndpoint">
+-  	<property name="service" ref="ticketAppService" />
+-    <property name="ticketSearchService" ref="ticketSearchService"/>
+-    <property name="adminStatusDictionary" ref="aStatusFactory" />
+-    <property name="techStatusDictionary" ref="tStatusFactory"/>
+-    <property name="entityClassFactory" ref="eClassFactory"/>
+-  </bean>
++    <bean id="CRSDomainAppService" class="pl.nask.crs.api.domain.DomainAppServiceEndpoint">
++        <property name="service" ref="domainAppService"/>
++        <property name="domainSearchService" ref="domainSearchService"/>
++        <property name="billingStatusDictionary" ref="billingStatusFactory"/>
++        <property name="pricingDictionary" ref="domainPricingFactory"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
+ 
+-  <bean id="CRSPermissionsAppService" class="pl.nask.crs.api.users.UserAppServiceEndpoint">
+-  	<property name="service" ref="userAppService"/>
+-  </bean>
++    <bean id="CRSResellerService" class="pl.nask.crs.api.account.ResellerAppServiceEndpoint">
++        <property name="service" ref="accountAppService"/>
++        <property name="searchService" ref="accountSearchService"/>
++        <property name="tariffsDictionary" ref="tariffsDictionary"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
+ 
+-  <bean id="CRSPaymentAppService" class="pl.nask.crs.api.payment.PaymentAppServiceEndpoint">
+-    <property name="service" ref="paymentAppService"/>
+-  </bean>
+-    
++    <bean id="CRSNicHandleAppService" class="pl.nask.crs.api.nichandle.NicHandleAppServiceEndpoint">
++        <property name="service" ref="nicHandleAppService"/>
++        <property name="searchService" ref="nicHandleSearchService"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
++
++    <bean id="CRSTicketAppService" class="pl.nask.crs.api.ticket.TicketAppServiceEndpoint">
++        <property name="service" ref="ticketAppService"/>
++        <property name="ticketSearchService" ref="ticketSearchService"/>
++        <property name="adminStatusDictionary" ref="aStatusFactory"/>
++        <property name="techStatusDictionary" ref="tStatusFactory"/>
++        <property name="entityClassFactory" ref="eClassFactory"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
++
++    <bean id="CRSPermissionsAppService" class="pl.nask.crs.api.users.UserAppServiceEndpoint">
++        <property name="service" ref="userAppService"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
++
++    <bean id="CRSPaymentAppService" class="pl.nask.crs.api.payment.PaymentAppServiceEndpoint">
++        <property name="service" ref="paymentAppService"/>
++        <property name="authenticationService" ref="wsAuthenticationService"/>
++    </bean>
++
+ </beans>
+\ No newline at end of file

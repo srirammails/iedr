@@ -1,0 +1,53 @@
+<!-- START protected/views/accounts_renewpay_advpay/current_newandrenewals.php -->
+<?php
+/**
+ * View page for Accounts Renewal-Payments - Future Renewals
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Acc_RnP_AdvPay_RnR_Model, Accounts_renewpay_advpayController::actionCurrent_newandrenewals(), Accounts_renewpay_advpayController::actionGetgriddatacurrrnr(), GridUtility::makeMonthYearDateSelectUpdateForm(), jqGridComandButtonsWidget, jqGridWidget
+ */
+
+$pg = 'Future Renewals';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<?php
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+GridUtility::makeMonthYearDateSelectUpdateForm($this,$pg,'accounts_renewpay_advpay', $model, 'date');
+
+$this->widget('application.widgets.jqGrid.jqGridComandButtonsWidget', array(
+	'pk_column_index'	=> 0,
+	'actionurl'		=> $this->createUrl('accounts_renewpay_advpay/confirm_currnr'),
+	'returnurl'		=> $this->createUrl('accounts_renewpay_advpay/current_newandrenewals'),
+	'invoiceType'		=> $model->invoiceType,
+	'commandlist'		=> array(
+					'on'  => 'Pay %n Domains Online',
+					'dep' => 'Pay %n Domains From Deposit',
+					'msd' => 'Put %n Domains into MSD',
+					),
+	));
+
+echo '<br/>';
+
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> $pg.' for \''.Yii::app()->user->name.'\'',
+	'thisfile'	=> $this->createUrl('accounts_renewpay_advpay/current_newandrenewals',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_renewpay_advpay/getgriddatacurrrnr',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	'searching'	=> false,
+	'sorting'	=> false,
+	'selections'	=> true,
+	));
+?>
+<br>
+<?php echo "<a href=\"" .  $this->createUrl('accounts_history_payments/renewals') . "\">View Paid Invoices...</a>";
+?>
+<!-- END protected/views/accounts_renewpay_advpay/current_newandrenewals.php -->

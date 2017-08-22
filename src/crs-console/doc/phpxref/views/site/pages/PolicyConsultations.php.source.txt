@@ -1,0 +1,43 @@
+<!-- START protected/views/site/pages/PolicyConsultations.php -->
+<?php
+/**
+ * View page for Policy Consultations
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$view='files/docs/'; ?>
+<center><h2>Policy Consultations</h2></center>
+<p class="content">
+The IEDR have been giving consideration to establishing a body, such as a Policy Advisory Board, to supplement existing but less formal arrangements and would envisage consulting with stakeholders on terms of reference, membership, and modus operandi. The objective would be to establish a consultative and advisory group to represent the collective views of the Internet community in relation to the operation of .ie. It would be envisaged that the group could, on its own initiative or on request from the IEDR Board, discuss, form a consensus if possible, and make recommendations to the IEDR Board on matters such as (but not necessarily limited to) :-
+</p>
+
+
+<ul class="content">
+  <li>registration policy, terms and conditions</li>
+  <li>dispute resolution and internet abuses</li>
+  <li>best practice recommendations of ICANN, IANA, and CENTR.</li>
+
+</ul>
+
+<p class="content">
+In light of the current issue of the ComReg Consultation, we will await the
+outcome of the ComReg consultation on this matter before proceeding further.
+</p>
+<p class="content">
+If you have any suggestions in relation to our current/new policies, please email us at <a href="mailto:registrars@iedr.ie">registrars@iedr.ie</a>
+</p>
+<br>
+<h2>Current Consultations:</h2>
+<b><p class="content"><a href="<?php echo $view; ?>appeals_policy_formation.pdf">Formal Appeals Policy formation</a></p></b>
+<h2>Past Consultations:</h2>
+
+<b><p class="content">Click <a href="<?php echo $view; ?>IEDRs_LIC_Consultations.pdf">here</a> to view information on consultations undertaken by the IEDR since 2005.</p></b>
+
+<!-- END protected/views/site/pages/PolicyConsultations.php -->

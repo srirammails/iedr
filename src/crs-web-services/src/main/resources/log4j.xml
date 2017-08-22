@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <param name="threshold" value="debug"/>
+        <param name="target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%F:%L] : %m%n"/>
+        </layout>
+    </appender>
+    <appender name="out" class="org.apache.log4j.rolling.RollingFileAppender">
+        <param name="file" value="/var/batch-logs/executiontime.log" />
+        <param name="append" value="true" />
+        <param name="encoding" value="UTF-8" />
+        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="/var/batch-logs/executiontime.%d.log.gz" />
+        </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%F:%L] : %m%n"/>
+        </layout>
+    </appender>
+    <appender name="converters" class="org.apache.log4j.rolling.RollingFileAppender">
+        <param name="file" value="/var/batch-logs/converters.log" />
+        <param name="append" value="true" />
+        <param name="encoding" value="UTF-8" />
+        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="/var/batch-logs/converters.%d.log.gz" />
+        </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%F:%L] : %m%n"/>
+        </layout>
+    </appender>
+    <appender name="emails" class="org.apache.log4j.rolling.RollingFileAppender">
+        <param name="file" value="/var/batch-logs/emails.log" />
+        <param name="append" value="true" />
+        <param name="encoding" value="UTF-8" />
+        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="/var/batch-logs/emails.%d.log.gz" />
+        </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%F:%L] : %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="pl.nask.crs.commons.logger" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="out"/>
+    </logger>
+    <logger name="com.opensymphony.xwork2.interceptor.LoggingInterceptor">
+        <level value="info"/>
+        <appender-ref ref="out"/>
+    </logger>
+    <logger name="com.opensymphony.xwork2.interceptor.TimerInterceptor">
+        <level value="info"/>
+        <appender-ref ref="out"/>
+    </logger>
+    <logger name="com.opensymphony.sitemesh">
+        <level value="error"/>
+    </logger>
+    <logger name="org.apache.struts2">
+        <level value="error"/>
+    </logger>
+    <logger name="org.apache">
+        <level value="error"/>
+    </logger>
+    <logger name="catalina">
+        <level value="error"/>
+    </logger>
+    <logger name="pl.nask">
+        <level value="info"/>
+    </logger>
+	<logger name="com.ibatis">
+		<level value="info" />
+	</logger>
+	<logger name="java.sql">
+		<level value="info" />
+	</logger>
+    <logger name="pl.nask.crs.ticket.dao.ibatis.converters.HistoricalTicketConverter">
+        <level value="info"/>
+        <appender-ref ref="converters"/>
+    </logger>
+    <logger name="pl.nask.crs.commons.dao.AbstractConverter">
+        <level value="info"/>
+        <appender-ref ref="converters"/>
+    </logger>
+    <logger name="pl.nask.crs.ticket.dao.ibatis.handlers.DomainOperationTypeHandler">
+        <level value="info"/>
+        <appender-ref ref="converters"/>
+    </logger>
+
+    <logger name="pl.nask.crs.commons.email.service.impl" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="emails"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</log4j:configuration>

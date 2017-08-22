@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class AllNicsModel extends ViewGridModelBase {
+   public $defaultSortColumn = 'A';
+   var $columns = array(
+       'A' => array(
+           'resultfield' => 'D_Name',
+           'criteriafield' => 'D_Name',
+           'label' => 'Domain Name',
+           'width' => 60,
+           'link' => 'domains/viewdomain',
+           'type' => 'string',
+       ),
+       'B' => array(
+           'resultfield' => 'Nic_A',
+           'criteriafield' => 'nic_a',
+           'label' => 'Admin Nic',
+           'width' => 60,
+           'link' => 'nichandles/viewnichandle',
+           'type' => 'string',
+       ),
+       'C' => array(
+           'resultfield' => 'Nic_T',
+           'criteriafield' => 'nic_t',
+           'label' => 'Tech Nic',
+           'width' => 60,
+           'link' => 'nichandles/viewnichandle',
+           'type' => 'string',
+       ),
+       'D' => array(
+           'resultfield' => 'Nic_C',
+           'criteriafield' => 'nic_c',
+           'label' => 'Creator Nic',
+           'width' => 60,
+           'type' => 'string',
+       )
+   );
+
+   public function addResults($o) {
+      return array
+          (
+          'A' => $o["D_Name"],
+          'B' => $o["Nic_A"],
+          'C' => $o["Nic_T"],
+          'D' => $o["Nic_C"]
+      );
+   }
+}
+

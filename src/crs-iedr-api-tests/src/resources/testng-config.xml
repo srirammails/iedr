@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--    Test class should be added to classes to run !!!!   -->
+
+<suite name="apiFunctionalTests" verbose="1">
+    <test name="apiTests" preserve-order="true">
+        <packages>
+            <package name="pl.nask.crs.iedrapi.tests.bpr.requestdomainregistration"/>
+            <package name="pl.nask.crs.iedrapi.tests.bpr.pay"/>
+            <package name="pl.nask.crs.iedrapi.tests.bpr.transfer"/>
+        </packages>
+        <classes>
+            <class name="pl.nask.crs.iedrapi.tests.FirstToRunTest"/>
+            <!--<class name="pl.nask.crs.iedrapi.tests.AccountTest"/>-->
+            <class name="pl.nask.crs.iedrapi.tests.AuthenticationTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.ContactTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.DateTypeTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.DomainTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.TicketTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.TransactionTest"/>
+            <class name="pl.nask.crs.iedrapi.tests.TestFor3637"/>
+            <class name="pl.nask.crs.iedrapi.tests.Regression"/>
+            <!--<class name="pl.nask.crs.iedrapi.tests.PerformanceTest"/> -->
+            <!--<class name="pl.nask.crs.iedrapi.tests.AccountWithRealexTest"/>-->
+        </classes>
+    </test>
+</suite>

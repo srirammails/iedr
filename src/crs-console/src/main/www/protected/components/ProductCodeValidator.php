@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * defines ProductCodeValidator class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Validates a product code, as selected with a drop-down list of registration 'products' ( ~= years before next renewal)
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       get_reg_prices()
+ */
+class ProductCodeValidator
+	extends CValidator
+	{
+
+    /**
+     * error message to append to field label if invalid
+     * 
+     * @var    string   
+     * @access protected
+     * @static
+     */
+	protected static $errMsg = ' is not a valid Product Code';
+
+    /**
+     * validates supplied attribute
+     * 
+     * @todo   could be refactored to make better use of base class functionality
+     * @param  CModel     $model     model with data to validate
+     * @param  string     $attribute name of model attribute to validate
+     * @return boolean    true if valid
+     * @access public 
+     * @see findProdWithCode
+     */
+	public function validateAttribute($model,$attribute)
+		{
+         $ret = false;
+         if($model && $attribute)
+         {
+            $regcode=$model->$attribute;
+            if($regcode!=null)
+            {
+				#Yii::log('have regcode:'.print_r($regcode,true), 'debug', 'ProductCodeValidator::validateAttribute()');
+               $p = $this->findProdWithCode($regcode);
+				if($p != null) {
+					#Yii::log('have product:'.print_r($p,true), 'debug', 'ProductCodeValidator::validateAttribute()');
+                  $ret = $this->prodIsRightType($p);
+               }
+            }
+         }
+		if(!$ret) $this->addErrMsgToModel($model,$attribute,self::$errMsg);
+         return $ret;
+		}
+
+    /**
+     * no-op additional check, to allow child classes to specialise
+     * 
+     * @param  string    $p product code
+     * @return boolean   always true
+     * @access protected
+     */
+	protected function prodIsRightType($p)
+		{
+		return true;
+		}
+
+    /**
+     * return a product name with the given product code, or null if not found
+     * 
+     * uses data returned by {@link get_reg_prices}
+     * 
+     * @param  string   $c product code, e.g. 'RReg1Yr' (from table phoenixdb.Product->P_Code)
+     * @return string   product name or null
+     * @access protected
+     */
+	protected function findProdWithCode($c)
+		{
+         $ret = null;
+         $regarr = get_reg_prices();
+         if(isset($regarr['CODE'][$c]))
+            $ret = $regarr['CODE'][$c];
+		#Yii::log('returning product: '.print_r($ret,true), 'debug', 'ProductCodeValidator::findProdWithCode('.$c.')');
+         return $ret;
+		}
+
+    /**
+     * adds an error message to a model about an attribute
+     * 
+     * @param  CModel    $model     the model to add the error message to
+     * @param  string    $attribute the name of the attribute which is invalid
+     * @param  string    $msg       message for error re
+     * @return void     
+     * @access protected
+     * @todo   could be refactored to reuse functionality in other validators
+     */
+	protected function addErrMsgToModel($model,$attribute,$msg)
+		{
+		$lbls = $model->attributeLabels();
+      Yii::log('art='.$attribute.'   lab= '.print_r($lbls,true));
+		$lbl = $lbls[$attribute];
+		$model->addError($attribute,Yii::t('yii',$lbl.' '.$msg));
+		}
+	}
+

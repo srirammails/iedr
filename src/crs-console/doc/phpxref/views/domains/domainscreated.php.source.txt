@@ -1,0 +1,44 @@
+<!-- START protected/views/domains/domainscreated.php -->
+<?php
+/**
+ * View page for Domains - Domains Created
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Domains_Created, DomainsController::actionDomainsCreated()
+ */
+
+$pg = 'Domains Created';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<table>
+	<tr>
+		<td>Domain</td>
+		<td colspan="2">Result</td>
+	</tr>
+<?php
+	$model = AuthOnlyBaseController::safeDeserializeObj($_GET['domaincreateresults']);
+	#echo '<pre>';print_r($model);exit;
+	foreach($model->domainsprocessed as $domain => $result)
+		{
+		echo '<tr><td>'.$domain.'</td>';
+		if(isset($result['error']))
+			echo '<td>FAIL</td><td>ERROR =  '.$result['error'].'</td>';
+		else
+			{
+			$link = $this->createUrl('tickets/viewticket',array('id'=>$result['ticket']));
+			echo '<td>OK  </td><td>TICKET = <a href="'.$link.'">'.$result['ticket'].'</a></td>';
+			}
+		echo '</tr>';
+		}
+?>
+</table>
+</div><!-- form -->
+
+<!-- END protected/views/domains/domainscreated.php -->

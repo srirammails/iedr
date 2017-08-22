@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">    
+    
+    <bean id="domainSavePermissionAspect" class="pl.nask.crs.app.authorization.aspects.DomainSaveAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+    
+    <bean id="domainNoSaveNoCreatePermissionAspect" class="pl.nask.crs.app.authorization.aspects.DomainNoSaveNoCreateAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="domainCreatePermissionAspect" class="pl.nask.crs.app.authorization.aspects.DomainCreateAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="accountEditPermissionAspect" class="pl.nask.crs.app.authorization.aspects.AccountSaveAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="simpleNamedPermissionAspect"
+          class="pl.nask.crs.app.authorization.aspects.SimpleNamedPermissionAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="nicHandleEditPermissionAspect"
+          class="pl.nask.crs.app.authorization.aspects.NicHandleEditAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="userAccessLevelEditPermissionAspect"
+          class="pl.nask.crs.app.authorization.aspects.UserPermissionEditAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+        <constructor-arg ref="userDAO"/>
+    </bean>
+    
+    <bean id="ticketNoCreatePermissionAspect" class="pl.nask.crs.app.authorization.aspects.TicketAuthorizationAspect">
+    	<constructor-arg ref="authorizationService" />
+    </bean>
+    
+	<bean id="paymentPermissionAspect" class="pl.nask.crs.app.authorization.aspects.PaymentAuthorizationAspect">
+    	<constructor-arg ref="authorizationService" />
+    </bean>
+
+    <bean id="accountGetPermissionAspect" class="pl.nask.crs.app.authorization.aspects.AccountGetAuthorizationAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <bean id="viewInvoiceAspect" class="pl.nask.crs.app.authorization.aspects.ViewInvoiceAspect">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+    
+    <bean id="viewTransactionAspect" class="pl.nask.crs.app.authorization.aspects.ViewTransactionAspect">
+        <constructor-arg ref="authorizationService"/>
+        <constructor-arg ref="transactionHistDAO" />
+    </bean>
+
+    <aop:config proxy-target-class="false">
+        <aop:aspect ref="domainCreatePermissionAspect">
+            <aop:pointcut id="domainCreateCheck"
+                          expression="execution(public * pl.nask.crs.app.domains.DomainAppService.create(..))"/>
+            <aop:before method="checkPermission" pointcut-ref="domainCreateCheck"/>
+        </aop:aspect>
+
+        <aop:aspect ref="domainSavePermissionAspect">
+            <aop:pointcut id="domainEditCheck"
+                          expression="execution(public * pl.nask.crs.app.domains.DomainAppService.save(..))"/>
+            <aop:before method="checkPermission" pointcut-ref="domainEditCheck"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="domainNoSaveNoCreatePermissionAspect">
+            <aop:pointcut id="domainNoEditCheck" expression="
+                execution(public * pl.nask.crs.app.domains.DomainAppService.modify(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.search(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.findDeletedDomains(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.view(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.viewPlain(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.checkPayAvailable(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.edit(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.enterVoluntaryNRP(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.removeFromVoluntaryNRP(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.modifyDomain(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.modifyNameservers(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.modifyRenewalMode(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.isEventValid(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.updateHolderType(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.isCharity(..))
+                "/>
+            <aop:before method="checkPermission" pointcut-ref="domainNoEditCheck"/>
+        </aop:aspect>
+
+        <aop:aspect ref="accountEditPermissionAspect">
+            <aop:pointcut id="accountEditCheck"
+                          expression="execution(public * pl.nask.crs.app.accounts.AccountAppService.save(..))"/>
+            <aop:before method="checkPermission" pointcut-ref="accountEditCheck"/>
+        </aop:aspect>
+        
+        
+        <aop:aspect ref="nicHandleEditPermissionAspect">
+            <aop:pointcut id="nicHandleEditCheck"
+                          expression="
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.save(..))
+                          "/>
+            <aop:before method="checkPermission" pointcut-ref="nicHandleEditCheck"/>           
+            <aop:pointcut id="nicHandleCheck2"
+                          expression="
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.get(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.history(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.getHistorical(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.alterStatus(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.resetPassword(pl.nask.crs.security.authentication.AuthenticatedUser, ..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.getDefaults(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.saveDefaults(..)) ||
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.createDefaults(..)) ||
+                          execution(public * pl.nask.crs.app.users.UserAppService.changeTfa(..))
+                          "/>
+            <aop:before method="checkPermission2" pointcut-ref="nicHandleCheck2"/>
+            
+            <aop:pointcut id="nicHandleCheck3"
+                          expression="
+                          execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.saveNewPassword(..))
+                          "/>
+            <aop:before method="checkPermissionSavePass" pointcut-ref="nicHandleCheck3"/>
+            
+            <aop:pointcut id="nicHandleCheck4"
+                          expression="
+                		  execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.create(..)) 
+                          "/>
+            <aop:before method="checkPermissionCreate" pointcut-ref="nicHandleCheck4"/>
+            <aop:pointcut id="nicHandleCheck5"
+                          expression="
+                		  execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.search(..)) 
+                          "/>
+            <aop:before method="checkPermissionCreate" pointcut-ref="nicHandleCheck4"/>
+
+            <aop:before method="checkPermissionSearch" pointcut-ref="nicHandleCheck5"/>
+            
+            <aop:pointcut id="nicHandleCheck6"
+                          expression="
+                		  execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.changePassword(pl.nask.crs.security.authentication.AuthenticatedUser, ..)) 
+                          "/>
+            <aop:before method="checkPermission3" pointcut-ref="nicHandleCheck6"/>                                 
+        </aop:aspect>
+       
+        
+        <aop:aspect ref="ticketNoCreatePermissionAspect">
+            <aop:pointcut id="ticketNoCreateCheck"
+                          expression="
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.view(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.history(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.revise(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.edit(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.checkIn(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.checkOut(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.reassign(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.save(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.accept(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.reject(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.update(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.alterStatus(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.adminRenew(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.adminDocSent(..)) ||
+                          execution(public * pl.nask.crs.app.commons.CommonAppService.cancel(..)) ||
+                          execution(public * pl.nask.crs.app.tickets.TicketAppService.simpleUpdate(..))
+                          "/>
+            <aop:before method="checkPermission" pointcut-ref="ticketNoCreateCheck"/>
+            <!-- 
+            <aop:pointcut id="ticketCreateCheck" expression="
+                		  execution(public * pl.nask.crs.app.tickets.TicketAppService.create(..))
+                		  "/>
+			<aop:before method="checkPermission2" pointcut-ref="ticketCreateCheck"/> 
+			-->
+        </aop:aspect>
+
+        <aop:aspect ref="simpleNamedPermissionAspect">
+            <aop:pointcut id="simpleOperations" expression="
+                execution(public * pl.nask.crs.app.accounts.AccountAppService.alterStatus(..)) ||
+                execution(public * pl.nask.crs.app.accounts.AccountAppService.create(..)) ||
+                execution(public * pl.nask.crs.app.accounts.AccountAppService.history(..)) ||
+                execution(public * pl.nask.crs.app.accounts.AccountAppService.search(..)) ||
+                execution(public * pl.nask.crs.app.users.UserAppService.getHistory(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.findTransferedDomains(..)) ||
+                execution(public * pl.nask.crs.app.config.ConfigAppService.*(..)) ||
+                execution(public * pl.nask.crs.security.authentication.WsAuthenticationService.switchUser(..)) ||
+                execution(public * pl.nask.crs.security.authentication.WsAuthenticationService.unswitch(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.registerDomain(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.transfer(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.reauthoriseTransaction(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.pay(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.viewUserDeposit(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.depositFunds(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findUserHistoricalDeposits(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getDepositLimits(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getTopUpHistory(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getProductPrice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getVatRate(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getPrice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findAllPrices(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.addPrice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.modifyPrice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.addVatRate(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.invalidate(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getValid(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getVatCategories(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getNotSettledReservations(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getNotSettledReservationsTotals(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findHistoricalReservations(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findHistoricalTransactions(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getSettledTransactionHistory(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getTransactionToReauthorise(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findUserInvoices(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findDeposits(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findDepositWithHistory(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getReadyADPTransactionsReport(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findInvoices(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.findExtendedInvoices(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.viewDeposit(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.correctDeposit(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.depositFundsOffline(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.zoneUnpublished(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.zoneCommit(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.zonePublished(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.registerGIBODomain(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.isTransferPossible(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.validateNameservers(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.getDomainSettings(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.verifyAuthCode(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.generateOrProlongAuthCode(..)) ||
+                execution(public * pl.nask.crs.app.commons.CommonAppService.sendAuthCodeByEmail(..)) ||
+                execution(public * pl.nask.crs.app.domains.BulkTransferAppService.*(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.forceDSMState(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.forceDSMEvent(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.getDsmStates(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.checkDomainExists(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.checkAvailability(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.sendAuthCodeByEmail(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.bulkExportAuthCodes(..)) ||
+                execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.addUserPermission(..)) ||
+                execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.removeUserPermission(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.revertToBillable(..))  ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.enterWipo(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.exitWipo(..)) ||
+                execution(public * pl.nask.crs.app.users.UserAppService.getUserLevel(..)) ||
+                execution(public * pl.nask.crs.app.document.DocumentAppService.*(..)) ||
+                execution(public * pl.nask.crs.app.domains.DomainAppService.searchFull(..)) ||
+                execution(public * pl.nask.crs.app.reports.ReportsAppService.findTotalDomainsPerDate(..)) ||
+                execution(public * pl.nask.crs.app.reports.ReportsAppService.findTotalDomainsPerClass(..)) ||
+                execution(public * pl.nask.crs.app.reports.ReportsAppService.findTotalDomains(..)) ||
+                execution(public * pl.nask.crs.app.reports.ReportsAppService.search(..)) ||
+                execution(public * pl.nask.crs.app.users.UserAppService.isUserInGroup(..)) ||
+                execution(public * pl.nask.crs.app.triplepass.TriplePassAppService.giboAdminFailed(..)) ||
+                execution(public * pl.nask.crs.app.AppSearchService.search(..))	||
+                execution(public * pl.nask.crs.app.tickets.TicketAppService.getTicketForDomain(..))	||
+                execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.triggerNhExport(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getDomainPricing(..))	||
+                execution(public * pl.nask.crs.app.email.EmailTemplateAppService.*(..)) ||
+                execution(public * pl.nask.crs.app.emaildisabler.EmailDisablerAppService.getAllFor(..)) ||
+                execution(public * pl.nask.crs.app.emaildisabler.EmailDisablerAppService.getAllOfEmailGroup(..)) ||
+                execution(public * pl.nask.crs.app.emaildisabler.EmailDisablerAppService.getAllOfTemplate(..)) ||
+                execution(public * pl.nask.crs.app.emaildisabler.EmailDisablerAppService.modifySuppressionMode(..)) ||
+                execution(public * pl.nask.crs.app.email.EmailGroupAppService.*(..))
+                "/>
+            <aop:before method="checkPermission" pointcut-ref="simpleOperations"/>
+        </aop:aspect>
+
+        <aop:aspect ref="accountGetPermissionAspect">
+            <aop:pointcut id="getOperation" expression="
+                execution(public * pl.nask.crs.app.accounts.AccountAppService.get(..))
+            "/>
+            <aop:before method="checkPermission" pointcut-ref="getOperation"/>
+        </aop:aspect>
+
+        <!-- WsAuthenticationService.isUserSwitched can use everyone-->
+        <aop:aspect ref="userAccessLevelEditPermissionAspect">
+            <aop:pointcut id="permissionEditCheck"
+                          expression="execution(public * pl.nask.crs.app.users.UserAppService.changePermissionGroups(..))"/>
+            <aop:before method="checkPermission" pointcut-ref="permissionEditCheck"/>
+        </aop:aspect>
+
+        <aop:aspect ref="viewInvoiceAspect">
+            <aop:pointcut id="viewPermissionCheck" expression="
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.viewXmlInvoice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.viewPdfInvoice(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.sendEmailWithInvoices(..)) ||
+                execution(public * pl.nask.crs.app.payment.PaymentAppService.getInvoiceInfo(..))
+                "/>
+            <aop:before method="checkPermission" pointcut-ref="viewPermissionCheck"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="viewTransactionAspect">
+        	<aop:pointcut id="viewTransactionCheck" 
+        		expression="execution(public * pl.nask.crs.app.payment.PaymentAppService.getTransactionInfo(..))"/>
+        	<aop:after-returning method="checkPermission" pointcut-ref="viewTransactionCheck" returning="retVal" />
+        </aop:aspect>
+    </aop:config>    
+</beans>

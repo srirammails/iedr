@@ -1,0 +1,385 @@
+<?php
+
+/**
+ * defines TicketsController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Controller for Ticket Grid
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class TicketsController
+	extends GridController
+	{
+
+    /**
+     * used to display breadcrumb trail on top of page. deprecated; prefer {@link printBreadcrumbTrail()}
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $breadcrumbs = array('Tickets');
+
+    /**
+     * render ticket grid, showing tickets created in the last N days ('days' defaults to 100, set in protected/config/main.php)
+     * 
+     * @return void  
+     * @access public
+     * @see    main.php, AllTicketsModel
+     */
+	public function actionMain() {
+		$model->days = $_REQUEST['days'];
+		$at_model = new AllTicketsModel();
+		$at_model->days = $_REQUEST['days'];
+		#$this->performAjaxValidation($at_model);
+		Yii::log(print_r($_POST,true), 'debug', 'TicketsController::actionMain()');
+		if(Yii::app()->request->isPostRequest and isset($_POST['AllTicketsModel']))
+			{
+			$at_model->attributes=$_POST['AllTicketsModel'];
+			}
+		Yii::log(print_r($at_model,true), 'debug', 'TicketsController::actionMain()');
+		$this->render('/tickets/main',array('model'=>$at_model));
+		}
+
+    /**
+     * render ticket-view page, conditionally displaying the edit button
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionViewticket() {
+		$vt_model = new ViewTicketModel();
+		$vt_model->ticketEdit = Yii::app()->user->ticketEdit;
+		$ticketVO = $this->getTicket($_GET['id']);
+		$vt_model->fillFromObject($ticketVO,$this->backend_errors);
+		Yii::log(print_r($vt_model,true), 'debug', 'TicketsController::actionViewticket()');
+		$this->render('/tickets/viewticket',array('model'=>$vt_model));
+		}
+
+    /**
+     * render ticket edit page, and handlt ticket update data posted (redirects back to ticket view on success).
+     * 
+     * @return void  
+     * @access public
+     * @see    editticket.php, EditTicketModel, viewticket.php
+     */
+	public function actionEditticket() {
+		$et_model = new EditTicketModel();
+		$ticketVO = null;
+		$ticket_id = $_GET['id'];
+		if(is_numeric($ticket_id) and $ticket_id > 0)
+			{
+			$ticketVO = $this->getTicket($ticket_id);
+			if(!Yii::app()->request->isPostRequest)
+				{
+				$et_model->fillFromObject($ticketVO,$this->backend_errors);
+				}
+			else
+				{
+				// posted data: update ticket if valid
+				$et_model->attributes = $_POST['EditTicketModel'];
+				$et_model->setReadOnlyDataFromObj($ticketVO);
+				$this->performAjaxValidation($et_model);
+				if($et_model->validate())
+					if($this->doUpdateTicket($ticketVO,$et_model))
+						$this->redirect(array('tickets/viewticket','id'=>$et_model->id));
+				}
+			}
+		else
+			$this->backend_errors .= 'invalid ticket ID';
+		if($this->backend_errors != null)
+			$et_model->errors = $this->backend_errors;
+
+		$this->render('/tickets/editticket',array('model'=>$et_model));
+		}
+
+    /**
+     * handles ticket delete; afterwards, diplays ticket grid with message (but probably should redirect instead)
+     * 
+     * @return void  
+     * @access public
+     * @see    main.php, AllTicketsModel
+     */
+	public function actionDeleteticket() {
+		$domainName = $_GET['domainName'];
+		$ticketId = $_GET['id'];
+		$at_model = new AllTicketsModel();
+
+		if($this->doDeleteTicket($domainName)){
+			$at_model->message = "Success : Ticket for domain $domainName deleted!";
+		}
+		else{
+			$at_model->message = "Error : Ticket not deleted for domain $domainName, please check your selection, and try again.";
+		}
+		
+		$this->render('/tickets/main',array('model'=>$at_model));
+		}
+
+    /**
+     * performs ticket delete action
+     * 
+     * @param  string   $domainName domain name to delete tickets of
+     * @return boolean   true on success
+     * @access protected
+     */
+	protected function doDeleteTicket($domainName)
+		{
+		CRSTicketAppService_service::delete($this->backend_errors, Yii::app()->user->authenticatedUser, $domainName);
+		return ($this->backend_errors==null);
+		}
+
+    /**
+     * Perform ticket update
+     * 
+     * Ticket update via CRS-WS-API must:
+     * 
+     * - Fetch ticket in 'edit' mode
+     * 
+     * - 'Checkout' ticket, to lock it for updates
+     * 
+     * - reformat data changes as flattened domain-operations array {@link create_ticket_operations_from_submitted_data}
+     * 
+     * - Update ticket data
+     * 
+     * - 'Checkin' ticket, to unlock
+     * 
+     * @param  CRSTicketAppService_ticketVO   $ticketVO Ticket data from CRS-WS-API
+     * @param  EditTicketModel    $et_model ticket edit data
+     * @return boolean   true on success
+     * @access protected
+     */
+	protected function doUpdateTicket($ticketVO,$et_model)
+		{
+		global $admin_sts_wsapi_strings;
+		# proceed to update ticket
+		$ticket_id = $et_model->id;
+		$user = Yii::app()->user->authenticatedUser;
+		# attempt to fetch for edit (possibly not authorized)
+		CRSTicketAppService_service::edit($ticketVO,$this->backend_errors, $user, $ticket_id);
+		if($this->backend_errors==null)
+			{
+			if($this->check_out_ticket($user,$ticketVO))
+				{
+				# modify data & update
+				$domainOperations = $this->create_ticket_operations_from_submitted_data($ticketVO,$et_model);
+				sleep(1); # NB: need to sleep at least 1 sec, so TicketHist primary key (includes Change-date) will be unique
+				CRSTicketAppService_service::update($this->backend_errors, $user, $ticket_id, $domainOperations, $et_model->requestersRemark, $et_model->clikPaid);
+				if(count($this->backend_errors)==0)
+					{
+					sleep(1); # NB: need to sleep at least 1 sec, so TicketHist primary key (includes Change-date) will be unique
+					CRSTicketAppService_service::checkIn($this->backend_errors, $user, $ticket_id, $admin_sts_wsapi_strings[5]);
+					if($this->backend_errors==null)
+						return true;
+					}
+				else $this->backend_errors .= ': failed update';
+				}
+			else $this->backend_errors .= ': failed checkout';
+			}
+		return false;
+		}
+
+    /**
+     * performs ticket checkout, returning true on success.
+     * 
+     * @param  CRSTicketAppService_authenticatedUserVO    $user     user object to check out to
+     * @param  CRSTicketAppService_ticketVO    $ticketVO ticket object (only 'id' attribute is used)
+     * @return boolean   true on success
+     * @access protected
+     */
+	protected function check_out_ticket($user,$ticketVO) {
+		$checkedout = false;
+		if($ticketVO->checkedOutTo == $user->username)
+			$checkedout = true;
+		else
+			{
+			sleep(1); # NB: need to sleep at least 1 sec, so TicketHist primary key (includes Change-date) will be unique
+			# attempt to check out
+			CRSTicketAppService_service::checkout($this->backend_errors, $user, $ticketVO->id);
+			if(count($this->backend_errors)==0)
+				$checkedout = true;
+			}
+		return $checkedout;
+		}
+
+    /**
+     * transforms the supplied objects into an array of changes
+     * 
+     * @param  object    $ticketVO          Ticket object as fetch frmo CRS-WS-API with Ticket-ID
+     * @param  object    $edit_ticket_model Vaildated Web Form Data of Ticket changes
+     * @return array     array of data from merging ticket-object with web form ticket changes
+     * @access protected
+     */
+	protected function create_ticket_operations_from_submitted_data($ticketVO,$edit_ticket_model) {
+		$domainOperations = array();
+
+		# extract class/category from applicant
+		$clascat = explode(':',$edit_ticket_model->applicant);
+		$edit_ticket_model->operation_domainHolderClassField_newValue = $clascat[0];
+		$edit_ticket_model->operation_domainHolderCategoryField_newValue = $clascat[1];
+		# add change operations : iterate over usual change-fields
+		$opsarr	= array('domainHolderField','domainHolderClassField','domainHolderCategoryField','domainNameField','resellerAccountField',);
+		foreach($opsarr as $op)
+			{
+			$fld = 'operation_'.$op.'_newValue';
+			$val = isset($edit_ticket_model->$fld) ? $edit_ticket_model->$fld : $ticketVO->operation->$op->newValue ;
+			if($val!=null and $val !='')
+				$domainOperations[$op] = array(
+					'newValue'		=> $val,
+					'failureReasonId'	=> 0+$ticketVO->operation->$op->failureReasonId,
+					);
+			}
+		# tech and billing contacts
+		$opsarr	= array('techContactsField','billingContactsField');
+		foreach($opsarr as $op)
+			{
+			$fld = 'operation_'.$op.'_newValue';
+			$val = isset($edit_ticket_model->$fld) ? $edit_ticket_model->$fld : $ticketVO->operation->$op->newValue->nicHandle ;
+			if($val!=null and $val !='')
+				$domainOperations[$op] = array(
+					'newValue'		=> $val,
+					#'failureReasonId'	=> 0+$ticketVO->operation->$op->failureReasonId,
+					);
+			}
+
+		# add change operations : iterate over admin contacts
+		if(!is_array($ticketVO->operation->adminContactsField))
+			{
+			$t = $ticketVO->operation->adminContactsField;
+			$ticketVO->operation->adminContactsField = array();
+			$ticketVO->operation->adminContactsField[0] = $t;
+			}
+		$domainOperations['adminContactsField'] = array();
+		foreach(array(0,1) as $x)
+			{
+			$op = $ticketVO->operation->adminContactsField[$x];
+			$fld = 'operation_adminContactsField_'.$x.'_newValue_nicHandle';
+			$val = isset($edit_ticket_model->$fld) ? $edit_ticket_model->$fld : $op->newValue->nicHandle ;
+			if($val != null and $val != '')
+				$domainOperations['adminContactsField'][$x] = array(
+					'newValue'		=> $val,
+					'failureReasonId'	=> 0+($op->newValue->failureReasonId),
+					);
+			}
+		# add change operations : iterate over domains
+		foreach(array(0,1,2) as $x)
+			{
+			$op = $ticketVO->operation->nameservers[$x];
+			# name
+			$fld_n = 'operation_nameservers_'.$x.'_name_newValue';
+			$val_n = $edit_ticket_model->$fld_n;
+			# ip address
+			$fld_a = 'operation_nameservers_'.$x.'_ipAddress_newValue';
+			$val_a = $edit_ticket_model->$fld_a;
+
+			if($val_n!=null and $val_n!='')
+				{
+				$a = array(
+					'name'  => array(
+						'newValue'		=> $val_n,
+						'failureReasonId'	=> 0), // 0+$op->name->failureReasonId),
+					'ipAddress' => array(
+						'newValue'		=> $val_a,
+						'failureReasonId'	=> 0), // 0+$op->ipAddress->failureReasonId),
+					);
+				if($val_a==null or $val_a='')
+					unset($a['ipAddress']);
+				$domainOperations['nameservers'][] = $a;
+				}
+			}
+		Yii::log(print_r($domainOperations,true), 'debug', 'TicketsController::create_ticket_operations_from_submitted_data()');
+		return $domainOperations;
+		}
+
+    /**
+     * Fetches Ticket object from backend, for the given Ticket ID
+     * 
+     * @param  integer    $id Ticket ID
+     * @return CRSTicketAppService_ticketVO   Ticket data from CRS-WS-API
+     * @access protected
+     */
+	protected function getTicket($id) {
+		Yii::log('getTicket(id='.$id.')', 'debug', 'TicketsController::getTicket()');
+		$result = null;
+		CRSTicketAppService_service::view($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $id);
+		if(count($this->backend_errors)==0)
+			{
+			Yii::log(print_r($result,true), 'warning', 'TicketsController::getTicket()'.__LINE__);
+			}
+		else Yii::log(print_r($this->backend_errors,true), 'error', 'TicketsController::getTicket() : ERROR:'.__LINE__);
+		return $result;
+		}
+
+    /**
+     * returns a pagefull of data for use by the parent GridController
+     * 
+     * @param  object    $model    model containing jqGrid colmodel-definitions
+     * @param  object    $criteria search criteria
+     * @param  unknown   $sort     sort criteria (unused)
+     * @param  integer   $perpage  record per page
+     * @param  integer   $pagenum  pagenumber to show
+     * @return array     array of meta-data and data for a page of data for the ticket grid display
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		Yii::log('..', 'debug', 'TicketsController::getData($model,$criteria,$sort,$perpage,$pagenum)'.__LINE__);
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset		= $perpage * ($pagenum-1);
+		$limit		= $perpage;
+
+		if(!$model->days){ $model->days = 100; }
+		$tm = time();
+		$criteria->from = date('Y-m-d',$tm-(86400*$model->days)).'T00:00:00';
+		$criteria->to   = date('Y-m-d',$tm).'T00:00:00';
+
+		$sc = new CRSTicketAppService_sortCriterion();
+		$sc->ascending	= true;// type=xs:boolean, (NOT NULL), min=1
+		if($_GET['sord'] == "desc"){   $sc->ascending	= false;   }
+
+		if(is_null($model->columns[$_GET['sidx']]['criteriafield'])){
+			$sc->sortBy	= 'id';// type=xs:string, (NOT NULL), min=0
+		}
+		else{
+			$sc->sortBy = $model->columns[$_GET['sidx']]['criteriafield'];
+		}
+
+		// API SOAP call
+		$result 	= null;
+		CRSTicketAppService_service::find($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $criteria, $offset, $limit, $sc);
+		if(count($this->backend_errors)==0)
+			{
+			// records = total records on all pages
+			$pagedata['records'] 	= $result->totalResults;
+			// total = total num result pages = (t div p)+1
+			$pagedata['total'] 		= math_div($result->totalResults,$perpage)+1;
+			if(is_array($result->list))
+				foreach($result->list as $k => $o)
+					$pagedata['rows'][] = $model->addResults($o);
+			else
+				if(is_object($result->list))
+					$pagedata['rows'][] = $model->addResults($result->list);
+				else
+					Yii::log(print_r($result,true), 'warning', 'TicketsController::getData() : WARN : no \'results\':'.__LINE__);
+			}
+		else Yii::log(print_r($this->backend_errors,true), 'error', 'TicketsController::getData() : ERROR:'.__LINE__);
+		return $pagedata;
+		}
+	}

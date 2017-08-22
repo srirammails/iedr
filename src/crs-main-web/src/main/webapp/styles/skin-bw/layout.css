@@ -1,0 +1,155 @@
+/*
+	css elements defining general site layout
+	for color defs see main.css
+*/
+
+div#page {
+	min-width: 520px;
+}
+
+div#content {
+	margin: 0;
+	padding: 0;
+
+	width: 100%;
+
+	text-align: left;
+}
+
+div#main {
+/*position: absolute;*/
+/*top: 74px;*/
+/*right: 0;*/
+/*bottom: 0;*/
+/*left: 161px;*/
+/*overflow-y: scroll;*/
+
+	float: left;
+
+	margin: 0 0 38px 0;
+
+	width: 100%;
+	min-height: 73px;
+	min-width: 161px;
+}
+
+div#search {
+	float: right;
+
+	margin: 0;
+	padding: 16px 20px 0 0;
+
+	width: 49%;
+
+	text-align: right;
+}
+
+td#nav-panel {
+	vertical-align: top;
+	width: 160px;
+}
+
+td#main-panel {
+	vertical-align: top;
+}
+
+blockquote {
+	margin-left: 10px;
+
+	border-left: 10px solid;
+}
+
+hr.buttons {
+	clear: both;
+	
+	border: none 0;
+	border-top: 1px solid #abaeab; /* dark gray color */
+
+	height: 1px;
+}
+
+select#messageTemplates {
+	width: 98%;
+}
+
+textarea#hostmasterMessage {
+	font-size: 1em;
+	width: 98%;
+}
+
+textarea {
+	width: 98%;
+	font-size: 1em;
+}
+
+div#newMessageDiv {
+	padding-bottom: 25px;
+}
+
+input#saveMessageAsButton {
+	clear: left;
+	float: left;
+
+	padding: 0;
+
+	width: 18%;
+}
+
+input#newResponseTitle {
+	float: left;
+
+	margin: 0;
+	margin-left: 5px;
+
+	width: 78%;
+}
+
+.version {
+	clear: both;
+	text-align: center;
+}
+
+.loginInfo {
+	float: right;
+	position: relative;
+	padding-right: 10px;
+	font-size: 1em;
+	text-align: right;
+}
+
+.loginName {
+    position: relative;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.sortable {
+	color: #4C4C4C; /* very darkgray color for main font color */
+	font-weight: bold !important;
+}
+
+.sorted {
+	font-weight: bold !important;
+}
+
+.sort-asc:after {
+	content: url( "../../images/skin-bw/web-parts/triangle.dn.png" )
+}
+
+.sort-desc:after {
+	content: url( "../../images/skin-bw/web-parts/triangle.up.png" )
+}
+
+.access-combo {
+	clear: left !important;
+	float: left !important;
+
+	width: 145px !important;
+}
+
+.access-submit {
+	float: left !important;
+
+	width: 70px !important;
+}

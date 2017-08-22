@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://www.domainregistry.ie/ieapi-domain-1.4"
+    xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.4"
+    xmlns:ieapi="http://www.domainregistry.ie/ieapi-1.4"
+    xmlns:ieapicom="http://www.domainregistry.ie/ieapicom-1.4"
+    xmlns:secDNS="urn:ietf:params:xml:ns:secDNS-1.1"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+
+    <import namespace="http://www.domainregistry.ie/ieapicom-1.4"
+        schemaLocation="ieapicom-1.4.xsd" />
+    <import namespace="http://www.domainregistry.ie/ieapi-1.4"
+        schemaLocation="ieapi-1.4.xsd" />
+    <import namespace="urn:ietf:params:xml:ns:secDNS-1.1"
+        schemaLocation="secDNS-1.1.xsd"/>
+
+    <annotation>
+        <documentation>
+            IEAPI Protocol v1.4 domain provisioning schema.
+        </documentation>
+    </annotation>
+
+    <element name="query" type="domain:queryType" />
+    <element name="check" type="domain:mNameType" />
+    <element name="create" type="domain:createType" />
+    <element name="autocreate" type="domain:createType" />
+    <element name="info" type="domain:sNameType" />
+    <element name="modify" type="domain:modifyType" />
+    <element name="transfer" type="domain:transferType" />
+    <element name="nrp" type="domain:mNameType" />
+    <element name="nrpCancel" type="domain:mNameType" />
+
+    <complexType name="queryType">
+        <all>
+            <element name="contact" type="domain:queryContactType" minOccurs="0" />
+            <element name="renewalDateRangeStart" type="date" minOccurs="0" />
+            <element name="renewalDateRangeEnd" type="date" minOccurs="0" />
+            <element name="domainStatus" type="domain:queryDomainStatusType" minOccurs="0"/>
+            <element name="transfer" type="domain:queryTransferType" minOccurs="0" maxOccurs="1"/>
+            <element name="attachReservationInfo" type="boolean" minOccurs="0" maxOccurs="1"/>
+            <element name="authCode" type="boolean" minOccurs="0" maxOccurs="1" />
+            <element name="authCodeForceGeneration" type="boolean" minOccurs="0" maxOccurs="1" />
+        </all>
+        <attribute name="page" type="int" use="optional" default="1" />
+    </complexType>
+
+    <complexType name="queryTransferType">
+        <attribute name="type" type="domain:queryTransferTypeType" use="required"/>
+        <attribute name="from" type="date" use="optional"/>
+        <attribute name="to" type="date" use="optional"/>
+    </complexType>
+
+    <simpleType name="queryTransferTypeType">
+        <restriction base="token">
+            <enumeration value="inbound" />
+            <enumeration value="outbound" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="queryContactType">
+        <simpleContent>
+            <extension base="ieapicom:clIDType">
+                <attribute name="type" type="ieapicom:contactAttrType" use="optional"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <simpleType name="queryDomainStatusType">
+        <restriction base="token">
+            <enumeration value="active" />
+            <enumeration value="nrp" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="queryContactTypeType">
+        <restriction base="token">
+            <enumeration value="admin"/>
+            <enumeration value="tech"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="createType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="period" type="domain:periodType"
+                minOccurs="0" />
+            <element name="ns" type="domain:nsType" minOccurs="0"
+                maxOccurs="unbounded" />
+            <element name="holder" type="domain:holderType" />
+            <element name="contact" type="domain:contactType"
+                minOccurs="0" maxOccurs="unbounded" />
+            <element name="creditCard" type="domain:creditCardType"
+                minOccurs="0" />
+            <element name="payFromDeposit"
+                minOccurs="0" />
+            <element name="chy" type="ieapicom:labelType" minOccurs="0" />
+            <element ref="secDNS:create" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="periodType">
+        <simpleContent>
+            <extension base="domain:pLimitType">
+                <attribute name="unit" type="domain:pUnitType"
+                    use="required" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <simpleType name="pLimitType">
+        <restriction base="unsignedShort">
+            <minInclusive value="1" />
+            <maxInclusive value="99" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="pUnitType">
+        <restriction base="token">
+            <enumeration value="y" />
+            <enumeration value="m" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="modifyType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="add" type="domain:addType" minOccurs="0" />
+            <element name="rem" type="domain:remType" minOccurs="0" />
+            <element name="chg" type="domain:chgType" minOccurs="0" />
+            <element ref="secDNS:update" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="addType">
+        <sequence>
+            <element name="ns" type="domain:nsType" minOccurs="0"
+                maxOccurs="unbounded" />
+            <element name="contact" type="domain:contactType"
+                minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="remType">
+        <sequence>
+            <element name="ns" type="domain:nsNameType" minOccurs="0"
+                maxOccurs="unbounded" />
+            <element name="contact" type="domain:contactType"
+                minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="chgType">
+        <sequence>
+            <element name="holder" type="domain:holderType" minOccurs="0"/>
+            <element name="renewalMode" type="domain:dsmRenewalMode" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="transferType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="ns" type="domain:nsType" minOccurs="0"
+                maxOccurs="unbounded" />
+            <element name="contact" type="domain:contactType"
+                minOccurs="0" maxOccurs="unbounded" />
+            <element name="defaults" type="boolean" minOccurs="0" />
+            <element name="period" type="domain:periodType"
+                     minOccurs="0" />
+            <element name="authCode" type="normalizedString" maxOccurs="1" minOccurs="0" />
+            <element name="status" type="boolean" minOccurs="0" />
+        </sequence>
+    </complexType>
+
+    <element name="resData" type="domain:resDataType" />
+    <element name="chkData" type="domain:chkDataType" />
+    <element name="appData" type="domain:appDataType" />
+    <element name="creData" type="domain:creDataType" />
+    <element name="infData" type="domain:infDataType" />
+
+    <complexType name="resDataType">
+        <sequence>
+            <element name="page" type="int" />
+            <element name="totalPages" type="int" />
+            <element name="domain" type="domain:resDomainType" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="resDomainType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType"/>
+            <element name="status" type="domain:dsmStateType" />
+            <element name="regDate" type="date" minOccurs="0"/>
+            <element name="renDate" type="date" minOccurs="0"/>
+            <element name="transDate" type="date" minOccurs="0"/>
+            <element name="suspendDate" type="date" minOccurs="0"/>
+            <element name="deleteDate" type="date" minOccurs="0"/>
+            <element name="reservationPending" type="boolean" minOccurs="0"/>
+            <element name="authCode" type="normalizedString" maxOccurs="1" minOccurs="0" />
+        </sequence>
+    </complexType>
+
+    <complexType name="chkDataType">
+        <sequence>
+            <element name="cd" type="domain:checkType"
+                maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="reasonType">
+        <simpleContent>
+            <extension base="domain:reasonBaseType">
+                <attribute name="code" type="ieapi:resultCodeType"
+                    use="required" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <simpleType name="reasonBaseType">
+        <restriction base="token">
+            <minLength value="1" />
+            <maxLength value="32" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="checkType">
+        <sequence>
+            <element name="name" type="domain:checkNameType" />
+            <element name="reason" type="domain:checkReasonType"
+                minOccurs="0" />
+        </sequence>
+    </complexType>
+
+    <complexType name="checkReasonType">
+        <simpleContent>
+            <extension base="normalizedString">
+                <attribute name="code" type="integer" use="required" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <complexType name="checkNameType">
+        <simpleContent>
+            <extension base="ieapicom:labelType">
+                <attribute name="avail" type="boolean" use="required" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <complexType name="creDataType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="creDate" type="date" />
+            <element name="exDate" type="date" />
+        </sequence>
+    </complexType>
+
+    <complexType name="appDataType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="appNumber" type="integer" />
+            <element name="appDate" type="dateTime" />
+            <element name="exDate" type="dateTime" />
+        </sequence>
+    </complexType>
+
+    <complexType name="infDataType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="status" type="domain:dsmStateType" />
+            <element name="ns" type="domain:nsType" minOccurs="0"
+                maxOccurs="unbounded" />
+            <element name="holder" type="domain:holderType" />
+            <element name="contact" type="domain:contactType"
+                minOccurs="0" maxOccurs="unbounded" />
+            <element name="account" type="integer" />
+            <element name="regDate" type="date" minOccurs="0" />
+            <element name="renDate" type="date" minOccurs="0" />
+            <element name="suspendDate" type="date" minOccurs="0" />
+            <element name="deleteDate" type="date" minOccurs="0" />
+            <element name="authCode" type="normalizedString" minOccurs="0" />
+            <element ref="secDNS:infData" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="dsmStateType">
+        <sequence>
+            <element name="holderType" type="domain:dsmHolderType" />
+            <element name="renewalMode" type="domain:dsmRenewalMode" />
+            <element name="wipo" type="domain:dsmWipo" />
+            <element name="renewalStatus" type="domain:dsmNrp" />
+            <element name="published" type="domain:publishedType" />
+        </sequence>
+    </complexType>
+
+    <simpleType name="dsmHolderType">
+        <restriction base="token">
+            <enumeration value="Billable" />
+            <enumeration value="NonBillable" />
+            <enumeration value="Charity" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="dsmRenewalMode">
+        <restriction base="token">
+            <enumeration value="NoAutorenew" />
+            <enumeration value="Autorenew" />
+            <enumeration value="RenewOnce" />
+            <enumeration value="N/A" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="dsmWipo">
+        <restriction base="token">
+            <enumeration value="Y" />
+            <enumeration value="N" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="publishedType">
+        <restriction base="token">
+            <enumeration value="Y" />
+            <enumeration value="N" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="dsmNrp">
+        <restriction base="token">
+            <enumeration value="Active" />
+            <enumeration value="Involuntary NRP" />
+            <enumeration value="Involuntary NRP - Suspended" />
+            <enumeration value="Voluntary NRP" />
+            <enumeration value="Voluntary NRP - Suspended" />
+            <enumeration value="N/A" />
+        </restriction>
+    </simpleType>
+
+    <complexType name="sNameType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType" />
+            <element name="authCode" type="boolean" minOccurs="0" maxOccurs="1" />
+            <element name="authCodeForceGeneration" type="boolean" minOccurs="0" maxOccurs="1" />
+        </sequence>
+    </complexType>
+
+    <complexType name="mNameType">
+        <sequence>
+            <element name="name" type="ieapicom:labelType"
+                maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="nsType">
+        <complexContent>
+            <extension base="domain:nsNameType">
+                <sequence>
+                    <element name="nsAddr" type="ieapicom:hAddrType"
+                        minOccurs="0" />
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="holderType">
+        <sequence>
+            <element name="holderName" type="domain:holderNameType" />
+            <element name="holderRemarks" type="string" minOccurs="0" />
+        </sequence>
+        <attribute name="class" type="token" />
+    </complexType>
+
+    <complexType name="holderNameType">
+        <simpleContent>
+            <extension base="token">
+                <attribute name="category"
+                    type="token" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <complexType name="contactType">
+        <simpleContent>
+            <extension base="ieapicom:clIDType">
+                <attribute name="type" type="ieapicom:contactAttrType" />
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <complexType name="nsNameType">
+        <sequence>
+            <element name="nsName" type="ieapicom:labelType" />
+        </sequence>
+    </complexType>
+
+    <complexType name="creditCardType">
+        <sequence>
+            <element name="cardHolderName" type="token" />
+            <element name="cardNumber" type="token" />
+            <element name="expiryDate" type="gYearMonth" />
+            <element name="cardType" type="domain:cardTypeType" />
+            <element name="cvnNumber" type="domain:cvnNumberType" minOccurs="0"/>
+            <element name="cvnPresInd" type="domain:cvnPresenceIndicator" minOccurs="0"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="cardTypeType">
+        <restriction base="token">
+            <enumeration value="VISA" />
+            <enumeration value="MC" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="cvnNumberType">
+        <restriction base="string">
+            <pattern value="\d{3}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="cvnPresenceIndicator">
+        <restriction base="string">
+            <pattern value="[1234]{1}"/>
+        </restriction>
+    </simpleType>
+
+</schema>
+

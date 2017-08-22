@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <bean class="pl.nask.crs.commons.email.service.impl.MockedEmailSender" id="syncEmailSender"/>
+  <bean class="pl.nask.crs.commons.email.service.impl.EmailQueue" id="emailQueue"/>
+  <bean class="pl.nask.crs.commons.email.service.impl.CachingEmailSender" id="emailSender">
+    <constructor-arg ref="emailQueue"/>
+  </bean>
+  <bean class="pl.nask.crs.commons.email.service.impl.AsyncEmailSender" id="emailSenderJob">
+    <constructor-arg ref="syncEmailSender"/>
+    <constructor-arg ref="emailQueue"/>
+  </bean>
+  <bean class="pl.nask.crs.commons.email.service.impl.CachingEmailSender" id="paymentEmailSender">
+    <constructor-arg ref="emailQueue"/>
+  </bean>
+  <bean class="pl.nask.crs.commons.email.service.impl.CachingEmailSender" id="paymentTopUpEmailSender">
+    <constructor-arg ref="emailQueue"/>
+  </bean>
+</beans>

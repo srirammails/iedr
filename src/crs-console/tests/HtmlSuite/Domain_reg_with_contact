@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie/" />
+<title>Domain_reg_with_contact</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Domain_reg_with_contact</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/regnew</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Domains »</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Register New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_RegNew_domain_names</td>
+	<td>testcontact-new.ie</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_holder</td>
+	<td>testing</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>Domains_Details_applicant</td>
+	<td>label=Registered Business Name</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>Domains_Details_registration_period</td>
+	<td>label=Registration for 4 Year (ex VAT: 54.00)</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_remarks</td>
+	<td>asdasdas</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_name</td>
+	<td>test nic 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_company_name</td>
+	<td>comanpany name</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_address</td>
+	<td>1 road, street</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_email</td>
+	<td>asdas@iedr.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_phones</td>
+	<td>019478378</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_faxes</td>
+	<td>019749737</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Nichandle_Details_nic_remark</td>
+	<td>asasdasd</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>return</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_tech_contact</td>
+	<td>abc1-iedr</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_1</td>
+	<td>ns1.ssdfsd.ie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_nameserver_name_2</td>
+	<td>ns.dasdsa.ie</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>Domains_Details_accept_tnc</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_holder</td>
+	<td>new hotler</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>Domains_Details_remarks</td>
+	<td>asdasdasd</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/domainscreated/domaincreateresults/WUW%3DWBW%253DV0tXPWE1OWRjMDZmZGVlNGRjYzAyMDg1ZTQ1Nzc0NjIwNzBkMzAxZjI4MTdXU1c9TzoxNToiRG9tYWluc19DcmVhdGVkIjo2OntzOjE2OiJkb21haW5zcHJvY2Vzc2VkIjthOjE6e3M6MTg6InRlc3Rjb250YWN0LW5ldy5pZSI7YToxOntzOjY6InRpY2tldCI7aTozODY2MTc7fX1zOjE1OiIAQ01vZGVsAF9lcnJvcnMiO2E6MDp7fXM6MTk6IgBDTW9kZWwAX3ZhbGlkYXRvcnMiO047czoxNzoiAENNb2RlbABfc2NlbmFyaW8iO3M6MDoiIjtzOjE0OiIAQ0NvbXBvbmVudABfZSI7TjtzOjE0OiIAQ0NvbXBvbmVudABfbSI7Tjt9</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/domainscreated/domaincreateresults/WUW%3DWBW%253DV0tXPWE1OWRjMDZmZGVlNGRjYzAyMDg1ZTQ1Nzc0NjIwNzBkMzAxZjI4MTdXU1c9TzoxNToiRG9tYWluc19DcmVhdGVkIjo2OntzOjE2OiJkb21haW5zcHJvY2Vzc2VkIjthOjE6e3M6MTg6InRlc3Rjb250YWN0LW5ldy5pZSI7YToxOntzOjY6InRpY2tldCI7aTozODY2MTc7fX1zOjE1OiIAQ01vZGVsAF9lcnJvcnMiO2E6MDp7fXM6MTk6IgBDTW9kZWwAX3ZhbGlkYXRvcnMiO047czoxNzoiAENNb2RlbABfc2NlbmFyaW8iO3M6MDoiIjtzOjE0OiIAQ0NvbXBvbmVudABfZSI7TjtzOjE0OiIAQ0NvbXBvbmVudABfbSI7Tjt9</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='content']/table/tbody/tr[2]/td[2]</td>
+	<td>OK</td>
+</tr>
+</tbody></table>
+</body>
+</html>

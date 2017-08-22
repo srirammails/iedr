@@ -1,0 +1,173 @@
+<?php
+
+/**
+ * defines Accounts_history_paymentsController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Controller for payment history views
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class Accounts_history_paymentsController
+	extends SQLDateSelectGridController
+	{
+
+    /**
+     * renders Renewal-payment-history grid page
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_history_payments/renewals.php, Rpts_nrc_rr_payment_hist_Model, Accounts_history_paymentsController::actionGetgriddataNrc_rr_payment_hist()
+     */
+	public function actionRenewals() { 
+
+		$this->type = "nrc_rr_payment_hist";
+	   	$model = new Rpts_nrc_rr_payment_hist_Model();
+		$this->performAjaxValidation($model);
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_rr_payment_hist_Model']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_rr_payment_hist_Model'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionRenewals()');
+		}
+		$x = $this->getNumRows($model,null,null);
+		Yii::log('$x = '.$x, 'debug', 'Accounts_history_paymentsController::actionRenewals()');
+		$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionRenewals()');
+		$this->render('renewals',array('model'=>$model));
+	}
+
+    /**
+     * Ajax function for returning data to Renewal-payment-history grid page
+     * 
+     * @return unknown JSON-encoded Renewal-payment-history data
+     * @access public 
+     * @see    Accounts_history_paymentsController::actionRenewals(), accounts_history_payments/renewals.php, Rpts_nrc_rr_payment_hist_Model
+     */
+	public function actionGetgriddataNrc_rr_payment_hist(){
+		$this->type = "nrc_rr_payment_hist";
+		return $this->actionGetgriddata();
+	}
+
+    /**
+     * renders Transfer-payment-history grid page
+     * 
+     * @return void  
+     * @access public
+     * @see    Accounts_history_paymentsController::actionGetgriddataNrc_xfer_pay_hist(), accounts_history_payments/transfers.php, Rpts_nrc_xfer_pay_hist_Model
+     */
+	public function actionTransfers() { 
+
+		$this->type = "nrc_xfer_pay_hist";
+	   	$model = new Rpts_nrc_xfer_pay_hist_Model();
+		$this->performAjaxValidation($model);
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_xfer_pay_hist_Model']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_xfer_pay_hist_Model'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionTransfers');
+		}
+		$model->totalrows = $this->getNumRows($model,null,null);
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionTransfers()');
+
+		$this->render('transfers',array('model'=>$model));
+	}
+
+    /**
+     * Ajax function for returning data to Transfer-payment-history grid page
+     * 
+     * @return unknown JSON-encoded Transfer-payment-history data
+     * @access public 
+     * @see    Accounts_history_paymentsController::actionTransfers(), accounts_history_payments/transfers.php, Rpts_nrc_xfer_pay_hist_Model
+     */
+	public function actionGetgriddataNrc_xfer_pay_hist(){
+		$this->type = "nrc_xfer_pay_hist";
+		return $this->actionGetgriddata();
+	}
+
+    /**
+     * renders Advance-payment-history grid page
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_history_payments/payments.php, Rpts_nrc_adv_pay_hist_Model, Accounts_history_paymentsController::actionGetgriddataNrc_adv_pay_hist()
+     */
+	public function actionPayments() { 
+
+		$this->type = "nrc_adv_pay_hist";
+	   	$model = new Rpts_nrc_adv_pay_hist_Model();
+		$this->performAjaxValidation($model);
+		$model->year = date("Y");
+		$model->month = date("F");
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_adv_pay_hist_Model']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_adv_pay_hist_Model'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionPayments');
+		}
+
+		$x = $this->getNumRows($model,null,null);
+		Yii::log('$x = '.$x, 'debug', 'Accounts_history_paymentsController::actionTransfers()');
+		$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_paymentsController::actionTransfers()');
+		$this->render('payments',array('model'=>$model));
+	}
+
+    /**
+     * Ajax function for returning data to Advance-payment-history grid page
+     * 
+     * @return unknown JSON-encoded Advance-payment-history data
+     * @access public 
+     * @see    accounts_history_payments/payments.php, Rpts_nrc_adv_pay_hist_Model, Accounts_history_paymentsController::actionPayments()
+     */
+	public function actionGetgriddataNrc_adv_pay_hist(){
+		$this->type = "nrc_adv_pay_hist";
+		return $this->actionGetgriddata();
+	}
+
+    /**
+     * render menu view
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * creates a query fragment with supplied criteria
+     * 
+     * @param  object $model    model
+     * @param  string  $criteria criteria deciphered from request by 
+     * @return string  returns SQL query
+     * @access public 
+     */
+	public function getPartialQuery($model,$criteria) {
+		$u = Yii::app()->user->name;
+		$dt = $this->getDateStr(array('Trans_Dt'),$model); 
+		$view = '';
+		switch($this->type) {
+			case 'nrc_adv_pay_hist':    $view = 'nrc_adv_pay_hist';    break;
+			case 'nrc_xfer_pay_hist':   $view = 'nrc_xfer_pay_hist';   break;
+			case 'nrc_rr_payment_hist': $view = 'nrc_rr_payment_hist'; break;
+			}
+		$query = 'SELECT D_Name, Inv_No, Trans_Dt, Trans_ID, VAT, Amount, Batch_Total FROM '.$view.' WHERE Nic_Handle =\''.$u.'\' AND '.$dt;
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+                }
+	}
+

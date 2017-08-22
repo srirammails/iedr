@@ -1,0 +1,222 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>crs</artifactId>
+    <groupId>pl.nask.crs</groupId>
+    <version>1.6.44-SNAPSHOT</version>
+  </parent>
+  <name>CRS Console</name>
+  <groupId>pl.nask.crs</groupId>
+  <version>1.6.44-SNAPSHOT</version>
+  <artifactId>crs-console</artifactId>
+  <packaging>rpm</packaging>
+  <description>This package IEDR Console web application using PHP Yii Framework/Apache and utilising Web Services client bindings.</description>
+  <dependencies>
+    <dependency>
+      <groupId>pl.nask.crs</groupId>
+      <artifactId>crs-web-services</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Unpack CRS WEB SERVICES to get all WSDL/XSD resources -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-shared-database-scripts</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/crs-web-services</outputDirectory>
+              <includeGroupIds>pl.nask.crs</includeGroupIds>
+              <includeArtifactIds>crs-web-services</includeArtifactIds>
+              <excludeTransitive>true</excludeTransitive>
+              <type>war</type>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Prepare stage directory from our sources -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/stage</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Execute pre-packaging -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <!-- Run our version calculation script -->
+            <id>Generate WSDL PHP Code</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${basedir}/scripts/generate.sh</executable>
+              <outputFile>target/generate.log</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Package RPM -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <version>2.1-alpha-3</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>generate-rpm</id>
+            <goals>
+              <goal>rpm</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <copyright>2014, IE Domain Registry</copyright>
+          <distribution>IEDR CRS 2014</distribution>
+          <group>Application/Business</group>
+          <packager>IEDR</packager>
+          <prefix>/opt/crs</prefix>
+<!--	THIS IS NOT RHEL5 compatible
+          <keyname>${gpg-key}</keyname>
+          <keyPassphrase><passphrase>${gpg-pass}</passphrase></keyPassphrase>
+-->
+          <requires>
+<!--	Should be removed for RHEL5, only applies to RHEL6+
+              <require>php</require>
+              <require>php-mbstring</require>
+              <require>php-xml</require>
+              <require>php-xmlrpc</require>
+              <require>php-soap</require>
+              <require>php-gd</require>
+              <require>php-recode</require>
+              <require>php-mcrypt</require>
+-->
+              <require>yii</require>
+              <require>crs-tools</require>
+          </requires>
+          <mappings>
+            <!-- We only need to package/deploy Web directory -->
+            <mapping>
+              <directory>/opt/crs/console/www</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+              <sources>
+                <source>
+                  <location>target/stage/www</location>
+                </source>
+              </sources>
+            </mapping>
+            <!-- Configuration files go to standard /etc -->
+            <mapping>
+              <directory>/etc/iedr/console</directory>
+              <directoryIncluded>true</directoryIncluded>
+              <configuration>true</configuration>
+              <sources>
+                <source>
+                  <location>src/configuration</location>
+                </source>
+              </sources>
+            </mapping>
+            <!-- Soft link Apache configuration file -->
+            <mapping>
+              <directory>/etc/httpd/conf.d</directory>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>true</configuration>
+              <sources>
+                <softlinkSource>
+                	<destination>console.conf</destination>
+			<location>/etc/iedr/console/console.conf</location>
+		</softlinkSource>
+              </sources>
+            </mapping>
+            <!-- Protected Runtime Directory -->
+            <mapping>
+              <directory>/var/iedr/console</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <!-- Assets Directory -->
+            <mapping>
+              <directory>/opt/crs/console/www/assets</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <mapping>
+              <directory>/opt/crs/console/www/protected/cache</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <mapping>
+              <directory>/opt/crs/console/www/protected/tests/fixtures</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <mapping>
+              <directory>/opt/crs/console/www/protected/tests/report</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <mapping>
+              <directory>/opt/crs/console/www/protected/tests/unit</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <!-- Certs Directory -->
+            <mapping>
+              <directory>/var/iedr/certs/prod</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+            <mapping>
+              <directory>/var/iedr/certs/test</directory>
+              <filemode>755</filemode>
+              <username>apache</username>
+              <groupname>apache</groupname>
+            </mapping>
+          </mappings>
+          <postinstallScriptlet>
+            <scriptFile>scripts/postinstall</scriptFile>
+            <fileEncoding>utf-8</fileEncoding>
+          </postinstallScriptlet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

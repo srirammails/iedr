@@ -1,0 +1,224 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class NicSearchModel
+	extends GridModelBase
+	{
+
+    /**
+     * Description for var
+     * @var    array 
+     * @access public
+     */
+	var $columns;
+
+    /**
+     * Description for var
+     * @var    unknown
+     * @access public 
+     */
+	var $countryList, $countyList;
+
+    /**
+     * Description for public
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'A';
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function __construct()
+		{
+		parent::__construct();
+
+// BUG request too large !!!
+
+		$this->countryList = getCountryOptions();
+		//$this->countyList = getCounties();
+
+		$this->columns = array(
+			'A' => array(
+				'resultfield'=>'Nic_Handle',
+				'criteriafield'=>'Nic_Handle',
+				'label'=>'NicHandle',
+				'width'=>70,
+				'link'=>'nichandles/viewnichandle',
+				'type'=>'string',
+				),
+			'B' => array(
+				'resultfield'=>'NH_Name',
+				'criteriafield'=>'NH_Name',
+				'label'=>'Name',
+				'width'=>90,
+				'type'=>'string',
+				),
+			'C' => array(
+				'resultfield'=>'Co_Name',
+				'criteriafield'=>'Co_Name',
+				'label'=>'Company',
+				'width'=>90,
+				'type'=>'string',
+				),
+			'D' => array(
+				'resultfield'=>'NH_Address',
+				'criteriafield'=>'NH_Addr',
+				'label'=>'Address',
+				'width'=>160,
+				'type'=>'string',
+				),
+			'E' => array(
+				'resultfield'=>'NH_County',
+				'criteriafield'=>'NH_County',
+				'label'=>'County',
+				'width'=>60,
+				'type'=>'string',
+				),
+			'F' => array(
+				'resultfield'=>'NH_Country',
+				'criteriafield'=>'NH_Country',
+				'label'=>'Country',
+				'width'=>40,
+				'type'=>'string',
+//'wildcardpadding'=>'NONE',
+'selectlist'=>$this->arrayAsColModelSelectOptions($this->countryList),
+				),
+			'G' => array(
+				'resultfield'=>'NH_Email',
+				'criteriafield'=>'NH_Email',
+				'label'=>'Email',
+				'width'=>100,
+				'type'=>'email',
+				),
+			'H' => array(
+				'resultfield'=>'Phone',
+				'criteriafield'=>'Phone',
+				'label'=>'Phone',
+				'width'=>100,
+				'type'=>'string',
+				)
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  array  $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'A'=>$o["Nic_Handle"],
+			'B'=>$o["NH_Name"],
+			'C'=>$o["Co_Name"],
+			'D'=>$this->replaceLineBreaksWithCommas($o["NH_Address"]),
+			'E'=>$o["NH_County"],
+			'F'=>$o["NH_Country"],
+			'G'=>$o["NH_Email"],
+			'H'=>$o["Phone"]
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $s Parameter description (if any) ...
+     * @return mixed   Return description (if any) ...
+     * @access public 
+     */
+	public function replaceLineBreaksWithCommas($s)
+		{
+		return preg_replace(array("/\r/","/\n/",'/&#10;/','/&#13;/','/[%,]+/','/,[, ]+/'),',',$s);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  array  $searchparams Parameter description (if any) ...
+     * @return string Return description (if any) ...
+     * @access public
+     */
+	public function getSearch($searchparams)
+		{
+		$criteria = "";
+		foreach($searchparams as $k => $r)
+			{
+			#Yii::log('searchparam '.print_r($k,true).' => '.print_r($r,true), 'debug', 'NicSearchModel::getSearch()');
+			$f = $this->columns[$r->field]['criteriafield'];
+			#Yii::log('criteriafield='.print_r($f,true), 'debug', 'NicSearchModel::getSearch()');
+			if($f != null)
+				if($f=='Phone')
+					{
+					$phoneCriteria = preg_replace(array('/(P:|F:)/','/ *, */','/ *,+ */'),array('',',',','),$r->data);
+					$pieces = explode(',', $phoneCriteria);
+					foreach($pieces as $aPhone)
+						$criteria .= " OR Phone LIKE '%".$aPhone."%'";
+					}
+				else
+					$criteria .= " OR n.$f LIKE '%".$r->data."%'";
+			}
+		return preg_replace('/^ OR/', ' ', $criteria);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	function getReturningDataNames()
+		{
+		return array_merge(parent::getReturningDataNames(),array('mode','nictype','nic'));
+		}
+	}
+

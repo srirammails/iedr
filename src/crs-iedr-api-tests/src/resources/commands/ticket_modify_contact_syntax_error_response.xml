@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2004">
+            <msg>Parameter value syntax error</msg>
+            <value>
+                <ticket:contact xmlns:ticket="http://www.domainregistry.ie/ieapi-ticket-1.3">NTG1-XXXX</ticket:contact>
+            </value>
+            <reason code="169">Contact ID syntax error</reason>
+        </result>
+    </response>
+</ieapi>

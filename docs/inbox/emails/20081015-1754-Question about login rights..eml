@@ -1,0 +1,130 @@
+X-Account-Key: account2
+X-UIDL: 56a5926847db88eb
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <billy.glynn@domainregistry.ie>
+Received: from boromix.nask.net.pl (boromix.nask.net.pl [195.187.245.33])
+	by boromir.nask.net.pl  with ESMTP id m9FFuFo6018391
+	for <patrycjaw@boromir.nask.net.pl>; Wed, 15 Oct 2008 17:56:15 +0200 (CEST)
+Received: from smtp2.domainregistry.ie ([213.190.149.217])
+	by boromix.nask.net.pl  with SMTP id m9FFtfPq030817
+	for <patrycjaw@nask.pl>; Wed, 15 Oct 2008 17:55:41 +0200
+Received: (qmail 11760 invoked from network); 15 Oct 2008 16:00:27 -0000
+Received: from unknown (HELO ?10.10.2.75?) (213.190.149.194)
+  by smtp2.domainregistry.ie with SMTP; 15 Oct 2008 16:00:27 -0000
+Message-ID: <48F61226.3050007@domainregistry.ie>
+Date: Wed, 15 Oct 2008 16:54:14 +0100
+From: Billy Glynn <billy.glynn@domainregistry.ie>
+Reply-To: billy.glynn@domainregistry.ie
+Organization: IE Domain Registry Ltd
+User-Agent: Thunderbird 1.5.0.14ubu (X11/20080724)
+MIME-Version: 1.0
+To: Marianna Mysiorska <mariannam@nask.pl>
+CC: patrycjaw@nask.pl
+Subject: Re: Question about login rights.
+References: <000c01c92eb9$e55944b0$b00bce10$@pl>
+In-Reply-To: <000c01c92eb9$e55944b0$b00bce10$@pl>
+X-Enigmail-Version: 0.94.0.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Received-SPF: none (boromix.nask.net.pl: domain of billy.glynn@domainregistry.ie does not designate permitted sender hosts)
+VirusProtection: checked - Found to be clean
+
+Hi Marianna,
+
+The users which have the rights to login are users with a NH_Level > 2. 
+Although this could be changed upward. 
+
+NH_Level = 1 is for Guest users (Non Resellers).
+NH_Level = 2 is for Resellers.
+
+We may need to add new categories for non-IEDR staff in future.  e.g.
+Registrars etc (a new category for Resellers who may sign contracts with
+the Registry.)
+
+Could you design it so that the user privileges for CRS are as
+configurable as possible?  That is to say, it would be very helpful if
+it the CRS privileges are very granular.  We welcome any suggestions you
+may have in this regard.
+
+Many thanks
+
+Billy
+
+Marianna Mysiorska wrote:
+>
+> Hello Billy,
+>
+>  
+>
+> Could you please give us the information which users have the right to
+> login to the CRS application? In Access table there is a column
+> NH_Level which takes values:
+>
+>  
+>
+> mysql> select distinct(NH_Level) from Access order by NH_Level;
+>
+> +----------+
+>
+> | NH_Level |
+>
+> +----------+
+>
+> |        0 |
+>
+> |        1 |
+>
+> |        2 |
+>
+> |        8 |
+>
+> |       28 |
+>
+> |       32 |
+>
+> |      123 |
+>
+> |      128 |
+>
+> |      129 |
+>
+> |      140 |
+>
+> |      144 |
+>
+> |      255 |
+>
+> |      512 |
+>
+> +----------+
+>
+> 13 rows in set (0.04 sec)
+>
+>  
+>
+> Best regards,
+>
+> Marianna Mysiorska.
+>
+
+
+-- 
+______________________________________________
+Billy Glynn
+Head of Application Support and Development
+Technical Services
+IE Domain Registry Ltd
+
+Tel: 	+353 (0)1 2365404
+Mobile: +353 (0)87 9188317
+Email: 	billy.glynn@domainregistry.ie
+______________________________________________
+
+
+-------------------------------------------------------------------
+Registered Office: 14 Windsor Terrace, Sandycove, Co. Dublin.
+Registered in Ireland. No: 315315.
+-------------------------------------------------------------------
+

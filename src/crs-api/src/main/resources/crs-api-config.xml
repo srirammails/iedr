@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+  xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://jax-ws.dev.java.net/spring/core https://jax-ws.dev.java.net/spring/core.xsd
+    http://jax-ws.dev.java.net/spring/servlet https://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <import resource="classpath:application-services-config.xml"/>
+
+    <bean id="CRSAuthenticationService" class="pl.nask.crs.api.authentication.AuthenticationServiceEndpoint">
+        <property name="authenticationService" ref="wsAuthenticationService"/>
+		<property name="nicHandleAppService" ref="nicHandleAppService" />
+    </bean>
+    
+    <bean id="wsSessAwareService" class="pl.nask.crs.api.WsSessionAware">
+    	<property name="authenticationService" ref="wsAuthenticationService"/>
+    </bean>
+
+    <bean id="CRSDomainAppService" class="pl.nask.crs.api.domain.DomainAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="domainAppService"/>
+        <property name="domainSearchService" ref="domainSearchService"/>
+        <property name="userSearchService" ref="userSearchService" />
+    </bean>
+
+    <bean id="CRSDocumentAppService" class="pl.nask.crs.api.document.DocumentAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="documentAppService" ref="documentAppService"/>
+    </bean>
+
+    <bean id="CRSEmailDisablerAppService" class="pl.nask.crs.api.emaildisabler.EmailDisablerAppServiceEndPoint" parent="wsSessAwareService">
+        <property name="service" ref="emailDisablerAppService"/>
+    </bean>
+
+    <bean id="CRSResellerService" class="pl.nask.crs.api.account.ResellerAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="accountAppService"/>
+        <property name="searchService" ref="accountSearchService"/>
+    </bean>
+
+    <bean id="CRSNicHandleAppService" class="pl.nask.crs.api.nichandle.NicHandleAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="nicHandleAppService"/>
+        <property name="searchService" ref="nicHandleSearchService"/>
+   		<property name="userAppService" ref="userAppService" />
+        <property name="countryFactory" ref="countryFactory"/>
+    </bean>
+
+    <bean id="CRSTicketAppService" class="pl.nask.crs.api.ticket.TicketAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="ticketAppService"/>
+        <property name="ticketSearchService" ref="ticketSearchService"/>
+        <property name="entityClassFactory" ref="eClassFactory"/>
+        <property name="userSearchService" ref="userSearchService" />
+    </bean>
+
+    <bean id="CRSPermissionsAppService" class="pl.nask.crs.api.users.UserAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="userAppService"/>
+    </bean>
+
+    <bean id="CRSPaymentAppService" class="pl.nask.crs.api.payment.PaymentAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="service" ref="paymentAppService"/>
+    </bean>
+
+    <bean id="CRSCommonAppService" class="pl.nask.crs.api.common.CommonAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="commonAppService" ref="commonAppService"/>
+    </bean>
+    
+    <bean id="CRSTriplePass" class="pl.nask.crs.api.triplepass.TriplePassEndpoint" parent="wsSessAwareService">
+        <property name="triplePassService" ref="tripleCheckAppService"/>
+        <property name="triplePassSupportService" ref="triplePassSupportService"/>
+    </bean>
+    
+    <bean id="CRSZoneAppService" class="pl.nask.crs.api.zone.ZoneAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="commonAppService" ref="commonAppService"/>
+    </bean>
+    
+    <bean id="CRSBatchAppService" class="pl.nask.crs.api.batch.BatchAppServiceEndpoint" parent="wsSessAwareService">
+        <property name="appServicesRegistry" ref="appServices"/>
+        <property name="servicesRegistry" ref="services"/>
+    </bean>
+    
+    <bean id="CRSInfo" class="pl.nask.crs.api.common.InfoEndpoint">
+    	<property name="applicationConfig" ref="applicationConfig"></property>
+    </bean>
+</beans>

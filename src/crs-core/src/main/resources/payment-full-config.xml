@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  <import resource="classpath:payment.xml"/>
+  <import resource="classpath:invoice-number-config.xml"/>
+  <import resource="classpath:invoicing-config.xml"/>
+  <!-- Below few parameters will be taken either from external payment.xml (either JNDI or static) -->
+  <bean class="pl.nask.crs.payment.service.impl.PaymentSenderImpl" id="paymentSender">
+    <property name="strURL" ref="paymentURL"/>
+    <property name="proxyHost" ref="paymentProxyHost"/>
+    <property name="proxyPort" ref="paymentProxyPort"/>
+  </bean>
+  <bean class="org.springframework.orm.ibatis.SqlMapClientFactoryBean" id="paymentSqlMapClient">
+    <property name="configLocation" value="classpath:payment-sql-map-config.xml"/>
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalDepositIbatisDAO" id="depositIBatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalPaymentUtilsDAO" id="paymentUtilsIBatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalReservationIbatisDAO" id="reservationIBatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+    <property name="idGenerator" ref="reservationIdGenerator"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalReservationHistIbatisDAO" id="reservationHistIBatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.converters.DepositConverter" id="depositConverter"/>
+  <bean class="pl.nask.crs.payment.dao.ibatis.converters.ReservationConverter" id="reservationConverter">
+        <constructor-arg ref="internalDomainDAO"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.converters.ReservationConverter" id="reservationHistConverter">
+        <constructor-arg ref="internalDomainDAO"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingDepositDAO" id="depositDAO">
+    <constructor-arg ref="depositIBatisDAO"/>
+    <constructor-arg ref="depositConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.PaymentUtilsDAOImpl" id="paymentUtilsDAO">
+    <constructor-arg ref="paymentUtilsIBatisDAO"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingReservationDAO" id="reservationDAO">
+    <constructor-arg ref="reservationIBatisDAO"/>
+    <constructor-arg ref="reservationConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingReservationHistDAO" id="reservationHistDAO">
+    <constructor-arg ref="reservationHistIBatisDAO"/>
+    <constructor-arg ref="reservationConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalTransactionIbatisDAO" id="transactionIbatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+    <property name="idGenerator" ref="transactionIdGenerator"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalTransactionHistIbatisDAO" id="transactionHistIbatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.converters.TransactionConverter" id="transactionConverter">
+    <constructor-arg ref="reservationConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingTransactionDAO" id="transactionDAO">
+    <constructor-arg ref="transactionIbatisDAO"/>
+    <constructor-arg ref="transactionConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingTransactionHistDAO" id="transactionHistDAO">
+    <constructor-arg ref="transactionHistIbatisDAO"/>
+    <constructor-arg ref="transactionConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.converters.InvoiceConverter" id="invoiceConverter">
+    <constructor-arg ref="transactionConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.InternalInvoiceIbatisDAO" id="invoiceIBatisDAO">
+    <property name="sqlMapClient" ref="paymentSqlMapClient"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.dao.ibatis.ConvertingInvoiceDAO" id="invoiceDAO">
+    <constructor-arg ref="invoiceIBatisDAO"/>
+    <constructor-arg ref="invoiceConverter"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.service.impl.DepositFundsExporter" id="doaExporter">
+    <constructor-arg ref="applicationConfig"/>
+    <constructor-arg ref="nicHandleSearchService"/>
+    <constructor-arg ref="accountSearchService"/>
+    <constructor-arg ref="doaNumberGenerator"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.service.impl.RealexCardPaymentService" id="creditCardService">
+    <constructor-arg ref="paymentAccount"/>
+    <constructor-arg ref="paymentMerchant"/>
+    <constructor-arg ref="paymentPassword"/>
+    <constructor-arg ref="paymentSender"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.service.impl.DepositServiceImpl" id="depositService">
+    <constructor-arg ref="depositDAO"/>
+    <constructor-arg ref="paymentUtilsDAO"/>
+    <constructor-arg ref="doaExporter"/>
+    <constructor-arg ref="emailTemplateSender"/>
+    <constructor-arg ref="nicHandleSearchService"/>
+    <constructor-arg ref="reservationDAO"/>
+    <constructor-arg ref="creditCardService"/>
+  </bean>
+  <bean class="pl.nask.crs.payment.service.impl.PaymentServiceImpl" id="paymentService">
+    <constructor-arg ref="domainSearchService"/>
+    <constructor-arg ref="nicHandleSearchService"/>
+    <constructor-arg ref="reservationDAO"/>
+    <constructor-arg ref="domainPricingDAO"/>
+    <constructor-arg ref="vatDAO"/>
+    <constructor-arg ref="dsmMachine"/>
+    <constructor-arg ref="transactionDAO"/>
+    <constructor-arg ref="accountSearchService"/>
+    <constructor-arg ref="invoiceNumberService"/>
+    <constructor-arg ref="invoiceDAO"/>
+    <constructor-arg ref="invoiceExporterChain"/>
+    <constructor-arg ref="applicationConfig"/>
+    <constructor-arg ref="emailTemplateSender"/>
+    <constructor-arg ref="transactionHistDAO"/>
+    <constructor-arg ref="reservationHistDAO"/>
+    <constructor-arg ref="resellerDefaultsService"/>
+    <constructor-arg ref="depositService"/>
+    <constructor-arg ref="creditCardService"/>
+  </bean>
+</beans>

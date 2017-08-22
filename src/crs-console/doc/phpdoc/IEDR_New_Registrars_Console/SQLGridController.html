@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class SQLGridController</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> SQLGridController</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">base class controller for jqGrid views which use data sources from SQL Databases</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---SQLGridController.php.html">/components/SQLGridController.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a27">27</a></span>)
+		</p>
+		
+				
+		<pre>CController
+   |
+   --<a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a>
+      |
+      --<a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a>
+         |
+         --<a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a>
+            |
+            --<a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a>
+               |
+               --SQLGridController</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/SQLDateSelectGridController.html">SQLDateSelectGridController</a>
+					</td>
+					<td>
+											Controller which handles date-constraints for 7 types of query, making use of 'year' and 'month' model attributes
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/Accounts_reportsController.html">Accounts_reportsController</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/NsreportsController.html">NsreportsController</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/Accounts_historyController.html">Accounts_historyController</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html">Accounts_renewpayController</a>
+					</td>
+					<td>
+											controller that handles renewals and payments
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">integer</span>
+					<a href="#$defaultDateRange" title="details" class="var-name">$defaultDateRange</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$exportFileName" title="details" class="var-name">$exportFileName</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">unknown</span>
+					<a href="#$type" title="details" class="var-name">$type</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#criteriaToSQL" title="details" class="method-name">criteriaToSQL</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#getData" title="details" class="method-name">getData</a>
+											(<span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>, <span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$perpage</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$pagenum</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getDateStr" title="details" class="method-name">getDateStr</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$column</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getExportFilenameTag" title="details" class="method-name">getExportFilenameTag</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">integer</span>
+										<a href="#getNumRows" title="details" class="method-name">getNumRows</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$criteria</span> = <span class="var-default">null</span>], [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getPartialQuery" title="details" class="method-name">getPartialQuery</a>
+											(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getQuery" title="details" class="method-name">getQuery</a>
+											(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$sort</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$perpage</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$pagenum</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">integer</span>
+										<a href="#uncached_getNumRows" title="details" class="method-name">uncached_getNumRows</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$criteria</span> = <span class="var-default">null</span>], [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$defaultDateRange" id="$defaultDateRange"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$defaultDateRange</span>
+			 = <span class="var-default"> 30</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a53">53</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">default number of days for model-&gt;days attribute</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$exportFileName" id="$exportFileName"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$exportFileName</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a45">45</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">export-file-name prefix</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$type" id="$type"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">unknown</span>
+			<span class="var-name">$type</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a37">37</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">type - unused</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#var$backend_errors">AuthOnlyBaseController::$backend_errors</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$breadcrumbs">Controller::$breadcrumbs</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$layout">Controller::$layout</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$menu">Controller::$menu</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcriteriaToSQL" id="criteriaToSQL"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">criteriaToSQL</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a149">149</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">produce a sql where-clause string from an array of (column-name =&gt; data-value) pairs.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> sql where-clause constraint</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			criteriaToSQL
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetData" id="getData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getData</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns array of metadata and data rows for one jqGrid page</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of metadata and data rows for one jqGrid page</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getData
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>, <span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$perpage</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$pagenum</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$model</span><span class="var-description">: CModel instance passed by the action function</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$sort</span><span class="var-description">: Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$perpage</span><span class="var-description">: how many rows on each page</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$pagenum</span><span class="var-description">: which page of paginated results to fetch; 1-based</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetData">GridController::getData()</a></dt>
+						<dd>Runs backend query for data with the supplied parameters, returns an array</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetDateStr" id="getDateStr"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getDateStr</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a201">201</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">return sql where-clause fragment containing constraints for the passed column(s)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> sql where-clause fragment</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDateStr
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$column</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$column</span><span class="var-description">: array of one or more phoenixdb-table-column-names to return date-constraints for</span>			</li>
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$model</span><span class="var-description">: model containing constraint data: model-&gt;days</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/SQLDateSelectGridController.html#methodgetDateStr">SQLDateSelectGridController::getDateStr()</a>
+								: return sql where-clause fragment containing constraints for the passed column(s), using model attributes 'month' and 'year', for various types of query, as specified by $this-&gt;type
+							</li>
+				</ul>
+	</div>
+<a name="methodgetExportFilenameTag" id="getExportFilenameTag"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getExportFilenameTag</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a61">61</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns export-file-name prefix</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns string for filename to prepend to generated files by jqGrid export</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getExportFilenameTag
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetExportFilenameTag">GridController::getExportFilenameTag()</a></dt>
+						<dd>prefix for download-data file-name</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetNumRows" id="getNumRows"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getNumRows</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a77">77</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns the cached record count, or fetches count if not cached</p>
+<p class="description"><p>looks for the value in the App Cache - if not found, runs {@link=uncached_getNumRows} (and caches the result)</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of rows found</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			getNumRows
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$criteria</span> = <span class="var-default">null</span>], [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$model</span><span class="var-description">: model for current request</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$sort</span><span class="var-description">: Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPartialQuery" id="getPartialQuery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getPartialQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a188">188</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">placeholder function for returning sql query for appending ordering and limiting clauses, or running as a subquery to a count(*)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> return a sql query</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPartialQuery
+		</span>
+					(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CModel</span>
+				<span class="var-name">$model</span><span class="var-description">: model; unused</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_history_paymentsController.html#methodgetPartialQuery">Accounts_history_paymentsController::getPartialQuery()</a>
+								: creates a query fragment with supplied criteria
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_payhist_crednotesController.html#methodgetPartialQuery">Accounts_payhist_crednotesController::getPartialQuery()</a>
+								: returns partial query sql string for data retrieval with parameters
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_history_invoicesController.html#methodgetPartialQuery">Accounts_history_invoicesController::getPartialQuery()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_reportsController.html#methodgetPartialQuery">Accounts_reportsController::getPartialQuery()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NsreportsController.html#methodgetPartialQuery">NsreportsController::getPartialQuery()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_historyController.html#methodgetPartialQuery">Accounts_historyController::getPartialQuery()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methodgetPartialQuery">Accounts_renewpayController::getPartialQuery()</a>
+								: returns sql fragment to the parent class for grid-data fetching
+							</li>
+				</ul>
+	</div>
+<a name="methodgetQuery" id="getQuery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a171">171</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns the SQL query to be used for retrieving a page of data for a jqGrid</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> SQL query to be used for retrieving a page of data for a jqGrid</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getQuery
+		</span>
+					(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$criteria</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$sort</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$perpage</span>, <span class="var-type">integer</span>&nbsp;<span class="var-name">$pagenum</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CModel</span>
+				<span class="var-name">$model</span><span class="var-description">: model, passed to $this-&gt;getPartialQuery()</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$sort</span><span class="var-description">: Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$perpage</span><span class="var-description">: how many rows on each page</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$pagenum</span><span class="var-description">: which page of paginated results to fetch; 1-based</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoduncached_getNumRows" id="uncached_getNumRows"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">uncached_getNumRows</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsSQLGridController.php.html#a101">101</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">builds this controller's sql query with the passwd parameters, wraps it in 'select count(*) from ()', runs it, and returns the record count</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of rows found</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			uncached_getNumRows
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$model</span>, [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$criteria</span> = <span class="var-default">null</span>], [<span class="var-type">unknown</span>&nbsp;<span class="var-name">$sort</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$model</span><span class="var-description">: model for current request</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$criteria</span><span class="var-description">: array of constraints in the form of (column-name =&gt; data-value)</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$sort</span><span class="var-description">: Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionConfirmaction">GridController::actionConfirmaction()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionGetgriddata">GridController::actionGetgriddata()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodexecCommand">GridController::execCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetData">GridController::getData()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetDataReq">GridController::getDataReq()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetExportFilenameTag">GridController::getExportFilenameTag()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModel">GridController::getSelectionModel()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModelName">GridController::getSelectionModelName()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetViewBase">GridController::getViewBase()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodprocessGridActionCommand">GridController::processGridActionCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodshowConfirmPage">GridController::showConfirmPage()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormHtml">ReturningController::outputReturningFormHtml()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormJS">ReturningController::outputReturningFormJS()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodaccessRules">AuthOnlyBaseController::accessRules()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodfilters">AuthOnlyBaseController::filters()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodgetModelFromQuery">AuthOnlyBaseController::getModelFromQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodreturnToUrlButton">AuthOnlyBaseController::returnToUrlButton()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeDeserializeObj">AuthOnlyBaseController::safeDeserializeObj()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeSerializeObj">AuthOnlyBaseController::safeSerializeObj()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodactionSwitchuser">Controller::actionSwitchuser()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodlog">Controller::log()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodperformAjaxValidation">Controller::performAjaxValidation()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:19 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

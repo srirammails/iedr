@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="document">
+
+    <resultMap id="internalDoc" class="pl.nask.crs.documents.dao.ibatis.objects.InternalDocument" groupBy="id">
+        <result property="id" column="DOC_ID"/>
+        <result property="docType" column="DOC_TYPE"/>
+        <result property="docFilename" column="FILENAME"/>
+        <result property="docPurpose" column="DOC_PURPOSE"/>
+        <result property="docSource" column="DOC_SOURCE"/>
+        <result property="accountNumber" column="ACCOUNT_NUMBER"/>
+        <result property="date" column="CR_DATE"/>
+        <result property="domains" resultMap="document.domain"/>
+    </resultMap>
+
+    <resultMap id="findInternalDoc" class="pl.nask.crs.documents.dao.ibatis.objects.InternalDocument" groupBy="id">
+        <result property="id" column="DOC_ID"/>
+        <result property="docType" column="DOC_TYPE"/>
+        <result property="docFilename" column="FILENAME"/>
+        <result property="docPurpose" column="DOC_PURPOSE"/>
+        <result property="docSource" column="DOC_SOURCE"/>
+        <result property="accountNumber" column="ACCOUNT_NUMBER"/>
+        <result property="date" column="CR_DATE"/>
+        <result property="domains" select="document.selectDomains"  column="DOC_ID"/>
+    </resultMap>
+
+    <resultMap id="domain" class="string">
+        <result property="value" column="DOMAIN_NAME"/>
+    </resultMap>
+
+    <sql id="selectDoc">
+        SELECT
+        IND.DOC_ID,
+        IND.DOC_TYPE,
+        IND.FILENAME,
+        IND.DOC_PURPOSE,
+        IND.DOC_SOURCE,
+        IND.ACCOUNT_NUMBER,
+        IND.CR_DATE,
+        D.DOMAIN_NAME
+    </sql>
+
+    <sql id="findSelectDoc">
+        SELECT
+        <dynamic>
+            <isNotNull property="criteria.domainName">
+                DISTINCT
+            </isNotNull>
+        </dynamic>
+        IND.DOC_ID,
+        IND.DOC_TYPE,
+        IND.FILENAME,
+        IND.DOC_PURPOSE,
+        IND.DOC_SOURCE,
+        IND.ACCOUNT_NUMBER,
+        IND.CR_DATE,
+        <!-- feature #1312: sortable "domain name" in document list -->
+        (SELECT MIN(DOM.DOMAIN_NAME) FROM INCOMING_DOC_DOMAINS DOM WHERE DOM.DOC_ID = IND.DOC_ID) AS domain_name
+    </sql>
+
+    <sql id="selectFrom">
+        FROM
+        INCOMING_DOC IND
+        LEFT OUTER JOIN
+        INCOMING_DOC_DOMAINS D
+        ON
+        IND.DOC_ID = D.DOC_ID
+    </sql>
+
+    <sql id="selectFromDynamicJoin">
+        FROM
+        INCOMING_DOC IND
+        <dynamic>
+            <isNotNull property="criteria.domainName">
+                LEFT OUTER JOIN
+                INCOMING_DOC_DOMAINS D
+                ON
+                IND.DOC_ID = D.DOC_ID
+            </isNotNull>
+        </dynamic>
+    </sql>
+    
+    <select id="selectDomains" parameterClass="int" resultMap="document.domain">
+    	SELECT * from INCOMING_DOC_DOMAINS where DOC_ID=#value# order by DOMAIN_NAME;  	
+    </select>
+
+    <sql id="docCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.domainName">
+                D.DOMAIN_NAME like
+                #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.docSource">
+                IND.DOC_SOURCE like
+                #criteria.docSource,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.from">
+                IND.CR_DATE <![CDATA[>=]]> #criteria.from,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.to">
+                IND.CR_DATE <![CDATA[<=]]> #criteria.to,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="docOffsetLimit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+	<sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="getFaxById" parameterClass="long" resultMap="internalDoc">
+        <include refid="selectDoc"/>
+        <include refid="selectFrom"/>
+        WHERE IND.DOC_ID = #id#
+    </select>
+
+    <select id="findFax" parameterClass="java.util.Map" resultMap="findInternalDoc">
+        <include refid="findSelectDoc"/>
+        <include refid="selectFromDynamicJoin"/>
+        <include refid="docCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="docOffsetLimit"/>
+    </select>
+
+    <select id="countTotalSearchResult" parameterClass="java.util.Map" resultClass="int">
+    	<!-- 
+    		if the search criteria contain domain name, 
+    		than count(distinct(IND.DOC_ID)) and the join is needed, 
+    		in every other case count(IND.DOC_ID) is enough.    		
+    	-->
+         
+        <dynamic>
+        <isNotNull property="criteria.domainName">
+        	SELECT COUNT(DISTINCT(IND.DOC_ID)) AS CNT
+        	FROM
+        	INCOMING_DOC_DOMAINS D
+        	LEFT OUTER JOIN
+        	INCOMING_DOC IND
+        	ON
+        	IND.DOC_ID = D.DOC_ID
+        </isNotNull>
+        <isNull property="criteria.domainName">
+        	SELECT COUNT(*) AS CNT
+        	FROM
+        	INCOMING_DOC IND        	
+        </isNull>
+        </dynamic>
+                       
+        <include refid="docCriteria"/>        
+    </select>
+
+    <insert id="insertFax" parameterClass="pl.nask.crs.documents.dao.ibatis.objects.InternalDocument">
+        INSERT INTO INCOMING_DOC(
+        CR_DATE,
+        DOC_TYPE,
+        FILENAME,
+        DOC_PURPOSE,
+        DOC_SOURCE,
+        ACCOUNT_NUMBER,
+        DOC_CREATOR
+        ) VALUES (
+        #date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #docType#,
+        #docFilename#,
+        #docPurpose#,
+        #docSource#,
+        #accountNumber#,
+        #creatorNicHandleId#
+        );
+        <selectKey keyProperty="id" resultClass="long">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="insertFaxDomain" parameterClass="pl.nask.crs.documents.dao.ibatis.objects.InternalDocument">
+        INSERT INTO INCOMING_DOC_DOMAINS (
+        DOC_ID,
+        DOMAIN_NAME
+        ) VALUES
+        <iterate property="domains" conjunction=",">
+            (#id#, #domains[]#)
+        </iterate>
+    </insert>
+
+    <delete id="deleteDocById" parameterClass="long">
+        DELETE FROM INCOMING_DOC WHERE DOC_ID = #id#
+    </delete>
+
+    <delete id="deleteDocDomainById" parameterClass="long">
+        DELETE FROM INCOMING_DOC_DOMAINS WHERE DOC_ID = #id#
+    </delete>
+
+</sqlMap>

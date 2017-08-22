@@ -1,0 +1,514 @@
+<?php
+
+/**
+ * defines DB class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * DB class handles general SQL queries and results
+ * 
+ * Usage:
+ * 
+ * 	$d = DB::get_db();
+ * 
+ * 	$d->query('select 3.14 as pi',__FILE__,__LINE__);
+ * 
+ * 	while($r = $d->fetch()) { echo $r->pi; }
+ * 
+ * The fn's get singletons from GLOBALS, use this pattern every time, 
+ * so the first invocation will create the DB object and connection,
+ * for reuse by subsequent calls.
+ * 
+ * - useful charset info
+ * 
+ * 	http://www.adviesenzo.nl/examples/php_mysql_charset_fix/
+ * 
+ * - show charset vars from libmysql
+ * 
+ * 	php -r "\$d=mysqli_connect('localhost','root','P','DB'); \$r=mysqli_query(\$d,\"SHOW VARIABLES LIKE 'c%';\"); while(\$l=mysqli_fetch_array(\$r)){ print(\$l[0].'  =  '.\$l[1].\"\n\"); }"
+ * 
+ * - show this db class's charset vars
+ * 
+ * 	php -r "include('db.php'); \$d = DB::get_db(); \$d->query(\"SHOW VARIABLES LIKE 'c%';\",0,0); while(\$r=\$d->fetch()) print(\$r->Variable_name.'  =  '.\$r->Value.BR);"
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class DB
+	{
+
+    /**
+     * read-only mysql connection
+     * 
+     * @var    mysql connection resource
+     * @access public 
+     */
+	var $read_connection=null;
+
+    /**
+     * read-write mysql connection
+     * 
+     * @var    mysql connection resource
+     * @access public 
+     */
+	var $write_connection=null;
+
+    /**
+     * current mysql connection, a reference to either the read or the write connection
+     * 
+     * @var    mysql connection resource
+     * @access public 
+     */
+	var $curr_connection=null;
+
+    /**
+     * current query object, if any
+     * 
+     * @var    mysql query object
+     * @access public 
+     */
+	var $curr_qry=null;
+
+    /**
+     * the last sql command sent
+     * 
+     * @var    string
+     * @access public
+     */
+	var $last_sql=null;
+
+    /**
+     * last mysql error string
+     * 
+     * @var    string
+     * @access public
+     */
+	var $last_err=null;
+
+    /**
+     * last mysql error code, from connection attempt or sql operation
+     * 
+     * @var    integer
+     * @access public
+     */
+	var $last_errno=null;
+
+    /**
+     * php filename passed with last query function-call
+     * 
+     * @var    string
+     * @access public
+     */
+	var $last_sql_f=null;
+
+    /**
+     * php-file line-number passed with last query function-call
+     * 
+     * @var    mixed 
+     * @access public
+     */
+	var $last_sql_l=0;
+
+    /**
+     * initialization variables, set with Yii connection parameters
+     * 
+     * @var    array
+     * @access public 
+     * @static
+     */
+	static $initvars;
+
+    /**
+     * constructor, calls init()
+     * 
+     * @return void     
+     * @access protected
+     */
+	protected function DB()
+		{
+		$this->init();
+		// register_shutdown_function($this->close);
+		}
+
+    /**
+     * sets up initvars (does not create a connection)
+     * 
+     * @return void  
+     * @access public
+     */
+	public function init()
+		{
+		try
+			{
+			$_CDbConnection = Yii::app()->getComponent('db');
+
+			// mysql:host=127.0.0.1;dbname=phoenixdb
+			$connstr = $_CDbConnection->connectionString;
+			$arr_host_db = explode(';',$connstr);
+			$host_ar = explode('=',$arr_host_db[0]);
+			$host = $host_ar[1];
+			$db_ar   = explode('=',$arr_host_db[1]);
+			$db  = $db_ar[1];
+
+			$this->initvars['DB_READ_HOST'] = $host;
+			$this->initvars['DB_READ_USR']  = $_CDbConnection->username;
+			$this->initvars['DB_READ_PWD']  = $_CDbConnection->password;
+			$this->initvars['DB_READ_DB']   = $db;
+
+			$this->initvars['DB_WRITE_HOST'] = $host;
+			$this->initvars['DB_WRITE_USR']  = $_CDbConnection->username;
+			$this->initvars['DB_WRITE_PWD']  = $_CDbConnection->password;
+			$this->initvars['DB_WRITE_DB']   = $db;
+
+			ini_set('mysqli.reconnect',0);
+			}
+		catch(Exception $e)
+			{
+			$this->error(print_r($e,true));
+			}
+		}
+
+    /**
+     * gets the singleton instance of this class, creating it if necessary
+     * 
+     * @return DB singleton instance of DB class
+     * @access public
+     * @static
+     */
+	public static function &get_db()
+		{
+		if(!isset($GLOBALS['DB'])) $GLOBALS['DB'] = new DB();
+		return $GLOBALS['DB'];
+		}
+
+    /**
+     * returns the mysql connection created with the 'read-only' parameters, creating it if necessary
+     * 
+     * @return object mysql connection resource
+     * @access public 
+     */
+	public function get_read_connection()
+		{
+		if($this->read_connection==null or !@mysqli_ping($this->read_connection))
+			{
+			$this->read_connection = $this->connect($this->initvars['DB_READ_HOST'],$this->initvars['DB_READ_USR'],$this->initvars['DB_READ_PWD'],$this->initvars['DB_READ_DB']);
+			$this->last_errno = @mysqli_connect_errno();
+			if($this->last_errno==0)
+				{
+				$tid = @mysqli_thread_id($this->read_connection);
+				//app_warn('DB:db read thread_id (to KILL)='.$tid,__FILE__,__LINE__);
+				}
+			else
+				{
+				$this->last_sql = 'connect '.$this->initvars['DB_READ_USR'].'@'.$this->initvars['DB_READ_HOST'].'/'.$this->initvars['DB_READ_DB'];
+				$this->error('couldn\'t connect to database');
+				}
+			}
+		$this->curr_connection = $this->read_connection;
+		return $this->read_connection;
+		}
+
+    /**
+     * returns the mysql connection created with the 'read-write' parameters, creating it if necessary
+     * 
+     * @param  boolean   $autocommit true (which is the default) if connection should autocommit
+     * @return object mysql connection resource
+     * @access protected
+     */
+	protected function get_write_connection($autocommit=true)
+		{
+		if($this->write_connection==null or !@mysqli_ping($this->write_connection))
+			{
+			$this->write_connection = $this->connect($this->initvars['DB_WRITE_HOST'],$this->initvars['DB_WRITE_USR'],$this->initvars['DB_WRITE_PWD'],$this->initvars['DB_WRITE_DB']);
+			$this->last_errno = @mysqli_connect_errno();
+			if($this->last_errno==0)
+				{
+				$tid = @mysqli_thread_id($this->write_connection);
+				//app_warn('DB:db write thread_id (to KILL)='.$tid,__FILE__,__LINE__);
+				}
+			else
+				{
+				$this->last_sql = 'connect '.$this->initvars['DB_READ_USR'].'@'.$this->initvars['DB_READ_HOST'].'/'.$this->initvars['DB_READ_DB'];
+				$this->error('couldn\'t connect to database');
+				}
+			}
+		if($this->write_connection!=null)
+			{
+			@mysqli_autocommit($this->write_connection, $autocommit);
+			$this->last_errno = @mysqli_errno($this->write_connection);
+			if($this->last_errno!=0)
+				{
+				$this->error('couldn\'t set autocommit = '.($autocommit?'ON':'OFF'));
+				}
+			}
+		$this->curr_connection = $this->write_connection;
+		return $this->write_connection;
+		}
+
+    /**
+     * attempts to create a mysql connection resource
+     * 
+     * connects and sets database and various parameters:
+     * 
+     * - character set 'utf8'
+     * 
+     * - isolation level 'read committed'
+     * 
+     * Will set {@last_errno} for connection attempt
+     * 
+     * 
+     * @param  string   $host hostname or IP address
+     * @param  string   $user username
+     * @param  string   $pass password
+     * @param  string   $db   database
+     * @return object   mysql connection resource
+     * @access protected
+     */
+	protected function connect($host, $user, $pass, $db)
+		{
+		$connection = @mysqli_connect($host, $user, $pass, $db);
+		$this->last_errno = @mysqli_connect_error();
+		if($this->last_errno==0 and $connection!=null and $connection!=false)
+			{
+			@mysqli_set_charset($connection, 'utf8');
+			$this->last_errno = @mysqli_errno($connection);
+			if($this->last_errno==0)
+				{
+				$this->curr_qry = @mysqli_query($connection,"SET SESSION sql_mode='STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER';");
+				$this->last_errno = @mysqli_errno($connection);
+				if($this->last_errno==0)
+					{
+					$this->curr_qry = @mysqli_query($connection,"SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;");
+					$this->last_errno = @mysqli_errno($connection);
+					if($this->last_errno!=0)
+						$this->error('set isolation level',__FILE__,__LINE__);
+					}
+				else
+					$this->error('set sql mode',__FILE__,__LINE__);
+				}
+			else
+				$this->error('set charset utf8',__FILE__,__LINE__);
+			}
+		else
+			$this->error('connect',__FILE__,__LINE__);
+		return $connection;
+		}
+
+    /**
+     * perform an insert statement, using write-connection; on success, returns New Row ID or true
+     * 
+     * @param  string $sql        sql statement
+     * @param  string $f          originating php filename, for logging
+     * @param  string $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on (default is off)
+     * @return mixed   on success, generated ID of new row, if table has an auto-increment integer primary key, or true; false on failure
+     * @access public 
+     */
+	public function insert($sql,$f,$l,$autocommit=false)
+		{
+		return $this->perform('i',$sql,$f,$l,$autocommit);
+		}
+
+    /**
+     * perform update statement, using write-connection
+     * 
+     * @param  string $sql        sql statement
+     * @param  string $f          originating php filename, for logging
+     * @param  string $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on (default is off)
+     * @return mixed   true on success
+     * @access public 
+     */
+	public function update($sql,$f,$l,$autocommit=false)
+		{
+		return $this->perform('u',$sql,$f,$l,$autocommit);
+		}
+
+    /**
+     * performs a select-for-update query, using write-connection; returns true on successful record lock
+     * 
+     * @param  string $sql        sql statement
+     * @param  string $f          originating php filename, for logging
+     * @param  string $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on (default is off)
+     * @return boolean true if locked
+     * @access public 
+     */
+	public function uquery($sql,$f,$l,$autocommit=false)
+		{
+		$this->perform('u',$sql,$f,$l,$autocommit);
+		$ret_have_record_lock = $this->last_errno == 0 ? true : false;
+		return $ret_have_record_lock;
+		}
+
+    /**
+     * performs delete statement using write-connection
+     * 
+     * @param  string $sql        sql statement
+     * @param  string $f          originating php filename, for logging
+     * @param  string $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on (default is off)
+     * @return boolean true on success
+     * @access public 
+     */
+	public function delete($sql,$f,$l,$autocommit=false)
+		{
+		return $this->perform('d',$sql,$f,$l,$autocommit);
+		}
+
+    /**
+     * performs select statement, returns result-object on success
+     * 
+     * @param  string $sql        sql statement
+     * @param  string $f          originating php filename, for logging
+     * @param  string $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on (default is off)
+     * @return mixed   result-object on success, or false
+     * @access public 
+     */
+	public function query($sql,$f,$l,$autocommit=false)
+		{
+		return $this->perform('s',$sql,$f,$l,$autocommit);
+		}
+
+    /**
+     * commits the current transaction on the write-connection
+     * 
+     * @return void  
+     * @access public
+     */
+	public function write_commit()
+		{
+		if($this->write_connection!=null)
+			{
+			@mysqli_commit($this->write_connection);
+			$this->savestate();
+			}
+		else
+			$this->error('attempted to commit without a write connection');
+		}
+
+    /**
+     * rolls back the current transaction on the write-connection
+     * 
+     * @return void  
+     * @access public
+     */
+	public function rollback()
+		{
+		if($this->write_connection!=null)
+			{
+			@mysqli_rollback($this->write_connection);
+			$this->savestate();
+			}
+		else
+			$this->error('attempted to rollback without a write connection');
+		}
+
+    /**
+     * performs the supplied sql statement, selecting the appropriate connection and handling results as needed
+     * 
+     * uses read-connection for selects, and for inserts, tries to get the new-row-ID
+     * 
+     * @param  string  $typ        Parameter description (if any) ...
+     * @param  string  $sql        sql statement
+     * @param  string  $f          originating php filename, for logging
+     * @param  string  $l          originating php file linenumber, for logging
+     * @param  boolean $autocommit true to set autocommit on
+     * @return string  null on connection failure, boolean outcome of statement, or integer on successful insert into a table with an auto-increment integer primary key
+     * @access protected
+     */
+	protected function perform($typ,$sql,$f,$l,$autocommit=true)
+		{
+		$this->curr_qry = null;
+		$this->last_sql =& $sql;
+		$this->last_sql_f = $f;
+		$this->last_sql_l = $l;
+		$this->last_errno = null;
+		$conn = $typ=='s' ? $this->get_read_connection() : $this->get_write_connection($autocommit);
+		if($conn)
+			{
+			$this->curr_qry = @mysqli_query($conn,$sql);
+			$this->savestate();
+			if($this->last_errno==0)
+				{
+				return ($typ=='i') ? @mysqli_insert_id($conn) : $this->curr_qry;
+				}
+			}
+		else
+			$this->error('query: null connection');
+		$this->curr_qry = null; // otherwise 'false'
+		return null;
+		}
+
+    /**
+     * for current query, fetches next result-row as a php object (returns null at end of data)
+     * 
+     * @return object null on failure/EOF, or result-row as an object
+     * @access public 
+     */
+	public function fetch()
+		{
+		$fo = null;
+		if($this->curr_qry!=null)
+			$fo = @mysqli_fetch_object($this->curr_qry);
+		return $fo;
+		}
+
+    /**
+     * Saves and logs the last mysql-error-code and associated error message, or resets it to null if no error
+     * 
+     * @return void     
+     * @access protected
+     */
+	protected function savestate()
+		{
+		$this->last_errno = @mysqli_errno($this->curr_connection);
+		$this->last_err = null;
+		if($this->last_errno != 0)
+			{
+			$this->last_err   = @mysqli_error($this->curr_connection);
+			$this->error($this->last_err);
+			}
+		}
+
+    /**
+     * called on mysql errors; logs error code, statement, originating filename and linenumber to Application Log
+     * 
+     * @param  string    $m message string which is logged, after appending error details to it
+     * @return void     
+     * @access protected
+     */
+	protected function error($m)
+		{
+		$m .= 'Database error: '.$this->last_errno.':'.$this->last_err.'; '.$this->last_sql_f.' line '.$this->last_sql_l.': '.$this->last_sql;
+		Yii::log($m, 'error', 'DB');
+		}
+
+    /**
+     * closes current database connection
+     * 
+     * @return void  
+     * @access public
+     */
+	public function close()
+		{
+		if($this->connection) @mysqli_close($this->connection);
+		$this->connection=null;
+		}
+   }
+

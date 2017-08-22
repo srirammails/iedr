@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="emailgroup">
+
+    <resultMap id="emailGroupResult" class="pl.nask.crs.commons.email.EmailGroup">
+        <result property="id" column="EG_ID"/>
+        <result property="name" column="EG_Name"/>
+        <result property="visible" column="EG_Visible" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.NullableCharToBooleanHandler"/>
+        <result property="changeDate" column="EG_TS" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+    </resultMap>
+
+    <sql id="selectGroup">
+        SELECT
+          EG_ID as EG_ID,
+          EG_Name as EG_Name,
+          EG_Visible as EG_Visible,
+          EG_TS as EG_TS
+        FROM
+          EmailGroup
+    </sql>
+
+    <select id="get" parameterClass="long" resultMap="emailGroupResult">
+        <include refid="selectGroup"/>
+        WHERE
+          EG_ID = #id#
+    </select>
+
+    <insert id="create" parameterClass="pl.nask.crs.commons.email.EmailGroup">
+        INSERT INTO EmailGroup (EG_Name, EG_Visible) VALUES (#name#, #visible,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#)
+        <selectKey resultClass="long" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterClass="pl.nask.crs.commons.email.EmailGroup">
+        UPDATE EmailGroup
+        SET
+          EG_Name = #name#,
+          EG_Visible = #visible,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        WHERE
+          EG_ID = #id#
+    </update>
+
+    <delete id="delete" parameterClass="pl.nask.crs.commons.email.EmailGroup">
+        DELETE FROM EmailGroup WHERE EG_ID = #id#
+    </delete>
+
+    <sql id="whereFrag">
+        <dynamic prepend="WHERE">
+            <isNotNull property="criteria.id" prepend="AND">
+                EG_ID = #criteria.id#
+            </isNotNull>
+            <isNotNull property="criteria.name" prepend="AND">
+                EG_Name LIKE #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="find" parameterClass="map" resultMap="emailGroupResult">
+        <include refid="selectGroup"/>
+        <include refid="whereFrag"/>
+        <include refid="common.sortFrag"/>
+        <include refid="common.limitFrag"/>
+    </select>
+
+    <select id="count" parameterClass="map" resultClass="int">
+        SELECT
+          COUNT(*)
+        FROM
+          EmailGroup
+        <include refid="whereFrag"/>
+    </select>
+</sqlMap>

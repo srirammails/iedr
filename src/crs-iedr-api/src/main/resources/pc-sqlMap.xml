@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="persistedCommands">
+
+    <select id="findResponse" parameterClass="java.util.Map" resultClass="string">
+	select P_Response from PersistedCommands where P_RequestHash = #request# and P_NicHandle = #nichandle#
+    </select>
+
+    <insert id="insertResponse" parameterClass="java.util.Map">
+        insert into
+        PersistedCommands(P_CreateDate, P_NicHandle, P_RequestHash, P_Response)
+        values
+        (#date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, #nichandle#, #request#, #response#)
+    </insert>
+
+    <delete id="deleteOld" parameterClass="java.util.Date">
+        delete from
+        PersistedCommands
+        where
+        P_CreateDate &lt; #date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+    </delete>
+</sqlMap>
+

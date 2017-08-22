@@ -1,0 +1,54 @@
+<!-- START protected/views/accounts_renewpay/results.php -->
+<?php
+/**
+ * View page for Accounts Reports - Renew and Pay - Manage Offline Payments - View Batch
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$pg = 'Results';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<div class="form">
+<?php
+$errs = $model->getErrors('domainlist');
+if($errs != null)
+	{
+	if(is_array($errs) and count($errs)>0)
+		foreach($errs as $e)
+			echo '<span class="errorMessage">'.$e.'</span><br>';
+	else
+		echo '<span class="errorMessage">'.$errs.'</span>';
+	}
+else
+	{
+	echo '<h4>Settlement Completed Successfully</h4>';
+	echo 'You have successfully modified the batch '.$model->session.'. The new batch total is '.Utility::currencyAmount($model->Batch_Total);
+	echo '<table class="gridtable">';
+	switch($model->command)
+		{
+		case 'remove_from_batch':
+			echo '<tr><td class="gridtablecell"><strong>Domains Removed From Batch</strong></td>'.
+				'<td class="gridtablecell"><strong>Result</strong></td></tr><tr><td class="gridtablecell">';
+			foreach($model->domainListToArray() as $d)
+				{
+				echo $d.'<br>';
+				}
+			echo '</td><td class="gridtablecell">OK</td>';
+			break;
+		}
+	echo '</table>';
+	}
+?>
+</div>
+<br>
+<?php echo AuthOnlyBaseController::returnToUrlButton($model->returnurl); ?>
+
+<!-- END protected/views/accounts_renewpay/results.php -->

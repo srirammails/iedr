@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class EditTicketModel</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> EditTicketModel</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">model for data for the ticket-editing page</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_models---EditTicketModel.php.html">/models/EditTicketModel.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a27">27</a></span>)
+		</p>
+		
+				
+		<pre>CFormModel
+   |
+   --<a href="../IEDR_New_Registrars_Console/ViewTicketModel.html">ViewTicketModel</a>
+      |
+      --EditTicketModel</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$applicant" title="details" class="var-name">$applicant</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																															
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											([<span class="var-type">integer</span>&nbsp;<span class="var-name">$id</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#fillFromObject" title="details" class="method-name">fillFromObject</a>
+											(<span class="var-type">CRSTicketAppService_ticketVO</span>&nbsp;<span class="var-name">$obj</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$errs</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#rules" title="details" class="method-name">rules</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setReadOnlyDataFromObj" title="details" class="method-name">setReadOnlyDataFromObj</a>
+											(<span class="var-type">CRSTicketAppService_ticketVO</span>&nbsp;<span class="var-name">$ticketVO</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$applicant" id="$applicant"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$applicant</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a37">37</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">combined class and category (separated by a colon), one of the values returned by <a href="../IEDR_New_Registrars_Console/_db---class_category.php.html#functionget_class_category">get_class_category()</a>, used in a select-list</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html">ViewTicketModel</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$action">ViewTicketModel::$action</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$adminStatus">ViewTicketModel::$adminStatus</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$adminStatusChangeDate">ViewTicketModel::$adminStatusChangeDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$changeDate">ViewTicketModel::$changeDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$checkedOutTo">ViewTicketModel::$checkedOutTo</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$clikPaid">ViewTicketModel::$clikPaid</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$creationDate">ViewTicketModel::$creationDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$creator">ViewTicketModel::$creator</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$domainName">ViewTicketModel::$domainName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$domainRenevalDate">ViewTicketModel::$domainRenevalDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$errors">ViewTicketModel::$errors</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$expiryDate">ViewTicketModel::$expiryDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$hasDocuments">ViewTicketModel::$hasDocuments</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$hostmastersRemark">ViewTicketModel::$hostmastersRemark</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$id">ViewTicketModel::$id</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation">ViewTicketModel::$operation</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField">ViewTicketModel::$operation_adminContactsField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_failureReason">ViewTicketModel::$operation_adminContactsField_0_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_failureReasonId">ViewTicketModel::$operation_adminContactsField_0_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_newValue_companyName">ViewTicketModel::$operation_adminContactsField_0_newValue_companyName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_newValue_country">ViewTicketModel::$operation_adminContactsField_0_newValue_country</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_newValue_email">ViewTicketModel::$operation_adminContactsField_0_newValue_email</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_newValue_name">ViewTicketModel::$operation_adminContactsField_0_newValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_newValue_nicHandle">ViewTicketModel::$operation_adminContactsField_0_newValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_oldValue_companyName">ViewTicketModel::$operation_adminContactsField_0_oldValue_companyName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_oldValue_country">ViewTicketModel::$operation_adminContactsField_0_oldValue_country</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_oldValue_email">ViewTicketModel::$operation_adminContactsField_0_oldValue_email</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_oldValue_name">ViewTicketModel::$operation_adminContactsField_0_oldValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_0_oldValue_nicHandle">ViewTicketModel::$operation_adminContactsField_0_oldValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_failureReason">ViewTicketModel::$operation_adminContactsField_1_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_failureReasonId">ViewTicketModel::$operation_adminContactsField_1_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_newValue_companyName">ViewTicketModel::$operation_adminContactsField_1_newValue_companyName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_newValue_country">ViewTicketModel::$operation_adminContactsField_1_newValue_country</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_newValue_email">ViewTicketModel::$operation_adminContactsField_1_newValue_email</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_newValue_name">ViewTicketModel::$operation_adminContactsField_1_newValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_newValue_nicHandle">ViewTicketModel::$operation_adminContactsField_1_newValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_oldValue_companyName">ViewTicketModel::$operation_adminContactsField_1_oldValue_companyName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_oldValue_country">ViewTicketModel::$operation_adminContactsField_1_oldValue_country</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_oldValue_email">ViewTicketModel::$operation_adminContactsField_1_oldValue_email</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_oldValue_name">ViewTicketModel::$operation_adminContactsField_1_oldValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_adminContactsField_1_oldValue_nicHandle">ViewTicketModel::$operation_adminContactsField_1_oldValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField">ViewTicketModel::$operation_billingContactsField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_failureReason">ViewTicketModel::$operation_billingContactsField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_failureReasonId">ViewTicketModel::$operation_billingContactsField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_newValue">ViewTicketModel::$operation_billingContactsField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_newValue_name">ViewTicketModel::$operation_billingContactsField_newValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_newValue_nicHandle">ViewTicketModel::$operation_billingContactsField_newValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_billingContactsField_oldValue">ViewTicketModel::$operation_billingContactsField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderCategoryField">ViewTicketModel::$operation_domainHolderCategoryField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderCategoryField_failureReason">ViewTicketModel::$operation_domainHolderCategoryField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderCategoryField_failureReasonId">ViewTicketModel::$operation_domainHolderCategoryField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderCategoryField_newValue">ViewTicketModel::$operation_domainHolderCategoryField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderCategoryField_oldValue">ViewTicketModel::$operation_domainHolderCategoryField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderClassField">ViewTicketModel::$operation_domainHolderClassField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderClassField_failureReason">ViewTicketModel::$operation_domainHolderClassField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderClassField_failureReasonId">ViewTicketModel::$operation_domainHolderClassField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderClassField_newValue">ViewTicketModel::$operation_domainHolderClassField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderClassField_oldValue">ViewTicketModel::$operation_domainHolderClassField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderField">ViewTicketModel::$operation_domainHolderField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderField_failureReason">ViewTicketModel::$operation_domainHolderField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderField_failureReasonId">ViewTicketModel::$operation_domainHolderField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderField_newValue">ViewTicketModel::$operation_domainHolderField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainHolderField_oldValue">ViewTicketModel::$operation_domainHolderField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainNameField">ViewTicketModel::$operation_domainNameField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainNameField_failureReason">ViewTicketModel::$operation_domainNameField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainNameField_failureReasonId">ViewTicketModel::$operation_domainNameField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainNameField_newValue">ViewTicketModel::$operation_domainNameField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_domainNameField_oldValue">ViewTicketModel::$operation_domainNameField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers">ViewTicketModel::$operation_nameservers</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_ipAddress">ViewTicketModel::$operation_nameservers_0_ipAddress</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_ipAddress_failureReason">ViewTicketModel::$operation_nameservers_0_ipAddress_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_ipAddress_failureReasonId">ViewTicketModel::$operation_nameservers_0_ipAddress_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_ipAddress_newValue">ViewTicketModel::$operation_nameservers_0_ipAddress_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_ipAddress_oldValue">ViewTicketModel::$operation_nameservers_0_ipAddress_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_name">ViewTicketModel::$operation_nameservers_0_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_name_failureReason">ViewTicketModel::$operation_nameservers_0_name_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_name_failureReasonId">ViewTicketModel::$operation_nameservers_0_name_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_name_newValue">ViewTicketModel::$operation_nameservers_0_name_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_0_name_oldValue">ViewTicketModel::$operation_nameservers_0_name_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_ipAddress">ViewTicketModel::$operation_nameservers_1_ipAddress</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_ipAddress_failureReason">ViewTicketModel::$operation_nameservers_1_ipAddress_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_ipAddress_failureReasonId">ViewTicketModel::$operation_nameservers_1_ipAddress_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_ipAddress_newValue">ViewTicketModel::$operation_nameservers_1_ipAddress_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_ipAddress_oldValue">ViewTicketModel::$operation_nameservers_1_ipAddress_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_name">ViewTicketModel::$operation_nameservers_1_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_name_failureReason">ViewTicketModel::$operation_nameservers_1_name_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_name_failureReasonId">ViewTicketModel::$operation_nameservers_1_name_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_name_newValue">ViewTicketModel::$operation_nameservers_1_name_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_1_name_oldValue">ViewTicketModel::$operation_nameservers_1_name_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_ipAddress">ViewTicketModel::$operation_nameservers_2_ipAddress</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_ipAddress_failureReason">ViewTicketModel::$operation_nameservers_2_ipAddress_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_ipAddress_failureReasonId">ViewTicketModel::$operation_nameservers_2_ipAddress_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_ipAddress_newValue">ViewTicketModel::$operation_nameservers_2_ipAddress_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_ipAddress_oldValue">ViewTicketModel::$operation_nameservers_2_ipAddress_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_name">ViewTicketModel::$operation_nameservers_2_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_name_failureReason">ViewTicketModel::$operation_nameservers_2_name_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_name_failureReasonId">ViewTicketModel::$operation_nameservers_2_name_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_name_newValue">ViewTicketModel::$operation_nameservers_2_name_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_nameservers_2_name_oldValue">ViewTicketModel::$operation_nameservers_2_name_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_resellerAccountField">ViewTicketModel::$operation_resellerAccountField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_resellerAccountField_failureReason">ViewTicketModel::$operation_resellerAccountField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_resellerAccountField_failureReasonId">ViewTicketModel::$operation_resellerAccountField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_resellerAccountField_newValue">ViewTicketModel::$operation_resellerAccountField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_resellerAccountField_oldValue">ViewTicketModel::$operation_resellerAccountField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField">ViewTicketModel::$operation_techContactsField</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_failureReason">ViewTicketModel::$operation_techContactsField_failureReason</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_failureReasonId">ViewTicketModel::$operation_techContactsField_failureReasonId</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_newValue">ViewTicketModel::$operation_techContactsField_newValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_newValue_name">ViewTicketModel::$operation_techContactsField_newValue_name</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_newValue_nicHandle">ViewTicketModel::$operation_techContactsField_newValue_nicHandle</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$operation_techContactsField_oldValue">ViewTicketModel::$operation_techContactsField_oldValue</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$previousHolder">ViewTicketModel::$previousHolder</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$requestersRemark">ViewTicketModel::$requestersRemark</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$techStatus">ViewTicketModel::$techStatus</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$techStatusChangeDate">ViewTicketModel::$techStatusChangeDate</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$ticketEdit">ViewTicketModel::$ticketEdit</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$ticketHolder">ViewTicketModel::$ticketHolder</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#var$type">ViewTicketModel::$type</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a46">46</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">constructor, sets ticket ID</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+					([<span class="var-type">integer</span>&nbsp;<span class="var-name">$id</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$id</span><span class="var-description">: ticket ID</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#method__construct">ViewTicketModel::__construct()</a></dt>
+						<dd>constructor, sets ticket ID</dd>
+					</dl>
+			
+	</div>
+<a name="methodfillFromObject" id="fillFromObject"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">fillFromObject</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a85">85</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">copies ticket-object data into this instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			fillFromObject
+		</span>
+					(<span class="var-type">CRSTicketAppService_ticketVO</span>&nbsp;<span class="var-name">$obj</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$errs</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CRSTicketAppService_ticketVO</span>
+				<span class="var-name">$obj</span><span class="var-description">: Ticket object to copy data from</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$errs</span><span class="var-description">: errors from backend for display</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodfillFromObject">ViewTicketModel::fillFromObject()</a></dt>
+						<dd>fills this model's attributes with corresponding data from the supplied CRSTicketAppService_ticketVO instance</dd>
+					</dl>
+			
+	</div>
+<a name="methodrules" id="rules"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">rules</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a57">57</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns Yii validation rules</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> validation rules</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			rules
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodrules">ViewTicketModel::rules()</a></dt>
+						<dd>returns validation rules</dd>
+					</dl>
+			
+	</div>
+<a name="methodsetReadOnlyDataFromObj" id="setReadOnlyDataFromObj"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setReadOnlyDataFromObj</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__modelsEditTicketModel.php.html#a100">100</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">copies non-editable data from ticket-object into this instance</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setReadOnlyDataFromObj
+		</span>
+					(<span class="var-type">CRSTicketAppService_ticketVO</span>&nbsp;<span class="var-name">$ticketVO</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CRSTicketAppService_ticketVO</span>
+				<span class="var-name">$ticketVO</span><span class="var-description">: Ticket object to copy data from</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html">ViewTicketModel</a></span></p>
+					<blockquote>
+													<img src="../media/images/Constructor.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#method__construct">ViewTicketModel::__construct()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodattributeLabels">ViewTicketModel::attributeLabels()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodfillFromObject">ViewTicketModel::fillFromObject()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodonBeforeValidate">ViewTicketModel::onBeforeValidate()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ViewTicketModel.html#methodrules">ViewTicketModel::rules()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:58 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

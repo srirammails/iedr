@@ -1,0 +1,218 @@
+<?php
+
+/**
+ * defines functions to do with the fetching of account statistics data
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * get current time as a floating-point number including microseconds
+ * 
+ * @return float time
+ */
+function microtime_float()
+	{
+	list($usec, $sec) = explode(' ', microtime());
+	return ((float)$usec + (float)$sec);
+	}
+
+/**
+ * runs passed string as a sql query and returns first row's column 'x', or null
+ * 
+ * @param  string $sql sql statement
+ * @return mixed  column 'x' of first row of results
+ */
+function run_stats_qry($sql)
+	{
+	$d=DB::get_db();
+	$d->query($sql,__FILE__,__LINE__);
+	if($r=$d->fetch())
+		return $r->x;
+	return null;
+	}
+
+/**
+ * get cached value with passed key, or, if not cached, run passed query and return column 'x' of first row (and add to cache)
+ * 
+ * @param  string $cache_key cache key
+ * @param  string $sql sql statement
+ * @return mixed column 'x' of first row of query results
+ */
+function get_cached_stats_query($cache_key,$sql)
+	{
+	// check cache
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$tstart = microtime_float();
+		$s = run_stats_qry($sql);
+		$tend = microtime_float();
+		$elapsed = $tend - $tstart;
+		$timeout = 600; // 10 min
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		#Yii::log('query for '.$cache_key.' took '.$elapsed.' seconds', 'debug', 'short_account_stats::get_cached_stats_query()'.__LINE__);
+		}
+	return $s;
+	}
+
+/**
+ * gets, for an account number, via cache, count of domains
+ * 
+ * @param  integer $acc account number
+ * @return integer domain count
+ */
+function get_stats_DomainCount($acc) { 
+	return get_cached_stats_query('stats_DomainCount_'.$acc,
+		'select count(*) as x from Domain where A_Number='.$acc); }
+
+/**
+ * gets, for an account number, via cache, count of newly registered domains since beginning of current month
+ * 
+ * @param  string $acc account number
+ * @return integer count of newly registered domains since beginning of current month
+ */
+function get_stats_NewRegs($acc) { 
+	return get_cached_stats_query('stats_NewRegs_'.$acc,
+		'select count(*) as x from Domain where A_Number='.$acc.' and D_Reg_Dt >=DATE_FORMAT(NOW(), \'%Y-%m-01\')'); }
+
+/**
+ * gets, for an account number, via cache, count of current tickets
+ * 
+ * @param  integer $acc account number
+ * @return integer count of current tickets
+ */
+function get_stats_TicketCount($acc) { 
+	return get_cached_stats_query('stats_TicketCount_'.$acc,
+		'select count(*) as x from Ticket where A_Number='.$acc); }
+
+/**
+ * gets, for an account number, via cache, count of non-passed tickets
+ * 
+ * Query uses constraint "Tech_Status!=1" : Not 'Passed', so any of: 'New, Stalled, Renew, Cancelled'
+ * 
+ * @param  integer $acc account number
+ * @return integer count of non-passed tickets
+ */
+function get_stats_PendingTickets($acc) { 
+	return get_cached_stats_query('stats_PendingTickets_'.$acc,
+		'select count(*) as x from Ticket where A_Number='.$acc.' and Tech_Status!=1'); }
+
+/**
+ * gets, for an account number, via cache, count of passed Tickets
+ * 
+ * @param  integer $acc account number
+ * @return integer count of passed Tickets
+ */
+function get_stats_PassedTickets($acc) { 
+	return get_cached_stats_query('stats_PassedTickets_'.$acc,
+		'select count(*) as x from Ticket where A_Number='.$acc.' and Tech_Status=1 and Admin_Status=1'); }
+
+/**
+ * gets, for a Nic Handle, via cache, count of domains transferring to the passed Nic Handle in the last 30 days
+ * 
+ * @param  string $nic Nic Handle
+ * @return integer count of domains transferring to the passed Nic Handle in the last 30 days
+ */
+function get_stats_TransfersIn($nic) { 
+	return get_cached_stats_query('stats_TransfersIn_'.$nic,
+		'select count(distinct D_Name) as x from Transfers where New_Nic_Handle=\''.$nic.'\' and Tr_Date >=CURDATE()-INTERVAL 30 DAY'); }
+
+/**
+ * gets, for a Nic Handle, via cache, count of domains transferring from the passed Nic Handle in the last 30 days
+ * 
+ * @param  string $nic Nic Handle
+ * @return integer count of domains transferring from the passed Nic Handle in the last 30 days
+ */
+function get_stats_TransfersOut($nic) { 
+	return get_cached_stats_query('stats_TransfersOut_'.$nic,
+		'select sum(x1) as x from ( '.
+			'select count(distinct D_Name) as x1 from Transfers where Old_Nic_Handle=\''.$nic.'\' and Tr_Date >=CURDATE()-INTERVAL 30 DAY '.
+			'UNION '.
+			'select count(distinct D_Name) as x1 from TransfersHist where Old_Nic_Handle=\''.$nic.'\' and Tr_Date >=CURDATE()-INTERVAL 30 DAY) tmp;'); }
+
+/**
+ * gets, for a Nic Handle, via cache, Statement Balance
+ * 
+ * @param  string $nic Nic Handle
+ * @return integer Statement Balance
+ */
+function get_stats_StatementBalance($nic) { 
+	return get_cached_stats_query('stats_StatementBalance_'.$nic,
+		'Select Total_Bal as x from Statement where Nic_Handle=\''.$nic.'\' order by 1 desc limit 1'); }
+
+/**
+ * gets cache key for deposit balance for passed Nic Handle
+ * 
+ * @param  string $nic Nic Handle
+ * @return string cache key for deposit balance for passed Nic Handle
+ */
+function getDepositBalanceCacheKey($nic) {
+	$cache_key = 'CRSPaymentAppService::viewDeposit_'.$nic;
+	return $cache_key;
+	}
+
+/**
+ * Deletes any cached deposit balance for the passed Nic Handle
+ * 
+ * @param  string $nic Nic Handle
+ * @return void
+ */
+function invalidate_DepositBalance($nic)
+	{
+	Yii::app()->cache->delete(getDepositBalanceCacheKey($nic));
+	}
+
+/**
+ * gets, for a Nic Handle, via cache, Deposit Balance
+ * 
+ * @param  string $nic Nic Handle
+ * @return float  Deposit Balance
+ */
+function get_stats_DepositBalance($nic)
+	{ 
+	$cache_key = getDepositBalanceCacheKey($nic);
+	$result = Yii::app()->cache->get($cache_key);
+	if($result==null)
+		{
+		#Yii::log('getting DepositBalance(nic='.$nic.')', 'debug', 'short_account_stats::get_stats_DepositBalance()');
+		$result = null;
+		$errs = null;
+		try
+			{
+			$tstart = microtime_float();
+			CRSPaymentAppService_service::viewDeposit($result,$errs,Yii::app()->user->authenticatedUser);
+			$tend = microtime_float();
+			$elapsed = $tend - $tstart;
+			#Yii::log('query for '.$cache_key.' took '.$elapsed.' seconds', 'debug', 'short_account_stats::get_stats_DepositBalance()'.__LINE__);
+			if(count($errs)==0)
+				Yii::log(print_r($result,true), 'debug', 'short_account_stats::get_stats_DepositBalance()'.__LINE__);
+			else
+				Yii::log(print_r($errs,true), 'error', 'short_account_stats::get_stats_DepositBalance()'.__LINE__);
+			if(!strpos(print_r($errs,true),'DepositNotFoundException')===false)
+				{
+				Yii::log('DepositNotFoundException : setting deposit to 0', 'error', 'short_account_stats::get_stats_DepositBalance()'.__LINE__);
+				$result = new CRSPaymentAppService_depositVO();
+				$result->closeBal = 0;
+				}
+			$timeout = 60; // secs
+			Yii::app()->cache->set($cache_key, $result, $timeout);
+			}
+		catch(Exception $e)
+			{
+			$errstr = print_r($errs,true);
+			Yii::log($errstr, 'error', 'short_account_stats::get_stats_DepositBalance()'.__LINE__);
+			}
+		}
+	#else
+	#	Yii::log('Cache Hit for DepositBalance(nic='.$nic.')='.$result->closeBal, 'debug', 'short_account_stats::get_stats_DepositBalance()');
+	return $result->closeBal;
+	}
+

@@ -1,0 +1,33 @@
+<!-- START protected/views/accounts_history/pendingpay.php -->
+<?php
+/**
+ * View page for Pending Payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_historyController::actionPendingpay(), Rpts_nrc_pending_payments_Model
+ */
+
+$pg = 'Pending Payments ';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+        'width' =>      1000,
+        'caption'               => 'Pending Payments for \''.Yii::app()->user->name.'\'',
+        'thisfile'              => $this->createUrl('accounts_history/pendingpay',array('model'=>$model_serialised)),
+        'datasource'            => $this->createUrl('accounts_history/getgriddataNrc_pending_payments',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_history/pendingpay.php -->

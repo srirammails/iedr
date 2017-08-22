@@ -1,0 +1,260 @@
+<!-- START protected/widgets/jqGrid/view.php -->
+<?php
+
+/**
+ * View file which outputs Html for a jqGrid widget
+ * 
+ * The JqGrid writes it's html onto the page at page load, into the content of two html tags:
+ * 
+ * - <table id="thisJqGrid">
+ * 
+ * - <div id="thisJqGridPager">
+ * 
+ * After the grid html has been written, the grid javascript then loads data from the supplied URL,
+ * expecting it in JSON format.
+ * The PHP below sets up the grid functions to correctly format the data, and also to tell the grid
+ * about the columns (number, types, etc) and options (searchin/sorting etc).
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       view.php, jqGridWidget, jqGridComandButtonsWidget, GridModelBase
+ */
+
+# "$this" = jqGridWidget instance
+// TODO: capture date filter as a date range
+$datasource=$this->datasource;
+$thisfile=$this->thisfile;
+$caption=$this->caption;
+$numrows=$this->numrows;
+$width = $this->width;
+$do_sorting = $this->sorting;
+$sortcolumnname = $this->model->defaultSortColumn;
+$do_searching = $this->searching ? 'true' : 'false';
+$selections = $this->selections;
+$colNamesArr = '';
+$colModelData = '';
+if($this->model != null)
+	{
+	// column-names array for jqGrid constructor
+	$i=1; $n=count($this->model->columns);
+	foreach($this->model->columns as $k => $v)
+		{
+		$l = $v['label'];
+		$colNamesArr .= "'$l'";
+		if($i++ < $n)
+			$colNamesArr .= ',';
+		}
+	// JqGrid column model Options : http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options
+	foreach($this->model->columns as $k => $v)
+		{
+		$cwidth  = isset($v['width']) ? $v['width'] : 0;
+		$search  = 'search:'.  (($do_searching and isset($v['criteriafield']) and ($v['criteriafield']!=null)) ? 'true' : 'false');
+		if(isset($v['selectlist']))
+			{
+			$search .= ', stype: "select", sopt: "eq", searchoptions: { value:"'.$v['selectlist'].'" }';
+			}
+		$sort    = 'sortable:'. ($do_sorting? 'true, sorttype:"'.$v['type'].'"' : 'false');
+		$format  = '';
+		if(isset($v['link'])) {
+			$format .= ', formatter:linkFormatter, formatoptions:{addParam:"'.$v['resultfield'].'",baseLinkUrl:"'.$v['link'].'"}';
+			}
+		if(isset($v['type']))
+			{
+			switch($v['type'])
+				{
+				// see http://www.trirand.com/jqgridwiki/doku.php?id=wiki:predefined_formatter#predefined_format_types
+				case 'date':
+					$format .= ', formatter:"date", "formatoptions":{ "srcformat":"Y-m-d", "newformat":"Y-m-d"}';
+					break;
+				case 'currency':
+					$format .= ', formatter:currencyFormatter';
+					break;
+				case 'email':
+					$format .= ', formatter:emailFormatter';
+					break;
+				case 'hidden':
+					$format .= ', hidden:true';
+					break;
+				}
+			}
+		if($colModelData != '') $colModelData .= ",";
+		$colModelData .= BR."{ name:'$k', index:'$k', width:$cwidth, $search, $sort $format }";
+		}
+	}
+?>
+<script type="text/javascript">
+function setCookie(k,v,expdays)
+	{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + (expdays===null?3:expdays));
+	document.cookie = k+"="+escape(v)+"; expires="+exdate.toUTCString();
+	}
+
+function getCookie(k)
+	{
+	var i,x,y,ARRcookies=document.cookie.split(";");
+	for (i=0;i<ARRcookies.length;i++)
+		{
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		if (x===k)
+			{
+			return unescape(y);
+			}
+		}
+	}
+
+function emailFormatter(e) {
+	return '<a href="mailto:'+e+'">'+e+'</a>';
+	}
+
+function currencyFormatter(num) {
+	/* render a number in html with currency symbol, 2 decimal places, thousands separators, and half-even rounding (http://www.diycalculator.com/sp-round.shtml#A5) */
+	csym = "&euro;";
+	if(num==null) return csym+' 0.00';
+	num = num.toString().replace(/\$|\,/g,'');
+	if(isNaN(num))
+		num = "0";
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num*100+0.50000000001);
+	cents = num%100;
+	num = Math.floor(num/100).toString();
+	if(cents<10)
+		cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+		num = num.substring(0,num.length-(4*i+3))+','+num.substring(num.length-(4*i+3));
+	return (((sign)?'':'-')+csym+' '+num+'.'+cents);
+	}
+
+function linkFormatter(cellvalue, options, rowObject)
+	{
+	var link =  options.colModel.formatoptions.baseLinkUrl+'&id='+cellvalue;
+	return '<a href="index.php?r='+ link +'">'+cellvalue+'</a>';
+	}
+
+function checkBoxClicked(s)
+	{
+	if(window.handleCheckBoxClicked) { handleCheckBoxClicked(s); }
+	}
+
+function getNumGridRows()
+	{
+	var numrows = <?php echo $numrows; ?>;
+	var cookienumrows = getCookie("numrows");
+	if(cookienumrows != null && cookienumrows>0)
+		numrows = cookienumrows;
+	setCookie("numrows",numrows,3);
+	return numrows;
+	}
+</script>
+
+<?php /* these next table and div tags are rewritten by jqGrid, using jquery functions, after page-load. */ ?>
+<table summary="grid" id="thisJqGrid"></table>
+<div id="thisJqGridPager"></div>
+
+<script type="text/javascript">
+
+function extractLinkText(t) {
+	// removes html tags
+	var rx = new RegExp(' *<[^>]*> *', "g");
+	return t.replace(rx, '');
+	}
+
+function index_handleSelectedRow(rowIndex)
+	{
+	// convert row-index to JSON-Data ID
+	var rowDataArr = jQuery("#thisJqGrid").getRowData();
+	var dom = rowDataArr[rowIndex].<?php echo $sortcolumnname; ?>;
+	handleSelectedRow(extractLinkText(dom));
+	}
+
+function getDataUrl(appendStr)
+	{
+	return "<?php echo $datasource; ?>"+appendStr;
+	}
+
+jQuery("#thisJqGrid").jqGrid({
+	/* jqGrid Options : http://www.trirand.com/jqgridwiki/doku.php?id=wiki:options */
+		hideGrid: false,
+		hoverrows: true,
+		rowList:[5,10,15,20,25,50,100],
+		pager: '#thisJqGridPager',
+		caption: "<?php echo $caption; ?>",
+		viewrecords: true,
+	/* jqGrid Events : http://www.trirand.com/jqgridwiki/doku.php?id=wiki:events */
+		onPaging: function(pgButton) { if(pgButton==="records") { var n = jQuery(".ui-pg-selbox option:selected").val(); setCookie("numrows",n,3); }; },
+<?php
+if($selections)
+	{
+?>
+		onSelectAll: function(rowIdxArray, sts) { if(window.handleSelectedRow) { jQuery(rowIdxArray).each( function(rowIndex) { index_handleSelectedRow(rowIndex); } ); } },
+		onSelectRow: function(rowid) { if(window.handleSelectedRow) { handleSelectedRow(rowid); } },
+		multiselect: true,
+<?php
+	}
+?>
+		colNames: [ <?php echo $colNamesArr; ?> ],
+		colModel: [ <?php echo $colModelData; ?> ],
+		datatype: 'json',
+		url: getDataUrl(''),
+		width: "<?php echo $width; ?>", height: "100%",
+		postData: { "oper":"grid" },
+		toolbar: [true,"top"],
+		rownumbers: true,
+		rowNum:getNumGridRows(),
+		sortname: "<?php echo $sortcolumnname; ?>",
+		sortorder: "asc"
+	});
+
+/* Toolbar Searching : http://www.trirand.com/jqgridwiki/doku.php?id=wiki:toolbar_searching */
+jQuery("#thisJqGrid").jqGrid('filterToolbar', { stringResult:true });
+
+/* Navigation Toolbar : http://www.trirand.com/jqgridwiki/doku.php?id=wiki:navigator */
+jQuery("#thisJqGrid").jqGrid('navGrid','#thisJqGridPager',
+		{ /* pager options */
+			add:false, del:false, edit:false,
+			search: <?php echo $do_searching; ?>,
+			refresh:true,
+			csv:true, excel:true,
+			position:'left'
+		},
+		{ /*edit options*/},
+		{ /*add options*/},
+		{ /*del options*/},
+		{ /*search dialog-box options*/
+			drag:true,
+			resize:true,
+			closeOnEscape:true,
+			dataheight:150,
+			datawidth:450,
+			closeAfterSearch:true,
+			multipleSearch:true
+		});
+
+/* Toolbar Export-As-Excel Button */
+jQuery('#thisJqGrid').jqGrid('navButtonAdd', '#thisJqGridPager', {
+	caption: '', title: 'Export To Excel',
+	onClickButton: function (e) {
+		try { jQuery("#grid").jqGrid('excelExport', { tag: 'excel', url: getDataUrl('&oper=excel') }); }
+		catch (ex1) { window.location = '<?php echo $thisfile; ?>'; }
+		},
+	buttonicon: 'ui-icon-newwin'
+	});
+
+/* Toolbar Export-As-CSV Button */
+jQuery('#thisJqGrid').jqGrid('navButtonAdd', '#thisJqGridPager',{
+	caption:'', title:'Export To CSV',
+	onClickButton : function(e) {
+		try { jQuery("#grid").jqGrid('excelExport',{tag:'csv', url: getDataUrl('&oper=csv') }); }
+		catch (ex2) { window.location= '<?php echo $thisfile; ?>'; }
+		},
+	buttonicon:'ui-icon-document'
+	});
+</script>
+<!-- END protected/widgets/jqGrid/view.php -->

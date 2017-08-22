@@ -1,0 +1,286 @@
+<!-- START protected/views/domains/domaindetails.php -->
+<?php
+/**
+ * View page for Domain Details
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Domains_Details, DomainsController::actionDomainDetails()
+ */
+
+$pg = 'Domain Details';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+
+/**
+ * nicHandleWidget Function: Outputs three hyperlinks which go to (and return from) pages for creating, finding and editing Nic-Handles
+ * 
+ * On some forms with Nic-Handle fields, it is desirable to be able to, at that point in the session,
+ * divert to a second form to create, find, or update Nic_Handle details.
+ * 
+ * This Fn assits in this in the following way:
+ * 
+ * - each nic-handle field in an originating form, to be returned to, has beside it the three
+ *    html links output by this function
+ * 
+ * - Each of these links has a javascript click-event handler which calls javascript function 'getDataAndPostForm'
+ * 
+ * - getDataAndPostForm() then reads the nic-handle from the adjacent nic-handle field, along with other
+ *   info including the URL to return to (i.e., the controller action rendering this view page), puts the data
+ *   into a hidden form, and posts the form to the appropriate URL.
+ * 
+ * @param  Controller $controller    controller handling the current request
+ * @param  string $nic_type      which nic-role (for updating the correct field, on return to this page)
+ * @param  string $inpIdNic2edit The html id attribute of the input tag of the corresponding Nic-handle form field
+ * @return void  
+ */
+function nicHandleWidget($controller,$nic_type,$inpIdNic2edit='LeftBlank') {
+	$urlDDS = $controller->createUrl('domains/domaindetailsserialized');
+	$form	= 'DomainDetailsForm';
+	$params = "'$nic_type','$form','$urlDDS','$inpIdNic2edit'";
+	echo '<a href="#" id="nicWidgetNew_'.$nic_type.'" onclick="getDataAndPostForm(\'new\','.$params.');">New</a> / ';
+	echo '<a href="#" id="nicWidgetFnd_'.$nic_type.'" onclick="getDataAndPostForm(\'find\','.$params.');">Find</a> / ';
+	echo '<a href="#" id="nicWidgetEdt_'.$nic_type.'" onclick="getDataAndPostForm(\'edit\','.$params.');">Edit</a>';
+	}
+
+$regarr = get_reg_prices();
+$registration_option_list = array();
+foreach($regarr['REG'] as $code => $prod)
+	$registration_option_list[$code] = $prod->description;
+
+?>
+<form method="post" id="hid">
+	<input type="hidden" id="tok"		name="YII_CSRF_TOKEN"	value="unset">
+	<input type="hidden" id="data"		name="formdata"		value="unset">
+	<input type="hidden" id="mode"		name="mode"		value="unset">
+	<input type="hidden" id="nictype"	name="nictype"		value="unset">
+	<input type="hidden" id="nic"		name="nic"		value="unset">
+	<input type="hidden" id="returnurl"	name="returnurl"	value="domains/domaindetails">
+</form>
+
+<script>
+function getDataAndPostForm(mode,nictype,srcf,serializeUrl,editNIC) {
+	// this fn called on click (link or button) does:
+	// (1) send form to server, gets serialized model back
+	// (2) sets up hidden form in this page
+	// (3) submits the form, navigating away to the next page
+
+	var dispatchUrl;
+	switch(mode) {
+		case "new":  dispatchUrl = 'index.php?r=nichandles/createnichandle'; break;
+		case "find": dispatchUrl = 'index.php?r=nicsearch/namesearch'; break;
+		case "edit":
+			var theNic = $('#'+editNIC).val();
+			dispatchUrl = 'index.php?r=nichandles/editnichandle&id='+theNic;
+			$("#hid #nic").val(theNic);
+			break;
+		}
+	// (1) post form ('srcf') to server, retrieve serialized model via ajax
+	$.post(serializeUrl, $("#"+srcf).serialize(), function(ajaxdata) {
+		// (2) set up form
+		$("#hid").attr("action",dispatchUrl);
+		$("#hid #data").val(ajaxdata); // the serialised form data
+		$("#hid #mode").val(mode); // new/find/edit
+		$("#hid #nictype").val(nictype); // which nic role for the mode (for updating the correct field, on return to this page)
+		// Yii doesn't set an ID for the token hidden-input, so find by name
+		var itok = $('#'+srcf+' input[name="YII_CSRF_TOKEN"]')[0];
+		// set hidform token value
+		var hitok = $("#hid #tok")[0];
+		$(hitok).val($(itok).val());
+		// (3) post form with serialized model
+		$("#hid").submit();
+		});
+	}
+</script>
+
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+$form=$this->beginWidget('CActiveForm', array(
+	'id'=>'DomainDetailsForm',
+	'enableAjaxValidation'=>true,
+	));
+$form->focus = array($model,'holder');
+?>
+	<p class="note">Please fill in the form below. <font color="red">Note:</font> Fields marked with an asterisk (*) must be completed.</p>
+	<table border="1" class="formfields">
+		<tbody>
+			<tr>
+				<td><?php // (available/valid) domains to be registered
+					echo $form->labelEx($model,'domainlist'); echo $form->error($model,'domainlist');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+							$domainlist_selections = array();
+							if($model->domainlist)
+								foreach($model->domainlist as $k => $v)
+									$domainlist_selections[$v] = array('selected'=>true);
+							else
+								$model->domainlist = array();
+							$selOptions = array();
+							foreach($model->domainlist as $k => $v)
+								$selOptions[$v] = $v;
+							echo $form->listBox($model,'domainlist',$selOptions,array('multiple'=>'multiple','options' => $domainlist_selections,));
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php
+					echo $form->labelEx($model,'holder'); echo $form->error($model,'holder');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php echo $form->textField($model,'holder'); ?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // applicant class
+					echo $form->labelEx($model,'applicant'); echo $form->error($model,'applicant');
+					?><ul>
+						<li><a href="http://www.iedr.ie/index.php/mnudomregs/mnuquickguide">Applicant Policies and Documentation Requirements</a><br>
+						<li><a href="http://www.iedr.ie/index.php/mnumods/mnufaq/105-discretionary-name-clarification">Discretionary Name guidelines</a><br>
+					</ul>
+				</td>
+				<td colspan="3">
+					<div class="row"><?php echo $form->dropDownList($model,'applicant',get_class_category()); ?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // registration period [] =1-year
+					echo $form->labelEx($model,'registration_period'); echo $form->error($model,'registration_period');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+						echo $form->dropDownList($model,'registration_period',$registration_option_list);
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // remarks (textarea) / w/chars-left
+				echo $form->labelEx($model,'remarks'); echo $form->error($model,'remarks');
+				?><br>eg. RBN/CRO No., CTM Number, Links to supporting information etc
+				</td>
+				<td colspan="3">
+					<div class="row"><?php
+					echo $form->textArea($model,'remarks',array('rows'=>3, 'cols'=>50));
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // admin contact 1 (nic) {must be from domain-holder organisation}
+				echo $form->labelEx($model,'admin_contact_nic_1'); echo $form->error($model,'admin_contact_nic_1');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+					echo $form->textField($model,'admin_contact_nic_1', array('class'=>'showupprcase')); nicHandleWidget($this,'admin_contact_nic_1','Domains_Details_admin_contact_nic_1');
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // admin contact 2 (nic)
+					echo $form->labelEx($model,'admin_contact_nic_2'); echo $form->error($model,'admin_contact_nic_2');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+						echo $form->textField($model,'admin_contact_nic_2', array('class'=>'showupprcase')); nicHandleWidget($this,'admin_contact_nic_2','Domains_Details_admin_contact_nic_2');
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // tech contact (nic)
+					echo $form->labelEx($model,'tech_contact'); echo $form->error($model,'tech_contact');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+						echo $form->textField($model,'tech_contact', array('class'=>'showupprcase')); nicHandleWidget($this,'tech_contact','Domains_Details_tech_contact');
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // billing contact {RO} (nic) =logged-in-nic
+					echo $form->labelEx($model,'billing_contact');
+					echo $form->error($model,'billing_contact');
+				?></td>
+				<td colspan="3">
+					<div class="row"><?php
+						echo $form->textField($model,'billing_contact',array('disabled'=>'disabled','size'=>'12'));
+					?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // nameserver 1 (fqdn)
+					echo $form->labelEx($model,'nameserver_name_1'); echo $form->error($model,'nameserver_name_1');
+				?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_name_1');
+					 ?></div>
+				</td>
+				<td><?php
+					echo $form->labelEx($model,'nameserver_addr_1'); echo $form->error($model,'nameserver_addr_1');
+				?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_addr_1');
+					 ?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // nameserver 2 (fqdn)
+					echo $form->labelEx($model,'nameserver_name_2'); echo $form->error($model,'nameserver_name_2');
+				?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_name_2');
+					 ?></div>
+				</td>
+				<td><?php
+					echo $form->labelEx($model,'nameserver_addr_2'); echo $form->error($model,'nameserver_addr_2');
+				?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_addr_2');
+					 ?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // nameserver 3 (fqdn)
+					echo $form->labelEx($model,'nameserver_name_3'); echo $form->error($model,'nameserver_name_3');
+					?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_name_3');
+					 ?></div>
+				</td>
+				<td><?php
+					echo $form->labelEx($model,'nameserver_addr_3'); echo $form->error($model,'nameserver_addr_3');
+				?></td>
+				<td>
+					<div class="row"><?php
+						echo $form->textField($model,'nameserver_addr_3');
+					 ?></div>
+				</td>
+			</tr>
+			<tr>
+				<td><?php // accept-t-and-c (checkbox)
+					echo $form->labelEx($model,'accept_tnc'); echo $form->error($model,'accept_tnc');
+					?></td>
+				<td colspan="3">
+					<div class="row"><?php
+						echo $form->checkBox($model,'accept_tnc');
+					?></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row buttons"><?php
+		echo CHtml::submitButton('Register Domain(s)');
+	?></div>
+<?php $this->endWidget(); ?>
+</div>
+
+<!-- END protected/views/domains/domaindetails.php -->

@@ -1,0 +1,202 @@
+<?php
+
+/**
+ * defines OfflineBatchSelectionModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * model for jqGrid data for offline batch payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       view_batch.php, Accounts_renewpayController::actionViewbatch(), Accounts_renewpayController::actionGetgriddatabatch()
+ */
+class OfflineBatchSelectionModel
+	extends ViewGridModelBase
+	{
+
+    /**
+     * Batch Session ID
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $session;
+
+    /**
+     * Invoice Number
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $Inv_No;
+
+    /**
+     * Batch Total
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $Batch_Total;
+
+    /**
+     * batch session ID
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $Sess_ID;
+
+    /**
+     * Transaction Date
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $Trans_Dt;
+
+    /**
+     * Remote IP Address
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $Remote_IP;
+
+    /**
+     * Regular Expression for validation Session IDs
+     * 
+     * @var    string
+     * @access public
+     * @static
+     * @see     http://www.regular-expressions.info/tutorial.html
+     */
+	static public $session_id_regex = '/^[A-Z0-9]{2,8}-IEDR-[0-9]{14}$/';
+
+    /**
+     * default sort column-key for grid data
+     * 
+     * @var    string
+     * @access public
+     */
+	var $defaultSortColumn = 'PK';
+
+    /**
+     * column model for jqGrid
+     * 
+     * @var    array 
+     * @access public
+     */
+	var $columns = array(
+			'PK' => array(
+				'label'=>'Domain',
+				'resultfield'=>'D_Name',
+				'criteriafield'=>'D_Name',
+				'width'=>12,
+				'type'=>'string',
+				'link'=>'domains/viewdomain',
+				),
+			'B' => array(
+				'label'=>'Holder',
+				'resultfield'=>'D_Holder',
+				'criteriafield'=>'D_Holder',
+				'width'=>30,
+				'type'=>'string',
+				),
+			'C' => array(
+				'label'=>'VAT',
+				'resultfield'=>'VAT',
+				'criteriafield'=>'VAT',
+				'width'=>4,
+				'type'=>'currency',
+				),
+			'D' => array(
+				'label'=>'Amount',
+				'resultfield'=>'Amount',
+				'criteriafield'=>'Amount',
+				'width'=>4,
+				'type'=>'currency',
+				),
+			);
+
+    /**
+     * constructor, holds session ID
+     * 
+     * @param  string $s batch session ID
+     * @return void   
+     * @access public 
+     */
+	public function __construct($s)
+		{
+		$this->session = $s;
+		}
+
+    /**
+     * returns data in array form with keys as per column-model
+     * 
+     * @param  array  $o array of data from 'view_batch' Sql query
+     * @return array   array of object attributes
+     * @access public
+     * @see    Accounts_renewpayController::getPartialQuery(), OfflineBatchSelectionModel::columns
+     */
+	public function addResults($o)
+		{
+		$arr = parent::addResults($o);
+		$arr['B'] = cleanString($o['D_Holder']);
+		return $arr;
+		}
+
+    /**
+     * returns validation rules array
+     * 
+     * @return rules  validation rules array
+     * @access public
+     */
+	public function rules()
+		{
+		return array(
+			array('session', 'required'),
+			array('session', 'isSessionValid'),
+			);
+		}
+
+    /**
+     * returns Yii attribute labels
+     * 
+     * @return array  labels array
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return array(
+			'session'=>'Session ID',
+			);
+		}
+
+    /**
+     * validates session ID
+     * 
+     * @return boolean  true if valid
+     * @access public
+     * @see    OfflineBatchSelectionModel::session_id_regex
+     */
+	public function isSessionValid()
+		{
+		return preg_match(self::$session_id_regex,$session)==1;
+		}
+	}
+

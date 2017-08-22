@@ -1,0 +1,59 @@
+<!-- START protected/views/site/pages/PolicyGuidelines.php -->
+<?php
+/**
+ * View page for Policy Guidelines
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$view='files/docs/'; ?>
+<center><h2>Policy Guidelines</h2></center>
+<div class="padded"> 
+<br>
+<h2>Pending RBN applications</h2>
+<p class="content">
+The following document contains clarification on what documentation is/is not acceptable in relation to an application for a .ie domain name submitted on the basis of a pending RBN.
+<br>
+Click <a href="<?php echo $view; ?>Pending_RBN_clarification.pdf">here</a> to view/download this document.
+
+</p>
+<br>
+<h2>CLARIFICATION FOR RBN</h2>
+<p class="content">
+There has been a change with CRO procedures for issuing receipts in relation to RBN applications.  In the first instance, the IEDR requires a form of information/documentation that is independently verifiable.  <br>Ciara posted clarification for this on the Console. Please see link:
+</p>
+<a href="<?php echo $view; ?>Pending_RBN_clarification.pdf">Pending RBN Clarification</a>
+
+<p class="content">
+The confusion arose when the CRO started to issue email receipts.  The receipts that they now issue contain submission numbers which may or may not be verifiable on their website/Vision-net etc.  <br>If we can verify the number, then we accept it.  However, the emails that arrive give no indication that they come from the CRO.   After consultation with the CRO they have now agreed to issue receipts in pdf format, if specifically asked, via the email info@cro.ie. We confirm that this is all we require.
+</p>
+
+<br>
+
+<h2>Billing transfer authorisation</h2>
+<p class="content">
+Please note that transfer requests received by the IEDR will only be actioned within 90 days of receipt.  A transfer request is normally processed within 2 hours of receipt however if the transfer request does not proceed for any reason, ie., the domain name is locked or the customer has asked us to hold off on transferring the domain name, we will only act on the fax if requested to do so within 90 days.  If more than 90 days has passed we must receive a new request.
+</p>
+
+<br>
+
+<h2>Multi-Year Registration Guidelines</h2>
+<p class="content">
+We introduced Multi-Year Registrations or MYR at 6pm on Wednesday, 13th August 2008. This facility allows resellers to register new domains for a period of 1 to 10 years via the Reseller Console registration form and the API. Pricing is calculated as: Year x Reseller Rate (€20) 
+</p>
+<p class="content">
+Resellers wishing to use this new functionality must have funds deposited on their IEDR Deposit account. Please contact the IEDR Accounts Department, by email <a href="mailto:accounts@domainregistry.ie">accounts@domainregistry.ie</a> or telephone +353 1 2365422, to arrange this. If resellers do not have sufficient funds on their account, the ticket(s) will remain in the ticket queue until the Reseller deposits an appropriate amount to cover the registration costs.
+
+</p>
+
+<b></b><p class="content">
+<b>To view our guide and FAQ for multi year registrations please click <a href="<?php echo $view; ?>multi_year_reg_faq.pdf">here</a></b>
+</p>
+
+<!-- END protected/views/site/pages/PolicyGuidelines.php -->

@@ -1,0 +1,261 @@
+<?php
+
+/**
+ * defines Accounts_renewpayController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * controller that handles renewals and payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class Accounts_renewpayController
+	extends SQLGridController
+	{
+
+    /**
+     * render menu page
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * renders grid page for view of outstanding batch payments
+     * 
+     * @return void  
+     * @access public
+     * @see    outstanding_payments.php, OutstandingPaymentsModel, Accounts_renewpayController::actionGetgriddataop()
+     */
+	public function actionOutstanding_payments()
+		{
+		Yii::log('Enter', 'debug', 'Accounts_renewpayController::actionOutstanding_payments()');
+		$this->type = 'outstanding_payments';
+	   	$model = new OutstandingPaymentsModel();
+		$this->performAjaxValidation($model);
+		if(Yii::app()->request->isPostRequest and isset($_POST['OutstandingPaymentsModel']))
+			$model->attributes=$_POST['OutstandingPaymentsModel'];
+		$model->totalrows = $this->getNumRows($model,null,null);
+		$this->render('outstanding_payments',array('model'=>$model));
+		}
+
+    /**
+     * outputs jqGrid data for outstanding batch payments
+     * 
+     * @return unknown unknown
+     * @access public 
+     * @see    outstanding_payments.php, OutstandingPaymentsModel, Accounts_renewpayController::actionOutstanding_payments()
+     */
+	public function actionGetgriddataop()
+		{
+		Yii::log('Enter', 'debug', 'Accounts_renewpayController::actionGetgriddataop()');
+		$this->type = 'outstanding_payments';
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * renders jqGrid view of all the elements of a single batch-payment
+     * 
+     * @return void  
+     * @access public
+     * @see    view_batch.php, OfflineBatchSelectionModel, Accounts_renewpayController::actionGetgriddatabatch()
+     */
+	public function actionViewbatch()
+		{
+		Yii::log('Enter', 'debug', 'Accounts_renewpayController::actionViewbatch()');
+		$this->type = 'view_batch';
+		$obs_model = new OfflineBatchSelectionModel($_GET['id']);
+		if(! $obs_model->validate() )
+			$obs_model = null;
+		else
+			$this->setBatchDetailsToModel($obs_model->session, $obs_model);
+		$this->render('view_batch',array('model'=>$obs_model));
+		}
+
+    /**
+     * outputs the grid data for all the elements of a single batch-payment
+     * 
+     * @return unknown unknown
+     * @access public 
+     * @see    view_batch.php, OfflineBatchSelectionModel, Accounts_renewpayController::actionViewbatch()
+     */
+	public function actionGetgriddatabatch()
+		{
+		Yii::log('Enter', 'debug', 'Accounts_renewpayController::actionGetgriddatabatch()');
+		$this->type = 'view_batch';
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * handle remove-from-batch grid confirm action
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_renewpay/confirm_action.php, accounts_renewpay/results.php
+     */
+	public function actionConfirm_removefrombatch()
+		{
+		// grid command buttons POST to here 1) command name 2) selected domain list
+		// redirects to confirmaction
+		$this->type = 'remove_from_batch';
+		$this->showConfirmPage();
+		}
+
+    /**
+     * renders deposit account top-up
+     * 
+     * @return void
+     * @access public 
+     * @see    topup.php, AccountTopUpModel, Accounts_renewpayController::deposit_funds()
+     */
+	public function actionTopup()
+		{
+		$atu_model = new AccountTopUpModel();
+		$atu_model->setScenario('topup');
+		Yii::log('Enter', 'debug', 'Accounts_renewpayController::actionTopup()');
+		$this->performAjaxValidation($atu_model);
+		if(Yii::app()->request->isPostRequest and isset($_POST['AccountTopUpModel']))
+			{
+			$atu_model->setFromPOST($_POST['AccountTopUpModel']);
+			if($atu_model->validate())
+				{
+				if($this->deposit_funds($atu_model))
+					{
+					Yii::log('deposit OK', 'debug', 'Accounts_renewpayController::actionTopup()');
+					$atu_model->message = 'TRANSACTION_OK';
+					}
+				else
+					{
+					Yii::log('deposit FAILED', 'debug', 'Accounts_renewpayController::actionTopup()');
+					$atu_model->error = $this->backend_errors;
+					}
+				}
+			}
+		Yii::log('display, maybe w/ errs', 'debug', 'Accounts_renewpayController::actionTopup()');
+		// error/fallback : redisplay form with errors
+		$this->render('topup',array('model'=>$atu_model));
+		}
+
+    /**
+     * copies attributes from batch details to a model
+     * 
+     * @param  string    $session batch session ID
+     * @param  OfflineBatchSelectionModel    $model   batch selections model
+     * @return void     
+     * @access protected
+     */
+	protected function setBatchDetailsToModel($session, $model)
+		{
+		$bd = get_batch_details($session);
+
+		$model->Inv_No		= $bd->Inv_No;
+		$model->Batch_Total	= $bd->Batch_Total;
+		$model->Sess_ID		= $bd->Sess_ID;
+		$model->Trans_Dt	= $bd->Trans_Dt;
+		$model->Remote_IP	= $bd->Remote_IP;
+		}
+
+    /**
+     * get base for view to render
+     * 
+     * @return string    controller component of view-path to render
+     * @access protected
+     */
+	protected function getViewBase()
+		{
+		return '/accounts_renewpay/';
+		}
+
+    /**
+     * performs grid commands on selected grid items; 'remove_from_batch' deletes domains from the supplied batch offline payment session.
+     * 
+     * @param  mixed     $gsc_model data model
+     * @return void     
+     * @access protected
+     */
+	protected function execCommand($gsc_model)
+		{
+		// called from Grid::actionConfirmaction()
+		switch($gsc_model->command)
+			{
+			case 'remove_from_batch':
+				foreach($gsc_model->domainListToArray() as $d)
+					{
+					$session = $gsc_model->invoiceType; // due to Ugly Hack
+					$ok = delete_domain_from_batch($session,$d);
+					if(!$ok)
+						$this->backend_errors[$d] = $e;
+					else
+						$this->setBatchDetailsToModel($session, $gsc_model);
+					Yii::log('remove_from_batch('.$gsc_model->session.','.$d.') done, backend_errors='.print_r($this->backend_errors,true), 'debug', 'Accounts_renewpayController::execCommand()');
+					}
+				break;
+			}
+		}
+
+    /**
+     * performs the fund deposit function via CRS-WS-API, which uses RealEx from the java middle tier
+     * 
+     * @param  AccountTopUpModel   $model data model
+     * @return boolean   true on success
+     * @access protected
+     * @see    https://resourcecentre.realexpayments.com/products.html?id=124
+     */
+	protected function deposit_funds($model)
+		{
+		$result = null;
+		$payreq = CreditCardFormSegmentModel::asWSAPIPaymentObject($model);
+		$ret = CRSPaymentAppService_service::depositFunds($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $payreq);
+		if(!$ret)
+			// errs may contain 'AccessDeniedException','PaymentException',
+			Yii::log(print_r($this->backend_errors,true), 'error', 'Accounts_renewpayController::deposit_funds()');
+		else
+			{
+			Yii::log(print_r($result,true), 'debug', 'Accounts_renewpayController::deposit_funds() : SUCCESS');
+			// invalidate cached value
+			invalidate_DepositBalance(Yii::app()->user->authenticatedUser->username);
+			}
+		return $ret;
+		}
+
+    /**
+     * returns sql fragment to the parent class for grid-data fetching
+     * 
+     * @param  OfflineBatchSelectionModel  $model    selection model
+     * @param  string $criteria search criteria
+     * @return string sql query
+     * @access public
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		$u = Yii::app()->user->name;
+		$query = '';
+		switch($this->type)
+			{
+			case 'outstanding_payments':
+				$query = 'select * from nrc_mngoff_sessions where Nic_Handle=\''.$u.'\'';
+				break;
+			case 'view_batch':
+				$query = 'select p.*, d.D_Holder from PendingPayment p, Domain d where p.D_Name=d.D_Name AND Sess_ID = \''.$model->session.'\'';
+				break;
+			}
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+		}
+	}
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+        "-//OpenSymphony Group//XWork Validator Config 1.0//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-config-1.0.dtd">
+
+<validators>
+    <!--<validator name="ipaddress" class="pl.nask.crs.web.validators.IPAddress" />-->
+    
+    <!-- (example of a validator configured by Spring !!!) 
+    	Checks, if the given value is a valid ip address
+    -->            
+    <validator name="ipaddress" class="ipaddressValidator" />
+        
+    <validator name="domainName" class="pl.nask.crs.web.validators.DomainName" />
+    
+    <!-- checks, if the given value is a valid nic handle (uses contactSearchService to check, if nic handle exists in the database) -->
+    <validator name="contact" class="contactValidator" />
+    <validator name="nsName" class="nsNameValidator" />
+    <validator name="nsIP" class="nsIPValidator"/>
+    <validator name="ns" class="nsValidator"/>
+    <validator name="phone" class="phoneValidator"/>
+    <validator name="contactAccount" class="contactAccountValidator"/>
+    <validator name="phoneLength" class="phoneLengthValidator"/>
+    <validator name="category" class="categoryValidator"/>
+    <validator name="bigdecimal" class="bigDecimalValidator"/>
+    <validator name="emailgroup" class="emailGroupValidator"/>
+
+    <validator name="ticketNameserverCount" class="ticketNameserverCountValidator"/>
+    <validator name="ticketNameserverDuplication" class="ticketNameserverDuplicationValidator"/>
+    <validator name="ticketNameserverDomain" class="ticketNameserverDomainValidator"/>
+    <validator name="ticketNameserverGlueRequired" class="ticketNameserverGlueRequiredValidator"/>
+    <validator name="ticketNameserverGlueNotAllowed" class="ticketNameserverGlueNotAllowedValidator"/>
+    <validator name="ticketNameserverIpv4" class="ticketNameserverIpv4Validator"/>
+
+</validators>
+
+

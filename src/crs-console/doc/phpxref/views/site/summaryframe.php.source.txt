@@ -1,0 +1,84 @@
+<!-- START protected/views/site/summaryframe.php -->
+<?php
+/**
+ * View page for Account Summary IFrame
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       SiteController::actionSummaryFrame()
+ */
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+	<!-- blueprint CSS framework -->
+	<link rel="stylesheet" type="text/css" href="css/screen.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="css/print.css" media="print" />
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" type="text/css" href="css/ie.css" media="screen, projection" />
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+	<link rel="stylesheet" type="text/css" href="css/form.css" />
+
+	<script src="jqGrid4/js/jquery-1.6.1.src.js"></script>
+	<script>
+	function asyncload(tag){
+	    $.ajax({
+		    url: "<?php echo $this->createUrl('site/summary&id='); ?>"+tag,
+		    success: function(str) { $("#stats_"+tag).html(str); }
+		});
+	    }
+	$.ajaxSetup ({ cache: true });
+	</script>
+</head>
+<table align="center" width="100%">
+	<tr> 
+		<td class="summarytablecell"  colspan="2" align="left"><b>User: <?php print(Yii::app()->user->name); ?></b></td> 
+		<td class="summarytablecell"  colspan="2" align="center"><b><?php print(date('D dS M, Y g:m a')); ?></b></td> 
+		<td class="summarytablecell"  align="left">Domain Count :</td> 
+		<td class="summarytablecell"  align="left"><span id="stats_DomainCount"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+	</tr> 
+	<tr> 
+		<td class="summarytablecell"  width="18%"  align="left">Ticket Count :</td> 
+		<td class="summarytablecell"  width="7%"   align="left"><span id="stats_TicketCount"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="18%"  align="left">New Regs (This Month) :</td> 
+		<td class="summarytablecell"  width="7%"   align="left"><span id="stats_NewRegs"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="18%"  align="left">Pending Tickets :</td> 
+		<td class="summarytablecell"  width="7%"   align="left"><span id="stats_PendingTickets"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="15%"  align="left">Transfers In (last 30 days) :</td> 
+		<td class="summarytablecell"  width="9%"   align="left"><span id="stats_TransfersIn"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+	</tr> 
+	<tr> 
+		<td class="summarytablecell"  width="18%"  align="left">Passed Tickets :</td> 
+		<td class="summarytablecell"  width="7%"   align="left"><span id="stats_PassedTickets"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="18%"  align="left">Transfers Out (last 30 days) :</td> 
+		<td class="summarytablecell"  width="7%"   align="left"><span id="stats_TransfersOut"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="10%"  align="left">Statement Balance :</td> 
+		<td class="summarytablecell"  width="10%"  align="left">&euro; <span id="stats_StatementBalance"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+		<td class="summarytablecell"  width="15%"  align="left">Deposit Balance :</td> 
+		<td class="summarytablecell"  width="9%"   align="left">&euro; <span id="stats_DepositBalance"><img width="7" height="7" src='images/loading.gif' alt='loading...' /></span></td>
+	</tr> 
+</table>
+<script>
+    function getAccountStats() {
+        // sorted in order of quickest first
+        asyncload("TicketCount");
+        asyncload("StatementBalance");
+        asyncload("DepositBalance");
+        asyncload("NewRegs");
+        asyncload("TransfersIn");
+        asyncload("TransfersOut");
+        asyncload("PassedTickets");
+        asyncload("PendingTickets");
+        asyncload("DomainCount");
+        }
+    setTimeout(getAccountStats,100); // milliseconds
+</script>
+
+<!-- END protected/views/site/summaryframe.php -->

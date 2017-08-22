@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class NicHandleIdentity</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> NicHandleIdentity</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Extends Yii CUserIdentity to authenticate with CRS-WS API Authentication etc</p>
+<p class="description"><p>Authenticates via CRS-WS API, also fetches User and Account data</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---NicHandleIdentity.php.html">/components/NicHandleIdentity.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a78">78</a></span>)
+		</p>
+		
+				
+		<pre>CUserIdentity
+   |
+   --NicHandleIdentity</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+												<div class="var-title">
+					<img src="../media/images/StaticVariable.png" alt=" " />
+					static <span class="var-type">string</span>
+					<a href="#$NOT_INTERNAL" title="details" class="var-name">$NOT_INTERNAL</a>
+				</div>
+																																				<div class="var-title">
+					<img src="../media/images/PrivateVariable.png" alt=" " />
+					<span class="var-type">integer</span>
+					<a href="#$_id" title="details" class="var-name">$_id</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																			
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#canSwitchAccounts" title="details" class="method-name">canSwitchAccounts</a>
+										()
+									</div>
+																																																																																							
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">authenticatedUserVO</span>
+										<a href="#getSuperUserAuthentication" title="details" class="method-name">getSuperUserAuthentication</a>
+										()
+									</div>
+																																			
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#authenticate" title="details" class="method-name">authenticate</a>
+										()
+									</div>
+																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#clearUserData" title="details" class="method-name">clearUserData</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#CRSAuthenticationFunction" title="details" class="method-name">CRSAuthenticationFunction</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$nichandle</span>, <span class="var-type">unknown</span>&nbsp;<span class="var-name">$nicpass</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#getAuthGroups" title="details" class="method-name">getAuthGroups</a>
+											(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#getDepositAccountLimits" title="details" class="method-name">getDepositAccountLimits</a>
+											(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">integer</span>
+										<a href="#getId" title="details" class="method-name">getId</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getLastInvoiceDate" title="details" class="method-name">getLastInvoiceDate</a>
+											(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">CRSNicHandleAppService_nicHandleVO</span>
+										<a href="#getNICDetails" title="details" class="method-name">getNICDetails</a>
+											(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#getResellerAccountDetails" title="details" class="method-name">getResellerAccountDetails</a>
+											(<span class="var-type">integer</span>&nbsp;<span class="var-name">$accid</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">CRSNicHandleAppService_resellerDefaultsVO</span>
+										<a href="#getResellerDefaults" title="details" class="method-name">getResellerDefaults</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$auvo</span>, <span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$user</span>)
+									</div>
+																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setUserData" title="details" class="method-name">setUserData</a>
+											(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#switchToAccount" title="details" class="method-name">switchToAccount</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$NOT_INTERNAL" id="$NOT_INTERNAL"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/StaticVariable.png" />
+		<span class="var-title">
+			static <span class="var-type">string</span>
+			<span class="var-name">$NOT_INTERNAL</span>
+			 = <span class="var-default"> 'NOT_INTERNAL'</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a88">88</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">static string indicating user is not an internal user</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+<a name="var$_id" id="$_id"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/PrivateVariable.png" />
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$_id</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a96">96</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Logged-in users Nic-Handle Account ID</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> private</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcanSwitchAccounts" id="canSwitchAccounts"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static canSwitchAccounts</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a149">149</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns true if the current user has permission to switch to another registrar's account - for certain internal users only</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true</li>
+				<li><span class="field">todo:</span> this implementation is incomplete - always returns true</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			canSwitchAccounts
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetSuperUserAuthentication" id="getSuperUserAuthentication"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static getSuperUserAuthentication</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a355">355</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns a authenticatedUserVO instance containing authentication tokens for the configured 'superuser',  used for some CRS-WS API requests needing higher authorization</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> superuser authorization token</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">authenticatedUserVO</span>
+		<span class="method-name">
+			getSuperUserAuthentication
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodauthenticate" id="authenticate"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">authenticate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a117">117</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Attempt authentication</p>
+<p class="description"><p>clears Yii Application Identity, and all user-related data, then attempts to authenticate via the backend CRS-WS API.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if authentication succeeded</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			authenticate
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodclearUserData" id="clearUserData"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">clearUserData</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a223">223</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Clears user-specific data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			clearUserData
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCRSAuthenticationFunction" id="CRSAuthenticationFunction"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">CRSAuthenticationFunction</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Authenticate login credentials via the CRS-WS API.</p>
+<p class="description"><p>On authentication success, loads user-specific data</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if successful</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			CRSAuthenticationFunction
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$nichandle</span>, <span class="var-type">unknown</span>&nbsp;<span class="var-name">$nicpass</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$nichandle</span><span class="var-description">: username (nic-handle)</span>			</li>
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$nicpass</span><span class="var-description">: password</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetAuthGroups" id="getAuthGroups"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getAuthGroups</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a309">309</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns an array of authorization groups that the current logged-in user belongs to, as per CRS-WS API</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of authorization groups</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getAuthGroups
+		</span>
+					(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$auvo</span><span class="var-description">: authentication token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDepositAccountLimits" id="getDepositAccountLimits"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getDepositAccountLimits</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a334">334</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sets the minimum and maximum deposit amounts permitted per transaction, for this account, by callint the CRS-WS API</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getDepositAccountLimits
+		</span>
+					(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$auvo</span><span class="var-description">: authentication token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetId" id="getId"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getId</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a104">104</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns Logged-in users Nic-Handle Account ID</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Logged-in users Nic-Handle Account ID</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			getId
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastInvoiceDate" id="getLastInvoiceDate"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getLastInvoiceDate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a411">411</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets last invoice date from CRS-WS API</p>
+<p class="description"><p>CRS-WS currently returns the last calendar day of the previous calendar month</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> date in string YYYY-MM-DD format</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastInvoiceDate
+		</span>
+					(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$auvo</span><span class="var-description">: authentication token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetNICDetails" id="getNICDetails"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getNICDetails</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a293">293</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets nic-handle details</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> nichandle data</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CRSNicHandleAppService_nicHandleVO</span>
+		<span class="method-name">
+			getNICDetails
+		</span>
+					(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$auvo</span><span class="var-description">: authentication token</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: nic handle</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetResellerAccountDetails" id="getResellerAccountDetails"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getResellerAccountDetails</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a384">384</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, via CRS-WS API, some account details for given account ID, with 'superuser' authentication token.</p>
+<p class="description"><p>Details fetched : <ul><li>tariff: one of { Deleted,RetailB,Silver,Trade,TradeA,TradeAChar,TradeB,TradeBChar }</li><li>agreementSigned: 0 or 1</li><li>ticketEdit: 0 or 1</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getResellerAccountDetails
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$accid</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$accid</span><span class="var-description">: Account ID</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetResellerDefaults" id="getResellerDefaults"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getResellerDefaults</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a275">275</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets reseller defaults</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> reseller defaults</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">CRSNicHandleAppService_resellerDefaultsVO</span>
+		<span class="method-name">
+			getResellerDefaults
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$auvo</span>, <span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$user</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$user</span><span class="var-description">: authentication token</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$auvo</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetUserData" id="setUserData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setUserData</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a249">249</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">reads and stores user-specific data</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setUserData
+		</span>
+					(<span class="var-type">authenticatedUserVO</span>&nbsp;<span class="var-name">$auvo</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">authenticatedUserVO</span>
+				<span class="var-name">$auvo</span><span class="var-description">: contains CRS-WS API username and authentication token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodswitchToAccount" id="switchToAccount"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">switchToAccount</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsNicHandleIdentity.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">switch to another registrar's account</p>
+<p class="description"><p>This function is called as an alternative to authentication, in the special case of user-switching.</p><p>The logged-in user, as stored in Yii::app()-&gt;user-&gt;actualInternalUser, is stored locally,  then the normal authentication process sets up the NicHandleIdentity as if the switch-to user  had authenticated successfully.  After this data setup, the Yii::app()-&gt;user-&gt;actualInternalUser is restored to it's previous  value.</p></p>
+	<ul class="tags">
+				<li><span class="field">todo:</span> As of &quot;CRS version r2746 (2011-06-21 11:54)&quot;, Nask have updated their Authentication API        to use a real cryptographic hash - instead of simply a copy of the username - as the API        authentication token, so the current strategy (this function) will no longer work.        What needs to be implemented instead a new CRS API that performs a &quot;login as&quot; functionality        using username, password, and login-as-username.        After NASK implement that, this class will need to be somewhat rewritten.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			switchToAccount
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:07 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

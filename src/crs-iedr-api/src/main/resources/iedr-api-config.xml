@@ -1,0 +1,246 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://jax-ws.dev.java.net/spring/core https://jax-ws.dev.java.net/spring/core.xsd
+    http://jax-ws.dev.java.net/spring/servlet https://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <import resource="classpath:crs-api-config.xml"/>
+
+	<bean id="pcSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/pc-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+	<bean id="pcDao" class="pl.nask.crs.iedrapi.persistentcommands.PersistedCommandIBatisImpl">
+		<property name="sqlMapClient" ref="pcSqlMapClient" />
+	</bean>
+
+    <bean id="commandHandlerHelper" class="pl.nask.crs.iedrapi.impl.CommandHandlerHelper">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="authenticationService"/>
+        <constructor-arg ref="domainAppService" />
+        <constructor-arg ref="ticketAppService" />
+        <constructor-arg ref="paymentAppService" />
+        <constructor-arg ref="billingStatusFactory" />
+		<constructor-arg ref="aStatusFactory" />
+        <constructor-arg ref="commonAppService"/>
+        <constructor-arg ref="domainSearchService"/>
+        <constructor-arg ref="countryFactory"/>
+    </bean>
+    
+    <bean id="abstractCommandHandler" class="pl.nask.crs.iedrapi.impl.AbstractCommandHandler">
+    	<property name="helper" ref="commandHandlerHelper" />
+    </bean>
+
+    <!-- authentication commands-->
+    <bean id="loginCommandHandler" class="pl.nask.crs.iedrapi.impl.LoginCommandHandler" parent="abstractCommandHandler" />
+    <bean id="logoutCommandHandler" class="pl.nask.crs.iedrapi.impl.LogoutCommandHandler" />
+
+
+    <!-- contacts related commands -->
+    <bean id="contactCreateCommandHandler" class="pl.nask.crs.iedrapi.impl.contact.ContactCreateCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="contactInfoCommandHandler" class="pl.nask.crs.iedrapi.impl.contact.ContactInfoCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="contactModifyCommandHandler" class="pl.nask.crs.iedrapi.impl.contact.ContactModifyCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="contactQueryCommandHandler" class="pl.nask.crs.iedrapi.impl.contact.ContactQueryCommandHandler" parent="abstractCommandHandler"/>
+
+    <!--domain related commands-->
+    <bean id="domainInfoCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainInfoCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainCheckCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainCheckCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainQueryCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainQueryCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainNrpCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainNrpCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainNrpCancelCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainNrpCancelCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainTransferCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainTransferCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainModifyCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainModifyCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="domainCreateCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainCreateCommandHandler" parent="abstractCommandHandler">
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+    <bean id="domainAutoCreateCommandHandler" class="pl.nask.crs.iedrapi.impl.domain.DomainAutoCreateCommandHandler" parent="abstractCommandHandler">
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+
+    <!--account related commands-->
+    <bean id="accountCheckDepositCommandHandler" class="pl.nask.crs.iedrapi.impl.account.AccountCheckDepositCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="accountDepositFundsHandler" class="pl.nask.crs.iedrapi.impl.account.AccountDepositFundsCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="accountPayHandler" class="pl.nask.crs.iedrapi.impl.account.AccountPayCommandHandler" parent="abstractCommandHandler"/>
+
+    <!--ticket related commands-->
+    <bean id="ticketInfoCommandHandler" class="pl.nask.crs.iedrapi.impl.ticket.TicketInfoCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="ticketQueryCommandHandler" class="pl.nask.crs.iedrapi.impl.ticket.TicketQueryCommandHandler" parent="abstractCommandHandler"/>
+    <bean id="ticketModifyCommandHandler" class="pl.nask.crs.iedrapi.impl.ticket.TicketModifyCommandHandler" parent="abstractCommandHandler" scope="prototype">
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+    <bean id="ticketDeleteCommandHandler" class="pl.nask.crs.iedrapi.impl.ticket.TicketDeleteCommandHandler" parent="abstractCommandHandler"/>
+
+    <bean id="APICommandExecutor" class="pl.nask.crs.iedrapi.CommandExecutorImpl">
+        <property name="loginHandler" ref="loginCommandHandler"/>
+        <property name="logoutHandler" ref="logoutCommandHandler"/>
+        <property name="handlerRegistry" ref="handlerRegistry" />
+    </bean>
+
+    <!-- request handler -->
+    <bean id="iedr_api" class="pl.nask.crs.iedrapi.IedrApiRequestHandler">
+        <property name="executor" ref="APICommandExecutor"/>
+        <property name="pcDAO" ref="pcDao" />
+        <property name="schemaFilesList">
+            <list>
+                <value>/ieapicom-1.3.xsd</value>
+                <value>/ieapi-1.3.xsd</value>
+                <value>/ieapi-contact-1.3.xsd</value>
+                <value>/ieapi-account-1.3.xsd</value>
+                <value>/ieapi-domain-1.3.xsd</value>
+                <value>/ieapi-ticket-1.3.xsd</value>
+                <value>/secDNS-1.1.xsd</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- command handlers registry -->
+
+    <bean id="handlerRegistry" class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistry">
+    	<constructor-arg>
+    	<list>
+    		 <!-- contact related commands -->
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="create" />
+    			<constructor-arg index="1" value="create" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_contact_1.CreateType" />
+    			<constructor-arg index="3" ref="contactCreateCommandHandler" />
+    		</bean>
+			<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="modify" />
+				<constructor-arg index="1" value="modify" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_contact_1.ModifyType" />
+    			<constructor-arg index="3" ref="contactModifyCommandHandler" />
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="query" />
+    			<constructor-arg index="1" value="query" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_contact_1.QueryType" />
+    			<constructor-arg index="3" ref="contactQueryCommandHandler" />
+    		</bean>
+			<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="info" />
+				<constructor-arg index="1" value="info" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_contact_1.SIDType" />
+    			<constructor-arg index="3" ref="contactInfoCommandHandler" />
+    		</bean>
+
+    		<!--  domain related commands -->
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="check" />
+    			<constructor-arg index="1" value="check" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.MNameType"/>
+    			<constructor-arg index="3" ref="domainCheckCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="create" />
+    			<constructor-arg index="1" value="create" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.CreateType"/>
+    			<constructor-arg index="3" ref="domainCreateCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="info" />
+    			<constructor-arg index="1" value="info" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.SNameType"/>
+    			<constructor-arg index="3" ref="domainInfoCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="modify" />
+    			<constructor-arg index="1" value="modify" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.ModifyType"/>
+    			<constructor-arg index="3" ref="domainModifyCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="nrp" />
+    			<constructor-arg index="1" value="nrp" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.MNameType"/>
+    			<constructor-arg index="3" ref="domainNrpCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="nrp" />
+    			<constructor-arg index="1" value="nrpCancel" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.MNameType"/>
+    			<constructor-arg index="3" ref="domainNrpCancelCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="query" />
+    			<constructor-arg index="1" value="query" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.QueryType"/>
+    			<constructor-arg index="3" ref="domainQueryCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="modify" />
+    			<constructor-arg index="1" value="transfer" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.TransferType"/>
+    			<constructor-arg index="3" ref="domainTransferCommandHandler"/>
+    		</bean>
+            <bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+                <constructor-arg index="0" value="create" />
+                <constructor-arg index="1" value="autocreate" />
+                <constructor-arg index="2" value="ie.domainregistry.ieapi_domain_1.CreateType"/>
+                <constructor-arg index="3" ref="domainAutoCreateCommandHandler"/>
+            </bean>
+            <!-- ticket related commands -->
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value="info" />
+    			<constructor-arg index="1" value="info" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_ticket_1.SNameType"/>
+    			<constructor-arg index="3" ref="ticketInfoCommandHandler"/>
+    		</bean>
+    		<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="query" />
+    			<constructor-arg index="1" value="query" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_ticket_1.QueryType"/>
+    			<constructor-arg index="3" ref="ticketQueryCommandHandler"/>
+    		</bean>
+			<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="modify" />
+    			<constructor-arg index="1" value="modify" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_ticket_1.ModifyType"/>
+    			<constructor-arg index="3" ref="ticketModifyCommandHandler"/>
+    		</bean>
+			<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+				<constructor-arg index="0" value="delete" />
+    			<constructor-arg index="1" value="delete" />
+    			<constructor-arg index="2" value="ie.domainregistry.ieapi_ticket_1.SNameType"/>
+    			<constructor-arg index="3" ref="ticketDeleteCommandHandler"/>
+    		</bean>
+
+            <!--account realted commands-->
+
+            <bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+                <constructor-arg index="0" value="pay" />
+                <constructor-arg index="1" value="checkDeposit" />
+                <constructor-arg index="2" value="ie.domainregistry.ieapi_account_1.CheckDepositType"/>
+                <constructor-arg index="3" ref="accountCheckDepositCommandHandler"/>
+            </bean>
+
+            
+            <bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+                <constructor-arg index="0" value="pay" />
+                <constructor-arg index="1" value="depositFunds" />
+                <constructor-arg index="2" value="ie.domainregistry.ieapi_account_1.DepositFundsType"/>
+                <constructor-arg index="3" ref="accountDepositFundsHandler"/>
+            </bean>
+            
+            <bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+                <constructor-arg index="0" value="pay" />
+                <constructor-arg index="1" value="pay" />
+                <constructor-arg index="2" value="ie.domainregistry.ieapi_account_1.PayType"/>
+                <constructor-arg index="3" ref="accountPayHandler"/>
+            </bean>
+
+            <!--<bean class="pl.nask.crs.iedrapi.handlerreg.HandlerRegistryEntry">
+    			<constructor-arg index="0" value=""/>
+    			<constructor-arg index="1" ref=""/>
+    		</bean>
+
+    	--></list>
+    	</constructor-arg>
+    </bean>
+</beans>

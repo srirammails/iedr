@@ -1,0 +1,92 @@
+/*
+	general css elements for pure html tags
+	for color defs see main.css
+*/
+
+body {
+	margin: 0;
+	padding: 0;
+
+	color: #4C4C4C; /* very darkgray color for main font color */
+	background: #f9f9f9; /* very light gray color for page background */
+
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 76%;
+	line-height: 1em;
+	text-align: left;
+}
+
+div {
+	font-size: 1em;
+}
+
+img {
+	border: 0;
+}
+
+table {
+	margin: 0;
+	padding: 0;
+
+	font-size: 1em;
+}
+
+th {
+	font-weight: bold;
+	text-align: left;
+}
+
+td {
+	font-size: 1em;
+}
+
+a,
+	a:link
+	a:active {
+
+	color: #4C4C4C; /* very darkgray color for main font color */
+	text-decoration: none;
+}
+
+a:visited {
+	color: #4C4C4C; /* very darkgray color for main font color */
+	background-color: transparent;
+}
+
+a:hover {
+	/*background-color: #9fd39d; *//* medium green color */
+	background: none;
+	text-decoration: none;
+}
+
+p {
+	margin: 0 0 1.5em 0;
+	padding: 0;
+
+	font-size: 1em;
+	line-height: 1.4em;
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+input, select, textarea {
+	padding-left: 5px;
+
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border: 1px solid #abaeab; /* dark gray color */
+	color: #4C4C4C; /* very darkgray color for main font color */
+}
+
+input, select {
+	vertical-align: middle;
+}
+
+input {
+}
+
+textarea {
+	width: 200px;
+	height: 8em;
+}

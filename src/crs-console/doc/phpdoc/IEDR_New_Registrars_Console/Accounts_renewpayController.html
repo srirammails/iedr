@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class Accounts_renewpayController</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Accounts_renewpayController</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">controller that handles renewals and payments</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_controllers---Accounts_renewpayController.php.html">/controllers/Accounts_renewpayController.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a26">26</a></span>)
+		</p>
+		
+				
+		<pre>CController
+   |
+   --<a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a>
+      |
+      --<a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a>
+         |
+         --<a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a>
+            |
+            --<a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a>
+               |
+               --<a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a>
+                  |
+                  --Accounts_renewpayController</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionConfirm_removefrombatch" title="details" class="method-name">actionConfirm_removefrombatch</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">unknown</span>
+										<a href="#actionGetgriddatabatch" title="details" class="method-name">actionGetgriddatabatch</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">unknown</span>
+										<a href="#actionGetgriddataop" title="details" class="method-name">actionGetgriddataop</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionMenu" title="details" class="method-name">actionMenu</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionOutstanding_payments" title="details" class="method-name">actionOutstanding_payments</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionTopup" title="details" class="method-name">actionTopup</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionViewbatch" title="details" class="method-name">actionViewbatch</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#deposit_funds" title="details" class="method-name">deposit_funds</a>
+											(<span class="var-type"><a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html">AccountTopUpModel</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#execCommand" title="details" class="method-name">execCommand</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$gsc_model</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getPartialQuery" title="details" class="method-name">getPartialQuery</a>
+											(<span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$criteria</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#getViewBase" title="details" class="method-name">getViewBase</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#setBatchDetailsToModel" title="details" class="method-name">setBatchDetailsToModel</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$session</span>, <span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$defaultDateRange">SQLGridController::$defaultDateRange</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$exportFileName">SQLGridController::$exportFileName</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#var$type">SQLGridController::$type</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#var$backend_errors">AuthOnlyBaseController::$backend_errors</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$breadcrumbs">Controller::$breadcrumbs</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$layout">Controller::$layout</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/Controller.html#var$menu">Controller::$menu</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodactionConfirm_removefrombatch" id="actionConfirm_removefrombatch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionConfirm_removefrombatch</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a111">111</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">handle remove-from-batch grid confirm action</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> accounts_renewpay/confirm_action.php, accounts_renewpay/results.php</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionConfirm_removefrombatch
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionGetgriddatabatch" id="actionGetgriddatabatch"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionGetgriddatabatch</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a97">97</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">outputs the grid data for all the elements of a single batch-payment</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> unknown</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---view_batch.php.html">view_batch.php</a>, <a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methodactionViewbatch">Accounts_renewpayController::actionViewbatch()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">unknown</span>
+		<span class="method-name">
+			actionGetgriddatabatch
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionGetgriddataop" id="actionGetgriddataop"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionGetgriddataop</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a64">64</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">outputs jqGrid data for outstanding batch payments</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> unknown</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---outstanding_payments.php.html">outstanding_payments.php</a>, <a href="../IEDR_New_Registrars_Console/OutstandingPaymentsModel.html">OutstandingPaymentsModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methodactionOutstanding_payments">Accounts_renewpayController::actionOutstanding_payments()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">unknown</span>
+		<span class="method-name">
+			actionGetgriddataop
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionMenu" id="actionMenu"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionMenu</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a36">36</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">render menu page</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionMenu
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionOutstanding_payments" id="actionOutstanding_payments"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionOutstanding_payments</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a45">45</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">renders grid page for view of outstanding batch payments</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---outstanding_payments.php.html">outstanding_payments.php</a>, <a href="../IEDR_New_Registrars_Console/OutstandingPaymentsModel.html">OutstandingPaymentsModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methodactionGetgriddataop">Accounts_renewpayController::actionGetgriddataop()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionOutstanding_payments
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionTopup" id="actionTopup"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionTopup</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a126">126</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">renders deposit account top-up</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---topup.php.html">topup.php</a>, <a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html">AccountTopUpModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methoddeposit_funds">Accounts_renewpayController::deposit_funds()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionTopup
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodactionViewbatch" id="actionViewbatch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionViewbatch</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a78">78</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">renders jqGrid view of all the elements of a single batch-payment</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---view_batch.php.html">view_batch.php</a>, <a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a>, <a href="../IEDR_New_Registrars_Console/Accounts_renewpayController.html#methodactionGetgriddatabatch">Accounts_renewpayController::actionGetgriddatabatch()</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionViewbatch
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddeposit_funds" id="deposit_funds"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">deposit_funds</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a219">219</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">performs the fund deposit function via CRS-WS-API, which uses RealEx from the java middle tier</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true on success</li>
+				<li><span class="field">see:</span> <a href="https://resourcecentre.realexpayments.com/products.html?id=124">https://resourcecentre.realexpayments.com/products.html?id=124</a></li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			deposit_funds
+		</span>
+					(<span class="var-type"><a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html">AccountTopUpModel</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html">AccountTopUpModel</a></span>
+				<span class="var-name">$model</span><span class="var-description">: data model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodexecCommand" id="execCommand"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">execCommand</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a191">191</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">performs grid commands on selected grid items; 'remove_from_batch' deletes domains from the supplied batch offline payment session.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			execCommand
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$gsc_model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$gsc_model</span><span class="var-description">: data model</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/GridController.html#methodexecCommand">GridController::execCommand()</a></dt>
+						<dd>command executor</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetPartialQuery" id="getPartialQuery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getPartialQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a244">244</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns sql fragment to the parent class for grid-data fetching</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> sql query</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPartialQuery
+		</span>
+					(<span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$criteria</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>
+				<span class="var-name">$model</span><span class="var-description">: selection model</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$criteria</span><span class="var-description">: search criteria</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetPartialQuery">SQLGridController::getPartialQuery()</a></dt>
+						<dd>placeholder function for returning sql query for appending ordering and limiting clauses, or running as a subquery to a count(*)</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetViewBase" id="getViewBase"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getViewBase</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a179">179</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get base for view to render</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> controller component of view-path to render</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getViewBase
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetViewBase">GridController::getViewBase()</a></dt>
+						<dd>get base for view to render</dd>
+					</dl>
+			
+	</div>
+<a name="methodsetBatchDetailsToModel" id="setBatchDetailsToModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">setBatchDetailsToModel</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__controllersAccounts_renewpayController.php.html#a162">162</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">copies attributes from batch details to a model</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setBatchDetailsToModel
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$session</span>, <span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$session</span><span class="var-description">: batch session ID</span>			</li>
+					<li>
+				<span class="var-type"><a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html">OfflineBatchSelectionModel</a></span>
+				<span class="var-name">$model</span><span class="var-description">: batch selections model</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/SQLGridController.html">SQLGridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodcriteriaToSQL">SQLGridController::criteriaToSQL()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetData">SQLGridController::getData()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetDateStr">SQLGridController::getDateStr()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetExportFilenameTag">SQLGridController::getExportFilenameTag()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetNumRows">SQLGridController::getNumRows()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetPartialQuery">SQLGridController::getPartialQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methodgetQuery">SQLGridController::getQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/SQLGridController.html#methoduncached_getNumRows">SQLGridController::uncached_getNumRows()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/GridController.html">GridController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionConfirmaction">GridController::actionConfirmaction()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodactionGetgriddata">GridController::actionGetgriddata()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodexecCommand">GridController::execCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetData">GridController::getData()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetDataReq">GridController::getDataReq()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetExportFilenameTag">GridController::getExportFilenameTag()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModel">GridController::getSelectionModel()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetSelectionModelName">GridController::getSelectionModelName()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodgetViewBase">GridController::getViewBase()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodprocessGridActionCommand">GridController::processGridActionCommand()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/GridController.html#methodshowConfirmPage">GridController::showConfirmPage()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/ReturningController.html">ReturningController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormHtml">ReturningController::outputReturningFormHtml()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningController.html#methodoutputReturningFormJS">ReturningController::outputReturningFormJS()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodaccessRules">AuthOnlyBaseController::accessRules()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodfilters">AuthOnlyBaseController::filters()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodgetModelFromQuery">AuthOnlyBaseController::getModelFromQuery()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodreturnToUrlButton">AuthOnlyBaseController::returnToUrlButton()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeDeserializeObj">AuthOnlyBaseController::safeDeserializeObj()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodsafeSerializeObj">AuthOnlyBaseController::safeSerializeObj()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodactionSwitchuser">Controller::actionSwitchuser()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodlog">Controller::log()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/Controller.html#methodperformAjaxValidation">Controller::performAjaxValidation()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:39 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * defines SQLDateSelectGridController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Controller which handles date-constraints for 7 types of query, making use of 'year' and 'month' model attributes
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class SQLDateSelectGridController
+        extends SQLGridController
+        {
+
+
+    /**
+     * return sql where-clause fragment containing constraints for the passed column(s), using model attributes 'month' and 'year', for various types of query, as specified by $this->type
+     * 
+     * @param  array     $column array of one or more phoenixdb-table-column-names to return date-constraints for
+     * @param  object    $model  model containing constraint data: model->days
+     * @return string    sql where-clause fragment
+     * @access protected
+     */
+	protected function getDateStr($column, $model){
+
+		/*
+		BUG this will always return timestamp of current time ; test example :
+			php -r 'echo date("Y-m-d",strtotime("201008"));' # = 2011-06-30
+			php -r 'echo date("Y-m-d",strtotime("201205"));' # = 2011-06-30
+		this would work:
+			php -r 'echo date("Y-m-d",strtotime("2012-05"));' # = 2012-05-01
+		*/
+		$timestamp = strtotime($model->year . '' . $model->month);
+
+		$endDate = date('Y-m-d', strtotime ( '+1 month, -1 day' , $timestamp ));
+		$startDate = date('Y-m-d', strtotime ( '+0 day' , $timestamp ));
+		$theDate = "";
+
+		switch($this->type)
+			{
+			case 'nrc_rr_inv_hist' :
+				$theDate = "='" . date('Y-m-d', strtotime ( '+1 month, -1 day' , $timestamp ))  ."'";break;
+			case 'nrc_rr_payment_hist' : case 'nrc_adv_pay_hist' :
+				$theDate = date('m', strtotime ( '+1 month, -1 day' , $timestamp ));
+				$theDate = " DATE_FORMAT(Trans_Dt, '%Y-%m') = '" . $model->year . "-" . "$theDate'";break;
+			case 'nrc_adv_pay_inv_hist' :
+				$theDate = date('m', strtotime ( '+1 month, -1 day' , $timestamp ));
+				$theDate = " Month(I_Inv_Dt) = '" . $theDate . "' And Year(I_Inv_Dt) = '" . $model->year . "'";break;
+			case 'nrc_xfer_pay_hist' :
+				$theDate = " Trans_Dt Like DATE_FORMAT('" . $startDate . "', '%Y-%m%')";break;
+			case 'nrc_cn_on_invs_xfer_away_pp' :
+				$theDate = date('m', strtotime ( '+1 month, -1 day' , $timestamp ));
+				$theDate = " I_Inv_Dt LIKE '" . $model->year . "-$theDate-%'";break;
+			case 'nrc_cn_on_invs_msd_xfer' :
+				$theDate = " Cr_Note_Dt >= LAST_DAY('" . $startDate . "') and Cr_Note_Dt <= DATE_ADD(LAST_DAY('" . $startDate . "'), INTERVAL 112 DAY) and I_Inv_Dt = LAST_DAY('" . $startDate . "')"; break;
+			case 'nrc_cn_on_invs_msddels' :
+				$theDate = " = LAST_DAY('" . $startDate . "')"; break;
+			default :
+				$theDate = "BETWEEN '$startDate' AND '$endDate'";
+			}
+
+
+		switch($this->type)
+			{
+			case 'nrc_adv_pay_inv_hist' : case 'nrc_rr_payment_hist' : case 'nrc_xfer_pay_hist' : case 'nrc_adv_pay_hist' : case 'nrc_cn_on_invs_xfer_away_pp' : case 'nrc_cn_on_invs_msd_xfer' :
+				$qryStr = $theDate; break;
+			default :
+				foreach($column as $aColumn){
+						$qryStr .= "AND $aColumn " . $theDate;
+				}
+			}
+
+		$qry = preg_replace("/^AND/","",$qryStr);
+ 		return $qry;
+		}
+
+
+	}
+?>

@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * defines AutoTestingCaptchaValidator class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * validator used in Login to validate Captcha, with a configurable allways-allowed value
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       http://www.yiiframework.com/doc/api/1.1/CCaptchaValidator
+ */
+class AutoTestingCaptchaValidator
+    extends CCaptchaValidator
+    {
+
+    /**
+     * string value which always passes check
+     * 
+     * @var    string
+     * @access public 
+     * @static
+     */
+    static $magic_value = null;
+
+    /**
+     * returns always-accepted captcha value
+     * 
+     * @return string   always-accepted captcha value
+     * @access protected
+     */
+    protected function getMagicValue()
+        {
+        if(AutoTestingCaptchaValidator::$magic_value==null)
+            AutoTestingCaptchaValidator::$magic_value = Yii::app()->params['captcha_value_always_allowed'];
+        return AutoTestingCaptchaValidator::$magic_value;
+        }
+
+    /**
+     * validates entered captcha value
+     * 
+     * compares against magic always-accepted captcha value, calls parent validation if not identical
+     * 
+     * @param  CModel     $model     model with data to validate
+     * @param  string     $attribute name of model attribute to validate
+     * @return boolean    true if valid
+     * @access protected
+     */
+    protected function validateAttribute($object,$attribute)
+        {
+        $value=$object->$attribute;
+        $magic = $this->getMagicValue();
+        if($magic!=null && $value!=$magic)
+            {
+            Yii::log('val code '.$value.'!= mag val '.$magic.' ; check for real', 'info', 'AutoTestingCaptchaValidator::validateAttribute()');
+            return parent::validateAttribute($object,$attribute);
+            }
+
+        Yii::log('val code '.$value.'== mag val '.$magic.' ; let pass', 'info', 'AutoTestingCaptchaValidator::validateAttribute()');
+        return true;
+        }
+    }
+

@@ -1,0 +1,215 @@
+/* icons definition for iedr crs layout */
+
+/* just a placeholder */
+.group-icon {
+	/*clear: left;*/
+	/*float: left;*/
+
+	/*position: relative;*/
+	/*top: -2px;*/
+	/*left: -6px;*/
+	/*width: 32px;*/
+	/*height: 32px;*/
+}
+
+/* upper left group-header corners */
+.group-icon-status {
+	/*background: url( "../../images/skin-default/group-icons/status.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-domain {
+	/*background: url( "../../images/skin-default/group-icons/domain.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-contact {
+	/*background: url( "../../images/skin-default/group-icons/contact.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-dns {
+	/*background: url( "../../images/skin-default/group-icons/dns.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-info {
+	/*background: url( "../../images/skin-default/group-icons/info.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-remarks {
+	/*background: url( "../../images/skin-default/group-icons/remarks.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-history {
+	/*background: url( "../../images/skin-default/group-icons/history.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-ticket {
+	/*background: url( "../../images/skin-default/group-icons/ticket.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-ticketrevise {
+	/*background: url( "../../images/skin-default/group-icons/ticket.revise.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-ticketreassign {
+	/*background: url( "../../images/skin-default/group-icons/ticket.reassign.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-ticketcheckin {
+	/*background: url( "../../images/skin-default/group-icons/ticket.checkin.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-settings {
+	/*background: url( "../../images/skin-default/group-icons/settings.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-search {
+	/*background: url( "../../images/skin-default/group-icons/search.png" ) no-repeat !important;*/
+	/*width: 32px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-results {
+	/*background: url( "../../images/skin-default/group-icons/results.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-error {
+	/*background: url( "../../images/skin-default/group-icons/exclamation.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-reject {
+	/*background: url( "../../images/skin-default/group-icons/reject.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-document {
+	/*background: url( "../../images/skin-default/group-icons/document.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-nichandle {
+	/*background: url( "../../images/skin-default/group-icons/nichandle.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-cash {
+	/*background: url( "../../images/skin-default/group-icons/cash.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-save {
+	/*background: url( "../../images/skin-default/group-icons/save.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-password {
+	/*background: url( "../../images/skin-default/group-icons/password.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-account {
+	/*background: url( "../../images/skin-default/group-icons/account.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+.group-icon-billing-contact {
+	/*background: url( "../../images/skin-default/group-icons/contact.billing.png" ) no-repeat !important;*/
+	/*width: 44px !important;*/
+	/*height: 32px;*/
+}
+
+
+/* 16x16 pix for rows */
+
+/* generic */
+.action-icon-calendar {
+	background: url( "../../images/skin-default/action-icons/calendar.png" ) no-repeat !important;
+}
+
+.action-icon-info {
+	background: url( "../../images/skin-default/action-icons/info.png" ) no-repeat top right !important;
+}
+
+/* ticket */
+.action-icon-ticket {
+	background: url( "../../images/skin-default/action-icons/ticket.png" ) no-repeat top right !important;
+}
+
+.action-icon-ticket-checkout {
+	background: url( "../../images/skin-default/action-icons/ticket.checkout.png" ) no-repeat top right !important;
+}
+
+.action-icon-ticket-checkin {
+	background: url( "../../images/skin-default/action-icons/ticket.checkin.png" ) no-repeat top right !important;
+}
+
+.action-icon-ticket-alterstatus {
+	background: url( "../../images/skin-default/action-icons/ticket.alterstatus.png" ) no-repeat top right !important;
+}
+
+.action-icon-ticket-reassingn {
+	background: url( "../../images/skin-default/action-icons/ticket.reassing.png" ) no-repeat top right !important;
+}
+
+.action-icon-ticket-revise {
+	background: url( "../../images/skin-default/action-icons/ticket.revise.png" ) no-repeat top right !important;
+}
+
+/* nichandle */
+.action-icon-nichandle {
+	background: url( "../../images/skin-default/action-icons/nichandle.png" ) no-repeat top right !important;
+}
+
+.action-icon-nichandle-alterstatus {
+	background: url( "../../images/skin-default/action-icons/nichandle.alterstatus.png" ) no-repeat top right !important;
+}
+
+/* dimain */
+.action-icon-domain {
+	background: url( "../../images/skin-default/action-icons/domain.png" ) no-repeat top right !important;
+}
+
+.action-icon-domain-revise {
+	background: url( "../../images/skin-default/action-icons/domain.revise.png" ) no-repeat top right !important;
+}
+
+.action-icon-domain-transfer {
+	background: url( "../../images/skin-default/action-icons/domain.transfer.png" ) no-repeat top right !important;
+}
+
+.action-icon-account {
+	background: url( "../../images/skin-default/action-icons/account.png" ) no-repeat top right !important;
+}

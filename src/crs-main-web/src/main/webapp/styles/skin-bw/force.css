@@ -1,0 +1,118 @@
+/* selectors to force properties in some cases */
+/* this css is some kind of patch because some tags are compiled */
+/* and we don't want to create own ones */
+
+.force-width-short {
+	width: 60px !important;
+}
+
+.force-width-long {
+	width: 150px !important;
+}
+
+.force-width-very-long {
+	width: 255px !important;
+}
+
+.force-width-no-max {
+	max-width: none !important;
+}
+
+.force-width30 {
+	width: 30% !important;
+}
+
+.force-width50 {
+	width: 50% !important;
+}
+
+.force-width60 {
+	width: 60% !important;
+}
+.force-width140px {
+	width: 140px !important;
+}
+
+.force-width330px {
+	width: 330px !important;
+}
+
+.force-width450px {
+	width: 450px !important;
+}
+
+
+
+.force-width-no-max select, .force-width-no-max input {
+	width: 200px !important;
+}
+
+
+/* cascades with force */
+.ctrl-field.force-width-long div.ctrl-field-inner {
+	width: 150px !important;
+}
+
+.ctrl-field.force-width-very-long div.ctrl-field-inner {
+	width: 255px !important;
+}
+
+.ctrl-container.force-height-double div.ctrl-field {
+	max-width: none !important;
+}
+
+
+
+
+
+.force-height-double {
+	height: 54px !important;
+}
+
+.force-failure-reason-width select {
+	width: 120px !important;
+}
+
+
+.force-clear-elastic {
+	width: auto !important;
+}
+
+.force-clear-continues {
+	clear: none !important;
+}
+
+.force-float-right {
+	float: right;
+}
+
+.force-text-right {
+    text-align: right !important;
+}
+
+.force-label-fixed-2r {
+	float: right;
+	width: 95px;
+	text-align: right;
+}
+
+
+.force-gap-bottom5px {
+	margin-bottom:5px;
+}
+
+.force-gap-right20px {
+	margin-right:20px;
+}
+
+.force-gap-left30 {
+	margin-left: 30% !important;
+}
+
+.force-gap-left20 {
+	margin-left: 20% !important;
+}
+
+.force-gap-left10 {
+	margin-left: 10% !important;
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    <bean id="logger" class="pl.nask.crs.commons.logger.ExecutionTimeLogger"/>
+    <aop:config proxy-target-class="false">
+        <aop:pointcut id="operations"
+                      expression="execution(public * pl.nask.crs.ticket.services.TicketService.*(..))||
+        execution(public * pl.nask.crs.ticket.services.TicketHistorySearchService.*(..)) ||
+        execution(public * pl.nask.crs.ticket.services.TicketResponseService.*(..)) ||
+        execution(public * pl.nask.crs.ticket.services.TicketService.*(..)) ||
+        execution(public * pl.nask.crs.ticket.dao.TicketDAO.*(..)) ||
+        execution(public * pl.nask.crs.ticket.dao.TicketResponseDAO.*(..)) ||
+        execution(public * pl.nask.crs.ticket.dao.HistoricTicketDAO.*(..)) ||
+        execution(public * pl.nask.crs.ticket.services.TicketSearchService.*(..)) ||
+        execution(public * pl.nask.crs.app.tickets.TicketAppService.*(..)) ||
+        execution(public * pl.nask.crs.ticket.services.FailureReasonFactory.*(..)) ||
+
+        execution(public * pl.nask.crs.user.service.HistoricalUserService.*(..)) ||
+        execution(public * pl.nask.crs.user.service.UserSearchService.*(..)) ||
+        execution(public * pl.nask.crs.user.service.UserService.*(..)) ||
+        execution(public * pl.nask.crs.user.dao.HistoricalUserDAO.*(..)) ||
+        execution(public * pl.nask.crs.user.dao.UserDAO.*(..)) ||
+        execution(public * pl.nask.crs.user.service.HistoricalUserSearchService.*(..)) ||
+        execution(public * pl.nask.crs.user.service.AuthorizationGroupsFactory.*(..)) ||
+        execution(public * pl.nask.crs.user.service.PermissionsFactory.*(..)) ||
+
+        execution(public * pl.nask.crs.nichandle.service.HistoricalNicHandleSearchService.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.service.NicHandleSearchService.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.service.NicHandleService.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.dao.HistoricalNicHandleDAO.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.dao.NicHandleDAO.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.dao.NicHandleIdDAO.*(..)) ||
+        execution(public * pl.nask.crs.nichandle.service.NicHandleIdGenerator.*(..)) ||
+        execution(public * pl.nask.crs.app.nichandles.NicHandleAppService.*(..)) ||
+
+        execution(public * pl.nask.crs.documents.IncomingDocumentsManager.*(..)) ||
+        execution(public * pl.nask.crs.documents.service.DocumentService.*(..)) ||
+
+        execution(public * pl.nask.crs.domains.services.DomainSearchService.*(..)) ||
+        execution(public * pl.nask.crs.domains.services.HistoricalDomainService.*(..)) ||
+        execution(public * pl.nask.crs.domains.services.DomainService.*(..)) ||
+        execution(public * pl.nask.crs.domains.dao.DomainDAO.*(..)) ||
+        execution(public * pl.nask.crs.domains.dao.HistoricalDomainDAO.*(..)) ||
+        execution(public * pl.nask.crs.app.domains.DomainAppService.*(..)) ||
+
+        execution(public * pl.nask.crs.accounts.services.AccountSearchService.*(..)) ||
+        execution(public * pl.nask.crs.accounts.services.AccountService.*(..)) ||
+        execution(public * pl.nask.crs.accounts.services.HistoricalAccountSearchService.*(..)) ||
+        execution(public * pl.nask.crs.accounts.dao.AccountDAO.*(..)) ||
+        execution(public * pl.nask.crs.accounts.dao.HistoricalAccountDAO.*(..)) ||
+        execution(public * pl.nask.crs.app.accounts.AccountAppService.*(..)) ||
+
+        execution(public * pl.nask.crs.contacts.dao.ContactDAO.*(..)) ||
+        execution(public * pl.nask.crs.contacts.services.ContactSearchService.*(..)) ||
+
+        execution(public * pl.nask.crs.entities.dao.EntityClassDAO.*(..)) ||
+        execution(public * pl.nask.crs.entities.dao.EntityCategoryDAO.*(..)) ||
+
+        execution(public * pl.nask.crs.country.dao.CountyDAO.*(..)) ||
+        execution(public * pl.nask.crs.country.dao.CountryDAO.*(..)) ||
+        execution(public * pl.nask.crs.commons.dao.ConvertingGenericDAO.*(..))
+
+        "/>
+
+        <aop:aspect ref="logger">
+            <aop:before pointcut-ref="operations" method="logBefore"/>
+            <aop:after-returning pointcut-ref="operations" method="logAfterReturning"/>
+            <aop:after-throwing pointcut-ref="operations" method="logAfterThrowing"/>
+        </aop:aspect>
+    </aop:config>    
+</beans>        
+        

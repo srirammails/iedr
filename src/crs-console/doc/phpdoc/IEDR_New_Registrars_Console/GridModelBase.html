@@ -1,0 +1,1074 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class GridModelBase</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> GridModelBase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">base class for models used in rendering jqGrid views</p>
+<p class="description"><p>contains jqGrid column model (<a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options">http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options</a>), and helper methods for handling searching and sorting</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> <a href="http://www.trirand.net/demophp.aspx">http://www.trirand.net/demophp.aspx</a></li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---GridModelBase.php.html">/components/GridModelBase.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a29">29</a></span>)
+		</p>
+		
+				
+		<pre>CFormModel
+   |
+   --<a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a>
+      |
+      --<a href="../IEDR_New_Registrars_Console/ReturningModelBase.html">ReturningModelBase</a>
+         |
+         --GridModelBase</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/ViewGridModelBase.html">ViewGridModelBase</a>
+					</td>
+					<td>
+											Base class for Data Models for actions using SQL Queries
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/DnsserversearchModel.html">DnsserversearchModel</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html">AllTicketsModel</a>
+					</td>
+					<td>
+											model for jqGrid view of all pending tickets for an account
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/NicSearchModel.html">NicSearchModel</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/AllDomainsModel.html">AllDomainsModel</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$columns" title="details" class="var-name">$columns</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$defaultSortColumn" title="details" class="var-name">$defaultSortColumn</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">integer</span>
+					<a href="#$totalrows" title="details" class="var-name">$totalrows</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#addResults" title="details" class="method-name">addResults</a>
+											(<span class="var-type">object</span>&nbsp;<span class="var-name">$o</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#arrayAsColModelSelectOptions" title="details" class="method-name">arrayAsColModelSelectOptions</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#attributeNames" title="details" class="method-name">attributeNames</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">object Return</span>
+										<a href="#getSearch" title="details" class="method-name">getSearch</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$searchparams</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">object WSAPI</span>
+										<a href="#getSearchBase" title="details" class="method-name">getSearchBase</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">object Return</span>
+										<a href="#getSort" title="details" class="method-name">getSort</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$sortparams</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">array</span>
+										<a href="#rules" title="details" class="method-name">rules</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$columns" id="$columns"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$columns</span>
+			 = <span class="var-default">array(<br />			'A' =&gt; array(<br />				'resultfield'=&gt;'name',<br />				'criteriafield'=&gt;'domainName',<br />				'label'=&gt;'Domain Name',<br />				'width'=&gt;60,<br />				'type'=&gt;'string',<br />				'link'=&gt;'../site/viewsomething/',<br />				))</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a73">73</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">column model for grid data structures; used by jqGrid widget to create colmodel <a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options">http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options</a> (in jqGridWidget's view)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllNicsModel.html#var$columns">AllNicsModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html#var$columns">OfflineBatchSelectionModel::$columns</a>
+								: column model for jqGrid
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_xfer_away_Model.html#var$columns">Rpts_nrc_cn_xfer_away_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_pending_payments_Model.html#var$columns">Rpts_nrc_pending_payments_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_rr_inv_hist_Model.html#var$columns">Rpts_nrc_rr_inv_hist_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_hist_Model.html#var$columns">Rpts_nrc_adv_pay_hist_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_pay_hist_Model.html#var$columns">Rpts_nrc_xfer_pay_hist_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_inv_histModel.html#var$columns">Rpts_nrc_adv_pay_inv_histModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msddels_Model.html#var$columns">Rpts_nrc_cn_on_invs_msddels_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.html#var$columns">Rpts_nrc_cn_on_invs_xfer_away_pp_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msd_xfer_Model.html#var$columns">Rpts_nrc_cn_on_invs_msd_xfer_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_inv_histModel.html#var$columns">Rpts_nrc_xfer_inv_histModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html#var$columns">Rpts_NicXfersModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_deletions_Model.html#var$columns">Rpts_nrc_cn_deletions_Model::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OutstandingPaymentsModel.html#var$columns">OutstandingPaymentsModel::$columns</a>
+								: column model for jqGridWidget
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DnsserversearchModel.html#var$columns">DnsserversearchModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html#var$columns">AllTicketsModel::$columns</a>
+								: Column model for jqGrid
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicSearchModel.html#var$columns">NicSearchModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllDomainsModel.html#var$columns">AllDomainsModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountAdvanceGridModel.html#var$columns">AccountAdvanceGridModel::$columns</a>
+								: column model array for jqGrid
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_AdvPay_RnR_Model.html#var$columns">Acc_RnP_AdvPay_RnR_Model::$columns</a>
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountInvoiceGridModel.html#var$columns">AccountInvoiceGridModel::$columns</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDModel.html#var$columns">MSDModel::$columns</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDDeletionsModel.html#var$columns">MSDDeletionsModel::$columns</a>
+								: Description for var
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$defaultSortColumn" id="$defaultSortColumn"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$defaultSortColumn</span>
+			 = <span class="var-default"> 'A'</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a65">65</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">default sort-column key (in $columns) of column which the results will be sorted by default</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllNicsModel.html#var$defaultSortColumn">AllNicsModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html#var$defaultSortColumn">OfflineBatchSelectionModel::$defaultSortColumn</a>
+								: default sort column-key for grid data
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_xfer_away_Model.html#var$defaultSortColumn">Rpts_nrc_cn_xfer_away_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_pending_payments_Model.html#var$defaultSortColumn">Rpts_nrc_pending_payments_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_rr_inv_hist_Model.html#var$defaultSortColumn">Rpts_nrc_rr_inv_hist_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_hist_Model.html#var$defaultSortColumn">Rpts_nrc_adv_pay_hist_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_pay_hist_Model.html#var$defaultSortColumn">Rpts_nrc_xfer_pay_hist_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_inv_histModel.html#var$defaultSortColumn">Rpts_nrc_adv_pay_inv_histModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msddels_Model.html#var$defaultSortColumn">Rpts_nrc_cn_on_invs_msddels_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.html#var$defaultSortColumn">Rpts_nrc_cn_on_invs_xfer_away_pp_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msd_xfer_Model.html#var$defaultSortColumn">Rpts_nrc_cn_on_invs_msd_xfer_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_inv_histModel.html#var$defaultSortColumn">Rpts_nrc_xfer_inv_histModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html#var$defaultSortColumn">Rpts_NicXfersModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_deletions_Model.html#var$defaultSortColumn">Rpts_nrc_cn_deletions_Model::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OutstandingPaymentsModel.html#var$defaultSortColumn">OutstandingPaymentsModel::$defaultSortColumn</a>
+								: default sort column-key for grid data
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DnsserversearchModel.html#var$defaultSortColumn">DnsserversearchModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html#var$defaultSortColumn">AllTicketsModel::$defaultSortColumn</a>
+								: default sort column-index for grid data
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicSearchModel.html#var$defaultSortColumn">NicSearchModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllDomainsModel.html#var$defaultSortColumn">AllDomainsModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountAdvanceGridModel.html#var$defaultSortColumn">AccountAdvanceGridModel::$defaultSortColumn</a>
+								: default sort column for jqGrid
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountInvoiceGridModel.html#var$defaultSortColumn">AccountInvoiceGridModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDModel.html#var$defaultSortColumn">MSDModel::$defaultSortColumn</a>
+								: Description for var
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDDeletionsModel.html#var$defaultSortColumn">MSDDeletionsModel::$defaultSortColumn</a>
+								: Description for public
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$totalrows" id="$totalrows"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$totalrows</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a57">57</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">total number of rows in returned data set for current request</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html">ReturningModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#var$returningData">ReturningModelBase::$returningData</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#var$returningDataList">ReturningModelBase::$returningDataList</a></span><br>
+							</span>
+											</blockquote> 
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$commandresults">FormModelBase::$commandresults</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$error">FormModelBase::$error</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#var$message">FormModelBase::$message</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodaddResults" id="addResults"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">addResults</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a211">211</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">called by backend data-fetching code return an array.</p>
+<p class="description"><p>Backend code typically retrieves a deserialised SOAP object, or an SQL row;  this Fn must return an array whose Keys correspond to the column keys,  making use of the 'resultfield' data</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> backend data in expected array format</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			addResults
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$o</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$o</span><span class="var-description">: backend data object</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ViewGridModelBase.html#methodaddResults">ViewGridModelBase::addResults()</a>
+								: convert an object into an array, with attributes renamed
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllNicsModel.html#methodaddResults">AllNicsModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html#methodaddResults">OfflineBatchSelectionModel::addResults()</a>
+								: returns data in array form with keys as per column-model
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_xfer_away_Model.html#methodaddResults">Rpts_nrc_cn_xfer_away_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_pending_payments_Model.html#methodaddResults">Rpts_nrc_pending_payments_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_rr_inv_hist_Model.html#methodaddResults">Rpts_nrc_rr_inv_hist_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_hist_Model.html#methodaddResults">Rpts_nrc_adv_pay_hist_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_pay_hist_Model.html#methodaddResults">Rpts_nrc_xfer_pay_hist_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_adv_pay_inv_histModel.html#methodaddResults">Rpts_nrc_adv_pay_inv_histModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msddels_Model.html#methodaddResults">Rpts_nrc_cn_on_invs_msddels_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_xfer_away_pp_Model.html#methodaddResults">Rpts_nrc_cn_on_invs_xfer_away_pp_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_on_invs_msd_xfer_Model.html#methodaddResults">Rpts_nrc_cn_on_invs_msd_xfer_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_xfer_inv_histModel.html#methodaddResults">Rpts_nrc_xfer_inv_histModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html#methodaddResults">Rpts_NicXfersModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_cn_deletions_Model.html#methodaddResults">Rpts_nrc_cn_deletions_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DnsserversearchModel.html#methodaddResults">DnsserversearchModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html#methodaddResults">AllTicketsModel::addResults()</a>
+								: returns fromatted ticket object data as an array, suitable for base class jqGrid-data handling
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicSearchModel.html#methodaddResults">NicSearchModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllDomainsModel.html#methodaddResults">AllDomainsModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountAdvanceGridModel.html#methodaddResults">AccountAdvanceGridModel::addResults()</a>
+								: returns formatted parts of the supplied object instance in an array for a data grid controller
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_AdvPay_RnR_Model.html#methodaddResults">Acc_RnP_AdvPay_RnR_Model::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountInvoiceGridModel.html#methodaddResults">AccountInvoiceGridModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDModel.html#methodaddResults">MSDModel::addResults()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDDeletionsModel.html#methodaddResults">MSDDeletionsModel::addResults()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodarrayAsColModelSelectOptions" id="arrayAsColModelSelectOptions"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">arrayAsColModelSelectOptions</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a110">110</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">return an array of key-value pairs in a jqGrid colmodel select-list format string</p>
+<p class="description"><p>see <a href="http://www.trirand.com/jqgridwiki/doku.php?id=wiki:search_config">http://www.trirand.com/jqgridwiki/doku.php?id=wiki:search_config</a> table 'property', row 'value'</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> jqGrid select-list format string</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			arrayAsColModelSelectOptions
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arr</span><span class="var-description">: array of key-value pairs for a select-list based search</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodattributeNames" id="attributeNames"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">attributeNames</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a40">40</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">redefined CFormModel fn</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of strings</li>
+				<li><span class="field">see:</span> attributeNames-detail</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			attributeNames
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetSearch" id="getSearch"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getSearch</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a171">171</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add the current request's search-filter parameters to the search-object-instance returned by getSearchBase</p>
+<p class="description"><p>The request filter parameters are sent by the jqGrid as a JSON-encoded structure, referencing colModel column names and values.  This function is called after JSON-demarshalling (as in 'C' below) and must determine which criteria field to use based on the  'field' filter field (by getting the 'criteriafield' member in the <a href="../IEDR_New_Registrars_Console/GridModelBase.html#var$columns">columns</a> array), and add the filter value to the criteria object instance,  as show in step 'D' below.</p><p>(A) HTTP request</p><p>GET ...&amp;filters=%7B%22groupOp%22%3A%22AND%22%2C%22rules%22%3A%5B%7B%22field%22%3A%22A%22%2C%22op%22%3A%22bw%22%2C%22data%22%3A%22blahblah%22%7D%5D%7D</p><p>(B) URL-decoded filter</p><p>[filters] =&gt; {&quot;groupOp&quot;:&quot;AND&quot;,&quot;rules&quot;:[{&quot;field&quot;:&quot;A&quot;,&quot;op&quot;:&quot;bw&quot;,&quot;data&quot;:&quot;blahblah&quot;}]}</p><p>(C) JSON-Decoded filter rules     (note: jqGrid filter-operation 'bw' is 'begins-with', though in NRC we interpret all filters as 'contains')</p><p>[field] =&gt; A          [op] =&gt; bw          [data] =&gt; blahblah</p><p>(D) search-criteria object filled with filter value(s)</p><p>CRSDomainAppService_domainSearchCriteria Object          (          ...          [domainName] =&gt; blahblah          ...          )</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> WSAPI search-criteria object instance</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Return</span>
+		<span class="method-name">
+			getSearch
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$searchparams</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$searchparams</span><span class="var-description">: deserialised jqGrid search filter</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ViewGridModelBase.html#methodgetSearch">ViewGridModelBase::getSearch()</a>
+								: return current request's search-filter parameters as a SQL Where-clause fragment
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html#methodgetSearch">AllTicketsModel::getSearch()</a>
+								: returns search criteria object for base class from request parameters
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicSearchModel.html#methodgetSearch">NicSearchModel::getSearch()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllDomainsModel.html#methodgetSearch">AllDomainsModel::getSearch()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodgetSearchBase" id="getSearchBase"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getSearchBase</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a126">126</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get base search criteria object for use in backend requests</p>
+<p class="description"><p>not usually overridden, should serve as the lowest common denominator for search objects in derived classes</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> search criteria object with accountId set to the current logged-in user account number</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object WSAPI</span>
+		<span class="method-name">
+			getSearchBase
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ViewGridModelBase.html#methodgetSearchBase">ViewGridModelBase::getSearchBase()</a>
+								: returns base search criteria shared by derived-class queries
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AdminNicModel.html#methodgetSearchBase">AdminNicModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DnsserversearchModel.html#methodgetSearchBase">DnsserversearchModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AllTicketsModel.html#methodgetSearchBase">AllTicketsModel::getSearchBase()</a>
+								: returns default search criteria object
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDModel.html#methodgetSearchBase">MSDModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ARDomainModel.html#methodgetSearchBase">ARDomainModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NewDomainsModel.html#methodgetSearchBase">NewDomainsModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/CharityDomainModel.html#methodgetSearchBase">CharityDomainModel::getSearchBase()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodgetSort" id="getSort"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">getSort</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a91">91</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">queries the column model data to transform a grid-column-model-oriented column-name and sort-order into a backend-query-oriented column-name and sort-order</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> WSAPI sortCriterion object instance for running backend query</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Return</span>
+		<span class="method-name">
+			getSort
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$sortparams</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$sortparams</span><span class="var-description">: created by getDataReq from request data</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_pending_payments_Model.html#methodgetSort">Rpts_nrc_pending_payments_Model::getSort()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_rr_payment_hist_Model.html#methodgetSort">Rpts_nrc_rr_payment_hist_Model::getSort()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodrules" id="rules"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">rules</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsGridModelBase.php.html#a49">49</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">redefined CModel fn</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of rule structures</li>
+				<li><span class="field">see:</span> rules-detail</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			rules
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ViewGridModelBase.html#methodrules">ViewGridModelBase::rules()</a>
+								: returns validation rules
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html#methodrules">OfflineBatchSelectionModel::rules()</a>
+								: returns validation rules array
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/RptsNrcYearMonthModelBase.html#methodrules">RptsNrcYearMonthModelBase::rules()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_nrc_hist_pay_search_Model.html#methodrules">Rpts_nrc_hist_pay_search_Model::rules()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Rpts_NicXfersModel.html#methodrules">Rpts_NicXfersModel::rules()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NewDomainsModel.html#methodrules">NewDomainsModel::rules()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html">ReturningModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Constructor.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#method__construct">ReturningModelBase::__construct()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#methodgetReturningDataNames">ReturningModelBase::getReturningDataNames()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#methodupdateFromArray">ReturningModelBase::updateFromArray()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#methodupdateFromBaseArray">ReturningModelBase::updateFromBaseArray()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#methodupdateFromPOST">ReturningModelBase::updateFromPOST()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/FormModelBase.html">FormModelBase</a></span></p>
+					<blockquote>
+													<img src="../media/images/Constructor.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#method__construct">FormModelBase::__construct()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodforceCaseOfFields">FormModelBase::forceCaseOfFields()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodonBeforeValidate">FormModelBase::onBeforeValidate()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/FormModelBase.html#methodtrimNewlines">FormModelBase::trimNewlines()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:00 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

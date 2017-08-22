@@ -1,0 +1,148 @@
+X-Account-Key: account2
+X-UIDL: 8dc9228b6d12cf88
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <billy.glynn@domainregistry.ie>
+Received: from boromix.nask.net.pl (boromix.nask.net.pl [195.187.245.33])
+	by boromir.nask.net.pl  with ESMTP id m9G8FruI008739
+	for <patrycjaw@boromir.nask.net.pl>; Thu, 16 Oct 2008 10:15:54 +0200 (CEST)
+Received: from smtp2.domainregistry.ie ([213.190.149.217])
+	by boromix.nask.net.pl  with SMTP id m9G8FLV1020296
+	for <patrycjaw@nask.pl>; Thu, 16 Oct 2008 10:15:27 +0200
+Received: (qmail 27388 invoked from network); 16 Oct 2008 08:20:14 -0000
+Received: from unknown (HELO ?10.10.2.75?) (213.190.149.194)
+  by smtp2.domainregistry.ie with SMTP; 16 Oct 2008 08:20:14 -0000
+Message-ID: <48F6F7BF.4050300@domainregistry.ie>
+Date: Thu, 16 Oct 2008 09:13:51 +0100
+From: Billy Glynn <billy.glynn@domainregistry.ie>
+Reply-To: billy.glynn@domainregistry.ie
+Organization: IE Domain Registry Ltd
+User-Agent: Thunderbird 1.5.0.14ubu (X11/20080724)
+MIME-Version: 1.0
+To: Piotr Tkaczyk <piotrt@nask.pl>
+CC: Patrycja Wegrzynowicz <patrycjaw@nask.pl>, mariannam@nask.pl
+Subject: Re: Questions about faxes
+References: <48F4B0DA.10500@nask.pl>
+In-Reply-To: <48F4B0DA.10500@nask.pl>
+X-Enigmail-Version: 0.94.0.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Received-SPF: none (boromix.nask.net.pl: domain of billy.glynn@domainregistry.ie does not designate permitted sender hosts)
+VirusProtection: checked - Found to be clean
+
+Hi Piotr,
+
+Apologies! I did not know it was in such a mess!!!! :(
+
+Piotr Tkaczyk wrote:
+>
+> QUESTIONS:
+>
+> 1.  in CRS we use only the FAXLOG table. right?
+Yes.  The other 2 tables are the by-product of a data clean-up effort my
+colleague Robin Spiteri undertook recently.  I mentioned this to
+Patrycja.  So, because he cleaned up the data in the faxlog table
+recently, we thought it would be helpful to give you this new "clean"
+(not perfect ;) ) data.
+
+>
+> 2.  in FAXLOG table we don't change anything but the DOMAIN column.
+> right?
+There is no technical reason anymore why there is a separate faxlog
+database! :)  As such, you may like to change the structure of this
+table.  But please let me know if this is your intention.
+
+The functionality desired is to enable Hostmasters to record new faxes
+(domain(s) per fax) in the faxlog table.  This data should also be
+searchable from within CRS.
+
+>
+> 3.  there is some other application that inserts rows to the FAXLOG
+> table.
+> right?
+At present it is just the very basic web form on our intranet.  Faxes
+which are received by the modem on the faxserver are converted by the
+fax server software into *.tif files.  From there we use cron to move
+them to the apache dir which displays a list of the *.tif files.  The
+hostmaster pastes a list of the domain(s) that the fax is to be
+associated with, in to the basic web form.  This web form inserts the
+records per domain into the faxlog db.
+
+>
+> 4.  that other application inserts all values but the DOMAIN. right?
+
+
+>
+> 5.  when we assign one domain to the fax, we just change the DOMAIN
+> column.
+> right?
+Again, there may be more than one domain listed per fax.  No you don't
+just change the domain column, you create new rows per domain depending
+on the type of fax (There is more than one type of fax (Paper, Tif &
+email attachment)
+
+>
+> 6.  when we assign N domains to the fax, we change the DOMAIN column
+> in the
+> existing row and we add N-1 rows with all values (but DOMAIN) copied from
+> the existing row. right?
+one row per domain?
+
+>
+> 7.  what is DATE and DATE2? there are rows where the DATE is different
+> from
+> the DATE2.
+>
+>
+>
+> mysql> select count(*) from faxlog where date(date) > date2;
+>
+> +----------+
+>
+> | count(*) |
+>
+> +----------+
+>
+> |     2075 |
+>
+> +----------+
+>
+> 1 row in set (0.15 sec)
+Yes, it's a mess!  date2 is not used (legacy).  You can consider "date"
+as the actual field to use.
+
+>
+>
+>
+>
+>
+> 8.  does the LOG column means anything? should we allow to change it?
+:) Yes, it is quite a mess.  But the data is still useful.
+
+The field name can be changed.  The numerical values such as 0,5,6 & 7
+are legacy values.  These can be updated to "Legacy".
+
+The other values are useful for indicating what the purpose of a fax
+is.  For example a fax may relate to a "New Reg" or another may relate
+to a "Bill-C Transfer"
+
+>
+> 9.  can the LOG column has any other value?
+Do you need to add values?
+
+>
+> 10.         what is the path to the fax files?
+
+The Tif files are presently stored on the eFax server.
+The faxes received by email attachment are stored on a shared network drive.
+The hard copy fax files are obviously stored in a filing cabinet.
+
+
+I know some of this information may be confusing, so if you would prefer
+a conference call, please let me know.
+
+Kind regards
+
+Billy
+

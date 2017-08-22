@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app id="iedrApi" version="2.5" 
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<display-name>IEDR-API</display-name>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			 WEB-INF/classes/iedr-api-config.xml
+		</param-value>
+	</context-param>
+	
+	<!-- Filters -->	
+	
+	<filter>
+		<filter-name>UserLog</filter-name>
+		<filter-class>pl.nask.crs.iedrapi.UserLogFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>UserLog</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Listeners -->
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <servlet-class>pl.nask.crs.commons.email.servlet.EmailSenderServlet</servlet-class>
+        <load-on-startup>10</load-on-startup>
+    </servlet>
+
+	<servlet-mapping>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <url-pattern>/emailWorkerMonitor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    	<!-- uses handler bean (id='iedr_api') defined in the spring config -->
+    	<servlet-name>iedr_api</servlet-name>
+    	<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    	<load-on-startup>5</load-on-startup>
+    </servlet>
+    
+        
+    <servlet-mapping>
+        <servlet-name>iedr_api</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>        
+    
+    
+    <!-- Welcome file lists -->
+    <!--<welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+--></web-app>

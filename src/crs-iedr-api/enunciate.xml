@@ -1,0 +1,8 @@
+<enunciate xmlns="http://enunciate.codehaus.org/schemas/1.19">
+  <modules>
+  	<c disabled="true"/>
+  	<csharp disabled="true"/>
+  	<obj-c disabled="true"/>
+  	<jaxws-client disabled="true"/>
+  </modules>
+</enunciate>

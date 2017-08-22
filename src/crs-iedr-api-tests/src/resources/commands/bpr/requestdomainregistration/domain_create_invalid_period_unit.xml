@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+	<command>
+		<create>
+			<domain:create
+				xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+				xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+				ieapi-domain-1.3.xsd">
+				<domain:name>exampleCreateDomain1.ie</domain:name>
+				<domain:period unit="m">1</domain:period>
+				<domain:ns>
+					<domain:nsName>ns1.exampleCreateDomain.ie</domain:nsName>
+					<domain:nsAddr>192.1.2.3</domain:nsAddr>
+				</domain:ns>
+				<domain:ns>
+					<domain:nsName>ns1.example2.ie</domain:nsName>
+				</domain:ns>
+				<domain:holder class="Natural Person">
+					<domain:holderName category="Personal Name">
+						John Doe
+					</domain:holderName>
+					<domain:holderRemarks />
+				</domain:holder>
+				<domain:contact type="admin">APIT1-IEDR</domain:contact>
+				<domain:contact type="tech">APIT2-IEDR</domain:contact>
+			</domain:create>
+		</create>
+	</command>
+</ieapi>

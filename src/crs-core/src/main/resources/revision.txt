@@ -1,0 +1,13 @@
+repository = 
+path = 
+revision = ${buildNumber}
+mixedRevisions = 
+committedRevision = ${buildNumber}
+committedDate = 
+status = 
+specialStatus = 
+aversion = ${project.version}
+iedrApiVersion = ${project.version}
+iedrApiCommandsVersion = ${project.version}
+wsApiVersion = ${project.version}
+buildProfile = ${buildNumber}

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MenuConfig>
+
+	<Displayers>
+		<Displayer name="Simple"
+					  type="net.sf.navigator.displayer.SimpleMenuDisplayer"/>
+		<Displayer name="CSS"
+					  type="net.sf.navigator.displayer.CSSListMenuDisplayer"/>
+		<Displayer name="Tabbed"
+					  type="net.sf.navigator.displayer.TabbedMenuDisplayer"/>
+		<Displayer name="DropDown"
+					  type="net.sf.navigator.displayer.DropDownMenuDisplayer"/>
+		<Displayer name="Cool"
+					  type="net.sf.navigator.displayer.CoolMenuDisplayer"/>
+	</Displayers>
+
+	<Menus>
+		<Menu name="main" title="">
+			<Item name="ticketSection" title="Tickets">
+				<Item name="tickets" title="Search"
+						toolTip="Tickets Search"
+						image="images/menu-icons/emptyicon.png"
+						page="/tickets-search.action?resetSearch=true"/>
+				<Item name="ticketshistory" title="History"
+						toolTip="Tickets History Search"
+						image="images/menu-icons/emptyicon.png"
+						page="/ticketshistory-search.action?resetSearch=true"/>
+                <Item name="hmUsage" title="Reports"
+                      toolTip="Hostmaster Usage"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/reports-input.action?resetSearch=true"/>
+            </Item>
+            <Item name="domainSection" title="Domains">
+                <Item name="domains" title="Search"
+                        toolTip="Domains Search"
+                        image="images/menu-icons/emptyicon.png"
+                        page="/domains-search.action?resetSearch=true"/>
+                <Item name="historicalDomains" title="History"
+                        toolTip="Historical Domains Search"
+                        image="images/menu-icons/emptyicon.png"
+                        page="/historical-domain-search.action?resetSearch=true"/>
+                <Item name="exportAuthCodes" title="Export Authcodes"
+                        toolTip="Export Authcodes"
+                        image="images/menu-icons/emptyicon.png"
+                        page="/domainExportAuthCodes-search.action?resetSearch=true"/>
+            </Item>
+            <Item name="emailTemplatesSection" title="Emails">
+                <Item name="emailTemplates" title="View"
+                      toolTip="Search email templates"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/emailtemplates-search.action"/>
+                <Item name="emailgroup" title="Groups"
+                      toolTip="View email groups"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/emailgroups-search.action"/>
+            </Item>
+			<Item name="nicHandlesSection" title="Nic Handles">
+				<Item name="nicHandles" title="Search"
+						toolTip="Nic Handles Search"
+						image="images/menu-icons/emptyicon.png"
+						page="/nic-handles-search.action?resetSearch=true"/>
+				<Item name="nicHandlesCreate" title="Create"
+						toolTip="Nic Handle Create"
+						image="images/menu-icons/emptyicon.png"
+						page="/nic-handle-create-input.action"/>
+			</Item>
+			<Item name="documents" title="Documents"
+					toolTip="Displays new and assigned documents">
+				<Item name="searchdocs" title="Search"
+						toolTip="Search Documents"
+						image="images/menu-icons/emptyicon.png"
+						page="/documents-assigned.action"
+						parent_name="documents"/>
+				<Item name="newdocs" title="New"
+						toolTip="New Documents"
+						image="images/menu-icons/emptyicon.png"
+						page="/documents-incoming.action"
+						parent_name="documents"/>
+			</Item>
+			<Item name="accounts" title="Accounts"
+					toolTip="Accounts">
+				<Item name="accountsSearch" title="Search"
+						toolTip="Search Accounts"
+						image="images/menu-icons/emptyicon.png"
+						page="/accounts-search.action?resetSearch=true"/>
+				<Item name="accountsCreate" title="Create"
+						toolTip="Create Account"
+						image="images/menu-icons/emptyicon.png"
+						page="/account-create-input.action"/>
+			</Item>
+            <Item name="DSM" title="DSM">
+                <Item name="forceEvent" title="Force Event"
+                      toolTip="Force DSM Event"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/forceDSMevent-input.action"/>
+                <Item name="forceState" title="Force State"
+                      toolTip="Force DSM State"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/forceDSMstate-input.action"/>
+            </Item>
+            <Item name="viewVat" title="Vat">
+                <Item name="viewVat" title="View"
+                      toolTip="View vat rate"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/vatView-input.action"/>
+                <Item name="manageVat" title="Create"
+                      toolTip="Create vat rate"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/vatCreate-input.action"/>
+            </Item>
+            
+            <Item name="Task" title="Task">
+                <Item name="taskView" title="View"
+                      toolTip="View task"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/task-view-input.action"/>
+                <Item name="taskCreate" title="Create"
+                      toolTip="Create task"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/task-create-input.action"/>
+                <Item name="jobView" title="Job"
+                      toolTip="View Job"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/job-view-input.action?resetSearch=true"/>
+                <Item name="jobHist" title="Job Hist"
+                      toolTip="View Job Hitory"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/job-hist-view-input.action?resetSearch=true"/>
+            </Item>
+            <Item name="pricing" title="Product Pricing">
+                <Item name="View" title="View"
+                      toolTip="View product price"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/priceView-input.action"/>
+                <Item name="Create" title="Create"
+                      toolTip="Create product price"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/priceCreate-input.action"/>
+            </Item>
+            <Item name="crsConfiguration" title="CRS configuration">
+                <Item name="View" title="View"
+                      toolTip="View application configuration"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/configView-input.action"/>                
+            </Item>
+            <Item name="bulkTransfer" title="Bulk transfer">
+            	<Item name="bulkTransferCreate" title="Create"
+            		toolTip="New bulk transfer"
+            		  image="images/menu-icons/emptyicon.png"
+                      page="/bulkTransferCreate-input.action"/>
+				<Item name="bulkTransferView" title="View"
+					  toolTip="View bulk transfers"      
+	   				  image="images/menu-icons/emptyicon.png"
+	                  page="/bulkTransferList-input.action"/>
+            </Item>
+            <Item name="reports" title="Accounts Report">
+                <Item name="Deposit Account" title="Deposit"
+                      toolTip="View deposit actual/available balance"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/depositAccount-input.action?resetSearch=true"/>
+                <Item name="View DOA" title="DOA"
+                      toolTip="View DOA"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/viewDOA-input.action?resetSearch=true"/>
+                <Item name="View Invoices" title="Invoices"
+                      toolTip="View Invoices"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/viewInvoices-input.action?resetSearch=true"/>
+                <Item name="View Revenue Assurance" title="Revenue Assurance"
+                      toolTip="View Revenue Assurance"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/viewExtendedInvoices-input.action?resetSearch=true"/>
+                <Item name="viewBankReceipts" title="Receipts: Bank Reconciliation"
+                      toolTip="View Receipts: Bank Reconciliation"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/bankReceipts-input.action?resetSearch=true"/>
+                <Item name="View NRP Domain" title="NRP"
+                      toolTip="View NRP Domains"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/nrpDomains-input.action?resetSearch=true"/>
+                <Item name="View Charity Domain" title="Charity"
+                      toolTip="View Charity Domains"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/charityDomains-input.action?resetSearch=true"/>
+                <Item name="View Total Domains per Registrar" title="TotalDomains"
+                      toolTip="View Total Domains per Registrar Report"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/totalDomainsReport-input.action?resetSearch=true"/>
+                <Item name="View Registrations Per Month/Year for Registrar/All Registrars" title="Registrations"
+                      toolTip="View Registrations Per Month/Year for Registrar/All Registrars"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/totalDomainsPerDateReport-input.action?resetSearch=true"/>
+                <Item name="Domains Per Class" title="Per Class"
+                      toolTip="Domains Per Class/category"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/domainsPerClassReport-input.action?resetSearch=true"/>
+                <Item name="deletedDomains" title="Deleted"
+                      toolTip="Deleted Domains"
+                      image="images/menu-icons/emptyicon.png"
+                      page="/deleted-input.action?resetSearch=true"/>
+            </Item>
+        </Menu>
+	</Menus>
+
+</MenuConfig>

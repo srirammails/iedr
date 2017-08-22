@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page domaindetails.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/views/domains/domaindetails.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">View page for Domain Details</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> <a href="../IEDR_New_Registrars_Console/Domains_Details.html">Domains_Details</a>, <a href="../IEDR_New_Registrars_Console/DomainsController.html#methodactionDomainDetails">DomainsController::actionDomainDetails()</a></li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_IEDR_New_Registrars_Console__viewsdomainsdomaindetails.php.html">Source Code for this file</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionnicHandleWidget" id="functionnicHandleWidget"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">nicHandleWidget</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__viewsdomainsdomaindetails.php.html#a41">41</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">nicHandleWidget Function: Outputs three hyperlinks which go to (and return from) pages for creating, finding and editing Nic-Handles</p>
+<p class="description"><p>On some forms with Nic-Handle fields, it is desirable to be able to, at that point in the session,  divert to a second form to create, find, or update Nic_Handle details.</p><p>This Fn assits in this in the following way:</p><p><ul><li>each nic-handle field in an originating form, to be returned to, has beside it the three
+    html links output by this function</li></ul> <ul><li>Each of these links has a javascript click-event handler which calls javascript function 'getDataAndPostForm'</li></ul> <ul><li>getDataAndPostForm() then reads the nic-handle from the adjacent nic-handle field, along with other
+   info including the URL to return to (i.e., the controller action rendering this view page), puts the data
+   into a hidden form, and posts the form to the appropriate URL.</li></ul></p></p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			nicHandleWidget
+		</span>
+					(<span class="var-type"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span>&nbsp;<span class="var-name">$controller</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$nic_type</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$inpIdNic2edit</span> = <span class="var-default">&#039;LeftBlank&#039;</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../IEDR_New_Registrars_Console/Controller.html">Controller</a></span>
+				<span class="var-name">$controller</span><span class="var-description">: controller handling the current request</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic_type</span><span class="var-description">: which nic-role (for updating the correct field, on return to this page)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$inpIdNic2edit</span><span class="var-description">: The html id attribute of the input tag of the corresponding Nic-handle form field</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:54 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ticketSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/ticket-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ticketDAO" class="pl.nask.crs.ticket.dao.ibatis.ConvertingTicketDAO">
+        <constructor-arg ref="ticketIBatisDAO"/>
+        <constructor-arg ref="ticketConv"/>
+    </bean>
+
+    <bean id="ticketIBatisDAO" class="pl.nask.crs.ticket.dao.ibatis.InternalTicketIBatisDAO">
+        <property name="sqlMapClient" ref="ticketSqlMapClient"/>
+        <property name="idGenerator" ref="ticketIdGenerator" /> 
+    </bean>
+
+    <bean id="historicalTicketIBatisDAO" class="pl.nask.crs.ticket.dao.ibatis.InternalHistoricalTicketIBatisDAO">
+		<property name="sqlMapClient" ref="ticketSqlMapClient"/>
+	</bean>
+    <bean id="historicTicketDAO" class="pl.nask.crs.ticket.dao.ibatis.HistoricalTicketIBatisDAO">
+        <constructor-arg>
+        	<ref local="historicalTicketIBatisDAO"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="pl.nask.crs.ticket.dao.ibatis.converters.HistoricalTicketConverter">
+                <constructor-arg>
+                    <bean class="pl.nask.crs.ticket.dao.ibatis.converters.TicketConverter">
+                        <constructor-arg ref="aStatusFactory"/>
+                        <constructor-arg ref="tStatusFactory"/>
+                        <constructor-arg ref="fReasonFactory"/>
+                        <constructor-arg ref="internalDomainDAO"/>
+                        <property name="evaluateModification" value="true"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="ticketConv" class="pl.nask.crs.ticket.dao.ibatis.converters.TicketConverter">
+        <constructor-arg ref="aStatusFactory"/>
+        <constructor-arg ref="tStatusFactory"/>
+        <constructor-arg ref="fReasonFactory"/>
+        <constructor-arg ref="internalDomainDAO"/>
+        <property name="evaluateModification" value="true"/>
+    </bean>
+
+    <bean id="adminStatusDAO" class="pl.nask.crs.ticket.dao.ibatis.TicketStatusIBatisDAO">
+        <property name="sqlMapClient" ref="ticketSqlMapClient"/>
+        <constructor-arg value="ticket-status.getAdminStatusById"/>
+        <constructor-arg value="ticket-status.getAdminStatusList"/>
+    </bean>
+
+    <bean id="techStatusDAO" class="pl.nask.crs.ticket.dao.ibatis.TicketStatusIBatisDAO">
+        <property name="sqlMapClient" ref="ticketSqlMapClient"/>
+        <constructor-arg value="ticket-status.getTechStatusById"/>
+        <constructor-arg value="ticket-status.getTechStatusList"/>
+    </bean>
+
+    <bean id="failureReasonDAO" class="pl.nask.crs.ticket.dao.ibatis.TicketStatusIBatisDAO">
+        <property name="sqlMapClient" ref="ticketSqlMapClient"/>
+        <constructor-arg value="ticket-status.getFailureReasonById"/>
+        <constructor-arg value="ticket-status.getFailureReasonList"/>
+    </bean>
+
+    <bean id="ticketSearchService"
+          class="pl.nask.crs.ticket.services.impl.TicketSearchServiceImpl">
+        <constructor-arg ref="ticketDAO"/>
+    </bean>
+
+
+    <bean id="ticketHistorySearchService" class="pl.nask.crs.ticket.services.impl.TicketHistorySearchServiceImpl">
+        <constructor-arg ref="historicTicketDAO"/>
+    </bean>
+
+    <bean id="aStatusFactory" class="pl.nask.crs.commons.dictionary.GenericDAODictionary">
+        <constructor-arg ref="adminStatusDAO"/>
+    </bean>
+
+    <bean id="tStatusFactory" class="pl.nask.crs.commons.dictionary.GenericDAODictionary">
+        <constructor-arg ref="techStatusDAO"/>
+    </bean>
+
+    <bean id="fReasonFactory" class="pl.nask.crs.ticket.services.impl.FailureReasonFactoryImpl">
+        <constructor-arg ref="failureReasonDAO"/>
+    </bean>
+
+
+    <!--Beans for ticket response package-->
+    <bean id="ticketResponseSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:ticket-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="ticketResponseDAO" class="pl.nask.crs.ticket.dao.ibatis.TicketResponseIBatisDAO">
+        <property name="sqlMapClient" ref="ticketResponseSqlMapClient"></property>
+    </bean>
+
+    <bean id="ticketResponseService" class="pl.nask.crs.ticket.services.impl.TicketResponseServiceImpl">
+        <constructor-arg ref="ticketResponseDAO"/>
+    </bean>
+
+    <bean id="ticketService"
+          class="pl.nask.crs.ticket.services.impl.TicketServiceImpl">
+        <constructor-arg ref="ticketDAO"/>
+        <constructor-arg ref="historicTicketDAO"/>
+        <constructor-arg ref="contactDAO"/>
+        <constructor-arg ref="aStatusFactory"/>
+        <constructor-arg ref="emailTemplateSender"/>
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+
+    <bean id="ticketReportsDAO" class="pl.nask.crs.ticket.dao.ibatis.ConvertingTicketReportsDAO">
+        <constructor-arg ref="ticketReportsIBatisDAO"/>
+        <constructor-arg ref="ticketReportsConverter"/>
+    </bean>
+
+    <bean id="ticketReportsIBatisDAO" class="pl.nask.crs.ticket.dao.ibatis.InternalTicketReportsIBatisDAO">
+        <property name="sqlMapClient" ref="ticketSqlMapClient"/>
+    </bean>
+
+    <bean id="ticketReportsConverter" class="pl.nask.crs.ticket.dao.ibatis.converters.TicketReportsConverter"/>
+
+    <bean id="ticketReportsSearchService" class="pl.nask.crs.ticket.services.impl.TicketReportsSearchServiceImpl">
+        <constructor-arg ref="ticketReportsDAO"/>
+    </bean>
+</beans>
+

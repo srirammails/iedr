@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-autowire="no"
+        >
+	<import resource="classpath:application-services-config.xml"/>
+	
+	<import resource="classpath:scheduler-config.xml"/>
+
+    <bean id="ticketSearch" class="pl.nask.crs.web.ticket.TicketsSearchAction" scope="prototype">
+        <constructor-arg ref="ticketAppService"/>
+        <constructor-arg ref="ticketSearchService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="userSearchService"/>
+        <constructor-arg ref="aStatusFactory"/>
+        <constructor-arg ref="tStatusFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+        <constructor-arg ref="eClassFactory"/>
+    </bean>
+
+    <bean id="ticketHistorySearch" class="pl.nask.crs.web.ticket.TicketsHistorySearchAction" scope="prototype">
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="ticketHistorySearchService"/>
+        <constructor-arg ref="eClassFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+    </bean>
+
+    <bean id="ticketBrowser" class="pl.nask.crs.web.ticket.TicketBrowserAction" scope="prototype">
+        <constructor-arg ref="ticketAppService"/>
+        <constructor-arg ref="aStatusFactory"/>
+    </bean>
+
+    <bean id="decoratedClassFactory" class="pl.nask.crs.web.StrutsEntityClassFactory">
+        <constructor-arg ref="entityClassDAO"/>
+        <constructor-arg ref="entityCategoryDAO"/>
+    </bean>
+
+    <bean id="ticket" class="pl.nask.crs.web.ticket.TicketAction" abstract="true" scope="prototype">
+        <property name="entityClassFactory" ref="decoratedClassFactory"/>
+        <property name="failureReasonFactory" ref="fReasonFactory"/>
+        <property name="adminStatusFactory" ref="aStatusFactory"/>
+        <property name="ticketAppService" ref="ticketAppService"/>
+        <property name="accountSearchService" ref="accountSearchService"/>
+        <property name="dnsCheckService" ref="dnsCheckService"/>
+    </bean>
+
+    <bean id="ticketRevise" parent="ticket" class="pl.nask.crs.web.ticket.TicketReviseAction" scope="prototype">
+    	<property name="triplePassAppService" ref="tripleCheckAppService" />
+    </bean>
+
+    <bean id="ticketView" parent="ticket" class="pl.nask.crs.web.ticket.TicketViewAction" scope="prototype">
+    	<property name="triplePassSupportService" ref="triplePassSupportService" />
+    </bean>
+
+    <bean id="ticketEdit" parent="ticket" class="pl.nask.crs.web.ticket.TicketEditAction" scope="prototype"/>
+
+    <bean id="logon" class="pl.nask.crs.web.security.LogonAction" scope="prototype">
+        <property name="authenticationService" ref="authenticationService"/>
+    </bean>
+
+    <bean id="logonWithPassChange" class="pl.nask.crs.web.security.LogonWithPassChangeAction" scope="prototype">
+        <property name="authenticationService" ref="authenticationService"/>
+        <property name="nicHandleAppService" ref="nicHandleAppService"/>
+    </bean>
+
+    <bean id="documentsAction" class="pl.nask.crs.web.documents.DocumentsAction" scope="prototype">
+        <constructor-arg index="0" ref="documentAppService"/>
+        <constructor-arg index="1" ref="accountSearchService"/>
+    </bean>
+
+    <bean id="ticketResponseAction" class="pl.nask.crs.web.ticket.templates.TicketResponsesAction" scope="prototype">
+        <constructor-arg ref="ticketResponseService"/>
+    </bean>
+    <bean id="contactAppService" class="pl.nask.crs.app.ContactAppService">
+        <constructor-arg ref="contactSearchService"/>
+    </bean>
+
+    <bean id="contactSearch" class="pl.nask.crs.web.ticket.ContactsSearchAction" scope="prototype">
+        <constructor-arg ref="contactAppService"/>
+    </bean>
+
+    <bean id="emailTemplatesSearch" class="pl.nask.crs.web.email.EmailTemplatesSearchAction" scope="prototype">
+        <constructor-arg ref="emailTemplateAppService"/>
+    </bean>
+
+    <bean id="emailTemplateAction" class="pl.nask.crs.web.email.EmailTemplateAction" scope="prototype">
+        <constructor-arg ref="emailTemplateAppService"/>
+        <constructor-arg ref="emailGroupAppService"/>
+        <constructor-arg ref="emailDisablerAppService"/>
+    </bean>
+
+    <bean id="emailGroupSearch" class="pl.nask.crs.web.email.EmailGroupSearchAction" scope="prototype">
+        <constructor-arg ref="emailGroupAppService"/>
+    </bean>
+
+    <bean id="emailGroupAction" class="pl.nask.crs.web.email.EmailGroupAction" scope="prototype">
+        <constructor-arg ref="emailGroupAppService"/>
+        <constructor-arg ref="emailDisablerAppService"/>
+    </bean>
+
+    <bean id="domainSearch" class="pl.nask.crs.web.domains.DomainsSearchAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="eClassFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+    </bean>
+
+    <bean id="domainView" class="pl.nask.crs.web.domains.DomainViewAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="historicalDomainService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="dnsCheckService" />
+        <constructor-arg ref="dnsNotificationService"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+    </bean>
+
+    <bean id="domainEdit" class="pl.nask.crs.web.domains.DomainEditAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="dnsCheckService"/>
+        <constructor-arg ref="dnsNotificationService"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+        <constructor-arg ref="billingStatusFactory"/>
+        <constructor-arg ref="decoratedClassFactory"/>
+    </bean>
+
+    <bean id="domainAlterStatus" class="pl.nask.crs.web.domains.DomainAlterStatusAction" scope="prototype">
+        <constructor-arg ref="tripleCheckAppService"/>
+        <constructor-arg ref="domainAppService" />
+    </bean>
+    
+    <bean id="domainChangeHolderType" class="pl.nask.crs.web.domains.DomainChangeHolderTypeAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+    </bean>    
+    <bean id="domainWipo" class="pl.nask.crs.web.domains.DomainWipoAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+    </bean>
+ 
+    <bean id="defaultTechContact" class="pl.nask.crs.web.domains.DefaultTechContactAction" scope="prototype">
+        <constructor-arg ref="nicHandleSearchService"/>
+        <constructor-arg ref="contactSearchService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="domainExportAuthCodes" class="pl.nask.crs.web.domains.DomainExportAuthCodesAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+    </bean>
+
+    <bean id="historicalDomain" class="pl.nask.crs.web.domains.HistoricalDomainAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="historicalDomainService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="eClassFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+    </bean>
+
+
+    <bean id="nicHandleSearchAction" class="pl.nask.crs.web.nichandles.NicHandleSearchAction" scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="nicHandleViewAction" class="pl.nask.crs.web.nichandles.NicHandleViewAction" scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="userAppService"/>
+    </bean>
+
+    <!--<bean id="nicHandleBrowserAction" class="pl.nask.crs.web.nichandles.NicHandleBrowserAction" scope="prototype">
+        <property name="nicHandleAppService" ref="nicHandleAppService"/>
+    </bean>-->
+
+    <bean id="nicHandleEditAction" class="pl.nask.crs.web.nichandles.NicHandleEditAction" scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="countryFactory"/>
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="nicHandleResetPasswordAction" class="pl.nask.crs.web.nichandles.NicHandleResetPasswordAction"
+          scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+    </bean>
+
+    <bean id="nicHandleAccessLevelAction" class="pl.nask.crs.web.nichandles.NicHandleAccessLevelAction"
+          scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="userAppService"/>
+        <constructor-arg ref="authorizationGroupsFactory"/>
+        <constructor-arg ref="permissionAppService"/>
+    </bean>
+    
+    <bean id="nicHandleTfaAction" class="pl.nask.crs.web.nichandles.NicHandleTfaAction" scope="prototype">
+        <constructor-arg ref="userAppService"/>
+        <!-- 
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="authorizationGroupsFactory"/>
+        <constructor-arg ref="permissionAppService"/> -->
+    </bean>
+
+    <bean id="nicHandleCreateAction" class="pl.nask.crs.web.nichandles.NicHandleCreateAction" scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="countryFactory"/>
+    </bean>
+    
+    <bean id="nicHandleCreateFromAction" class="pl.nask.crs.web.nichandles.NicHandleCreateFromAction" scope="prototype">
+        <constructor-arg ref="nicHandleAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="countryFactory"/>
+    </bean>
+
+
+    <!-- Accounts -->
+    <bean id="accountSearchAction" class="pl.nask.crs.web.accounts.AccountSearchAction" scope="prototype">
+        <constructor-arg ref="accountAppService"/>
+    </bean>
+
+    <bean id="accountViewAction" class="pl.nask.crs.web.accounts.AccountViewAction" scope="prototype">
+        <constructor-arg ref="accountAppService"/>
+    </bean>
+
+    <bean id="accountEditAction" class="pl.nask.crs.web.accounts.AccountEditAction" scope="prototype">
+        <constructor-arg ref="accountAppService"/>
+        <constructor-arg ref="countryFactory"/>
+        <constructor-arg ref="tariffsDictionary"/>
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="accountCreateAction" class="pl.nask.crs.web.accounts.AccountCreateAction" scope="prototype">
+        <constructor-arg ref="accountAppService"/>
+        <constructor-arg ref="countryFactory"/>
+        <constructor-arg ref="tariffsDictionary"/>
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+    
+    <bean id="accountDepositViewAction" class="pl.nask.crs.web.accounts.AccountDepositViewAction" scope="prototype">
+    	<constructor-arg ref="paymentAppService" />
+    	<constructor-arg ref="accountAppService" />
+    </bean>
+    
+    <bean id="accountDepositEditAction" class="pl.nask.crs.web.accounts.AccountDepositEditAction" scope="prototype">
+    	<constructor-arg ref="paymentAppService" />
+    	<constructor-arg ref="accountAppService" />
+    </bean>
+
+    <bean id="reportsSearch" class="pl.nask.crs.web.reports.ReportsSearchAction" scope="prototype">
+        <constructor-arg ref="reportsAppService"/>
+    </bean>
+
+    <!-- PermissionAppService -->
+    <bean id="permissionAppService" class="pl.nask.crs.app.authorization.PermissionAppService">
+        <constructor-arg ref="authorizationService"/>
+    </bean>
+
+    <!-- validators must also have 'prototype' scope as they have properties -->
+    <bean id="ipaddressValidator" class="pl.nask.crs.web.validators.IPAddress" scope="prototype"/>
+    <bean id="contactValidator" class="pl.nask.crs.web.validators.ContactValidator" scope="prototype">
+        <constructor-arg ref="contactSearchService"/>
+    </bean>
+    <bean id="nsNameValidator" class="pl.nask.crs.web.validators.NsNameValidator" scope="prototype"/>
+    <bean id="nsIPValidator" class="pl.nask.crs.web.validators.NsIPValidator" scope="prototype"/>
+    <bean id="nsValidator" class="pl.nask.crs.web.validators.NsValidator" scope="prototype">
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+    <bean id="phoneValidator" class="pl.nask.crs.web.validators.PhoneValidator" scope="prototype"/>
+    <bean id="contactAccountValidator" class="pl.nask.crs.web.validators.ContactAccountValidator" scope="prototype">
+        <constructor-arg ref="contactSearchService"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+    </bean>
+    <bean id="phoneLengthValidator" class="pl.nask.crs.web.validators.PhoneLengthValidator" scope="prototype"/>
+    <bean id="categoryValidator" class="pl.nask.crs.web.validators.CategoryValidator" scope="prototype"/>
+    <bean id="bigDecimalValidator" class="pl.nask.crs.web.validators.BigDecimalValidator" scope="prototype"/>
+    <bean id="emailGroupValidator" class="pl.nask.crs.web.validators.EmailGroupValidator" scope="prototype">
+        <constructor-arg ref="emailGroupService"/>
+    </bean>
+    <bean id="ticketNameserverCountValidator" class="pl.nask.crs.web.validators.TicketNameserverCountValidator" scope="prototype">
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+    <bean id="ticketNameserverDuplicationValidator" class="pl.nask.crs.web.validators.TicketNameserverDuplicationValidator" scope="prototype"/>
+    <bean id="ticketNameserverDomainValidator" class="pl.nask.crs.web.validators.TicketNameserverDomainValidator" scope="prototype"/>
+    <bean id="ticketNameserverGlueRequiredValidator" class="pl.nask.crs.web.validators.TicketNameserverGlueRequiredValidator" scope="prototype"/>
+    <bean id="ticketNameserverGlueNotAllowedValidator" class="pl.nask.crs.web.validators.TicketNameserverGlueNotAllowedValidator" scope="prototype"/>
+    <bean id="ticketNameserverIpv4Validator" class="pl.nask.crs.web.validators.TicketNameserverIpv4Validator" scope="prototype"/>
+
+    <bean id="domainForceDSMEventChangeAction" class="pl.nask.crs.web.domains.DomainForceDSMEventChangeAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+    </bean>
+    <bean id="domainForceDSMStateChangeAction" class="pl.nask.crs.web.domains.DomainForceDSMStateChangeAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+    </bean>
+
+    <bean id="vatViewAction" class="pl.nask.crs.web.vat.VatViewAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="vatCreateAction" class="pl.nask.crs.web.vat.VatCreateAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+    
+    <bean id="taskCreateAction" class="pl.nask.crs.web.task.TaskCreateAction" scope="prototype">
+        <constructor-arg ref="schedulerCron"/>
+        <constructor-arg ref="jobRegistry" />
+    </bean>
+
+    <bean id="taskEditAction" class="pl.nask.crs.web.task.TaskEditAction" scope="prototype">
+        <constructor-arg ref="schedulerCron"/>
+    </bean>
+
+    <bean id="taskViewAction" class="pl.nask.crs.web.task.TaskViewAction" scope="prototype">
+       <constructor-arg ref="schedulerCron"/>
+    </bean>   
+    
+    <bean id="jobViewAction" class="pl.nask.crs.web.task.JobViewAction" scope="prototype">
+        <constructor-arg ref="schedulerCron"/>
+    </bean>
+
+    <bean id="jobHistViewAction" class="pl.nask.crs.web.task.JobHistViewAction" scope="prototype">
+        <constructor-arg ref="schedulerCron"/>
+    </bean>
+
+    <bean id="priceViewAction" class="pl.nask.crs.web.price.PriceViewAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="priceEditAction" class="pl.nask.crs.web.price.PriceEditAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="priceCreateAction" class="pl.nask.crs.web.price.PriceCreateAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+	<bean id="configViewAction" class="pl.nask.crs.web.config.ConfigViewAction" scope="prototype">
+        <constructor-arg ref="configAppService"/>
+    </bean>
+
+	<bean id="configEditAction" class="pl.nask.crs.web.config.ConfigEditAction" scope="prototype">
+        <constructor-arg ref="configAppService"/>
+    </bean>
+    
+    <bean id="bulkTransferCreate" class="pl.nask.crs.web.domains.BulkTransferCreateAction" scope="prototype">
+		<constructor-arg ref="accountSearchService"/>
+		<constructor-arg ref="bulkTransferAppService" />    	
+    </bean>
+    
+    <bean id="bulkTransferList" class="pl.nask.crs.web.domains.BulkTransferListAction" scope="prototype">
+    	<constructor-arg ref="bulkTransferAppService" />
+    </bean>
+    
+    <bean id="bulkTransferView" class="pl.nask.crs.web.domains.BulkTransferViewAction" scope="prototype">
+    	<constructor-arg ref="bulkTransferAppService" />
+    </bean>
+
+    <bean id="depositAccount" class="pl.nask.crs.web.reports.DepositActualBalanceAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="transactionsReportAction" class="pl.nask.crs.web.reports.TransactionsReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="transactionsHistReportAction" class="pl.nask.crs.web.reports.TransactionsHistoryReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="transactionInfoReportAction" class="pl.nask.crs.web.reports.TransactionInfoReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="invoicesReportAction" class="pl.nask.crs.web.reports.InvoicesReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="extendedInvoicesReportAction" class="pl.nask.crs.web.reports.ExtendedInvoiceReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="invoiceInfoReport" class="pl.nask.crs.web.reports.InvoiceInfoAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="viewPDFAction" class="pl.nask.crs.web.reports.ViewPDFAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+    </bean>
+
+    <bean id="nrpDomainReportAction" class="pl.nask.crs.web.reports.NrpDomainReportAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="charityDomainReportAction" class="pl.nask.crs.web.reports.CharityDomainReportAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="totalDomainsReportAction" class="pl.nask.crs.web.reports.TotalDomainsReportAction" scope="prototype">
+        <constructor-arg ref="reportsAppService"/>
+    </bean>
+
+    <bean id="totalDomainsPerDateReportAction" class="pl.nask.crs.web.reports.TotalDomainsPerDateReportAction" scope="prototype">
+        <constructor-arg ref="reportsAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="eClassFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+    </bean>
+
+    <bean id="doaReportAction" class="pl.nask.crs.web.reports.DOAReportAction" scope="prototype">
+        <constructor-arg ref="paymentAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+        <constructor-arg ref="userAppService"/>
+    </bean>
+
+    <bean id="domainsPerClassReportAction" class="pl.nask.crs.web.reports.DomainsPerClassReportAction" scope="prototype">
+        <constructor-arg ref="reportsAppService"/>
+        <constructor-arg ref="eClassFactory"/>
+        <constructor-arg ref="eCategoryFactory"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+
+    <bean id="deletedDomainReportAction" class="pl.nask.crs.web.reports.DeletedDomainsReportAction" scope="prototype">
+        <constructor-arg ref="domainAppService"/>
+        <constructor-arg ref="accountSearchService"/>
+    </bean>
+</beans>

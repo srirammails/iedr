@@ -1,0 +1,35 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="gainingAccountId">
+        <field-validator type="required">
+            <message>You must select gaining account</message>
+        </field-validator>
+        <field-validator type="fieldexpression">
+        	<param name="expression">gainingAccountId != 1</param>
+        	<message>Cannot select Guest account as a gaining account</message>
+        </field-validator>
+    </field>
+    
+    <field name="losingAccountId">
+        <field-validator type="required">
+            <message>You must select losing account</message>
+        </field-validator>
+        <field-validator type="fieldexpression">
+        	<param name="expression">losingAccountId != 1</param>
+        	<message>Cannot select Guest account as a losing account</message>
+        </field-validator>
+    </field>
+    
+    <field name="remarks">
+    	<field-validator type="requiredstring">
+    		<message>Enter remarks</message>
+    	</field-validator>
+    </field>      
+    
+    <validator type="expression">
+    	<param name="expression">losingAccountId != gainingAccountId</param>
+    	<param name="fieldName">losingAccountId</param>
+    	<message>Losing and gaining accounts must be different</message>
+    </validator>
+</validators>

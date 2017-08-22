@@ -1,0 +1,7 @@
+<!-- START protected/views/domainreports/nsrecords.php -->
+<?php
+$pg = 'NS Records';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?=$pg ?></h2>
+<!-- END protected/views/domainreports/nsrecords.php -->

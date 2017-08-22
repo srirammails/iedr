@@ -1,0 +1,282 @@
+<?php
+
+/**
+ * defines Utility class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * container for various unrelated miscellaneous static functions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Utility
+	{
+
+    /**
+     * round a floating-point number to two decimal places according to IEDR business rules 'half even'
+     * 
+     * Dermot : "below half a penny, you round down.  Above half a penny, you round up.  At exactly half a penny, you round to the nearest even amount so 76.5p becomes 76p and 77.5p becomes 78, etc."
+     * 
+     * @param  unknown $f decimal value
+     * @return integer rounded number
+     * @access public 
+     * @static
+     */
+	static public function roundAccountingAmount($f)
+		{
+		return round($f, 2, PHP_ROUND_HALF_EVEN);
+		}
+
+    /**
+     * render a currency amount in html format
+     * 
+     * prepends currency symbol, adds thousands separator
+     * 
+     * @param  unknown $m    currency amount
+     * @param  string  $curr currency, defaults to 'EUR'
+     * @return mixed   html representation of amount
+     * @access public 
+     * @static
+     */
+	static public function currencyAmount($m,$curr='EUR')
+		{
+		if($m==null) return '';
+		// use : Utility::currencyAmount($x);
+		$csym = '&euro;';
+		switch($curr)
+			{
+			case 'USD': $csym = '$'; break;
+			case 'GBP': $csym = '£'; break;
+			default: case 'EUR': break;
+			}
+		return $csym.'&nbsp;'.number_format($m, /*decimals*/2,/*dec_point*/'.',/*thousands*/',');
+		}
+
+    /**
+     * returns string representing a date, in YYYY-MM-DD format, being the last calendar day of the current month
+     * 
+     * @return string last day of current month
+     * @access public
+     * @static
+     */
+	static public function lastDayOfCurrentMonth()
+		{
+		return date('Y-m-t', time());
+		}
+
+    /**
+     * returns a string being the payment-due-date of the current invoice period
+     * 
+     * currently defined as the last calendar day of the present month
+     * 
+     * @return string payment-due-date...
+     * @access public 
+     * @static
+     */
+	static public function paymentDueByDate()
+		{
+		return Utility::lastDayOfCurrentMonth();
+		}
+
+    /**
+     * find if a domain exists on the account of a registrar
+     * 
+     * @param  string $domainName domain name
+     * @param  integer $accountId  optional account number
+     * @return boolean whether domain is on the account of the registrar (or if it exists at all, if accountId is null)
+     * @access public 
+     * @static
+     */
+        static public function domainExists($domainName, $accountId=null)
+		{
+		// search
+		$ds = new CRSDomainAppService_domainSearchCriteria();
+		$ds->domainName = $domainName;
+		$ds->accountId  = $accountId;
+		$result = null;
+
+		// sort
+		$sc = new CRSDomainAppService_sortCriterion();
+		$sc->sortBy = 'D.D_Name';
+		$sc->ascending = true;
+		$errs = "";
+
+		/* BUG HACK workaround NASK not checking input for NULLs */ 
+		if($ds->contactType == null) unset($ds->contactType);
+
+		CRSDomainAppService_service::findDomains($result,$errs, Yii::app()->user->authenticatedUser, $ds, /*offset=*/0, /*limit=*/1, $sc);
+		#Yii::log(print_r($result,true), 'debug', 'DomainsController::domainIsAvailable()');
+		Yii::log('backend_errors='.print_r($errs,true), 'debug', 'Utility::domainIsAvailable()');
+		if($result and is_object($result) and property_exists($result,'totalResults') and $result->totalResults===1)
+			return true; // found => exists
+		return false;
+		}
+
+    /**
+     * find whether a domain is available for registration, checking if it exists and has no pending creation ticket
+     * 
+     * @param  string $domainName domain name
+     * @return boolean true if the domain can be created
+     * @access public 
+     * @static
+     */
+        static public function domainIsAvailable($domainName)
+		{
+		if(Utility::domainExists($domainName))
+			{
+			// found => is already taken => unavailable
+			return false;
+			}
+		// not found ...
+		if(Utility::getTicketForDomain($domainName) != null)
+			{
+			// has ticket => unavailable
+			return false;
+			}
+		return true; // available
+		}
+
+    /**
+     * return current open ticket for the supplied domain, if any
+     * 
+     * @param  string $domainName domain name
+     * @return integer  returns integer ticket if if any, otherwise null
+     * @access public
+     * @static
+     */
+	static public function getTicketForDomain($domainName)
+		{
+		// call ..
+		$result = null;
+		$errs = "";
+		CRSTicketAppService_service::viewTicketForDomain($result,$errs, Yii::app()->user->authenticatedUser, $domainName);
+		if($result and isset($result->id) and $result->id!=null and is_integer($result->id) and $result->id > 0)
+			{
+			Yii::log('ticket found for "'.$domainName.'": '.$result->id, 'debug', 'Utility::getTicketForDomain()');
+			return $result->id;
+			}
+		Yii::log('ticket not found for "'.$domainName.'": '.print_r($result,true), 'debug', 'Utility::getTicketForDomain()');
+		return null;
+		}
+
+    /**
+     * split a delimited string into an array, then validate the strings with {@link IEDomainValidator}
+     * 
+     * @param  unknown $in       string containing one or more domains delimited by newline, comma, colon, semicolon, or space
+     * @param  array   &$errDoms array will have added to it domains from the input which are not valid .IE domains
+     * @return array   array of valid .IE domain names
+     * @access public 
+     * @static
+     */
+        static public function parseInput($in,&$errDoms=null)
+		{
+		// parse input string into array and return an array of valid domain-names
+		if($errDoms==null) $errDoms = array();
+		$validIEDomains = array();
+		$tokens = preg_split('/[\s,;:]+/', strtolower($in));
+		#Yii::log('str "'.$in.'" into array: '.print_r($tokens,true), 'debug', 'Utility::parseInput()1');
+		foreach($tokens as $d)
+			if(preg_match(IEDomainValidator::$ie_domain_regex,$d)==1)
+				$validIEDomains[$d] = 1;
+			else
+				$errDoms[$d] = 1;
+		$validIEDomains = array_keys($validIEDomains);
+		#Yii::log('str "'.$in.'": valid = '.print_r($validIEDomains,true), 'debug', 'Utility::parseInput()2');
+		$errDoms = array_keys($errDoms);
+		#Yii::log('str "'.$in.'": errors = '.print_r($errDoms,true), 'debug', 'Utility::parseInput()3');
+		return $validIEDomains;
+		}
+
+    /**
+     * replaces newline characters with unix newline, slash-n
+     * 
+     * @param  string $string string to use
+     * @return string copy of input with newlines replaced
+     * @access public 
+     * @static
+     */
+	static public function replace_newline($string) 
+		{
+		return (string)str_replace(array("\r", "\r\n", "\n"), '', $string);
+		}
+
+    /**
+     * returns array of IEDR Usernames, for local login widget
+     * 
+     * @return array  array of login usernames
+     * @access public
+     * @static
+     */
+	static public function getIEDRUsers()
+		{
+		$usrs = Yii::app()->params['iedr_users'];
+		$arr = array(NicHandleIdentity::$NOT_INTERNAL=>'');
+		foreach($usrs as $u)
+			$arr[$u] = $u;
+		return $arr;
+		}
+
+    /**
+     * returns boolean whether current request matches rules for determining of the access is from an internal network
+     * 
+     * @param  unknown $ipAddr IP address
+     * @return boolean whether current request matches rules for determining of the access is from an internal network
+     * @access public 
+     * @static
+     */
+	static public function isInternalNetwork($ipAddr=null)
+		{
+		if($ipAddr==null)
+			$ipAddr = $_SERVER['REMOTE_ADDR'];
+		$internalNet = Yii::app()->params['internal_network'];
+		foreach($internalNet['exact_matches'] as $exactIp)
+			if($ipAddr == $exactIp)
+				return true;
+		foreach($internalNet['regex_matches'] as $IpRegex)
+			if(preg_match($IpRegex, $ipAddr)==1)
+				return true;
+		return false;
+		}
+
+	#Prints the Invoice Summary table for the View History->Invoices reports.
+
+
+    /**
+     * Prints to the output stream the Invoice Summary table for the View History->Invoices reports.
+     * 
+     * @param  mixed  $model data model
+     * @return void  
+     * @access public
+     * @static
+     */
+	static public function printInvHistSummary($model)
+		{
+		echo "<table class=\"gridtable\"><tr><td class=\"bold\">Invoice Number</td><td class=\"bold\">Sub Total</td><td class=\"bold\">VAT</td><td class=\"bold\">Total</td></tr>";
+		foreach($model->invSummary as $anInvSummary)
+			{
+			echo "<tr><td>" . $anInvSummary['I_Inv_No'] ."</td>";
+			echo "<td>".Utility::currencyAmount($anInvSummary['theAmount'])  ."</td>";
+			echo "<td>".Utility::currencyAmount($anInvSummary['theVat']) ."</td>";
+			echo "<td>".Utility::currencyAmount($anInvSummary['theAmount'] + $anInvSummary['theVat']) ."</td></tr>";
+			}
+		echo "</table>";
+		}
+	}
+

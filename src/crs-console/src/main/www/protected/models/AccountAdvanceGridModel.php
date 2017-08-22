@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * defines AccountAdvanceGridModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class AccountAdvanceGridModel
+	extends AllDomainsModel
+	{
+	// the CRS-WS (CRSPaymentAppService_service::getInvoicesWithLimit) doesn't do searching or sorting
+
+
+    /**
+     * Description for public
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $date;	
+
+    /**
+     * default sort column for jqGrid
+     * 
+     * @var    string
+     * @access public
+     */
+	public $defaultSortColumn = 'PK';
+
+    /**
+     * column model array for jqGrid
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $columns = array(
+		'PK' => array('label'=>'Domain',	'width'=>60,'link'=>'domains/viewdomain',),
+		'C' => array('label'=>'Holder',		'width'=>60,),
+		'D' => array('label'=>'Renewal',	'width'=>23,'type'=>'date',),
+		'E' => array('label'=>'Amount',		'width'=>20,'type'=>'currency'),
+		'F' => array('label'=>'VAT',		'width'=>20,'type'=>'currency'),
+		'K' => array('label'=>'Select',		'width'=>20,'type'=>'checkbox',),
+		);
+
+    /**
+     * constructor, calls parent constructor
+     * 
+     * @param  object $obj (optional) instantiating controller, if the instantiating controller is derived from AccountsGridController
+     * @return void   
+     * @access public 
+     */
+	public function __construct($obj) { parent::__construct($obj); }
+
+    /**
+     * returns formatted parts of the supplied object instance in an array for a data grid controller
+     * 
+     * @param  CRSPaymentAppService_invoiceVO $o CRS-WS-API object instance to copy data from
+     * @return array  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+      ModelUtility::hasProperty($this->columns, $o);
+		return array
+			(
+			'PK'=>$o->domainName,
+			'C'=>cleanString($o->holderId),
+			'D'=>parseXmlDate($o->renDate),
+			'E'=>number_format($o->amount,2),
+			'F'=>number_format($o->vat,2),
+			'K'=>0,
+			);
+		}
+	}
+

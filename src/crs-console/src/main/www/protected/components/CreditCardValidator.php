@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * defines CreditCardValidator class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       RealAuth XML Definitions Guide : https://resourcecentre.realexpayments.com/products.html?doc_id=43&id=124
+ */
+/**
+ * credit card type for RealEx API (via CRS-WSAPI) : VISA
+ */
+define('CREDCARDTYPE_VISA', 'VISA');
+
+/**
+ * credit card type for RealEx API (via CRS-WSAPI) : MasterCard
+ */
+define('CREDCARDTYPE_MASTERCARD', 'MC');
+
+/**
+ * credit card CVN status for RealEx API (via CRS-WSAPI) : CVN Present
+ */
+define('CVN_PRESENT_OK', 1);
+
+/**
+ * credit card CVN status for RealEx API (via CRS-WSAPI) : CVN Present but not supplied
+ */
+define('CVN_PRESENT_ILLEGIBLE', 2);
+
+/**
+ * credit card CVN status for RealEx API (via CRS-WSAPI) : CVN not on card
+ */
+define('CVN_PRESENT_NOT_ON_CARD', 3);
+
+/**
+ * credit card CVN status for RealEx API (via CRS-WSAPI) : CVN not requested
+ */
+define('CVN_PRESENT_NOT_REQUESTED', 4);
+
+/**
+ * validate a credit card number
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       http://www.merriampark.com/anatomycc.htm , http://stackoverflow.com/questions/1463252/creditcard-verification-with-regex
+ */
+class CreditCardValidator extends RegexValidator {
+
+   /**
+    * Credit Card Number validation regex patterns
+    * 
+    * - Visa: All numbers start with a 4. New cards have 16 digits. Old cards have 13.
+    * 
+    * - MasterCard: All numbers start with the numbers 51 through 55. All have 16 digits.
+    * 
+    * - Laser : They should have between 16 and 19 numbers inclusively, and should have a prefix of one of 6304, 6706, 6709
+    * 
+    * @var    array 
+    * @access public
+    * @static
+    * @see http://www.regular-expressions.info/creditcard.html
+    */
+   static $card_patterns = array(
+       # Visa: All numbers start with a 4. New cards have 16 digits. Old cards have 13.
+       CREDCARDTYPE_VISA => '4[0-9]{12}(?:[0-9]{3})?',
+       # MasterCard: All numbers start with the numbers 51 through 55. All have 16 digits.
+       CREDCARDTYPE_MASTERCARD => '5[1-5][0-9]{14}',
+       # switch
+       #'SWITCH' => '([0-9]{6}[0-9]{12}|[0-9]{18})',
+       # American Express: numbers start with 34 or 37 and have 15 digits.
+       #'AMEX '  => '3[47][0-9]{13}',
+       # laser : They should have between 16 and 19 numbers inclusively, and should have a prefix of one of 6304, 6706, 6709
+       # CREDCARDTYPE_LASER => '6(304|706|709)([0-9]{12,15})',
+           # Diners Club: numbers begin with 300 through 305, 36 or 38. All have 14 digits.
+           #	 There are cards that begin with 5 and have 16 digits;
+           #	 These are a joint venture between Diners Club and MasterCard, and should be processed like a MasterCard.
+           #'DINERS' => '3(?:0[0-5]|[68][0-9])[0-9]{11}',
+   );
+
+   /**
+    * constructor, sets up regex and error message
+    * 
+    * @return void  
+    * @access public
+    */
+   public function __construct() {
+      $this->regex = '/^';
+      foreach (CreditCardValidator::$card_patterns as $card => $regex)
+         $this->regex .= '(' . $regex . ')|';
+      $this->regex .= '$/';
+      // remove final pipe
+      $this->regex = str_replace(')|$/', ')$/', $this->regex);
+      $this->invalid_msg = 'is not a valid CreditCard number';
+   }
+
+   /**
+    * get array of card type for which we have validation patterns
+    * 
+    * @return array  array of card-type strings
+    * @access public
+    * @static
+    */
+   public static function getCardTypes() {
+      $ctyplist = array();
+      foreach (array_keys(CreditCardValidator::$card_patterns) as $k => $v)
+         $ctyplist[$v] = $v;
+      return $ctyplist;
+   }
+
+   /**
+    * validate a credit card number
+    * 
+    * checks that the passed string is all numeric, passes Luhn check, and matches one of the validation regexes
+    * 
+    * @param  object    $model     model containing credit card data
+    * @param  string   $attribute model attribute name containing credit cared number string
+    * @return boolean   whether card number validates
+    * @todo   could be refactored to make better use of base class functionality
+    * @access protected
+    */
+   protected function validateAttribute($model, $attribute) {
+      $value = $this->strip_non_numeric($model->$attribute);
+      if (!$this->card_validate($value)) {
+
+         $lbls = $model->attributeLabels();
+         $lbl = $lbls[$attribute];
+         $model->addError($attribute, Yii::t('yii', $lbl . ' ' . $this->invalid_msg));
+         Yii::log('CARD CREDIT VALIDATE ERROR');
+         return false;
+      }
+      Yii::log('CARD CREDIT VALIDATE SUCCESSFUL');
+      return true;
+   }
+
+   /**
+    * returns passed string with non-digit characters removed
+    * 
+    * @param  string   $cardno credit card number
+    * @return string    input string with non-digit characters removed
+    * @access protected
+    */
+   protected function strip_non_numeric($cardno) {
+      return preg_replace('/[^0-9]/', null, $cardno);
+   }
+
+   /**
+    * checks if a card number passes luhn check and matches a validation regex (card type optional)
+    * 
+    * @param  string   $cardno    credit card number
+    * @param  string   &$cardtype optional type; if null, will set on return to the first type the card-number validated as
+    * @return boolean   true if valid
+    * @access protected
+    */
+   protected function card_validate($cardno, &$cardtype=null) {
+      return (CreditCardValidator::CCLuhnCheck($cardno) and CreditCardValidator::CCPrefixLengthTypeCheck($cardno, $cardtype));
+   }
+
+   /**
+    * perform Luhn check
+    * 
+    * inspired by http://www.codepost.org/browse/snippets/88
+    * 
+    * @param  string $str credit card number
+    * @return boolean check results
+    * @access public 
+    * @static
+    * @see http://en.wikipedia.org/wiki/Luhn_algorithm
+    */
+   public static function CCLuhnCheck($str) {
+      $odd = true;
+      $sum = 0;
+      foreach (array_reverse(str_split($str)) as $num)
+         $sum += array_sum(str_split(($odd = !$odd) ? $num * 2 : $num));
+      return (($sum % 10 == 0) && ($sum != 0));
+   }
+
+   /**
+    * try to match credit card number against regex patterns
+    * 
+    * parameter 'typ' : if null, will be set to the type of the first regex the card number was found to match, if any
+    * 
+    * @param  string $num  credit card number
+    * @param  string &$typ optional type ; if null, will be set to the type of the first regex the card number was found to match, if any
+    * @return boolean whether card matched regex for the specified type, or if type was null, if card matched regex of any type
+    * @access public 
+    * @static
+    */
+   public static function CCPrefixLengthTypeCheck($num, &$typ=null) {
+      $pass = false;
+      if ($typ != null and isset(CreditCardValidator::$card_patterns[$typ])) {
+         $pass = preg_match('/^' . CreditCardValidator::$card_patterns[$typ] . '$/', $num);
+      } else {
+         foreach (CreditCardValidator::$card_patterns as $cardtype => $regex)
+            if (CreditCardValidator::CCPrefixLengthTypeCheck($num, $cardtype)) {
+               $pass = true;
+               $typ = $cardtype;
+               break;
+            }
+      }
+      
+      Yii::log('PASS= '.print_r($pass,true));
+      return $pass;
+   }
+
+}
+

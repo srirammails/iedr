@@ -1,0 +1,147 @@
+X-Account-Key: account2
+X-UIDL: 540a06cc02daf2ce
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <ciarak@domainregistry.ie>
+Received: from boromix.nask.net.pl (boromix.nask.net.pl [195.187.245.33])
+	by boromir.nask.net.pl  with ESMTP id m9KEulR8025586
+	for <patrycjaw@boromir.nask.net.pl>; Mon, 20 Oct 2008 16:56:47 +0200 (CEST)
+Received: from smtp2.domainregistry.ie ([213.190.149.217])
+	by boromix.nask.net.pl  with SMTP id m9KEuJGr031858
+	for <patrycjaw@nask.pl>; Mon, 20 Oct 2008 16:56:20 +0200
+Received: (qmail 26694 invoked from network); 20 Oct 2008 15:02:14 -0000
+Received: from unknown (HELO ?10.10.2.50?) (213.190.149.194)
+  by smtp2.domainregistry.ie with SMTP; 20 Oct 2008 15:02:14 -0000
+Message-ID: <48FC9C13.8060003@domainregistry.ie>
+Date: Mon, 20 Oct 2008 15:56:19 +0100
+From: Ciara Kavanagh <ciarak@domainregistry.ie>
+User-Agent: Thunderbird 2.0.0.9 (Windows/20071031)
+MIME-Version: 1.0
+To: Patrycja Wegrzynowicz <patrycjaw@nask.pl>
+CC: billy.glynn@domainregistry.ie
+Subject: Re: [Fwd: Re: Additional Functions]
+References: <48F9E83B.2090401@domainregistry.ie> <48FC9682.3040205@domainregistry.ie> <48FC9A72.1070605@nask.pl>
+In-Reply-To: <48FC9A72.1070605@nask.pl>
+Content-Type: text/plain; charset=ISO-8859-2; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none (boromix.nask.net.pl: domain of ciarak@domainregistry.ie does not designate permitted sender hosts)
+VirusProtection: checked - Found to be clean
+
+Hi Patrycja,
+
+Yes you are correct, in ticket history you do not need to highlight the 
+field that has been changed.
+
+Thanks,
+Ciara
+
+
+
+Patrycja Wegrzynowicz wrote:
+> Ciara,
+>
+> Thank you very much for your answer! It has cleared out a lot of things.
+>
+> One more question to make sure we understand it correctly. About the 
+> historical view. You wrote:
+>
+> > *No in the historical view it is not necessary to compare the data 
+> again for each history record.*
+>
+> Does it mean that in the history we do not need to highlight the changes?
+>
+> Best regards,
+> Patrycja
+>
+> * Ciara Kavanagh [2008-10-20 16:32]:
+>>>>> Hi Billy,
+>>>>>
+>>>>> Could you please elaborate more on what you meant by the following
+>>>>> points from the CRS requirements:
+>>>>>
+>>>>> 2) Show previous domain holder
+>>>>>       
+>> If the domain name was ever registered before it is currently 
+>> highlighted in the ticket to the user. Currently the T_Remark field 
+>> will append text to say **Previously registered to: Name of old 
+>> holder** (this is because it is often the case the the previous 
+>> holder is reapplying for the domain name)
+>>>>> 6) Cater for charity regs
+>>>>>       
+>> Currently we have the option to set the T_Class of a ticket to 
+>> 'Charity'. This class is not listed in the Class table in the 
+>> database like all other classes but needs to available for the user 
+>> to select ( this class is only visible to internal users and not 
+>> externally via our website which is why it is not lited in this table)
+>>
+>> In addition, I've got the question to you about highlighting the 
+>> modifications in a ticket. What does "modification" mean to you? 
+>> Should we determine changes comparing the ticket fields with the 
+>> coresponding domain:
+>> - from the moment the ticket was created?
+>> - from the actual moment the ticket is displayed?
+>>
+>> *A modification ticket is when a ticket is submitted to change the 
+>> details of a currently registered domain. When we open a ticket it is 
+>> highlighted to us what the user has changed so we know whether to 
+>> accept the change or request authorisation. The information is 
+>> compared with the Domain/Contact/DNS tables the actual moment the 
+>> ticket is viewed by the user.*
+>>
+>> Please consider the scenario:
+>> - The domain A with the nameservers: NS1.A, NS2.A, the admin contact: 
+>> ADMIN_NH1
+>> - A ticket is created to change the admin contact to ADMIN_NH2
+>> - At this moment the GUI highlights "ADMIN_NH2" field as a modification
+>> - At this moment the domain is modified manually to change the 
+>> contact to ADMIN_NH2
+>> - What should the GUI display? ADMIN_NH2 should be highlighted or not?
+>>
+>> *This wont be an issue as the ticket should be compared with the 
+>> current data for the domain when the ticket is viewed. (This only 
+>> needs to happen for modification tickets (T_Type='M'))*
+>>
+>> This problem is also associated with displaying the history of the 
+>> ticket.
+>> - Do we need to highlight changes in a historical view of a ticket?
+>> - How the modifications should be computed? (comparing to which 
+>> domain record - current, historical?)
+>>
+>> *No in the historical view it is not necessary to compare the data 
+>> again for each history record.*
+>>
+>
+>
+>
+
+-- 
+Ciara Kavanagh
+
+Registration Services Team Leader
+IE Domain Registry Limited
+14 Windsor Terrace,
+Sandycove, 
+Co. Dublin
+
+Phone: 01 2365400
+Fax: 01 2300365
+
+Web: http://www.iedr.ie
+Email: ciara@iedr.ie
+
+
+-------------------------------------------------------------------
+Registered Office: 14 Windsor Terrace, Sandycove, Co. Dublin.
+Registered in Ireland. No: 315315.
+-------------------------------------------------------------------
+
+The enclosed document is CONFIDENTIAL to
+addressee and IE Domain Registry Ltd. The intended
+addressee is NOT AUTHORISED to copy, distribute,
+disclose or otherwise use the information disclosed.
+Please also note that this information should not be
+edited or redistributed in any way.
+
+
+

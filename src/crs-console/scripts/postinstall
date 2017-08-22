@@ -1,0 +1,11 @@
+echo Resetting SELinux policy to allow HTTPD access to CRS directories...
+for i in /opt/crs/console/www/protected/cache /opt/crs/console/www/assets /var/iedr 
+do
+/usr/sbin/semanage fcontext -a -t public_content_rw_t "$i(/.*)?"
+/sbin/restorecon -F -R -v $i
+done
+echo Setting SELinux booleans
+/usr/sbin/setsebool -P httpd_unified 1
+/usr/sbin/setsebool -P allow_httpd_anon_write 1
+/usr/sbin/setsebool -P httpd_can_network_connect 1
+echo SELinux configuration complete

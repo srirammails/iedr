@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * defines SQLGridController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * base class controller for jqGrid views which use data sources from SQL Databases
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class SQLGridController
+        extends GridController
+        {
+
+    /**
+     * type - unused
+     *
+     * @var    unknown
+     * @access protected
+     */
+	protected $type;
+
+    /**
+     * export-file-name prefix
+     *
+     * @var    string
+     * @access protected
+     */
+	protected $exportFileName;
+
+    /**
+     * default number of days for model->days attribute
+     *
+     * @var    integer
+     * @access public 
+     */
+	public $defaultDateRange = 30;
+
+    /**
+     * returns export-file-name prefix
+     * 
+     * @return string Returns string for filename to prepend to generated files by jqGrid export
+     * @access public 
+     */
+        public function getExportFilenameTag()
+                {
+                return $this->exportFileName;
+                }
+
+    /**
+     * returns the cached record count, or fetches count if not cached
+     * 
+     * looks for the value in the App Cache - if not found, runs {@link=uncached_getNumRows} (and caches the result)
+     * 
+     * @param  unknown   $model    model for current request
+     * @param  unknown   $criteria array of constraints in the form of (column-name => data-value)
+     * @param  unknown   $sort     Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.
+     * @return integer   count of rows found
+     * @access public 
+     */
+	public function getNumRows($model,$criteria=null,$sort=null)
+		{
+		Yii::log(print_r($model,true), 'debug', 'SQLGridController::getNumRows');
+		$cache_key = 'SQLGridController_getNumRows_'.print_r($model,true).'_'.print_r($criteria,true);
+		$d = Yii::app()->cache->get($cache_key);
+		if($d==null)
+			{
+			$d = $this->uncached_getNumRows($model,$criteria,$sort);
+			$timeout = 20; // 20 secs
+			Yii::app()->cache->set($cache_key, $d, $timeout);
+			}
+		Yii::log($d, 'debug', 'SQLGridController::getNumRows');
+		return $d;
+                }
+
+    /**
+     * builds this controller's sql query with the passwd parameters, wraps it in 'select count(*) from ()', runs it, and returns the record count
+     * 
+     * @param  unknown   $model    model for current request
+     * @param  unknown   $criteria array of constraints in the form of (column-name => data-value)
+     * @param  unknown   $sort     Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.
+     * @return integer   count of rows found
+     * @access protected
+     */
+	protected function uncached_getNumRows($model,$criteria=null,$sort=null)
+		{
+		$query = $this->getPartialQuery($model,$criteria,$sort);
+		$connection = Yii::app()->db;
+		$command = $connection->createCommand('select count(*) as n from ('.$query.') x');
+		$row = $command->queryRow(); 
+ 		return $row['n'];
+		}
+
+    /**
+     * returns array of metadata and data rows for one jqGrid page
+     * 
+     * @param  object    $model    CModel instance passed by the action function
+     * @param  array     $criteria array of constraints in the form of (column-name => data-value)
+     * @param  unknown   $sort     Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.
+     * @param  integer   $perpage  how many rows on each page 
+     * @param  integer   $pagenum  which page of paginated results to fetch; 1-based
+     * @return array     array of metadata and data rows for one jqGrid page
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		$pagedata = array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		// get SQL
+		$query = $this->getQuery($model,$criteria,$sort,$perpage,$pagenum);
+		// get total rows
+		$totalRsts = $this->getNumRows($model,$criteria);
+		$pagedata['records'] 	= $totalRsts;
+		$pagedata['total'] 	= math_div($totalRsts,$perpage)+1;
+		// get data
+		$connection = Yii::app()->db;
+		$command = $connection->createCommand($query);
+		$result = $command->query();
+		if($totalRsts > 0)
+		        foreach($result as $k => $o) {
+				Yii::log('fetched line $k => $o '.$k.' => '.print_r($o,true), 'debug', 'SQLGridController::getData');
+				$pagedata['rows'][] = $model->addResults($o);
+				}
+		return $pagedata;
+		}
+
+    /**
+     * produce a sql where-clause string from an array of (column-name => data-value) pairs.
+     * 
+     * @param  array  $criteria array of constraints in the form of (column-name => data-value)
+     * @return string sql where-clause constraint
+     * @access public
+     */
+	public function criteriaToSQL($criteria)
+		{
+		$sqlcrit = '';
+		foreach($criteria as $fld => $val)
+			{
+			if($fld!=null and $val!=null and $val!='')
+			$sqlcrit .= 'AND '.$fld.' '.(strpos($val,'%')>0?'LIKE': '=').'\''.$val.'\' ';
+			}
+		return $sqlcrit;
+		}
+
+    /**
+     * returns the SQL query to be used for retrieving a page of data for a jqGrid
+     * 
+     * @param  CModel  $model    model, passed to $this->getPartialQuery()
+     * @param  array   $criteria array of constraints in the form of (column-name => data-value)
+     * @param  object  $sort     Sorting data object, withattributes 'sortBy' (SQL column name) and boolean 'ascending'.
+     * @param  integer $perpage  how many rows on each page 
+     * @param  integer $pagenum  which page of paginated results to fetch; 1-based
+     * @return string  SQL query to be used for retrieving a page of data for a jqGrid
+     * @access public 
+     */
+	public function getQuery($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		$offset = $perpage * ($pagenum-1);
+		$limit  = $perpage;
+		$qryParams = $sort ? ('ORDER BY '.$sort->sortBy . (($sort->ascending) ? ' ASC':' DESC')) : '';
+		$partialQry = $this->getPartialQuery($model,$criteria);
+		return $partialQry.' '.$qryParams.' LIMIT '.$offset.','.($offset+$limit).';';
+		}
+
+    /**
+     * placeholder function for returning sql query for appending ordering and limiting clauses, or running as a subquery to a count(*)
+     * 
+     * @param  CModel  $model    model; unused
+     * @param  array   $criteria array of constraints in the form of (column-name => data-value)
+     * @return string  return a sql query
+     * @access public 
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		return ''.$this->criteriaToSQL($criteria);
+                }
+
+    /**
+     * return sql where-clause fragment containing constraints for the passed column(s)
+     * 
+     * @param  array     $column array of one or more phoenixdb-table-column-names to return date-constraints for
+     * @param  object    $model  model containing constraint data: model->days
+     * @return string    sql where-clause fragment
+     * @access protected
+     */
+	protected function getDateStr($column, $model){
+		$qry = '';
+		$since_date = date('Y-m-d',time()-(86400 * ($model->days ? $model->days : $this->defaultDateRange)));
+		foreach($column as $c)
+			$qry .= ((strlen($qryStr)>0) ? ' AND ':'')."$c >= '".$since_date."'";
+ 		return $qry;
+		}
+
+	}
+

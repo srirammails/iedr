@@ -1,0 +1,1853 @@
+[Root]
+Most Recent Package=Phoenix Setup Script 20051024
+
+[Package|Backup of Setup Phoenix|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=V:\Source\Setup
+
+[Package|Backup of Setup Phoenix|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Backup of Setup Phoenix|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Backup of Setup Phoenix|Files Found]
+
+[Package|Backup of Setup Phoenix|Files Released]
+
+[Package|Backup of Setup Phoenix|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+
+[Package|Backup of Setup Phoenix|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+
+[Package|Backup of Setup Phoenix|Files Added]
+v:\source\phoenix\reports\r008.rpt=
+v:\source\phoenix\reports\r002.rpt=
+v:\source\phoenix\reports\r004.rpt=
+v:\source\phoenix\reports\r005.rpt=
+v:\source\phoenix\reports\r006.rpt=
+v:\source\phoenix\reports\r001.rpt=
+v:\source\exe\ticketbatch.exe=
+v:\source\exe\invoices.exe=
+v:\source\exe\remittals.exe=
+v:\source\exe\genbillingtxn.exe=
+v:\source\help\phoenix.hlp=
+v:\source\help\phoenix.cnt=
+V:\Source\Automaticly add Phoenix ODBC source.reg=
+
+[Package|Backup of Setup Phoenix|Files Removed]
+
+[Package|Backup of Setup Phoenix|Files In Project]
+V:\Source\Exe\Phoenix.exe=Yes
+C:\WINNT\system32\msvbvm60.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINNT\system32\MSSTDFMT.DLL=Yes
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=Yes
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=Yes
+C:\WINNT\system32\MSJET40.DLL=Yes
+C:\WINNT\system32\MSJTER40.DLL=Yes
+C:\WINNT\system32\MSJINT40.DLL=Yes
+C:\WINNT\system32\VBAJET32.DLL=Yes
+C:\WINNT\system32\Expsrv.dll=Yes
+C:\WINNT\system32\MSWSTR10.DLL=Yes
+C:\WINNT\system32\MSWDAT10.DLL=Yes
+C:\WINNT\system32\MSRD2X40.DLL=Yes
+C:\WINNT\system32\MSRD3X40.DLL=Yes
+C:\WINNT\system32\MSREPL40.DLL=Yes
+C:\WINNT\system32\MSJTES40.DLL=Yes
+C:\WINNT\system32\VB5DB.DLL=Yes
+C:\WINNT\system32\MSCOMCTL.OCX=Yes
+C:\WINNT\system32\MSHFLXGD.OCX=Yes
+C:\WINNT\system32\MSCOMCT2.OCX=Yes
+C:\WINNT\system32\COMCT332.OCX=Yes
+C:\WINNT\system32\DBGRID32.OCX=Yes
+C:\WINNT\system32\MSDATGRD.OCX=Yes
+C:\WINNT\system32\crystl32.ocx=Yes
+C:\WINNT\system32\crpe32.dll=Yes
+C:\WINNT\system32\implode.dll=Yes
+C:\WINNT\system32\pg32.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=Yes
+C:\WINNT\system32\CRXLAT32.DLL=Yes
+C:\WINNT\system32\p2bbnd.dll=Yes
+C:\WINNT\system32\p2bdao.dll=Yes
+C:\WINNT\system32\p2ctdao.dll=Yes
+C:\WINNT\system32\p2irdao.dll=Yes
+C:\WINNT\system32\p2sodbc.dll=Yes
+C:\WINNT\system32\u2ddisk.dll=Yes
+C:\WINNT\system32\U2DMAPI.DLL=Yes
+C:\WINNT\system32\U2FCR.DLL=Yes
+C:\WINNT\system32\U2FDIF.DLL=Yes
+C:\WINNT\system32\U2FHTML.DLL=Yes
+C:\WINNT\system32\U2FREC.DLL=Yes
+C:\WINNT\system32\U2FRTF.DLL=Yes
+C:\WINNT\system32\U2FSEPV.DLL=Yes
+C:\WINNT\system32\U2FTEXT.DLL=Yes
+C:\WINNT\system32\U2FWKS.DLL=Yes
+C:\WINNT\system32\U2FWORDW.DLL=Yes
+C:\WINNT\system32\U2FXLS.DLL=Yes
+C:\WINNT\system32\comdlg32.ocx=Yes
+C:\WINNT\system32\MSADODC.OCX=Yes
+C:\WINNT\system32\MSBIND.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINNT\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+V:\Source\Phoenix\Reports\r008.rpt=Yes
+V:\Source\Phoenix\Reports\R002.rpt=Yes
+V:\Source\Phoenix\Reports\R004.rpt=Yes
+V:\Source\Phoenix\Reports\R005.rpt=Yes
+V:\Source\Phoenix\Reports\r006.rpt=Yes
+V:\Source\Phoenix\Reports\R001.rpt=Yes
+V:\Source\Exe\TicketBatch.exe=Yes
+V:\Source\Exe\Invoices.exe=Yes
+V:\Source\Exe\Remittals.exe=Yes
+V:\Source\Exe\GenBillingTxn.exe=Yes
+V:\Source\Help\PHOENIX.HLP=Yes
+V:\Source\Help\Phoenix.cnt=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Yes
+
+[Package|Backup of Setup Phoenix|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Backup of Setup Phoenix|Configure Remote Servers]
+Applicable=No
+
+[Package|Backup of Setup Phoenix|Install Locations]
+V:\Source\Exe\Phoenix.exe=$(AppPath)
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+V:\Source\Phoenix\Reports\r008.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R002.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R004.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R005.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r006.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R001.rpt=$(AppPath)\Reports
+V:\Source\Exe\TicketBatch.exe=$(AppPath)
+V:\Source\Exe\Invoices.exe=$(AppPath)
+V:\Source\Exe\Remittals.exe=$(AppPath)
+V:\Source\Exe\GenBillingTxn.exe=$(AppPath)
+V:\Source\Help\PHOENIX.HLP=$(AppPath)
+V:\Source\Help\Phoenix.cnt=$(AppPath)
+
+[Package|Backup of Setup Phoenix|Configure Shared Files]
+Applicable=Yes
+V:\Source\Exe\Phoenix.exe=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+V:\Source\Phoenix\Reports\r008.rpt=No
+V:\Source\Phoenix\Reports\R002.rpt=No
+V:\Source\Phoenix\Reports\R004.rpt=No
+V:\Source\Phoenix\Reports\R005.rpt=No
+V:\Source\Phoenix\Reports\r006.rpt=No
+V:\Source\Phoenix\Reports\R001.rpt=No
+V:\Source\Exe\TicketBatch.exe=No
+V:\Source\Exe\Invoices.exe=No
+V:\Source\Exe\Remittals.exe=No
+V:\Source\Exe\GenBillingTxn.exe=No
+V:\Source\Help\PHOENIX.HLP=No
+V:\Source\Help\Phoenix.cnt=No
+
+[Package|Backup of Setup Phoenix|Distribution]
+Type=single
+Size=
+Title=Phoenix
+
+[Package|Backup of Setup Phoenix|Package]
+PackageFolder=V:\Source\Setup
+ProjectFolder=V:\Source\Phoenix
+ServerSideCab=
+File1=V:\Source\Setup\setup.exe
+File2=V:\Source\Setup\Setup.Lst
+File3=V:\Source\Setup\Phoenix.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|Backup of Setup Phoenix|IconGroups]
+Group0=Phoenix
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|Backup of Setup Phoenix|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1
+
+
+[Package|Setup Phoenix|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=V:\Source\Setup
+
+[Package|Setup Phoenix|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Setup Phoenix|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Setup Phoenix|Files Found]
+
+[Package|Setup Phoenix|Files Released]
+r008.rpt=
+
+[Package|Setup Phoenix|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+V:\Source\Exe\GenBillingTxn.exe=
+V:\Source\Exe\Remittals.exe=
+V:\Source\Exe\Invoices.exe=
+V:\Source\Exe\TicketBatch.exe=
+V:\Source\Exe\TestDNS.exe=
+
+[Package|Setup Phoenix|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+
+[Package|Setup Phoenix|Files Added]
+v:\source\phoenix\reports\r002.rpt=
+v:\source\phoenix\reports\r004.rpt=
+v:\source\phoenix\reports\r005.rpt=
+v:\source\phoenix\reports\r006.rpt=
+v:\source\phoenix\reports\r001.rpt=
+v:\source\exe\ticketbatch.exe=
+v:\source\exe\invoices.exe=
+v:\source\exe\remittals.exe=
+v:\source\exe\genbillingtxn.exe=
+v:\source\help\phoenix.hlp=
+v:\source\help\phoenix.cnt=
+v:\source\automaticly add phoenix odbc source.reg=
+v:\source\exe\testdns.exe=
+v:\source\phoenix\reports\r003.rpt=
+v:\source\phoenix\reports\r007.rpt=
+
+[Package|Setup Phoenix|Files Removed]
+
+[Package|Setup Phoenix|Files In Project]
+V:\Source\Exe\Phoenix.exe=Yes
+C:\WINNT\system32\msvbvm60.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINNT\system32\MSSTDFMT.DLL=Yes
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=Yes
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=Yes
+C:\WINNT\system32\MSJET40.DLL=Yes
+C:\WINNT\system32\MSJTER40.DLL=Yes
+C:\WINNT\system32\MSJINT40.DLL=Yes
+C:\WINNT\system32\VBAJET32.DLL=Yes
+C:\WINNT\system32\Expsrv.dll=Yes
+C:\WINNT\system32\MSWSTR10.DLL=Yes
+C:\WINNT\system32\MSWDAT10.DLL=Yes
+C:\WINNT\system32\MSRD2X40.DLL=Yes
+C:\WINNT\system32\MSRD3X40.DLL=Yes
+C:\WINNT\system32\MSREPL40.DLL=Yes
+C:\WINNT\system32\MSJTES40.DLL=Yes
+C:\WINNT\system32\VB5DB.DLL=Yes
+C:\WINNT\system32\MSCOMCTL.OCX=Yes
+C:\WINNT\system32\MSHFLXGD.OCX=Yes
+C:\WINNT\system32\MSCOMCT2.OCX=Yes
+C:\WINNT\system32\COMCT332.OCX=Yes
+C:\WINNT\system32\DBGRID32.OCX=Yes
+C:\WINNT\system32\MSDATGRD.OCX=Yes
+C:\WINNT\system32\crystl32.ocx=Yes
+C:\WINNT\system32\crpe32.dll=Yes
+C:\WINNT\system32\implode.dll=Yes
+C:\WINNT\system32\pg32.dll=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=Yes
+C:\WINNT\system32\CRXLAT32.DLL=Yes
+C:\WINNT\system32\p2bbnd.dll=Yes
+C:\WINNT\system32\p2bdao.dll=Yes
+C:\WINNT\system32\p2ctdao.dll=Yes
+C:\WINNT\system32\p2irdao.dll=Yes
+C:\WINNT\system32\p2sodbc.dll=Yes
+C:\WINNT\system32\u2ddisk.dll=Yes
+C:\WINNT\system32\U2DMAPI.DLL=Yes
+C:\WINNT\system32\U2FCR.DLL=Yes
+C:\WINNT\system32\U2FDIF.DLL=Yes
+C:\WINNT\system32\U2FHTML.DLL=Yes
+C:\WINNT\system32\U2FREC.DLL=Yes
+C:\WINNT\system32\U2FRTF.DLL=Yes
+C:\WINNT\system32\U2FSEPV.DLL=Yes
+C:\WINNT\system32\U2FTEXT.DLL=Yes
+C:\WINNT\system32\U2FWKS.DLL=Yes
+C:\WINNT\system32\U2FWORDW.DLL=Yes
+C:\WINNT\system32\U2FXLS.DLL=Yes
+C:\WINNT\system32\comdlg32.ocx=Yes
+C:\WINNT\system32\MSADODC.OCX=Yes
+C:\WINNT\system32\MSBIND.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINNT\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+V:\Source\Phoenix\Reports\R002.rpt=Yes
+V:\Source\Phoenix\Reports\R004.rpt=Yes
+V:\Source\Phoenix\Reports\R005.rpt=Yes
+V:\Source\Phoenix\Reports\r006.rpt=Yes
+V:\Source\Phoenix\Reports\R001.rpt=Yes
+V:\Source\Exe\TicketBatch.exe=Yes
+V:\Source\Exe\Invoices.exe=Yes
+V:\Source\Exe\Remittals.exe=Yes
+V:\Source\Exe\GenBillingTxn.exe=Yes
+V:\Source\Help\PHOENIX.HLP=Yes
+V:\Source\Help\Phoenix.cnt=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Yes
+V:\Source\Exe\TestDNS.exe=Yes
+V:\Source\Phoenix\Reports\r003.rpt=Yes
+V:\Source\Phoenix\Reports\r007.rpt=Yes
+C:\WINNT\system32\MSWINSCK.OCX=Yes
+
+[Package|Setup Phoenix|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Setup Phoenix|Configure Remote Servers]
+Applicable=No
+
+[Package|Setup Phoenix|Install Locations]
+V:\Source\Exe\Phoenix.exe=$(AppPath)
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+V:\Source\Phoenix\Reports\r008.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R002.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R004.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R005.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r006.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R001.rpt=$(AppPath)\Reports
+V:\Source\Exe\TicketBatch.exe=$(AppPath)
+V:\Source\Exe\Invoices.exe=$(AppPath)
+V:\Source\Exe\Remittals.exe=$(AppPath)
+V:\Source\Exe\GenBillingTxn.exe=$(AppPath)
+V:\Source\Help\PHOENIX.HLP=$(AppPath)
+V:\Source\Help\Phoenix.cnt=$(AppPath)
+V:\Source\Exe\TestDNS.exe=$(AppPath)
+V:\Source\Phoenix\Reports\r003.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r007.rpt=$(AppPath)\Reports
+C:\WINNT\system32\MSWINSCK.OCX=$(WinSysPath)
+
+[Package|Setup Phoenix|Configure Shared Files]
+Applicable=Yes
+V:\Source\Exe\Phoenix.exe=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+V:\Source\Phoenix\Reports\r008.rpt=No
+V:\Source\Phoenix\Reports\R002.rpt=No
+V:\Source\Phoenix\Reports\R004.rpt=No
+V:\Source\Phoenix\Reports\R005.rpt=No
+V:\Source\Phoenix\Reports\r006.rpt=No
+V:\Source\Phoenix\Reports\R001.rpt=No
+V:\Source\Exe\TicketBatch.exe=No
+V:\Source\Exe\Invoices.exe=No
+V:\Source\Exe\Remittals.exe=No
+V:\Source\Exe\GenBillingTxn.exe=No
+V:\Source\Help\PHOENIX.HLP=No
+V:\Source\Help\Phoenix.cnt=No
+V:\Source\Exe\TestDNS.exe=No
+V:\Source\Phoenix\Reports\r003.rpt=No
+V:\Source\Phoenix\Reports\r007.rpt=No
+
+[Package|Setup Phoenix|Distribution]
+Type=single
+Size=
+Title=Phoenix
+
+[Package|Setup Phoenix|Package]
+PackageFolder=V:\Source\Setup
+ProjectFolder=V:\Source\Phoenix
+ServerSideCab=
+File1=V:\Source\Setup\setup.exe
+File2=V:\Source\Setup\Setup.Lst
+File3=V:\Source\Setup\Phoenix.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|Setup Phoenix|IconGroups]
+Group0=Phoenix
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|Setup Phoenix|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1
+
+
+[Package|Setup Phoenix1|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\SourceSafe\Phoenix\Phoenix_1_4\Install
+
+[Package|Setup Phoenix1|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Setup Phoenix1|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Setup Phoenix1|Files Found]
+Automaticly add Phoenix ODBC source.reg=C:\SourceSafe\Phoenix\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg
+
+[Package|Setup Phoenix1|Files Released]
+r008.rpt=
+r007.rpt=
+r003.rpt=
+testdns.exe=
+phoenix.cnt=
+phoenix.hlp=
+genbillingtxn.exe=
+remittals.exe=
+invoices.exe=
+ticketbatch.exe=
+r001.rpt=
+r006.rpt=
+r005.rpt=
+r004.rpt=
+r002.rpt=
+
+[Package|Setup Phoenix1|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+V:\Source\Exe\GenBillingTxn.exe=
+V:\Source\Exe\Remittals.exe=
+V:\Source\Exe\Invoices.exe=
+V:\Source\Exe\TicketBatch.exe=
+V:\Source\Exe\TestDNS.exe=
+C:\WINDOWS\SYSTEM32\MSHFLXGD.OCX=
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=
+C:\Program Files\Common Files\System\ADO\MSADO25.TLB=
+C:\WINDOWS\SYSTEM32\msstdfmt.dll=
+
+[Package|Setup Phoenix1|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+C:\WINDOWS\SYSTEM32\COMDLG32.OCX=
+C:\WINDOWS\SYSTEM32\CRYSTL32.OCX=
+C:\WINDOWS\SYSTEM32\COMCT332.OCX=
+C:\WINDOWS\SYSTEM32\MSCOMCT2.OCX=
+C:\WINDOWS\SYSTEM32\MSCOMCTL.OCX=
+
+[Package|Setup Phoenix1|Files Added]
+r002.rpt=
+r004.rpt=
+r005.rpt=
+r006.rpt=
+r001.rpt=
+ticketbatch.exe=
+invoices.exe=
+remittals.exe=
+genbillingtxn.exe=
+phoenix.hlp=
+phoenix.cnt=
+automaticly add phoenix odbc source.reg=
+testdns.exe=
+r003.rpt=
+r007.rpt=
+
+[Package|Setup Phoenix1|Files Removed]
+c:\program files\microsoft visual studio\vb98\wizards\pdwizard\redist\mdac_typ.exe=
+
+[Package|Setup Phoenix1|Files In Project]
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=Yes
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\SourceSafe\Phoenix\Phoenix_1_4\Phoenix.exe=Yes
+C:\WINDOWS\SYSTEM32\MSVBVM60.DLL=Yes
+C:\WINDOWS\SYSTEM32\OLEAUT32.DLL=Yes
+C:\WINDOWS\SYSTEM32\OLEPRO32.DLL=Yes
+C:\WINDOWS\SYSTEM32\ASYCFILT.DLL=Yes
+C:\WINDOWS\SYSTEM32\STDOLE2.TLB=Yes
+C:\WINDOWS\SYSTEM32\msstdfmt.dll=Yes
+C:\Program Files\Common Files\System\ADO\MSADO25.TLB=Yes
+C:\WINDOWS\SYSTEM32\MSCOMCTL.OCX=Yes
+C:\WINDOWS\SYSTEM32\MSHFLXGD.OCX=Yes
+C:\WINDOWS\SYSTEM32\MSCOMCT2.OCX=Yes
+C:\WINDOWS\SYSTEM32\COMCT332.OCX=Yes
+C:\WINDOWS\SYSTEM32\DBGRID32.OCX=Yes
+C:\WINDOWS\SYSTEM32\MSDATGRD.OCX=Yes
+C:\WINDOWS\SYSTEM32\CRYSTL32.OCX=Yes
+C:\WINDOWS\SYSTEM32\CRPE32.DLL=Yes
+C:\WINDOWS\SYSTEM32\IMPLODE.DLL=Yes
+C:\WINDOWS\SYSTEM32\PG32.DLL=Yes
+C:\WINDOWS\Crystal\CRXLAT32.DLL=Yes
+C:\WINDOWS\SYSTEM32\P2BBND.DLL=Yes
+C:\WINDOWS\SYSTEM32\P2BDAO.DLL=Yes
+C:\WINDOWS\SYSTEM32\P2CTDAO.DLL=Yes
+C:\WINDOWS\SYSTEM32\P2IRDAO.DLL=Yes
+C:\WINDOWS\SYSTEM32\P2SODBC.DLL=Yes
+C:\WINDOWS\Crystal\U2DDISK.DLL=Yes
+C:\WINDOWS\Crystal\U2DMAPI.DLL=Yes
+C:\WINDOWS\Crystal\U2FCR.DLL=Yes
+C:\WINDOWS\Crystal\U2FDIF.DLL=Yes
+C:\WINDOWS\Crystal\U2FHTML.DLL=Yes
+C:\WINDOWS\Crystal\U2FREC.DLL=Yes
+C:\WINDOWS\Crystal\U2FRTF.DLL=Yes
+C:\WINDOWS\Crystal\U2FSEPV.DLL=Yes
+C:\WINDOWS\Crystal\U2FTEXT.DLL=Yes
+C:\WINDOWS\Crystal\U2FWKS.DLL=Yes
+C:\WINDOWS\Crystal\U2FWORDW.DLL=Yes
+C:\WINDOWS\Crystal\U2FXLS.DLL=Yes
+C:\WINDOWS\SYSTEM32\COMDLG32.OCX=Yes
+C:\WINDOWS\SYSTEM32\MSADODC.OCX=Yes
+C:\WINDOWS\SYSTEM32\MSBIND.DLL=Yes
+C:\WINDOWS\SYSTEM32\MSWINSCK.OCX=Yes
+C:\WINDOWS\SYSTEM32\VB6STKIT.DLL=Yes
+C:\SourceSafe\Phoenix\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg=Yes
+
+[Package|Setup Phoenix1|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+C:\SourceSafe\Phoenix\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Setup Phoenix1|Configure Remote Servers]
+Applicable=No
+
+[Package|Setup Phoenix1|Install Locations]
+V:\Source\Exe\Phoenix.exe=$(AppPath)
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+V:\Source\Phoenix\Reports\r008.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R002.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R004.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R005.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r006.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R001.rpt=$(AppPath)\Reports
+V:\Source\Exe\TicketBatch.exe=$(AppPath)
+V:\Source\Exe\Invoices.exe=$(AppPath)
+V:\Source\Exe\Remittals.exe=$(AppPath)
+V:\Source\Exe\GenBillingTxn.exe=$(AppPath)
+V:\Source\Help\PHOENIX.HLP=$(AppPath)
+V:\Source\Help\Phoenix.cnt=$(AppPath)
+V:\Source\Exe\TestDNS.exe=$(AppPath)
+V:\Source\Phoenix\Reports\r003.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r007.rpt=$(AppPath)\Reports
+C:\WINNT\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\SourceSafe\Phoenix\Phoenix_1_4\Phoenix.exe=$(AppPath)
+C:\WINDOWS\SYSTEM32\MSVBVM60.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM32\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM32\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM32\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM32\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM32\msstdfmt.dll=$(WinSysPath)
+C:\Program Files\Common Files\System\ADO\MSADO25.TLB=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\COMCT332.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\IMPLODE.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\PG32.DLL=$(WinSysPath)
+C:\WINDOWS\Crystal\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINDOWS\SYSTEM32\P2BBND.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\P2BDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\P2CTDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\P2IRDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\P2SODBC.DLL=$(WinSysPath)
+C:\WINDOWS\Crystal\U2DDISK.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINDOWS\SYSTEM32\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSADODC.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSBIND.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\MSWINSCK.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM32\VB6STKIT.DLL=$(WinSysPathSysFile)
+
+[Package|Setup Phoenix1|Configure Shared Files]
+Applicable=Yes
+V:\Source\Exe\Phoenix.exe=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+V:\Source\Phoenix\Reports\r008.rpt=No
+V:\Source\Phoenix\Reports\R002.rpt=No
+V:\Source\Phoenix\Reports\R004.rpt=No
+V:\Source\Phoenix\Reports\R005.rpt=No
+V:\Source\Phoenix\Reports\r006.rpt=No
+V:\Source\Phoenix\Reports\R001.rpt=No
+V:\Source\Exe\TicketBatch.exe=No
+V:\Source\Exe\Invoices.exe=No
+V:\Source\Exe\Remittals.exe=No
+V:\Source\Exe\GenBillingTxn.exe=No
+V:\Source\Help\PHOENIX.HLP=No
+V:\Source\Help\Phoenix.cnt=No
+V:\Source\Exe\TestDNS.exe=No
+V:\Source\Phoenix\Reports\r003.rpt=No
+V:\Source\Phoenix\Reports\r007.rpt=No
+C:\SourceSafe\Phoenix\Phoenix_1_4\Phoenix.exe=No
+
+[Package|Setup Phoenix1|Distribution]
+Type=single
+Size=
+Title=Phoenix
+
+[Package|Setup Phoenix1|IconGroups]
+Group0=Phoenix
+PrivateGroup0=False
+Parent0=$(Programs)
+
+[Package|Setup Phoenix1|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Setup Phoenix1|Package]
+PackageFolder=C:\SourceSafe\Phoenix\Phoenix_1_4\Install
+ProjectFolder=C:\SourceSafe\Phoenix\Phoenix_1_4
+ServerSideCab=
+File1=C:\SourceSafe\Phoenix\Phoenix_1_4\Install\setup.exe
+File2=C:\SourceSafe\Phoenix\Phoenix_1_4\Install\Setup.Lst
+File3=C:\SourceSafe\Phoenix\Phoenix_1_4\Install\Phoenix.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+
+[Package|Standard Setup Package 1|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Project\Phoenix\Setup
+
+[Package|Standard Setup Package 1|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Standard Setup Package 1|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Standard Setup Package 1|Files Found]
+Automaticly add Phoenix ODBC source.reg=C:\Project\vb\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg
+GenBillingTxn.exe=C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe
+Invoices.exe=C:\Project\Phoenix\Batch\Invoices\Invoices.exe
+Phoenix.cnt=C:\Project\Phoenix\Help\Phoenix.cnt
+r001.rpt=C:\Project\Phoenix\Reports\r001.rpt
+Remittals.exe=C:\Project\Phoenix\Batch\Remittals\Remittals.exe
+TestDNS.exe=C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe
+TicketBatch.exe=C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe
+PHOENIX.HLP=C:\Project\Phoenix\Help\PHOENIX.HLP
+R002.rpt=C:\Project\Phoenix\Reports\R002.rpt
+
+[Package|Standard Setup Package 1|Files Released]
+r008.rpt=
+
+[Package|Standard Setup Package 1|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+V:\Source\Exe\GenBillingTxn.exe=
+V:\Source\Exe\Remittals.exe=
+V:\Source\Exe\Invoices.exe=
+V:\Source\Exe\TicketBatch.exe=
+V:\Source\Exe\TestDNS.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=
+C:\WINDOWS\system32\CRYSTL32.OCX=
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=
+
+[Package|Standard Setup Package 1|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+
+[Package|Standard Setup Package 1|Files Added]
+c:\project\phoenix\reports\r002.rpt=
+c:\project\phoenix\reports\r004.rpt=
+c:\project\phoenix\reports\r005.rpt=
+c:\project\phoenix\reports\r006.rpt=
+c:\project\phoenix\reports\r001.rpt=
+ticketbatch.exe=
+invoices.exe=
+remittals.exe=
+genbillingtxn.exe=
+phoenix.hlp=
+phoenix.cnt=
+c:\project\phoenix\automaticly add phoenix odbc source.reg=
+testdns.exe=
+c:\project\phoenix\reports\r003.rpt=
+c:\project\phoenix\reports\r007.rpt=
+
+[Package|Standard Setup Package 1|Files Removed]
+
+[Package|Standard Setup Package 1|Files In Project]
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=Yes
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\MSSTDFMT.DLL=Yes
+C:\WINDOWS\system32\msjet40.dll=Yes
+C:\WINDOWS\system32\msjter40.dll=Yes
+C:\WINDOWS\system32\msjint40.dll=Yes
+C:\WINDOWS\system32\vbajet32.dll=Yes
+C:\WINDOWS\system32\expsrv.dll=Yes
+C:\WINDOWS\system32\mswstr10.dll=Yes
+C:\WINDOWS\system32\mswdat10.dll=Yes
+C:\WINDOWS\system32\msrd2x40.dll=Yes
+C:\WINDOWS\system32\msrd3x40.dll=Yes
+C:\WINDOWS\system32\msrepl40.dll=Yes
+C:\WINDOWS\system32\msjtes40.dll=Yes
+C:\WINDOWS\system32\VB5DB.DLL=Yes
+C:\WINDOWS\system32\MSCOMCTL.OCX=Yes
+C:\WINDOWS\system32\MSHFLXGD.OCX=Yes
+C:\WINDOWS\system32\MSCOMCT2.OCX=Yes
+C:\WINDOWS\system32\COMCT332.OCX=Yes
+C:\WINDOWS\system32\DBGRID32.OCX=Yes
+C:\WINDOWS\system32\MSDATGRD.OCX=Yes
+C:\WINDOWS\system32\CRYSTL32.OCX=Yes
+C:\WINDOWS\system32\COMDLG32.OCX=Yes
+C:\WINDOWS\system32\MSADODC.OCX=Yes
+C:\WINDOWS\system32\MSBIND.DLL=Yes
+C:\WINDOWS\system32\MSWINSCK.OCX=Yes
+C:\Project\Phoenix\Phoenix.exe=Yes
+C:\Project\Phoenix\Reports\R002.rpt=Yes
+C:\Project\Phoenix\Reports\R004.rpt=Yes
+C:\Project\Phoenix\Reports\R005.rpt=Yes
+C:\Project\Phoenix\Reports\r006.rpt=Yes
+C:\Project\Phoenix\Reports\r001.rpt=Yes
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=Yes
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=Yes
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=Yes
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=Yes
+C:\Project\Phoenix\Help\PHOENIX.HLP=Yes
+C:\Project\Phoenix\Help\Phoenix.cnt=Yes
+C:\Project\Phoenix\Automaticly add Phoenix ODBC source.reg=Yes
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=Yes
+C:\Project\Phoenix\Reports\r003.rpt=Yes
+C:\Project\Phoenix\Reports\r007.rpt=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+
+[Package|Standard Setup Package 1|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\vb\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\Phoenix\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Standard Setup Package 1|Configure Remote Servers]
+Applicable=No
+
+[Package|Standard Setup Package 1|Install Locations]
+V:\Source\Exe\Phoenix.exe=$(AppPath)
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+V:\Source\Phoenix\Reports\r008.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R002.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R004.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R005.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r006.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R001.rpt=$(AppPath)\Reports
+V:\Source\Exe\TicketBatch.exe=$(AppPath)
+V:\Source\Exe\Invoices.exe=$(AppPath)
+V:\Source\Exe\Remittals.exe=$(AppPath)
+V:\Source\Exe\GenBillingTxn.exe=$(AppPath)
+V:\Source\Help\PHOENIX.HLP=$(AppPath)
+V:\Source\Help\Phoenix.cnt=$(AppPath)
+V:\Source\Exe\TestDNS.exe=$(AppPath)
+V:\Source\Phoenix\Reports\r003.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r007.rpt=$(AppPath)\Reports
+C:\WINNT\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\WINDOWS\system32\msjet40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjter40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjint40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\vbajet32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\expsrv.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswstr10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswdat10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd2x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd3x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrepl40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjtes40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINDOWS\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSBIND.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=$(AppPath)
+C:\Project\Phoenix\Phoenix.exe=$(AppPath)
+C:\Project\Phoenix\Reports\R002.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R004.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R005.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r006.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r001.rpt=$(AppPath)
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=$(AppPath)
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=$(AppPath)
+C:\Project\Phoenix\Help\PHOENIX.HLP=$(AppPath)
+C:\Project\Phoenix\Help\Phoenix.cnt=$(AppPath)
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=$(AppPath)
+C:\Project\Phoenix\Reports\r003.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r007.rpt=$(AppPath)
+C:\Program Files\Common Files\System\ado\msado15.dll=$(CommonFilesSys)\ADO
+C:\Program Files\Common Files\System\ado\msado25.tlb=$(CommonFilesSys)\ADO
+
+[Package|Standard Setup Package 1|Configure Shared Files]
+Applicable=Yes
+V:\Source\Exe\Phoenix.exe=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+V:\Source\Phoenix\Reports\r008.rpt=No
+V:\Source\Phoenix\Reports\R002.rpt=No
+V:\Source\Phoenix\Reports\R004.rpt=No
+V:\Source\Phoenix\Reports\R005.rpt=No
+V:\Source\Phoenix\Reports\r006.rpt=No
+V:\Source\Phoenix\Reports\R001.rpt=No
+V:\Source\Exe\TicketBatch.exe=No
+V:\Source\Exe\Invoices.exe=No
+V:\Source\Exe\Remittals.exe=No
+V:\Source\Exe\GenBillingTxn.exe=No
+V:\Source\Help\PHOENIX.HLP=No
+V:\Source\Help\Phoenix.cnt=No
+V:\Source\Exe\TestDNS.exe=No
+V:\Source\Phoenix\Reports\r003.rpt=No
+V:\Source\Phoenix\Reports\r007.rpt=No
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=No
+C:\Project\Phoenix\Phoenix.exe=No
+C:\Project\Phoenix\Reports\R002.rpt=No
+C:\Project\Phoenix\Reports\R004.rpt=No
+C:\Project\Phoenix\Reports\R005.rpt=No
+C:\Project\Phoenix\Reports\r006.rpt=No
+C:\Project\Phoenix\Reports\r001.rpt=No
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=No
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=No
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=No
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=No
+C:\Project\Phoenix\Help\PHOENIX.HLP=No
+C:\Project\Phoenix\Help\Phoenix.cnt=No
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=No
+C:\Project\Phoenix\Reports\r003.rpt=No
+C:\Project\Phoenix\Reports\r007.rpt=No
+
+[Package|Standard Setup Package 1|Distribution]
+Type=single
+Size=
+Title=IEDR - Phoenix Desktop App
+
+[Package|Standard Setup Package 1|DepFile]
+DepCabFile=Phoenix.CAB
+DepCabRun=Phoenix.INF
+
+[Package|Standard Setup Package 1|IconGroups]
+Group0=Phoenix
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|Standard Setup Package 1|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Standard Setup Package 1|Package]
+PackageFolder=C:\Project\Phoenix\Setup
+ProjectFolder=C:\Project\Phoenix
+ServerSideCab=
+File1=C:\Project\Phoenix\Setup\setup.exe
+File2=C:\Project\Phoenix\Setup\Setup.Lst
+File3=C:\Project\Phoenix\Setup\Phoenix.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|Phoenix Dep File List 20051024|Root]
+SubWizProgID=PDWizard.DepPkgSubWiz
+BuildFolder=C:\Project\Phoenix\Source Code
+
+[Package|Phoenix Dep File List 20051024|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Phoenix Dep File List 20051024|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Phoenix Dep File List 20051024|Files Found]
+GenBillingTxn.exe=C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe
+Invoices.exe=C:\Project\Phoenix\Batch\Invoices\Invoices.exe
+Phoenix.cnt=C:\Project\Phoenix\Help\Phoenix.cnt
+Remittals.exe=C:\Project\Phoenix\Batch\Remittals\Remittals.exe
+TestDNS.exe=C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe
+TicketBatch.exe=C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe
+PHOENIX.HLP=C:\Project\Phoenix\Help\PHOENIX.HLP
+Automaticly add Phoenix ODBC source.reg=C:\Project\Phoenix\Source Code\Automaticly add Phoenix ODBC source.reg
+r001.rpt=C:\Project\Phoenix\Source Code\Reports\r001.rpt
+R002.rpt=C:\Project\Phoenix\Source Code\Reports\R002.rpt
+
+[Package|Phoenix Dep File List 20051024|Files Released]
+r008.rpt=
+
+[Package|Phoenix Dep File List 20051024|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=
+C:\WINDOWS\system32\CRYSTL32.OCX=
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=
+C:\WINDOWS\system32\CRPE32.DLL=
+C:\WINDOWS\system32\IMPLODE.DLL=
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=
+C:\WINDOWS\system32\MYODBC.DLL=
+
+[Package|Phoenix Dep File List 20051024|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+
+[Package|Phoenix Dep File List 20051024|Files Added]
+r002.rpt=
+r004.rpt=
+r005.rpt=
+r006.rpt=
+r001.rpt=
+ticketbatch.exe=
+invoices.exe=
+remittals.exe=
+genbillingtxn.exe=
+phoenix.hlp=
+phoenix.cnt=
+c:\project\phoenix\source code\automaticly add phoenix odbc source.reg=
+testdns.exe=
+r003.rpt=
+r007.rpt=
+c:\windows\system32\crpe32.dll=
+c:\windows\system32\implode.dll=
+c:\program files\microsoft visual studio\vb98\wizards\pdwizard\redist\co2c40en.dll=
+c:\windows\system32\myodbc.dll=
+
+[Package|Phoenix Dep File List 20051024|Files Removed]
+
+[Package|Phoenix Dep File List 20051024|Files In Project]
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\MSSTDFMT.DLL=Yes
+C:\WINDOWS\system32\MSCOMCTL.OCX=Yes
+C:\WINDOWS\system32\MSHFLXGD.OCX=Yes
+C:\WINDOWS\system32\MSCOMCT2.OCX=Yes
+C:\WINDOWS\system32\COMCT332.OCX=Yes
+C:\WINDOWS\system32\DBGRID32.OCX=Yes
+C:\WINDOWS\system32\MSDATGRD.OCX=Yes
+C:\WINDOWS\system32\CRYSTL32.OCX=Yes
+C:\WINDOWS\system32\COMDLG32.OCX=Yes
+C:\WINDOWS\system32\MSADODC.OCX=Yes
+C:\WINDOWS\system32\MSWINSCK.OCX=Yes
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=Yes
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=Yes
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=Yes
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=Yes
+C:\Project\Phoenix\Help\PHOENIX.HLP=Yes
+C:\Project\Phoenix\Help\Phoenix.cnt=Yes
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=Yes
+C:\Program Files\Common Files\System\ado\msado25.tlb=Yes
+C:\Project\Phoenix\Source Code\Phoenix.exe=Yes
+C:\Project\Phoenix\Source Code\Automaticly add Phoenix ODBC source.reg=Yes
+C:\WINDOWS\system32\CRPE32.DLL=Yes
+C:\WINDOWS\system32\IMPLODE.DLL=Yes
+C:\Project\Phoenix\Source Code\Reports\R002.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\R004.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\R005.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r006.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r001.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r003.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r007.rpt=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\WINDOWS\system32\MYODBC.DLL=Yes
+
+[Package|Phoenix Dep File List 20051024|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\vb\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\Phoenix\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Phoenix Dep File List 20051024|Configure Remote Servers]
+Applicable=No
+
+[Package|Phoenix Dep File List 20051024|Install Locations]
+V:\Source\Exe\Phoenix.exe=$(AppPath)
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+V:\Source\Phoenix\Reports\r008.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R002.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R004.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R005.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r006.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\R001.rpt=$(AppPath)\Reports
+V:\Source\Exe\TicketBatch.exe=$(AppPath)
+V:\Source\Exe\Invoices.exe=$(AppPath)
+V:\Source\Exe\Remittals.exe=$(AppPath)
+V:\Source\Exe\GenBillingTxn.exe=$(AppPath)
+V:\Source\Help\PHOENIX.HLP=$(AppPath)
+V:\Source\Help\Phoenix.cnt=$(AppPath)
+V:\Source\Exe\TestDNS.exe=$(AppPath)
+V:\Source\Phoenix\Reports\r003.rpt=$(AppPath)\Reports
+V:\Source\Phoenix\Reports\r007.rpt=$(AppPath)\Reports
+C:\WINNT\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\WINDOWS\system32\msjet40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjter40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjint40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\vbajet32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\expsrv.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswstr10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswdat10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd2x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd3x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrepl40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjtes40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINDOWS\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSBIND.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=$(AppPath)
+C:\Project\Phoenix\Phoenix.exe=$(AppPath)
+C:\Project\Phoenix\Reports\R002.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R004.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R005.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r006.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r001.rpt=$(AppPath)
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=$(AppPath)
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=$(AppPath)
+C:\Project\Phoenix\Help\PHOENIX.HLP=$(AppPath)
+C:\Project\Phoenix\Help\Phoenix.cnt=$(AppPath)
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=$(AppPath)
+C:\Project\Phoenix\Reports\r003.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r007.rpt=$(AppPath)
+C:\Program Files\Common Files\System\ado\msado15.dll=$(CommonFilesSys)\ADO
+C:\Program Files\Common Files\System\ado\msado25.tlb=$(CommonFilesSys)\ADO
+C:\Project\Phoenix\Source Code\Phoenix.exe=$(AppPath)
+C:\WINDOWS\system32\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\system32\IMPLODE.DLL=$(WinSysPath)
+C:\Project\Phoenix\Source Code\Reports\R002.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\R004.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\R005.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\r006.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\r001.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\r003.rpt=$(AppPath)
+C:\Project\Phoenix\Source Code\Reports\r007.rpt=$(AppPath)
+C:\WINDOWS\system32\MYODBC.DLL=$(WinSysPath)
+
+[Package|Phoenix Dep File List 20051024|Configure Shared Files]
+Applicable=Yes
+V:\Source\Exe\Phoenix.exe=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+V:\Source\Phoenix\Reports\r008.rpt=No
+V:\Source\Phoenix\Reports\R002.rpt=No
+V:\Source\Phoenix\Reports\R004.rpt=No
+V:\Source\Phoenix\Reports\R005.rpt=No
+V:\Source\Phoenix\Reports\r006.rpt=No
+V:\Source\Phoenix\Reports\R001.rpt=No
+V:\Source\Exe\TicketBatch.exe=No
+V:\Source\Exe\Invoices.exe=No
+V:\Source\Exe\Remittals.exe=No
+V:\Source\Exe\GenBillingTxn.exe=No
+V:\Source\Help\PHOENIX.HLP=No
+V:\Source\Help\Phoenix.cnt=No
+V:\Source\Exe\TestDNS.exe=No
+V:\Source\Phoenix\Reports\r003.rpt=No
+V:\Source\Phoenix\Reports\r007.rpt=No
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=No
+C:\Project\Phoenix\Phoenix.exe=No
+C:\Project\Phoenix\Reports\R002.rpt=No
+C:\Project\Phoenix\Reports\R004.rpt=No
+C:\Project\Phoenix\Reports\R005.rpt=No
+C:\Project\Phoenix\Reports\r006.rpt=No
+C:\Project\Phoenix\Reports\r001.rpt=No
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=No
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=No
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=No
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=No
+C:\Project\Phoenix\Help\PHOENIX.HLP=No
+C:\Project\Phoenix\Help\Phoenix.cnt=No
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=No
+C:\Project\Phoenix\Reports\r003.rpt=No
+C:\Project\Phoenix\Reports\r007.rpt=No
+
+[Package|Phoenix Dep File List 20051024|Distribution]
+Type=single
+Size=
+Title=Phoenix
+
+[Package|Phoenix Dep File List 20051024|IconGroups]
+Group0=Phoenix
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|Phoenix Dep File List 20051024|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Phoenix Dep File List 20051024|DepFile]
+DepCabFile=Phoenix.CAB
+DepCabRun=Phoenix.INF
+
+[Package|Phoenix Dep File List 20051024|Package]
+PackageFolder=C:\Project\Phoenix\Source Code
+ProjectFolder=C:\Project\Phoenix\Source Code
+ServerSideCab=
+File1=C:\Project\Phoenix\Source Code\Phoenix.DEP
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+
+[Package|Phoenix Setup Script 20051024|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=C:\Project\Phoenix\Setup
+
+[Package|Phoenix Setup Script 20051024|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Phoenix Setup Script 20051024|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Phoenix Setup Script 20051024|Files Found]
+GenBillingTxn.exe=C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe
+Invoices.exe=C:\Project\Phoenix\Batch\Invoices\Invoices.exe
+Phoenix.cnt=C:\Project\Phoenix\Help\Phoenix.cnt
+Remittals.exe=C:\Project\Phoenix\Batch\Remittals\Remittals.exe
+TestDNS.exe=C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe
+TicketBatch.exe=C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe
+PHOENIX.HLP=C:\Project\Phoenix\Help\PHOENIX.HLP
+Automaticly add Phoenix ODBC source.reg=C:\Project\Phoenix\Source Code\Automaticly add Phoenix ODBC source.reg
+r001.rpt=C:\Project\Phoenix\Source Code\Reports\r001.rpt
+R002.rpt=C:\Project\Phoenix\Setup\Support\R002.rpt
+r003.rpt=C:\Project\Phoenix\Source Code\Reports\r003.rpt
+
+[Package|Phoenix Setup Script 20051024|Files Released]
+
+[Package|Phoenix Setup Script 20051024|Missing Dependency Information]
+C:\WINNT\system32\DBGRID32.OCX=
+C:\WINDOWS\system32\CRYSTL32.OCX=
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=
+C:\WINDOWS\system32\CRPE32.DLL=
+C:\WINDOWS\system32\IMPLODE.DLL=
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=
+C:\WINDOWS\system32\P2IRDAO.DLL=
+C:\WINDOWS\system32\P2BDAO.DLL=
+C:\WINDOWS\system32\P2CTDAO.DLL=
+C:\Project\Phoenix\Setup\Support\TestDNS.exe=
+C:\Project\Phoenix\Setup\Support\Remittals.exe=
+C:\Project\Phoenix\Setup\Support\Invoices.exe=
+C:\Project\Phoenix\Setup\Support\TicketBatch.exe=
+C:\WINDOWS\system32\P2SODBC.DLL=
+
+[Package|Phoenix Setup Script 20051024|Out-of-Date Dependency Information]
+C:\WINNT\system32\crystl32.ocx=
+
+[Package|Phoenix Setup Script 20051024|Files Added]
+r002.rpt=
+r004.rpt=
+r005.rpt=
+r006.rpt=
+r001.rpt=
+ticketbatch.exe=
+invoices.exe=
+remittals.exe=
+genbillingtxn.exe=
+phoenix.hlp=
+phoenix.cnt=
+c:\project\phoenix\source code\automaticly add phoenix odbc source.reg=
+testdns.exe=
+r003.rpt=
+r007.rpt=
+c:\windows\system32\crpe32.dll=
+c:\windows\system32\implode.dll=
+c:\program files\microsoft visual studio\vb98\wizards\pdwizard\redist\co2c40en.dll=
+c:\project\phoenix\source code\reports\r008.rpt=
+c:\windows\system32\p2irdao.dll=
+c:\windows\system32\p2bdao.dll=
+c:\windows\system32\p2ctdao.dll=
+c:\windows\system32\p2sodbc.dll=
+
+[Package|Phoenix Setup Script 20051024|Files Removed]
+c:\program files\microsoft visual studio\vb98\wizards\pdwizard\redist\mdac_typ.exe=
+
+[Package|Phoenix Setup Script 20051024|Files In Project]
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\WINDOWS\system32\MSSTDFMT.DLL=Yes
+C:\WINDOWS\system32\MSCOMCTL.OCX=Yes
+C:\WINDOWS\system32\MSHFLXGD.OCX=Yes
+C:\WINDOWS\system32\MSCOMCT2.OCX=Yes
+C:\WINDOWS\system32\CRYSTL32.OCX=Yes
+C:\WINDOWS\system32\COMDLG32.OCX=Yes
+C:\WINDOWS\system32\MSWINSCK.OCX=Yes
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=Yes
+C:\Project\Phoenix\Source Code\Phoenix.exe=Yes
+C:\Project\Phoenix\Source Code\Automaticly add Phoenix ODBC source.reg=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\WINDOWS\system32\CRPE32.DLL=Yes
+C:\WINDOWS\system32\IMPLODE.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\Project\Phoenix\Source Code\Reports\r008.rpt=Yes
+C:\Project\Phoenix\Setup\Support\R002.rpt=Yes
+C:\WINDOWS\system32\P2IRDAO.DLL=Yes
+C:\WINDOWS\system32\P2BDAO.DLL=Yes
+C:\WINDOWS\system32\P2CTDAO.DLL=Yes
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+C:\WINDOWS\system32\P2SODBC.DLL=Yes
+C:\WINDOWS\system32\MSBIND.DLL=Yes
+C:\Project\Phoenix\Source Code\Reports\R004.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\R005.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r006.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r001.rpt=Yes
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=Yes
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=Yes
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=Yes
+C:\Project\Phoenix\Help\PHOENIX.HLP=Yes
+C:\Project\Phoenix\Help\Phoenix.cnt=Yes
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=Yes
+C:\Project\Phoenix\Source Code\Reports\r003.rpt=Yes
+C:\Project\Phoenix\Source Code\Reports\r007.rpt=Yes
+
+[Package|Phoenix Setup Script 20051024|Configure Registry Files]
+Applicable=Yes
+V:\Source\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\vb\Phoenix_1_4\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\Phoenix\Automaticly add Phoenix ODBC source.reg=Register
+C:\Project\Phoenix\Source Code\Automaticly add Phoenix ODBC source.reg=Register
+
+[Package|Phoenix Setup Script 20051024|Configure Remote Servers]
+Applicable=No
+
+[Package|Phoenix Setup Script 20051024|Install Locations]
+C:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Program Files\Common Files\Designer\MSDERUN.DLL=$(CommonFiles)\designer
+C:\Program Files\Common Files\Microsoft Shared\DAO\DAO360.DLL=$(MSDAOPath)
+C:\WINNT\system32\MSJET40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTER40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJINT40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\Expsrv.dll=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWSTR10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSWDAT10.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD2X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSRD3X40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSREPL40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\MSJTES40.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINNT\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINNT\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINNT\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINNT\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINNT\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINNT\system32\crystl32.ocx=$(WinSysPath)
+C:\WINNT\system32\crpe32.dll=$(WinSysPath)
+C:\WINNT\system32\implode.dll=$(WinSysPath)
+C:\WINNT\system32\pg32.dll=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINNT\system32\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\p2bbnd.dll=$(WinSysPath)
+C:\WINNT\system32\p2bdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2ctdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2irdao.dll=$(WinSysPath)
+C:\WINNT\system32\p2sodbc.dll=$(WinSysPath)
+C:\WINNT\system32\u2ddisk.dll=$(WinPath)\Crystal
+C:\WINNT\system32\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINNT\system32\comdlg32.ocx=$(WinSysPath)
+C:\WINNT\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINNT\system32\MSBIND.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\WINNT\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\WINDOWS\system32\msjet40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjter40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjint40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\vbajet32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\expsrv.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswstr10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswdat10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd2x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd3x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrepl40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjtes40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCTL.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSHFLXGD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSCOMCT2.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINDOWS\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSBIND.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSWINSCK.OCX=$(WinSysPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=$(AppPath)
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=$(AppPath)
+C:\Project\Phoenix\Phoenix.exe=$(AppPath)
+C:\Project\Phoenix\Reports\R002.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R004.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\R005.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r006.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r001.rpt=$(AppPath)
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=$(AppPath)
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=$(AppPath)
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=$(AppPath)
+C:\Project\Phoenix\Help\PHOENIX.HLP=$(AppPath)
+C:\Project\Phoenix\Help\Phoenix.cnt=$(AppPath)
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=$(AppPath)
+C:\Project\Phoenix\Reports\r003.rpt=$(AppPath)
+C:\Project\Phoenix\Reports\r007.rpt=$(AppPath)
+C:\Program Files\Common Files\System\ado\msado15.dll=$(CommonFilesSys)\ADO
+C:\Program Files\Common Files\System\ado\msado25.tlb=$(CommonFilesSys)\ADO
+C:\Project\Phoenix\Source Code\Phoenix.exe=$(AppPath)
+C:\WINDOWS\system32\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\system32\IMPLODE.DLL=$(WinSysPath)
+C:\Project\Phoenix\Source Code\Reports\R002.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\R004.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\R005.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\r006.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\r001.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\r003.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\r007.rpt=$(AppPath)\Reports
+C:\Project\Phoenix\Source Code\Reports\r008.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\R002.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\R004.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\R005.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\r006.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\r003.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\r007.rpt=$(AppPath)
+C:\WINDOWS\system32\P2IRDAO.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2BDAO.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2CTDAO.DLL=$(WinSysPath)
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Project\Phoenix\Setup\Support\r001.rpt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\TicketBatch.exe=$(AppPath)
+C:\Project\Phoenix\Setup\Support\Invoices.exe=$(AppPath)
+C:\Project\Phoenix\Setup\Support\Remittals.exe=$(AppPath)
+C:\Project\Phoenix\Setup\Support\PHOENIX.HLP=$(AppPath)
+C:\Project\Phoenix\Setup\Support\Phoenix.cnt=$(AppPath)
+C:\Project\Phoenix\Setup\Support\TestDNS.exe=$(AppPath)
+C:\WINDOWS\system32\P2SODBC.DLL=$(WinSysPath)
+
+[Package|Phoenix Setup Script 20051024|Configure Shared Files]
+Applicable=Yes
+C:\Project\vb\Phoenix_1_4\Phoenix.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\R002.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R004.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\R005.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r006.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r001.rpt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TicketBatch.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Invoices.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Remittals.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\GenBillingTxn.exe=No
+C:\Project\vb\Phoenix_1_4\Extra Files\PHOENIX.HLP=No
+C:\Project\vb\Phoenix_1_4\Extra Files\Phoenix.cnt=No
+C:\Project\vb\Phoenix_1_4\Extra Files\TestDNS.exe=No
+C:\Project\vb\Phoenix_1_4\Reports\r003.rpt=No
+C:\Project\vb\Phoenix_1_4\Reports\r007.rpt=No
+C:\Project\Phoenix\Phoenix.exe=No
+C:\Project\Phoenix\Reports\R002.rpt=No
+C:\Project\Phoenix\Reports\R004.rpt=No
+C:\Project\Phoenix\Reports\R005.rpt=No
+C:\Project\Phoenix\Reports\r006.rpt=No
+C:\Project\Phoenix\Reports\r001.rpt=No
+C:\Project\Phoenix\Batch\TicketBatch\TicketBatch.exe=No
+C:\Project\Phoenix\Batch\Invoices\Invoices.exe=No
+C:\Project\Phoenix\Batch\Remittals\Remittals.exe=No
+C:\Project\Phoenix\Batch\GenBillingTxn\GenBillingTxn.exe=No
+C:\Project\Phoenix\Help\PHOENIX.HLP=No
+C:\Project\Phoenix\Help\Phoenix.cnt=No
+C:\Project\Phoenix\Batch\TestDNS\TestDNS.exe=No
+C:\Project\Phoenix\Reports\r003.rpt=No
+C:\Project\Phoenix\Reports\r007.rpt=No
+C:\Project\Phoenix\Source Code\Phoenix.exe=No
+C:\Project\Phoenix\Source Code\Reports\R002.rpt=No
+C:\Project\Phoenix\Source Code\Reports\R004.rpt=No
+C:\Project\Phoenix\Source Code\Reports\R005.rpt=No
+C:\Project\Phoenix\Source Code\Reports\r006.rpt=No
+C:\Project\Phoenix\Source Code\Reports\r001.rpt=No
+C:\Project\Phoenix\Source Code\Reports\r003.rpt=No
+C:\Project\Phoenix\Source Code\Reports\r007.rpt=No
+C:\Project\Phoenix\Source Code\Reports\r008.rpt=No
+C:\Project\Phoenix\Setup\Support\R002.rpt=No
+C:\Project\Phoenix\Setup\Support\R004.rpt=No
+C:\Project\Phoenix\Setup\Support\R005.rpt=No
+C:\Project\Phoenix\Setup\Support\r006.rpt=No
+C:\Project\Phoenix\Setup\Support\r003.rpt=No
+C:\Project\Phoenix\Setup\Support\r007.rpt=No
+C:\Program Files\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+C:\Project\Phoenix\Setup\Support\r001.rpt=No
+C:\Project\Phoenix\Setup\Support\TicketBatch.exe=No
+C:\Project\Phoenix\Setup\Support\Invoices.exe=No
+C:\Project\Phoenix\Setup\Support\Remittals.exe=No
+C:\Project\Phoenix\Setup\Support\PHOENIX.HLP=No
+C:\Project\Phoenix\Setup\Support\Phoenix.cnt=No
+C:\Project\Phoenix\Setup\Support\TestDNS.exe=No
+
+[Package|Phoenix Setup Script 20051024|Distribution]
+Type=single
+Size=
+Title=Phoenix Desktop
+
+[Package|Phoenix Setup Script 20051024|DepFile]
+DepCabFile=Phoenix.CAB
+DepCabRun=Phoenix.INF
+
+[Package|Phoenix Setup Script 20051024|Package]
+PackageFolder=C:\Project\Phoenix\Setup
+ProjectFolder=C:\Project\Phoenix\Source Code
+ServerSideCab=
+File1=C:\Project\Phoenix\Setup\setup.exe
+File2=C:\Project\Phoenix\Setup\Setup.Lst
+File3=C:\Project\Phoenix\Setup\Phoenix.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+[Package|Phoenix Setup Script 20051024|IconGroups]
+Group0=Phoenix
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|Phoenix Setup Script 20051024|Phoenix]
+Icon1=Phoenix.exe
+Title1=Phoenix
+StartIn1=$(AppPath)
+Key1=Icon1

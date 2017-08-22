@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="reservation">
+
+    <resultMap id="internalReservation" class="pl.nask.crs.payment.dao.ibatis.objects.InternalReservation">
+        <result property="id" column="id"/>
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="domainName" column="domainName"/>
+        <result property="durationMonths" column="durationMonths"/>
+        <result property="creationDate" column="creationDate"/>
+        <result property="productCode" column="productCode"/>
+        <result property="amount" column="amount"/>
+        <result property="vatId" column="vatId"/>
+        <result property="vatCategory" column="vatCategory"/>
+        <result property="vatFromDate" column="vatFromDate"/>
+        <result property="vatRate" column="vatRate"/>
+        <result property="vatAmount" column="vatAmount"/>
+        <result property="readyForSettlement" column="readyForSettlement" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="settled" column="settled" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="settledDate" column="settledDate"/>
+        <result property="ticketId" column="ticketId"/>
+        <result property="transactionId" column="transactionId"/>
+        <result property="operationType" column="operationType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler"/>
+        <result property="startDate" column="startDate" />
+        <result property="endDate" column="endDate" />
+        <result property="paymentMethod" column="paymentMethod" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler"/>
+        <result property="orderId" column="orderId"/>
+        <result property="financialStatus" column="financialStatus"/>
+    </resultMap>
+    
+    <resultMap id="reservationTotals" class="pl.nask.crs.payment.dao.ibatis.objects.InternalReservationTotals">
+    	<result property="totalResults" column="cnt" />
+    	<result property="totalAmount" column="totalAmount" />
+    	<result property="totalVat" column="totalVatAmount" />
+    </resultMap>
+
+    <insert id="insertReservation" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalReservation">
+        INSERT INTO Reservation
+        (ID, Nic_Handle,
+        Domain_Name,
+        Duration_Months,
+        Creation_Date,
+        Product_Code,
+        Amount,
+        Vat_ID,
+        Vat_Amount,
+        Ready_For_Settlement,
+        Settled,
+        Settled_Date,
+        Ticket_ID,
+        Transaction_ID,
+        Operation_Type,
+        Payment_Method
+        ) VALUES (
+        #id#,
+        #nicHandleId#,
+        #domainName#,
+        #durationMonths#,
+        #creationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #productCode#,
+        #amount#,
+        #vatId#,
+        #vatAmount#,
+        #readyForSettlement,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #settled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        #settledDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #ticketId#,
+        #transactionId#,
+        #operationType,handler=pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler#,
+        #paymentMethod,handler=pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler#
+        );       
+    </insert>
+
+    <sql id="selectReservation">
+        SELECT
+        Reservation.ID as id,
+        Nic_Handle as nicHandleId,
+        Domain_Name as domainName,
+        Duration_Months as durationMonths,
+        Creation_Date as creationDate,
+        Product_Code as productCode,
+        Amount as amount,
+        Vat_ID as vatId,
+        Vat.Category as vatCategory,
+        Vat.From_Date as vatFromDate,
+        Vat.Rate as vatRate,
+        Vat_Amount as vatAmount,
+        Ready_For_Settlement as readyForSettlement,
+        Settled as settled,
+        Settled_Date as settledDate,
+        Ticket_ID as ticketId,
+        Transaction_ID as transactionId,
+        Operation_Type as operationType,
+        Period_Start as startDate,
+        Period_End as endDate,
+        Payment_Method as paymentMethod,
+        Amount + Vat_Amount as total,
+        Order_ID as orderId,
+        Financial_Status as financialStatus
+        FROM
+        Reservation
+        JOIN Vat on (Vat_ID=Vat.ID)
+        JOIN Transaction ON (Reservation.Transaction_ID = Transaction.ID)
+        LEFT JOIN Ticket ON (Reservation.Ticket_ID = Ticket.T_Number)
+    </sql>
+
+    <select id="getAllByBillingNH" resultMap="internalReservation">
+        <include refid="reservation.selectReservation"/>
+        WHERE
+        Nic_Handle = #billingNicHandleid#
+    </select>
+
+    <select id="getReservationById" resultMap="internalReservation">
+        <include refid="reservation.selectReservation"/>
+        WHERE
+        Reservation.ID = #id#
+    </select>
+
+    <select id="getLockedReservationById" resultClass="java.lang.String">
+        SELECT
+            ID
+        FROM
+            Reservation
+        WHERE
+            ID = #id#
+        FOR UPDATE
+    </select>
+
+    <update id="updateReservation" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalReservation">
+        update
+        Reservation R
+        set
+        R.Ready_For_Settlement = #readyForSettlement,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        R.Settled = #settled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        R.Settled_Date = #settledDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        R.Period_Start = #startDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        R.Period_End = #endDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        where
+        R.ID = #id#
+    </update>
+
+    <delete id="deleteReservationById" parameterClass="java.lang.Long">
+        DELETE from Reservation where ID = #id#
+    </delete>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="reservationCriteria">
+        <dynamic prepend="where">
+        	<isNotNull prepend="and" property="criteria.settled">
+        		Settled = #criteria.settled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        	</isNotNull>
+            <isNotNull prepend="and" property="criteria.billingNH">
+                Nic_Handle = #criteria.billingNH#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.readyForSettlement">
+                Ready_For_Settlement = #criteria.readyForSettlement,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.paymentMethod">
+                Payment_Method = #criteria.paymentMethod,handler=pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.operationType">
+                Operation_Type = #criteria.operationType,handler=pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                Domain_Name LIKE #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.ticketId">
+                Ticket_ID = #criteria.ticketId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionId">
+                Transaction_ID = #criteria.transactionId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.cancelled">
+                Transaction.Cancelled = #criteria.cancelled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="countFindReservations" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(*) as cnt
+        FROM
+        Reservation
+        JOIN Transaction ON (Reservation.Transaction_ID = Transaction.ID)
+        <include refid="reservationCriteria"/>
+    </select>
+
+    <select id="findReservations" parameterClass="java.util.Map" resultMap="internalReservation">
+        <include refid="selectReservation"/>
+        <include refid="reservationCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="getTotals" parameterClass="java.util.Map" resultMap="reservationTotals">
+        SELECT
+        COUNT(*) as cnt, COALESCE(SUM(Amount), 0) as totalAmount, COALESCE(SUM(Vat_Amount), 0) as totalVatAmount
+        FROM
+        Reservation
+        JOIN Transaction ON (Reservation.Transaction_ID = Transaction.ID)
+        <include refid="reservationCriteria"/>
+    </select>
+
+</sqlMap>

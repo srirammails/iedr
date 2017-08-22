@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+  xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://jax-ws.dev.java.net/spring/core https://jax-ws.dev.java.net/spring/core.xsd
+    http://jax-ws.dev.java.net/spring/servlet https://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <bean id="dnsCheckService" class="pl.nask.crs.dnscheck.impl.DnsCheckTestService">
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+
+    <bean id="paymentSender" class="pl.nask.crs.api.payment.PaymentSenderTestImpl"/>
+    
+    <!-- to speed up the tests use DAO implementation, which does not actually save the objects in the database -->
+    <bean id="historicalTicketIBatisDAO" class="pl.nask.crs.api.DummyHistoricalTicketDAO">
+    	<property name="ticketDAO" ref="ticketIBatisDAO" />
+	</bean>
+	
+	<bean id="internalHistoricalDomainDAO" class="pl.nask.crs.api.DummyHistoricalDomainDAO">
+        <property name="domainDAO" ref="internalDomainDAO"/>
+		<property name="sqlMapClient" ref="domainsSqlMapClient"/>
+    </bean>
+</beans>

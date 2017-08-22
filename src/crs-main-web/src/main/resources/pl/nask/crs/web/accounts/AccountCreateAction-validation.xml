@@ -1,0 +1,26 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<field name="accountCreateWrapper.name">
+		<field-validator type="requiredstring">
+			<message>You must enter a value for Name</message>
+		</field-validator>
+	</field>
+	<field name="accountCreateWrapper.webAddress">
+		<field-validator type="requiredstring">
+			<message>You must enter a value for Web Address</message>
+		</field-validator>
+	</field>
+	<field name="hostmastersRemark">
+		<field-validator type="requiredstring">
+			<message>You must enter a value for Hostmaster's Remark</message>
+		</field-validator>
+	</field>
+    <field name="accountCreateWrapper.billingContactNicHandle">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for Billing Contact Nic Handle</message>
+        </field-validator>
+        <field-validator type="contact">
+            <message>Not a valid Billing Contact Nic Handle</message>
+        </field-validator>
+    </field>
+</validators>

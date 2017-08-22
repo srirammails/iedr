@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="deposit">
+
+    <resultMap id="internalDeposit" class="pl.nask.crs.payment.dao.ibatis.objects.InternalDeposit">
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="nicHandleName" column="nicHandleName"/>
+        <result property="transactionDate" column="transactionDate"/>
+        <result property="openBal" column="openBal"/>
+        <result property="closeBal" column="closeBal"/>
+        <result property="transactionAmount" column="transactionAmount"/>
+        <result property="transactionType" column="transactionType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.DepositTransactionTypeHandler"/>
+        <result property="orderId" column="orderId"/>
+        <result property="correctorNH" column="correctorNH"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <typeAlias alias="depositTopUp" type="pl.nask.crs.payment.DepositTopUp"/>
+
+    <sql id="selectDeposit">
+        SELECT
+        D.Nic_Handle as nicHandleId,
+        N.NH_Name as nicHandleName,
+        D.Trans_Dt as transactionDate,
+        D.Open_Bal as openBal,
+        D.Close_Bal as closeBal,
+        D.Order_ID as orderId,
+        D.Trans_Amount as transactionAmount,
+        D.Trans_Type as transactionType,
+        D.Corrector_NH as correctorNH,
+        D.Remark as remark
+        FROM Deposit D
+        LEFT JOIN NicHandle N ON (D.Nic_Handle = N.Nic_Handle)
+    </sql>
+
+    <select id="getLockedDepositByNicHandleId" parameterClass="java.lang.String" resultClass="java.lang.String">
+        SELECT
+            Nic_Handle
+        FROM Deposit D
+        WHERE
+            Nic_Handle = #nicHandleId#
+        FOR UPDATE
+    </select>
+
+    <select id="getDepositByNicHandleId" parameterClass="string" resultMap="internalDeposit">
+        <include refid="selectDeposit"/>
+        WHERE D.Nic_Handle = #nicHandleId#
+    </select>
+
+    <insert id="insertDeposit" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalDeposit">
+        INSERT INTO Deposit
+        (Nic_Handle,
+        Trans_Dt,
+        Open_Bal,
+        Close_Bal,
+        Order_ID,
+        Trans_Amount,
+        Trans_Type,
+        Corrector_NH,
+        Remark
+        ) VALUES (
+        #nicHandleId#,
+        #transactionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #openBal#,
+        #closeBal#,
+        #orderId#,
+        #transactionAmount#,
+        #transactionType,handler=pl.nask.crs.payment.dao.ibatis.handlers.DepositTransactionTypeHandler#,
+        #correctorNH#,
+        #remark#
+        )
+    </insert>
+
+    <insert id="insertHistoricalDeposit" parameterClass="string">
+        INSERT INTO DepositHist(Nic_Handle, Op_Dt, Trans_Dt, Open_Bal, Close_Bal, Order_ID, Trans_Amount, Trans_Type, Corrector_NH, Remark)
+        SELECT Nic_Handle, now(), Trans_Dt, Open_Bal, Close_Bal, Order_ID, Trans_Amount, Trans_Type, Corrector_NH, Remark
+        FROM Deposit WHERE Nic_Handle = #nicHandle#
+    </insert>
+
+    <update id="updateDeposit" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalDeposit">
+        UPDATE Deposit SET
+        Trans_Dt = #transactionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        Open_Bal = #openBal#,
+        Close_Bal = #closeBal#,
+        Order_ID = #orderId#,
+        Trans_Amount = #transactionAmount#,
+        Trans_Type = #transactionType,handler=pl.nask.crs.payment.dao.ibatis.handlers.DepositTransactionTypeHandler#,
+        Corrector_NH = #correctorNH#,
+        Remark = #remark#
+        WHERE Nic_Handle = #nicHandleId#
+    </update>
+
+    <!--<procedure id="getTopUpHistory" parameterClass="java.util.Map" resultClass="depositTopUp">-->
+        <!--{call DepositTopups (#nicHandleId#, #fromDate#, #toDate#)}-->
+    <!--</procedure>-->
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <!--duplicates findDepositWithHistory-->
+    <select id="getTopUpHistory" parameterClass="java.util.Map" resultClass="depositTopUp">
+        (SELECT
+        Trans_Dt as operationDate,
+        Trans_Amount as topUpAmount,
+        Order_ID as orderId,
+        Close_Bal as closingBalance
+        FROM
+        Deposit
+        WHERE
+        Trans_Type = 'TOPUP'
+        AND Nic_Handle = #nicHandleId#
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') >= DATE_FORMAT(#fromDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#toDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        )
+        UNION ALL
+        (SELECT
+        Trans_Dt as operationDate,
+        Trans_Amount as topUpAmount,
+        Order_ID as orderId,
+        Close_Bal as closingBalance
+        FROM DepositHist
+        WHERE
+        Trans_Type = 'TOPUP'
+        AND Nic_Handle = #nicHandleId#
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') >= DATE_FORMAT(#fromDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#toDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        )
+        ORDER BY operationDate DESC
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="getTopUpHistoryCount" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        count(topUpAmount) as cnt
+        FROM(
+        SELECT
+        Trans_Amount as topUpAmount
+        FROM
+        Deposit
+        WHERE
+        Trans_Type = 'TOPUP'
+        AND Nic_Handle = #nicHandleId#
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') >= DATE_FORMAT(#fromDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#toDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        UNION ALL
+        SELECT
+        Trans_Amount as topUpAmount
+        FROM DepositHist
+        WHERE
+        Trans_Type = 'TOPUP'
+        AND Nic_Handle = #nicHandleId#
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') >= DATE_FORMAT(#fromDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        AND DATE_FORMAT(Trans_Dt, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#toDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+        ) as subAlias
+    </select>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="depositCriteria">
+        <dynamic prepend="WHERE">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                D.Nic_Handle = #criteria.nicHandleId#
+           	</isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionDateFrom">
+                DATE_FORMAT(D.Trans_Dt, '%Y-%m-%d') >= DATE_FORMAT(#criteria.transactionDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionDateTo">
+                DATE_FORMAT(D.Trans_Dt, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#criteria.transactionDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionType">
+                D.Trans_Type = #criteria.transactionType,handler=pl.nask.crs.payment.dao.ibatis.handlers.DepositTransactionTypeHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.correctorNH">
+                D.Corrector_NH= #criteria.correctorNH#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.remark">
+                D.Remark LIKE #criteria.remark,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixPostfixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountBillNH">
+                D.Nic_Handle = #criteria.accountBillNH#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findDeposits" parameterClass="java.util.Map" resultMap="internalDeposit">
+        <include refid="selectDeposit"/>
+        <include refid="depositCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="countFindDeposits" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        count(*) as cnt
+        FROM Deposit D
+        <include refid="depositCriteria"/>
+    </select>
+
+    <sql id="selectDepositHist">
+        SELECT
+        DH.id as id,
+        DH.Nic_Handle as nicHandleId,
+        NULL as nicHandleName,
+        DH.Trans_Dt as transactionDate,
+        DH.Open_Bal as openBal,
+        DH.Close_Bal as closeBal,
+        DH.Order_ID as orderId,
+        DH.Trans_Amount as transactionAmount,
+        DH.Trans_Type as transactionType,
+        DH.Corrector_NH as correctorNH,
+        DH.Remark as remark
+        FROM
+        DepositHist DH
+    </sql>
+
+    <sql id="depositHistCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                DH.Nic_Handle = #criteria.nicHandleId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionDateFrom">
+                DH.Trans_Dt >= #criteria.transactionDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionDateTo">
+                DH.Trans_Dt <![CDATA[<=]]> #criteria.transactionDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transactionType">
+                DH.Trans_Type = #criteria.transactionType,handler=pl.nask.crs.payment.dao.ibatis.handlers.DepositTransactionTypeHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.correctorNH">
+                DH.Corrector_NH = #criteria.correctorNH#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findHistory" parameterClass="java.util.Map" resultMap="internalDeposit">
+        <include refid="selectDepositHist"/>
+        <include refid="depositHistCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="countFindHistory" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(*)
+        FROM
+        DepositHist DH
+        <include refid="depositHistCriteria"/>
+    </select>
+
+    <select id="findDepositWithHistory" parameterClass="java.util.Map" resultMap="internalDeposit">
+        (
+        SELECT
+        4294967295 as id,
+        D.Nic_Handle as nicHandleId,
+        N.NH_Name as nicHandleName,
+        D.Trans_Dt as transactionDate,
+        D.Open_Bal as openBal,
+        D.Close_Bal as closeBal,
+        D.Order_ID as orderId,
+        D.Trans_Amount as transactionAmount,
+        D.Trans_Type as transactionType,
+        D.Corrector_NH as correctorNH,
+        D.Remark as remark
+        FROM Deposit D
+        LEFT JOIN NicHandle N ON (D.Nic_Handle = N.Nic_Handle)
+        <include refid="depositCriteria"/>
+        ) UNION ALL(
+        SELECT
+        D.id,
+        D.Nic_Handle as nicHandleId,
+        NULL as nicHandleName,
+        D.Trans_Dt as transactionDate,
+        D.Open_Bal as openBal,
+        D.Close_Bal as closeBal,
+        D.Order_ID as orderId,
+        D.Trans_Amount as transactionAmount,
+        D.Trans_Type as transactionType,
+        D.Corrector_NH as correctorNH,
+        D.Remark as remark
+        FROM
+        DepositHist D
+        <include refid="depositCriteria"/>
+        )
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="countFindDepositWithHistory" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(nicHandleId)
+        FROM
+        (
+        SELECT
+        D.Nic_Handle as nicHandleId
+        FROM Deposit D
+        <include refid="depositCriteria"/>
+        UNION ALL
+        SELECT
+        D.Nic_Handle as nicHandleId
+        FROM DepositHist D
+        <include refid="depositCriteria"/>
+        ) as subAlias
+    </select>
+
+</sqlMap>

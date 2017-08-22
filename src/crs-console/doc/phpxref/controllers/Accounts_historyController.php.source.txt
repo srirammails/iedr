@@ -1,0 +1,155 @@
+<?php
+
+/**
+ * defines Accounts_historyController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Accounts_historyController
+	extends SQLGridController
+	{
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * renders view of Renewal Payment History page
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    payhist.php, Rpts_nrc_hist_pay_search_Model, Accounts_historyController::actionGetgriddatanrc_hist_pay_search()
+     */
+	public function actionPayhist() { 
+		$model = new Rpts_nrc_hist_pay_search_Model();
+		$this->performAjaxValidation($model);
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_hist_pay_search_Model']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_hist_pay_search_Model'];
+		}
+		Yii::log(print_r($model,true), 'debug', 'Accounts_historyController::actionPayhist()');
+		$this->render('payhist',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public
+     * @see    payhist.php, Rpts_nrc_hist_pay_search_Model, Accounts_historyController::actionPayhist()
+     */
+	public function actionGetgriddatanrc_hist_pay_search(){
+		$this->type = "nrc_hist_pay_search";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * renders view of Pending Payments.
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    pendingpay.php, Rpts_nrc_pending_payments_Model, Accounts_historyController::actionGetgriddataNrc_pending_payments()
+     */
+        public function actionPendingpay() {
+		$model = new Rpts_nrc_pending_payments_Model();
+                $this->performAjaxValidation($model);
+
+                if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_pending_payments_Model']))
+                {
+                        $model->attributes=$_POST['Rpts_nrc_pending_payments_Model'];
+                }
+                Yii::log(print_r($model,true), 'debug', 'Accounts_historyController::actionPendingpay()');
+                $this->render('pendingpay',array('model'=>$model));
+                }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    pendingpay.php, Rpts_nrc_pending_payments_Model, Accounts_historyController::actionPendingpay()
+     */
+        public function actionGetgriddataNrc_pending_payments(){
+                $this->type = "nrc_pending_payments";
+                return $this->actionGetgriddata();
+                }
+
+    /**
+     * renders view of Deposit Top Up History
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    topuphist.php
+     */
+	public function actionTopuphist() { 
+		DBLog::logAction('Deposit TopUp Rpt');
+		$params = array('days'=>$_REQUEST['days'],);
+		if(!isset($_GET['ajax'])) $this->render('topuphist', $params);
+		else  $this->renderPartial('topuphist', $params);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  mixed  $model    Parameter description (if any) ...
+     * @param  string $criteria Parameter description (if any) ...
+     * @return string Return description (if any) ...
+     * @access public
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		$u = Yii::app()->user->name;
+                if($this->type == 'nrc_pending_payments'){
+			$query = "SELECT D_Name, Inv_No, Trans_Dt, Sess_ID, VAT, Amount, Batch_Total FROM nrc_pending_payments WHERE Nic_Handle ='$u'";
+		}
+		else{
+			$query = "SELECT D_Name, Inv_No, Trans_Dt, Trans_ID, VAT, Amount, Batch_Total FROM nrc_hist_pay_search WHERE Nic_Handle ='".$u."'";
+			if($model->domainName != null and trim($model->domainName)!='')
+				$query .= " AND D_Name = '".$model->domainName."'";
+		}
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+                }
+	}
+

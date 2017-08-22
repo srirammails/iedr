@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2201">
+            <msg>Authorization error</msg>
+            <value>
+                <contact:id xmlns:contact="http://www.domainregistry.ie/ieapi-contact-1.3">APIT1-IEDR</contact:id>
+            </value>
+            <reason code="452">Contact is managed by another registrar</reason>
+        </result>
+    </response>
+</ieapi>

@@ -1,0 +1,37 @@
+<!-- START protected/views/accounts_payhist_crednotes/transfers_away.php -->
+<?php
+/**
+ * View page for Accounts Payment-History Credit-Notes - Transfers Away
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Rpts_nrc_cn_xfer_away_Model, Accounts_payhist_crednotesController::actionTransfers_away(), Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_xfer_away(), jqGridWidget
+ */
+
+$pg = 'Transfers Away CreditNotes';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+echo "<p>There were " . $model->totalrows . " domains included in the credit note period you selected.</p>";
+echo '</div>';
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+        'caption'               => 'Credit Notes - Transfers Away from \''.Yii::app()->user->name.'\' for the month of ' . date("Y F"),
+        'thisfile'              => $this->createUrl('accounts_payhist_crednotes/transfers_away',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_payhist_crednotes/getgriddataNrc_cn_xfer_away',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_payhist_crednotes/transfers_away.php -->
+

@@ -1,0 +1,15 @@
+/*
+	tooltip css elements
+	for color defs see main.css
+*/
+
+.tooltipped {
+    /* empty - just for jquery */
+}
+
+.tooltip {
+	color: black;
+	border: 1px solid black;
+	padding: 3px 3px 2px 3px;
+	background: white;
+}

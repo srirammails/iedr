@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="vat">
+
+    <cacheModel id="vatCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+
+    <typeAlias alias="vatResult" type="pl.nask.crs.vat.Vat"/>
+
+    <select id="getVatCategory" cacheModel="vatCache" resultClass="String">
+        SELECT
+        code
+        FROM
+        vat_category
+    </select>
+
+    <select id="getCurrentVat" cacheModel="vatCache" parameterClass="java.util.Map" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        Category = #category#
+        AND
+        From_Date <![CDATA[<=]]> #forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        AND
+        Valid = 'Y'
+        ORDER BY From_Date DESC
+        LIMIT 1
+    </select>
+
+    <select id="getCurrentAndPreviousVatList" cacheModel="vatCache" parameterClass="java.util.Date" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        From_Date <![CDATA[<=]]> #forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        AND
+        Valid = 'Y'
+    </select>
+
+    <select id="getVatsForCategoryAndFrom" parameterClass="java.util.Map" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        Category = #category#
+        AND
+        From_Date = DATE_FORMAT(#from,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+    </select>
+
+    <select id="getCurrentVatExceptVatId" parameterClass="java.util.Map" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        Category = #category#
+        AND
+        From_Date <![CDATA[<=]]> #forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        AND
+        Valid = 'Y'
+        AND
+        ID != #vatId#
+        ORDER BY From_Date DESC
+        LIMIT 1
+    </select>
+
+    <select id="getVatById" parameterClass="int" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        ID = #id#
+    </select>
+
+    <insert id="create" parameterClass="vatResult">
+        INSERT INTO Vat
+        (Category,
+        From_Date,
+        Rate,
+        Valid)
+        VALUES
+        (#category#,
+        #fromDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #vatRate#,
+        'Y');
+        <selectKey keyProperty="id" resultClass="int">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="invalidate" parameterClass="int">
+        UPDATE Vat SET
+        Valid = 'N'
+        WHERE
+        ID = #vatId#
+    </update>
+
+    <select id="getAllValid" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        Valid = 'Y'
+        ORDER BY Category,From_Date DESC
+    </select>
+
+    <select id="getCurrentAndFutureVatList" parameterClass="java.util.Date" resultClass="vatResult">
+        SELECT
+        ID as id,
+        Category as category,
+        From_Date as fromDate,
+        Rate as vatRate
+        FROM
+        Vat
+        WHERE
+        From_Date >= #forDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        AND
+        Valid = 'Y'
+    </select>
+</sqlMap>
+

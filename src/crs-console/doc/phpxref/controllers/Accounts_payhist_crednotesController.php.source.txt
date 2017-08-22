@@ -1,0 +1,282 @@
+<?php
+
+/**
+ * defines Accounts_payhist_crednotesController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Controller that handles reports about Credit Notes on Invoices
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class Accounts_payhist_crednotesController
+	extends SQLDateSelectGridController
+	{
+
+    /**
+     * renders menu view-page
+     * 
+     * @return void  
+     * @access public
+     */
+    public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * renders invoices menu view-page
+     * 
+     * @return void  
+     * @access public
+     */
+    public function actionInvoicemenu() { $this->render('invoicemenu'); }
+
+    /**
+     * renders grid page of MSD Deletions
+     * 
+     * @return void  
+     * @access public
+     * @see    deletions.php, Rpts_nrc_cn_deletions_Model, Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_deletions()
+     */
+    public function actionDeletions() { 
+
+	$this->type = "nrc_cn_deletions";
+   	$model = new Rpts_nrc_cn_deletions_Model();
+        $this->performAjaxValidation($model);
+
+        if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_cn_deletions_Model']))
+        {
+        	$model->attributes=$_POST['Rpts_nrc_cn_deletions_Model'];
+		Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionDeletions');
+        }
+	$x = $this->getNumRows($model,null,null);
+	Yii::log('$x = '.$x, 'debug', 'Accounts_payhist_crednotesController::actionDeletions()');
+	$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+	Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionDeletions()');
+
+        $this->render('/accounts_payhist_crednotes/deletions',array('model'=>$model));
+	}
+
+    /**
+     * outputs data for MSD Deletions
+     * 
+     * @return void
+     * @access public 
+     * @see    deletions.php, Rpts_nrc_cn_deletions_Model, Accounts_payhist_crednotesController::actionDeletions()
+     */
+	public function actionGetgriddataNrc_cn_deletions(){
+		$this->type = "nrc_cn_deletions";
+		return $this->actionGetgriddata();
+	}
+
+
+    /**
+     * renders grid view for 'Credit Notes Domains transferred away before payment due date'
+     * 
+     * @return void  
+     * @access public
+     * @see    transfers_away.php, Rpts_nrc_cn_xfer_away_Model, Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_xfer_away()
+     */
+    public function actionTransfers_away() { 
+
+	$this->type = "nrc_cn_xfer_away";
+   	$model = new Rpts_nrc_cn_xfer_away_Model();
+        $this->performAjaxValidation($model);
+
+        if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_cn_xfer_away_Model']))
+        {
+        	$model->attributes=$_POST['Rpts_nrc_cn_xfer_away_Model'];
+		Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionTransfers_away');
+        }
+	$x = $this->getNumRows($model,null,null);
+	Yii::log('$x = '.$x, 'debug', 'Accounts_payhist_crednotesController::actionTransfers_away()');
+	$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+	Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionTransfers_away()');
+        $this->render('/accounts_payhist_crednotes/transfers_away',array('model'=>$model));
+	}
+
+    /**
+     * outputs Data for 'Credit Notes Domains transferred away before payment due date'
+     * 
+     * @return void
+     * @access public 
+     * @see    transfers_away.php, Rpts_nrc_cn_xfer_away_Model, Accounts_payhist_crednotesController::actionTransfers_away()
+     */
+	public function actionGetgriddataNrc_cn_xfer_away(){
+		$this->type = "nrc_cn_xfer_away";
+		return $this->actionGetgriddata();
+	}
+
+
+    /**
+     * renders grid page for 'MSD Deletion credit notes'
+     * 
+     * @return void  
+     * @access public
+     * @see    nrc_cn_on_invs_msddels.php, Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_on_invs_msddels(), Rpts_nrc_cn_on_invs_msddels_Model
+     */
+    public function actionNrc_cn_on_invs_msddels() { 
+	$this->type = "nrc_cn_on_invs_msddels";
+   	$model = new Rpts_nrc_cn_on_invs_msddels_Model();
+	$model->year = date("Y"); // TODO move member-data initialisation into model base constructor
+	$model->month = date("F");
+        $this->performAjaxValidation($model);
+
+        if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_cn_on_invs_msddels_Model']))
+        {
+        	$model->attributes=$_POST['Rpts_nrc_cn_on_invs_msddels_Model'];
+		Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msddels()');
+        }
+	$x = $this->getNumRows($model,null,null);
+	Yii::log('$x = '.$x, 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msddels()');
+	$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+	Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msddels()');
+        $this->render('/accounts_payhist_crednotes/nrc_cn_on_invs_msddels',array('model'=>$model));
+	}
+
+    /**
+     * outputs data for 'MSD Deletion credit notes'
+     * 
+     * @return void
+     * @access public 
+     * @see    nrc_cn_on_invs_msddels.php, Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msddels(), Rpts_nrc_cn_on_invs_msddels_Model
+     */
+	public function actionGetgriddataNrc_cn_on_invs_msddels(){
+		$this->type = "nrc_cn_on_invs_msddels";
+		return $this->actionGetgriddata();
+	}
+
+
+    /**
+     * renders grid view for 'Credit Notes on Domains transferred to another Registrar out of MSD'
+     * 
+     * @return void  
+     * @access public
+     * @see    nrc_cn_on_invs_msd_xfer.php, Rpts_nrc_cn_on_invs_msd_xfer_Model, Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_on_invs_msd_xfer()
+     */
+    public function actionNrc_cn_on_invs_msd_xfer() { 
+	$this->type = "nrc_cn_on_invs_msd_xfer";
+   	$model = new Rpts_nrc_cn_on_invs_msd_xfer_Model();
+	$model->year = date("Y"); // TODO move member-data initialisation into model base constructor
+	$model->month = date("F");
+        $this->performAjaxValidation($model);
+
+        if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_cn_on_invs_msd_xfer_Model']))
+        {
+        	$model->attributes=$_POST['Rpts_nrc_cn_on_invs_msd_xfer_Model'];
+		Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msd_xfer()');
+        }
+	$x = $this->getNumRows($model,null,null);
+	Yii::log('$x = '.$x, 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msd_xfer()');
+	$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+	Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msd_xfer()');
+        $this->render('/accounts_payhist_crednotes/nrc_cn_on_invs_msd_xfer',array('model'=>$model));
+	}
+
+    /**
+     * outputs data for 'Credit Notes on Domains transferred to another Registrar out of MSD'
+     * 
+     * @return void
+     * @access public 
+     * @see    nrc_cn_on_invs_msd_xfer.php, Rpts_nrc_cn_on_invs_msd_xfer_Model, Accounts_payhist_crednotesController::actionNrc_cn_on_invs_msd_xfer()
+     */
+	public function actionGetgriddataNrc_cn_on_invs_msd_xfer(){
+		$this->type = "nrc_cn_on_invs_msd_xfer";
+		return $this->actionGetgriddata();
+	}
+
+
+    /**
+     * renders grid view of 'Credit Notes for Domains transferred away before payment due date'
+     * 
+     * @return void  
+     * @access public
+     * @see    nrc_cn_on_invs_xfer_away_pp.php, Rpts_nrc_cn_on_invs_xfer_away_pp_Model, Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_on_invs_xfer_away_pp()
+     */
+    public function actionNrc_cn_on_invs_xfer_away_pp() { 
+	$this->type = "nrc_cn_on_invs_xfer_away_pp";
+   	$model = new Rpts_nrc_cn_on_invs_xfer_away_pp_Model();
+	$model->year = date("Y"); // TODO move member-data initialisation into model base constructor
+	$model->month = date("F");
+        $this->performAjaxValidation($model);
+
+        if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_cn_on_invs_xfer_away_pp_Model']))
+        {
+        	$model->attributes=$_POST['Rpts_nrc_cn_on_invs_xfer_away_pp_Model'];
+		Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_xfer_away_pp()');
+        }
+	$x = $this->getNumRows($model,null,null);
+	Yii::log('$x = '.$x, 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_xfer_away_pp()');
+	$model->totalrows = $x;//$this->getNumRows($model/*,$criteria,$sort*/);
+	Yii::log(print_r($model,true), 'debug', 'Accounts_payhist_crednotesController::actionNrc_cn_on_invs_xfer_away_pp()');
+
+        $this->render('/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp',array('model'=>$model));
+	}
+
+    /**
+     * outputs data for 'Credit Notes for Domains transferred away before payment due date'
+     * 
+     * @return void
+     * @access public 
+     * @see    nrc_cn_on_invs_xfer_away_pp.php, Rpts_nrc_cn_on_invs_xfer_away_pp_Model, Accounts_payhist_crednotesController::actionNrc_cn_on_invs_xfer_away_pp()
+     */
+	public function actionGetgriddataNrc_cn_on_invs_xfer_away_pp(){
+		$this->type = "nrc_cn_on_invs_xfer_away_pp";
+		return $this->actionGetgriddata();
+	}
+
+    /**
+     * returns partial query sql string for data retrieval with parameters
+     * 
+     * @param  object $model    relevant grid query model object
+     * @param  string  $criteria search criteria
+     * @return string  sql string
+     * @access public 
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		$u = Yii::app()->user->name;
+		$dt = '';
+		switch($this->type)
+			{
+			case 'nrc_cn_on_invs_msddels':
+				$dt = $this->getDateStr(array('I_Inv_Dt'),$model); break;
+			case 'nrc_cn_on_invs_msd_xfer': case 'nrc_cn_on_invs_xfer_away_pp':
+			 	$dt = $this->getDateStr(array('C_Nt_Ts'),$model); break;
+			}
+		$query = '';
+		switch($this->type)
+			{
+			case 'nrc_cn_deletions':
+				$query = "SELECT Domain, Holder, InvoiceNo, InvoiceDate, RenewalDate, RegistrationDate, Amount, I_Inv_Vat_Amt FROM nrc_cn_deletions WHERE I_Bill_NH ='".$u."'";
+				break;
+			case 'nrc_cn_on_invs_msddels':
+				$query = "SELECT I_DName, I_Inv_Dt, I_Inv_No, Cr_Note_Dt FROM nrc_cn_on_invs_msddels WHERE I_Bill_Nh ='".$u."'  AND ".$dt;
+				break;
+			case 'nrc_cn_on_invs_msd_xfer':
+				$query = "SELECT I_DName, I_Inv_Dt, I_Inv_No, Tr_Date, Type, C_Nt_Ts FROM nrc_cn_on_invs_msd_xfer WHERE Old_Nic_Handle ='".$u."'  AND ".$dt;
+				break;
+			case 'nrc_cn_on_invs_xfer_away_pp':
+				$query = "SELECT I_DName, I_Inv_Dt, I_Inv_No, Tr_Date, Type, C_Nt_Ts FROM nrc_cn_on_invs_xfer_away_pp WHERE I_Bill_NH ='".$u."' AND ".$dt;
+				break;
+			case 'nrc_cn_xfer_away':
+				$query = "SELECT Domain, Holder, InvoiceNo, InvoiceDate, RenewalDate, RegistrationDate, Amount, I_Inv_Vat_Amt FROM nrc_cn_xfer_away WHERE I_Bill_NH ='".$u."'";
+				break;
+			}
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+                }
+	}
+

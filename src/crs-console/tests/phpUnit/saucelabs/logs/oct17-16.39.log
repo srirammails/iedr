@@ -1,0 +1,5 @@
+TAP version 13
+ok 1 - LoginTest::test_login with browser firefox 7 Windows 2003
+ok 2 - LoginTest::test_login with browser iexplore 9 Windows 2008
+ok 3 - LoginTest::test_login with browser safari 4 Windows 2003
+1..3

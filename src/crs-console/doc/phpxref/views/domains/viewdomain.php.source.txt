@@ -1,0 +1,146 @@
+<!-- START protected/views/domains/viewdomain.php -->
+<?php
+/**
+ * View page for Domains - View Domain
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       ViewDomainModel, DomainsController::actionViewDomain()
+ */
+
+$pg = 'View Domain';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+
+if($model->message){
+        echo "<div class =\"flash-notice\">";
+                foreach($model->message as $aMsg){
+                        echo $aMsg . "<br>";
+                }
+        echo "</div><br>";
+        $model->message = "";
+}
+
+
+if($model->errors != null)
+	echo '<span class="error">'.$model->errors.'</span>';
+else
+	{
+	$form=$this->beginWidget('CActiveForm', array(
+		'id'=>'ViewDomainModel',
+		'enableAjaxValidation'=>true,
+		));
+$roOpts = array('disabled'=>'disabled');
+$roOptsSmall =$roOpts;
+$roOptsSmall['size'] = 13;
+?>
+	<table border="1" class="formfields">
+		<tbody>
+			<tr>
+				<td><?php echo $form->label($model,'domain_name'); echo $form->error($model,'domain_name'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_name',$roOpts); ?></div></td>
+				<td><?php echo $form->label($model,'domain_domainStatus'); echo $form->error($model,'domain_domainStatus'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_domainStatus',$roOpts); ?></div></td>
+			</tr>
+			<tr>
+				<td><?php echo $form->label($model,'domain_registrationDate'); echo $form->error($model,'domain_registrationDate'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_registrationDate',$roOpts); ?></div></td>
+				<td><?php echo $form->label($model,'domain_renewDate'); echo $form->error($model,'domain_renewDate'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_renewDate',$roOpts); ?></div></td>
+			</tr>
+			<tr>
+				<td><?php echo $form->label($model,'domain_holder'); echo $form->error($model,'domain_holder'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_holder',$roOpts); ?></div></td>
+				<td><?php echo $form->label($model,'domain_billingStatus'); echo $form->error($model,'domain_billingStatus'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_billingStatus',$roOpts); ?></div></td>
+			</tr>
+			<tr>
+				<td><?php echo $form->label($model,'domain_holderClass'); echo $form->error($model,'domain_holderClass'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_holderClass',$roOpts); ?></div></td>
+				<td><?php echo $form->label($model,'domain_holderCategory'); echo $form->error($model,'domain_holderCategory'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_holderCategory',$roOpts); ?></div></td>
+			</tr>
+
+<?php
+
+	#$nns = count($model->domain_nameservers);
+	$nns = $model->domain_nameservers;
+	for($i=0;$i<($nns);$i++)
+		{
+?>			<tr>
+				<td><?php echo $form->label($model,'domain_nameservers_'.$i.'_name'); echo $form->error($model,'domain_nameservers_'.$i.'_name'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_nameservers_'.$i.'_name',$roOpts); ?></div></td>
+				<td><?php echo $form->label($model,'domain_nameservers_'.$i.'_ipAddress'); echo $form->error($model,'domain_nameservers_'.$i.'_ipAddress'); ?></td>
+				<td><div class="row"><?php echo $form->textField($model,'domain_nameservers_'.$i.'_ipAddress',$roOpts); ?></div></td>
+			</tr>
+
+
+<?php	} ?>
+			<tr>
+				<?php 
+					$lockedStr = "";
+					$model->domain_lockedStatus ? $lockedStr = "True" : $lockedStr = "False";
+				?>
+
+				<td><?php echo $form->label($model,'domain_lockedStatus'); echo $form->error($model,'domain_lockedStatus'); ?></td>
+				<td><div class="row"><?php echo $lockedStr; ?></div></td>
+			</tr>
+			<tr><td colspan="4" bgcolor="#E4F5F0"/></tr>
+			<tr>
+				<td colspan="4">
+					<table>
+						<tr>
+							<td></td>
+							<td>NIC Handle</td>
+							<td>Name</td>
+							<td>Email</td>
+							<td>Company</td>
+							<td>Country</td>
+						</tr>
+						<tr>
+							<td><?php echo "<a href=index.php?r=nichandles/viewnichandle&id=" . $model->domain_techContacts_nicHandle . ">Tech:</a>"; ?></td>
+							<td><?php echo $form->error($model,'domain_techContacts_nicHandle'); ?><div class="row"><?php echo $form->textField($model,'domain_techContacts_nicHandle',$roOptsSmall); ?></div></td>
+							<td><?php echo $form->error($model,'domain_techContacts_name'); ?><div class="row"><?php echo $form->textField($model,'domain_techContacts_name',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_techContacts_email'); ?><div class="row"><?php echo $form->textField($model,'domain_techContacts_email',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_techContacts_companyName'); ?><div class="row"><?php echo $form->textField($model,'domain_techContacts_companyName',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_techContacts_country'); ?><div class="row"><?php echo $form->textField($model,'domain_techContacts_country',$roOptsSmall); ?></div></td>
+						</tr>
+						<tr>
+							<td><?php echo "<a href=index.php?r=nichandles/viewnichandle&id=" . $model->domain_adminContacts_nicHandle . ">Admin:</a>"; ?></td>
+							<td><?php echo $form->error($model,'domain_adminContacts_nicHandle'); ?><div class="row"><?php echo $form->textField($model,'domain_adminContacts_nicHandle',$roOptsSmall); ?></div></td>
+							<td><?php echo $form->error($model,'domain_adminContacts_name'); ?><div class="row"><?php echo $form->textField($model,'domain_adminContacts_name',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_adminContacts_email'); ?><div class="row"><?php echo $form->textField($model,'domain_adminContacts_email',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_adminContacts_companyName'); ?><div class="row"><?php echo $form->textField($model,'domain_adminContacts_companyName',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_adminContacts_country'); ?><div class="row"><?php echo $form->textField($model,'domain_adminContacts_country',$roOptsSmall); ?></div></td>
+						</tr>
+						<tr>
+							<td><?php echo "<a href=index.php?r=nichandles/viewnichandle&id=" . $model->domain_billingContacts_nicHandle . ">Billing:</a>"; ?></td>
+							<td><?php echo $form->error($model,'domain_billingContacts_nicHandle'); ?><div class="row"><?php echo $form->textField($model,'domain_billingContacts_nicHandle',$roOptsSmall); ?></div></td>
+							<td><?php echo $form->error($model,'domain_billingContacts_name'); ?><div class="row"><?php echo $form->textField($model,'domain_billingContacts_name',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_billingContacts_email'); ?><div class="row"><?php echo $form->textField($model,'domain_billingContacts_email',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_billingContacts_companyName'); ?><div class="row"><?php echo $form->textField($model,'domain_billingContacts_companyName',$roOpts); ?></div></td>
+							<td><?php echo $form->error($model,'domain_billingContacts_country'); ?><div class="row"><?php echo $form->textField($model,'domain_billingContacts_country',$roOptsSmall); ?></div></td>
+						</tr>
+					</table>
+				</td>
+			<tr>
+		</tbody>
+	</table>
+	<div class="row buttons"><?php /*echo CHtml::submitButton('Update Domain');*/ echo CHtml::submitButton('Send Domain to MSD'); ?></div>
+	<?php 
+		echo $form->hiddenField($model,'domain_name');
+		$this->endWidget(); 
+
+	}
+?></div>
+
+<!-- END protected/views/domains/viewdomain.php -->

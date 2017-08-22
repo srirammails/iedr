@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<response timestamp="20120319115651">
+	<merchantid>iedr</merchantid>
+	<account>internet</account>
+	<orderid>20120319125630-103067</orderid>
+	<authcode>115651</authcode>
+	<result>00</result>
+	<cvnresult>U</cvnresult>
+	<avspostcoderesponse>U</avspostcoderesponse>
+	<avsaddressresponse>U</avsaddressresponse>
+	<batchid>-1</batchid>
+	<message>[ test system ] AUTH CODE 115651</message>
+	<pasref>133215821111512</pasref>
+	<timetaken>0</timetaken>
+	<authtimetaken>0</authtimetaken>
+
+	<cardissuer>
+		<bank>AIB BANK</bank>
+		<country>IRELAND</country>
+		<countrycode>IE</countrycode>
+		<region>EUR</region>
+	</cardissuer>
+
+	<md5hash>84cb753995cded64ff90a9a20bf2866f</md5hash>
+</response>

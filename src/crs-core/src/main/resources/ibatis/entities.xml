@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="entities">
+
+    <cacheModel id="entityClassCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="20"/>
+    </cacheModel>
+
+    <cacheModel id="entityCategoryCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="30"/>
+    </cacheModel>
+
+    <typeAlias alias="classCategory" type="pl.nask.crs.entities.ClassCategoryEntity"/>
+
+    <select id="getClassList" cacheModel="entityClassCache" parameterClass="java.util.Map"
+            resultClass="pl.nask.crs.entities.dao.ibatis.InternalEntityClass">
+        select
+        id as id,
+        name as name
+        from Class
+    </select>
+
+    <select id="getClass" cacheModel="entityClassCache" parameterClass="long"
+            resultClass="pl.nask.crs.entities.dao.ibatis.InternalEntityClass">
+        select
+        id as id,
+        name as name
+        from Class
+        where id=#id#
+    </select>
+
+
+    <select id="getCategoriesList" cacheModel="entityCategoryCache" parameterClass="java.util.Map"
+            resultClass="pl.nask.crs.entities.dao.ibatis.InternalEntityCategory">
+        select
+        id as id,
+        name as name
+        from Category
+        <dynamic>
+            <isNotNull property="criteria.entityClass">
+                , Class_to_Category ctc
+                where Category.id = ctc.category_id and ctc.class_id = #criteria.entityClass#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="getCategory" cacheModel="entityCategoryCache" parameterClass="long"
+            resultClass="pl.nask.crs.entities.dao.ibatis.InternalEntityCategory">
+        select
+        id as id,
+        name as name
+        from Category
+        where Category.id = #id#
+    </select>
+
+    <select id="getClassByName" parameterClass="string" resultClass="string">
+        SELECT name
+        FROM Class c
+        WHERE name = #cName#
+    </select>
+
+    <select id="getCategoryByName" parameterClass="string" resultClass="string">
+        SELECT name
+        FROM Category c
+        WHERE name = #ctName#
+    </select>
+
+    <select id="isClassMatchCategory" parameterClass="java.util.Map" resultClass="string">
+        SELECT
+        c.name, ct.name
+        FROM
+        Class c, Category ct, Class_to_Category ctc
+        WHERE
+        ctc.class_id = c.id
+        AND ctc.category_id = ct.id
+        AND c.name = #cName#
+        AND ct.name = #ctName#
+    </select>
+
+    <select id="hasPermissionToClassCategory" parameterClass="java.util.Map" resultClass="string">
+        SELECT Nic_Handle
+        FROM Class_Category_Permission as CCP
+        inner join Category as CT on (CCP.Category_id = CT.id)
+        inner join Class as CL on (CCP.Class_id = CL.id)
+        WHERE CL.name =#clName#
+        AND CT.name=#ctName#
+        AND CCP.Nic_Handle=#nicHandleId#
+    </select>
+
+    <select id="getClassCategoryEntities" resultClass="classCategory" cacheModel="entityClassCache">
+        SELECT
+        tc.name as className,
+        ctc.class_id as classId,
+        tt.name as categoryName,
+        tt.id as categoryId
+        FROM
+        Class tc,
+        Category tt,
+        Class_to_Category ctc
+        WHERE tt.id = ctc.category_id
+        AND tc.id = ctc.class_id
+        order by 1,3;
+    </select>
+
+</sqlMap>

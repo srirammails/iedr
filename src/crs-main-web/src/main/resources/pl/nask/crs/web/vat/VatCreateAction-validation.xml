@@ -1,0 +1,19 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="wrapper.category">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for Category</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.fromDate">
+        <field-validator type="required">
+            <message>You must enter a value for From Date</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.vatRate">
+        <field-validator type="required">
+            <message>You must enter a value for Vat Rate</message>
+        </field-validator>
+    </field>
+</validators>

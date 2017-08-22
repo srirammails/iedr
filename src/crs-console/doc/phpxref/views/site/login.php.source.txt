@@ -1,0 +1,81 @@
+<!-- START protected/views/site/login.php -->
+<?php
+/**
+ * View page for Login Form
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       LoginForm, NicHandleIdentity, SiteController::actionLogin()
+ */
+
+$this->pageTitle=Yii::app()->name . ' - Login';
+?>
+
+<h1>Login</h1>
+
+<p>Please fill out the following form with your login credentials:</p>
+
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'login-form',
+	'enableAjaxValidation'=>false,
+	));
+$form->focus = array($model,'username');
+?>
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+<?php
+if(Utility::isInternalNetwork())
+	{
+?>
+	<div class="row">
+		<?php echo $form->labelEx($model,'internalUser'); ?>
+		<?php echo $form->dropdownList($model,'internalUser', Utility::getIEDRUsers()); ?>
+		<?php echo $form->error($model,'internalUser'); ?>
+	</div>
+<?php
+	}
+else
+	{
+	$model->internalUser = NicHandleIdentity::$NOT_INTERNAL;
+	echo $form->hiddenField($model,'internalUser');
+	}
+?>
+	<div class="row">
+		<?php echo $form->labelEx($model,'username'); ?>
+		<?php echo $form->textField($model,'username', array('class'=>'showupprcase')); ?>
+		<?php echo $form->error($model,'username'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password'); ?>
+		<?php echo $form->error($model,'password'); ?>
+	</div>
+
+	<?php if(CCaptcha::checkRequirements()): ?>
+	<div class="row">
+		<?php echo $form->labelEx($model,'verifyCode'); ?>
+		<div>
+		<?php
+			$this->widget('CCaptcha');
+			echo $form->textField($model,'verifyCode');
+		?>
+		</div>
+		<div class="hint">Please enter the letters as they are shown in the image above.
+		<br/>Letters are <b><i>not case-sensitive</i></b>.</div>
+	</div>
+	<?php endif; ?>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+<!-- END protected/views/site/login.php -->

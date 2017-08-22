@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+                           ieapi-1.3.xsd">
+  <response>
+    <result code="1400">
+      <msg>Command completed successfully; no result</msg>
+    </result>
+  </response>
+</ieapi>

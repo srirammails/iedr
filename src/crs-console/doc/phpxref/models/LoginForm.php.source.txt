@@ -1,0 +1,213 @@
+<?php
+
+/**
+ * defines LoginForm class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * LoginForm is the data structure for holding user-login-form data during a SiteController/login action request.
+ * 
+ * A Model Validator performs the authentication, by creating a CUserIdentity-subclass instance (NicHandleIdentity), and
+ * invoking it's authenticate() method.
+ * If authentication succeeds, the Yii application's login() function is called, with the authenticated NicHandleIdentity
+ * instance as a parameter. (Yii->app()->login() merely stores the Identity instance, and does no authentication or authorization)
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       SiteController, NicHandleIdentity, Yii
+ */
+
+class LoginForm
+	extends CFormModel
+	{
+
+    /**
+     * username sent by login request
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $username;
+
+    /**
+     * password sent by login request
+     * 
+     * @var    string
+     * @access public 
+     */
+	public $password;
+
+    /**
+     * unused variable
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $rememberMe;
+
+    /**
+     * Description for public
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $verifyCode;
+
+    /**
+     * optional internal username data sent by login request
+     * 
+     * @var    unknown
+     * @access public 
+     */
+	public $internalUser;
+
+    /**
+     * NichandleIdentity Instance which performs authentication
+     * 
+     * @var    CUserIdentity
+     * @access private
+     */
+	private $_identity;
+
+	/**
+	 * Declares the validation rules.
+	 * 
+	 * The rules state that username and password are required,
+	 * and password needs to be authenticated.
+	 * 
+	 * @return void   
+	 * @access public 
+	 */
+	public function rules()
+	{
+		return array(
+			// username and password are required
+			array('username, password, internalUser', 'required'),
+			// uppercase
+			array('username, internalUser', 'UpperCaseValidator'),
+			// password needs to be authenticated
+			array('password', 'authenticate'),
+			// internal username
+			array('internalUser', 'validateInternalUser'),
+			// array('internalUser', 'NicHandleValidator'), # no, would cause recursive nic lookups
+			// verifyCode needs to be entered correctly
+			array('verifyCode', 'AutoTestingCaptchaValidator', 'allowEmpty'=>!CCaptcha::checkRequirements()),
+		);
+	}
+
+	/**
+	 * Declares attribute labels.
+	 * 
+	 * @return void   
+	 * @access public 
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'username'=>'NIC Handle',
+			'password'=>'NIC Password',
+			'verifyCode'=>'Verification Code',
+			'internalUser'=>'Internal Nic Handle',
+		);
+	}
+
+    /**
+     * modifies data before validation: makes username uppercase
+     * 
+     * @param  CEvent $event unused
+     * @return void   
+     * @access public 
+     */
+	public function onBeforeValidate($event)
+		{
+		$this->username = strtoupper($this->username);
+		parent::onBeforeValidate($event);
+		}
+
+    /**
+     * Validator function for internal-username form data
+     * 
+     * the internal-username must be found on the list returned by Utility::getIEDRUsers()
+     * 
+     * @param  string  $attrib name of model-attribute being validated
+     * @param  array   $params validation parameter array
+     * @return string  null if valid, or error message string
+     * @access public 
+     */
+	public function validateInternalUser($attrib,$params)
+		{
+		$v = ' is not a valid Internal User';
+		$u = $this->$attrib;
+		$usrs = Utility::getIEDRUsers();
+		if(isset($usrs[$u]))
+			$v = null;
+		return $v;
+		}
+
+	/**
+	 * Validator function which authenticates username/password credentials
+	 * 
+	 * A NicHandleIdentity object instance is created with the request credentials,
+	 * then it's authenticate member function is called.
+	 * If authentication is not successful, an error message is added to the model
+	 * for the view to display.
+	 * 
+	 * @param  string  $attrib name of model-attribute being validated
+	 * @param  array   $params validation parameter array
+	 * @return string  null if valid, or error message string
+	 * @access public 
+	 */
+	public function authenticate($attribute,$params)
+		{	
+		if(!$this->hasErrors())
+			{	
+			$this->_identity=new NicHandleIdentity($this->username, $this->password);
+			if(!$this->_identity->authenticate($internalUser))
+				$this->addError('password','Incorrect NIC-Handle or password.');
+			}
+		}
+
+	/**
+	 * Logs in the user if authentication was successful
+	 * 
+	 * If authentication was not yet attempted, it is attempted here.
+	 * 
+	 * @return boolean whether login is successful
+	 * @access public 
+	 */
+	public function login()
+		{
+		if($this->_identity===null)
+			{
+			if(!($this->internalUser==NicHandleIdentity::$NOT_INTERNAL))
+				{
+				$this->username = $this->internalUser;
+				}
+			$this->_identity = new NicHandleIdentity($this->username,$this->password);
+			$this->_identity->authenticate();
+			}
+		if($this->_identity->errorCode===NicHandleIdentity::ERROR_NONE)
+			{
+			$duration=0; // prevent "cookie-based authentication"
+			Yii::app()->user->login($this->_identity,$duration);
+			return true;
+			}
+		else
+			return false;
+		}
+	}
+

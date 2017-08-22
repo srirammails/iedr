@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>pl.nask.crs</groupId>
+    <artifactId>crs</artifactId>
+    <version>1.6.44-SNAPSHOT</version>
+  </parent>
+  <name>CRS RPM Build Reactor</name>
+  <groupId>pl.nask.crs</groupId>
+  <version>1.6.44-SNAPSHOT</version>
+  <artifactId>crs-rpm-build</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>crs-iedr-api-rpm</module>
+    <module>crs-main-web-rpm</module>
+    <module>crs-scheduler-rpm</module>
+    <module>crs-web-services-rpm</module>
+    <module>crs-realex-mock-rpm</module>
+  </modules>
+  <build>
+    <testResources>
+      <testResource>
+        <!-- Active projects own resources for testing -->
+           <directory>${basedir}/src/test/resources</directory>
+         </testResource>
+         <testResource>
+           <!-- Taking shared resources from development profile -->
+           <directory>${basedir}/../resources/test</directory>
+         </testResource>
+    </testResources>
+  </build>
+</project>

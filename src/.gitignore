@@ -1,0 +1,15 @@
+*.iml
+**/*.iml
+.idea
+.idea/**
+target
+target/**
+**/target/**
+**/target
+**/**/target
+**/**/target/**
+pom.xml.versionsBackup
+**/pom.xml.versionsBackup
+**/**/pom.xml.versionsBackup
+crs-commons-utils/APPENDER*.log
+crs-app-services/PermissionsReport.txt

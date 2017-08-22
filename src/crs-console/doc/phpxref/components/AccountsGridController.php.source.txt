@@ -1,0 +1,442 @@
+<?php
+
+/**
+ * file which defines AccountsGridController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Specialised GridController for handling grids with invoices and account-payment related actions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class AccountsGridController
+	extends GridController
+	{
+
+    /**
+     * Type of invoice being handled in the current request
+     * @var    CRSPaymentAppService_invoiceType  
+     * @access protected
+     */
+	protected $invoiceType;
+
+    /**
+     * filename to use with grid data export functions in current request
+     * @var    string
+     * @access protected
+     */
+	protected $exportFileName;
+
+    /**
+     * action which renders menu
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * get base path for for view to display ; views/accountsgrid/ contains shared view confirm_action.php and results.php
+     * 
+     * @return string    Return description (if any) ...
+     * @access protected
+     */
+	protected function getViewBase()
+		{
+		return '/accountsgrid/';
+		}
+
+    /**
+     * Override of GridController function called before rendering confirm page; sets model data according to request type
+     * 
+     * @param  object    $gs_model model for current request
+     * @return void     
+     * @access protected
+     */
+	protected function processGridActionCommand($gs_model)
+		{
+		parent::processGridActionCommand($gs_model);
+		$this->invoiceType = $gs_model->invoiceType;
+		switch($gs_model->command)
+			{
+			case 'on': case 'mra':
+				$gs_model->needCreditCard=1;
+				break;
+			case 'dep':
+				if($this->invoiceType==CRSPaymentAppService_invoiceType::_FUT_REN) {
+					// see https://drotest4.nask.net.pl:3000/issues/4177 :
+					// .. "According to PHP-API only payFromDeposit method with FUT_REN invoice type can use period other then default(1).
+					$gs_model->needRenewalOption=1;
+					}
+				break;
+			}
+		}
+
+    /**
+     * command execution after confirmation-accept, makes calls to back-end systems
+     * 
+     * makes calls to back-end payment or msd functions for selected invoices or domains, depending on command chosen
+     * 
+     * @param  mixed     $gsc_model model for current request
+     * @return void     
+     * @access protected
+     */
+	protected function execCommand($gsc_model)
+		{
+		// called by GridController::actionConfirmaction()
+		$this->invoiceType = $gsc_model->invoiceType;
+		$gsc_model->commandresults = array();
+		$invoiceType = $this->getNeededInvoiceType();
+		$gsc_model->euros_amount = 0.0;
+		$pRequest = ($gsc_model->needCreditCard) ? CreditCardFormSegmentModel::asWSAPIPaymentObject($gsc_model) : null;
+		$isTest = '0';
+		$remoteAddr = $_SERVER['REMOTE_ADDR'];
+		$totalFee = 0.0;
+		$totalVat = 0.0;
+		$this->backend_errors = array();
+
+		if($gsc_model->command == 'msd')
+			{
+			$this->doToMSD($gsc_model);
+			}
+		else
+			{
+			switch($gsc_model->command)
+				{
+				case 'dep':
+					// prepare domain list as Array of CRSPaymentAppService_domainWithPeriodVO
+					$dwpArr = array();
+					$lastPeriod = 0;
+					foreach($this->groupCommandByPeriod($gsc_model) as $period => $domainlist)
+						{
+						foreach($domainlist as $d)
+							{
+							$dwp = new CRSPaymentAppService_domainWithPeriodVO();
+							$dwp->domainName = $d;
+							$dwp->period     = $period;
+							$dwpArr[] = $dwp;
+							}
+						}
+					CRSPaymentAppService_service::payFromDeposit($result,$errs,Yii::app()->user->authenticatedUser,$remoteAddr,$dwpArr,$invoiceType,$isTest);
+					if($result!=null and is_object($result))
+						{
+						$totalFee += $result->amount;
+						$totalVat += $result->vat;
+						foreach($this->groupCommandByPeriod($gsc_model) as $period => $domainlist)
+							{
+							// the results are for the whole collection of periods and domains, but we display results PER-Period
+							$result->amount = null;
+							$result->vat    = null;
+							$gsc_model->commandresults[$period] = array('domainlist'=>$domainlist,'results'=>$result,'errs'=>null);
+							}
+						}
+					else
+						$this->backend_errors[] = $errs;
+					break;
+				default:
+					foreach($this->groupCommandByPeriod($gsc_model) as $period => $domainlist)
+						{
+						$result = null;
+						switch($gsc_model->command)
+							{
+							case 'on':
+								CRSPaymentAppService_service::payOnline($result,$errs,Yii::app()->user->authenticatedUser,$pRequest,$remoteAddr,$domainlist,$invoiceType,$isTest);
+								break;
+							case 'off':
+								CRSPaymentAppService_service::payOffline($result,$errs,Yii::app()->user->authenticatedUser,$remoteAddr,$domainlist,$invoiceType,$isTest);
+								break;
+							case 'dep': /* parameter is now array of CRSPaymentAppService_domainWithPeriodVO objects */ break;
+							case 'payonline': case 'paydeposit': case 'reactivate':
+								CRSPaymentAppService_service::payMsdReactivation($result,$errs,Yii::app()->user->authenticatedUser,$pRequest,$remoteAddr,$domainlist,$gsc_model->needCreditCard,$isTest);
+								break;
+							}
+						if($result!=null and is_object($result))
+							{
+							$totalFee += $result->amount;
+							$totalVat += $result->vat;
+							}
+						else
+							$this->backend_errors[$period] = $errs;
+						$gsc_model->commandresults[$period] = array('domainlist'=>$domainlist,'results'=>$result,'errs'=>$errs);
+						}
+					break;
+				}
+
+			}
+		// force re-fetch of deposit balance
+		invalidate_DepositBalance(Yii::app()->user->authenticatedUser->username);
+		$gsc_model->commandresults['TOTAL'] = array('totalFee'=>$totalFee,'totalVat'=>$totalVat);
+		Yii::log('command "'.$gsc_model->command.'" done, backend_errors='.print_r($this->backend_errors,true), 'debug', 'AccountsGridController::actionConfirmaction()');
+		}
+
+    /**
+     * returns export filename prefix for grid data export
+     * 
+     * @return string   filename prefix
+     * @access protected
+     * @see actionGetgriddata
+     */
+	protected function getExportFilenameTag()
+		{
+		return $this->exportFileName;
+		}
+
+    /**
+     * returns invoice-type for current request
+     * 
+     * @return CRSPaymentAppService_invoiceType 
+     * @access public 
+     */
+	public function getNeededInvoiceType()
+		{
+		/* set to one of:
+			CRSPaymentAppService_invoiceType::_TRAN
+			CRSPaymentAppService_invoiceType::_TRAN_ADV
+			CRSPaymentAppService_invoiceType::_FUT_REN
+			CRSPaymentAppService_invoiceType::_CURR_REN_REG
+			CRSPaymentAppService_invoiceType::_MSD
+		*/
+		return $this->invoiceType;
+		}
+
+	// Command functions
+
+
+    /**
+     * returns data from the gridSelection model grouped by renewal period
+     * 
+     * periods are derived from product codes with an array lookup via {@link get_reg_prices}
+     * 
+     * @param  mixed     $gsc_model gridSelection model
+     * @return array     an array of renewal-periods with subarrays of sets of selected domains with the same period
+     * @access protected
+     */
+	protected function groupCommandByPeriod($gsc_model)
+		{
+		#Yii::log(print_r($gsc_model,true), 'debug', 'AccountsGridController::groupCommandByPeriod()');
+		$regarr = get_reg_prices();
+		$group_period_domain = array();
+		foreach($gsc_model->domainListToArray() as $dom)
+			{
+			$dom_prefix = DynamicDomainListModel::domainToVarPrefix($dom);
+			$dom_prod_name = $dom_prefix.'_prodcode';
+			$dom_prodcode = $gsc_model->$dom_prod_name;
+			// use period rather than product-code
+			$prodObj = $regarr['CODE'][$dom_prodcode];
+			$group_period_domain[$prodObj->duration][] = $dom;
+			}
+		Yii::log('groupCommandByPeriod => '.print_r($group_period_domain,true), 'debug', 'AccountsGridController::groupCommandByPeriod()');
+		return $group_period_domain;
+		}
+
+    /**
+     * Calls a backend function to set a domain to MSD
+     * 
+     * @param  mixed     $gsc_model model containing one or more domains to send to MSD
+     * @return void     
+     * @access protected
+     * @see moveToMsd
+     */
+	protected function doToMSD($gsc_model)
+		{
+		Yii::log('enter; list='.print_r($gsc_model->domainListToArray(),true), 'debug', 'AccountsGridController::doToMSD()');
+		foreach($gsc_model->domainListToArray() as $domainName)
+			{
+			$errs = null;
+			CRSDomainAppService_service::moveToMsd($errs,Yii::app()->user->authenticatedUser,$domainName);
+			if($errs != null)
+				{
+				$this->backend_errors[$domainName] = $errs;
+				$gsc_model->commandresults[$domainName] = array('results'=>null,'errs'=>$errs);
+				}
+			else
+				{
+				$gsc_model->commandresults[$domainName] = array('results'=>'OK','errs'=>null);
+				Yii::log('moveToMsd "'.$domainName.'" OK', 'debug', 'AccountsGridController::doToMSD()');
+				}
+			}
+		}
+
+    /**
+     * Get Invoice summary for a model to find the count of records available for given criteria
+     * 
+     * Calls backend Soap function depending on invoice type.
+     * This function is needed simply because NASK implemented the getInvoices APIs without
+     * record-counts in the returned data structures, unlike the findDomain API functions.
+     * 
+     * @param  CRSPaymentAppService_invoiceType  $invoiceType type of invoice
+     * @param  string $month       year and month in format 'YYYY-MM'
+     * @param  string $domainName  optional domain name
+     * @return object  object with domain count for invoice
+     * @access public 
+     */
+	public function getInvoicesSummary($invoiceType=null,$month=null,$domainName=null)
+		{
+		if($invoiceType==null) $invoiceType = $this->getNeededInvoiceType();
+		$result = null;
+		/*
+		return types:
+			CRSPaymentAppService_shortInvoiceVO
+				public $invoiceNo;// type=xs:string, (NOT NULL), min=0
+				public $vat;// type=xs:decimal, (NOT NULL), min=0
+				public $amount;// type=xs:decimal, (NOT NULL), min=0
+				public $count;// type=xs:int, (NOT NULL), min=1
+			CRSPaymentAppService_invoicesSummaryVO
+				public $count;// type=xs:int, (NOT NULL), min=1
+				public $amountSum;// type=xs:decimal, (NOT NULL), min=0
+				public $vatSum;// type=xs:decimal, (NOT NULL), min=0
+		*/
+		switch($invoiceType)
+			{
+			case CRSPaymentAppService_invoiceType::_MSD:
+				$renewalDateType = 'CURRENT';
+				$noPendingPayment = true;
+				CRSPaymentAppService_service::getMsdInvoiceCount($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $noPendingPayment, $renewalDateType);
+				// returns integer
+				Yii::log('getMsdInvoiceCount='.print_r($result,true), 'debug', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+				break;
+			case CRSPaymentAppService_invoiceType::_TRAN:
+				CRSPaymentAppService_service::getTransferShortInvoice($result,$this->backend_errors, Yii::app()->user->authenticatedUser);
+				// returns CRSPaymentAppService_shortInvoiceVO
+				Yii::log('getTransferShortInvoice='.print_r($result,true), 'debug', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+				break;
+			case CRSPaymentAppService_invoiceType::_TRAN_ADV:
+			case CRSPaymentAppService_invoiceType::_FUT_REN:
+				CRSPaymentAppService_service::getInvoicesSummary($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $invoiceType, $domainName, $month);
+				// returns CRSPaymentAppService_invoicesSummaryVO
+				Yii::log('getInvoicesSummary='.print_r($result,true), 'debug', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+				break;
+			case CRSPaymentAppService_invoiceType::_CURR_REN_REG:
+				CRSPaymentAppService_service::getCurRegRenShortInvoice($result,$this->backend_errors, Yii::app()->user->authenticatedUser);
+				// returns CRSPaymentAppService_shortInvoiceVO
+				Yii::log('getCurRegRenShortInvoice='.print_r($result,true), 'debug', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+				$result->invoiceNumber = $result->invoiceNo;
+				break;
+			}
+		if(count($this->backend_errors)==0)
+			{
+			Yii::log('InvoiceType='.$invoiceType.', getInvoicesSummary='.print_r($result,true), 'debug', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+			switch($invoiceType)
+				{
+				case CRSPaymentAppService_invoiceType::_MSD:
+					$num = $result;
+					$result = new stdClass();
+					$result->count = $num;
+					$result->invoiceNumber = 'N/A';
+					break;
+				case CRSPaymentAppService_invoiceType::_TRAN:
+				case CRSPaymentAppService_invoiceType::_TRAN_ADV:
+				case CRSPaymentAppService_invoiceType::_FUT_REN:
+				case CRSPaymentAppService_invoiceType::_CURR_REN_REG:
+				default:
+					break;
+				}
+			}
+		else Yii::log(print_r($this->backend_errors,true), 'error', 'AccountsGridController::getInvoicesSummary()'.__LINE__);
+		return $result;
+		}
+
+    /**
+     * calls model->addResults
+     * 
+     * @param  object    $model     model to add results to
+     * @param  unknown   $resultObj result passed to model->addResults
+     * @return object    array returned by model->addResults
+     * @access protected
+     */
+	protected function addResult($model,$resultObj)
+		{
+		#Yii::log('OK', 'debug', 'AccountsGridController::addResult()');
+		return $model->addResults($resultObj);
+		}
+
+	// overridden GridController functions
+
+
+    /**
+     * specialises parent class's getdata function to get invoices instead of domains
+     * 
+     * @param  object    $model    model containing request data
+     * @param  object    $criteria search criteria from jqGrid
+     * @param  unknown   $sort     sort parameters from jqGrid
+     * @param  integer   $perpage  records per page
+     * @param  integer   $pagenum  page number to fetch
+     * @return array     array of data for formatting as JSON, CSV, etc
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+
+		$noPendingPayment = true;
+		$renewalDateType = 'CURRENT';
+		$month = "";
+
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset 	= $perpage * ($pagenum-1);
+		$limit  	= $perpage;
+		// API SOAP call
+		$result 	= null; // CRSDomainAppService_domainSearchResultVO
+		$invoiceType = $this->getNeededInvoiceType();
+		if(($invoiceType == 'FUT_REN') and isset($model->date)){ $month = $model->date; }
+		$invSummary = $this->getInvoicesSummary($invoiceType,$month);
+		$count = $invSummary->count;
+		$criteria = new CRSPaymentAppService_invoiceSearchCriteria();
+
+		if($invoiceType=='FUT_REN'){
+			$criteria->futRenMonth = $model->date;
+			}
+		
+		if($count != null)
+			{
+			if($invoiceType=='MSD')
+				CRSPaymentAppService_service::getMsdInvoicesWithLimit($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $noPendingPayment, $offset, $limit, $renewalDateType);
+			else{
+				$ƒcriteria->domainName = $domainName;
+				CRSPaymentAppService_service::getInvoicesWithLimit($result,$this->backend_errors, Yii::app()->user->authenticatedUser, $invoiceType, $criteria, $offset, $limit, $sortCriteria);
+			}
+
+			if(count($this->backend_errors)==0)
+				{
+				// records = total records on all pages
+				$pagedata['records']	= $count;
+				// total = total num result pages = (t div p)+1
+				$pagedata['total']	= math_div($count,$perpage)+1;
+				if(is_array($result) and is_object($result[0]))
+					foreach($result as $k => $o) {
+						#Yii::log('calling addResult 1 : '.print_r($o,true), 'debug', 'AccountsGridController::getData()');
+						$r = $this->addResult($model,$o);
+						if($r != null) $pagedata['rows'][] = $r;
+						}
+				else
+					if(is_object($result))
+						{
+						#Yii::log('calling addResult 2 : '.print_r($result,true), 'debug', 'AccountsGridController::getData()');
+						$r = $this->addResult($model,$result);
+						if($r != null) $pagedata['rows'][] = $r;
+						}
+					else
+						Yii::log('no results : '.print_r($result,true), 'warning', 'AccountsGridController::getData()'.__LINE__);
+				}
+			else Yii::log(print_r($this->backend_errors,true), 'error', 'AccountsGridController::getData()'.__LINE__);
+			}
+		return $pagedata;
+		}
+	}
+

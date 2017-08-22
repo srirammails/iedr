@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page wsapi_base.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/wsapi/wsapi_base.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|							<a href="#sec-includes">Includes</a>
+			|											<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">File for Base Class for auto-generated CRS-WS Service Stubs, and related functions</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html">Source Code for this file</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|							<a href="#sec-includes">Includes</a>
+				|																<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"/>
+						<a href="../IEDR_New_Registrars_Console/crs_wsapi_vo_base.html">crs_wsapi_vo_base</a>
+					</td>
+					<td>
+											Base class for generated CRS Web Service Data classes
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"/>
+						<a href="../IEDR_New_Registrars_Console/crs_wsapi_service_base.html">crs_wsapi_service_base</a>
+					</td>
+					<td>
+											Base class for generated CRS Web Service classes
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|						<span class="disabled">Includes</span>
+			|													<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<a name="_crs_ws_version_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Page.png" alt=" " />
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">'crs_ws_version.php'</span>)
+			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a20">20</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Includes array of CRS-WS version-info strings;</p>
+<p class="description"><p>generated by CRS-WS build script /var/www/trunk/src/scripts/crs-ws-scripts/run_build.sh</p></p>
+	
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|										<a href="#sec-includes">Includes</a>
+				|												<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionaddToObjectAsProperties" id="functionaddToObjectAsProperties"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">addToObjectAsProperties</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a165">165</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Recursively adds and object or array to a given object's data member</p>
+<p class="description"><p>When data in the form of nested arrays or objects must be added to  an model which has the same data model, but is flattened, then this function  is called to set all the model data mambers to the values in the nested source data.  As Yii data Models cannot contain nested arrays or objects, they must represent  tree structures in a flattened format; for example a Soap data structure like this  <ul><li>name</li><li>address
+ 		<ul><li>street</li><li>city</li></ul></li></ul>  would be represented in the model like this:  <ul><li>public $stuff_name;</li><li>public $stuff_address_street;</li><li>public $stuff_address_city;</li></ul>  So to set the model from the object, one would call this function like this:  <ul><li>addToObjectAsProperties($model, 'stuff', $SoapData);</li></ul></p></p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addToObjectAsProperties
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$o</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$n</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$a</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span> = <span class="var-default">&#039;_&#039;</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$o</span><span class="var-description">: object (e.g. a model) to add data to</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$n</span><span class="var-description">: object public data member name</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$a</span><span class="var-description">: object or array to add (e.g. an object returned by a soap call)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$s</span><span class="var-description">: separator used to construct target object data membernames</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionarrayToObject" id="functionarrayToObject"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">arrayToObject</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a28">28</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">recursively converts an array to an Object</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> object</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">object converted</span>
+		<span class="method-name">
+			arrayToObject
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$a</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$a</span><span class="var-description">: Array to convert</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functioncleanString" id="functioncleanString"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">cleanString</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a44">44</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">replace non-space whitespace with spaces</p>
+<p class="description"><p>used when exporting text into CSV format</p></p>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			cleanString
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$ds</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$ds</span><span class="var-description">: string</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionmath_div" id="functionmath_div"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">math_div</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a72">72</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">math div function</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> x div y</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">number</span>
+		<span class="method-name">
+			math_div
+		</span>
+					(<span class="var-type">number</span>&nbsp;<span class="var-name">$x</span>, <span class="var-type">number</span>&nbsp;<span class="var-name">$y</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">number</span>
+				<span class="var-name">$x</span><span class="var-description">: number</span>			</li>
+					<li>
+				<span class="var-type">number</span>
+				<span class="var-name">$y</span><span class="var-description">: number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionobjectToArray" id="functionobjectToArray"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">objectToArray</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a83">83</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">recursively converts an object to an array</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			objectToArray
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$o</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$o</span><span class="var-description">: object</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionparseXmlDate" id="functionparseXmlDate"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">parseXmlDate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a58">58</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns YYYY-MM-DD part of XMLDate</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> yyyy-mm-dd string</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			parseXmlDate
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$ds</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$ds</span><span class="var-description">: XML Date as a string</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionpretty_print_xml" id="functionpretty_print_xml"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">pretty_print_xml</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a108">108</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">simple xml formatter function</p>
+<p class="description"><p>used to log WS-API requests/responses</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> formatted xml</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			pretty_print_xml
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$x</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$x</span><span class="var-description">: xml</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionspecial_log" id="functionspecial_log"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">special_log</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__wsapiwsapi_base.php.html#a127">127</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">log a string by appending it to a dynamically-named file</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			special_log
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$f</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$m</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$f</span><span class="var-description">: filename, ignored</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$m</span><span class="var-description">: log message</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:27 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

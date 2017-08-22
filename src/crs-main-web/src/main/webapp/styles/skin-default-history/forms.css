@@ -1,0 +1,240 @@
+/*
+	css elements
+	main color set: green
+*/
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+form div, form p {
+	margin: 0;
+	padding: 0;
+}
+
+label {
+	font-style: normal;
+	font-weight: normal;
+}
+
+fieldset {
+	margin: 0;
+	padding: 5px 10px;
+
+	border-color: #eee;
+	border: 1px solid;
+}
+
+fieldset legend {
+	margin: 0;
+	padding: 0;
+
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+* html fieldset legend {
+	margin: 0 0 10px -10px;
+}
+
+fieldset ul {
+	margin: 0 0 1.5em 0;
+	padding: 0;
+
+	list-style: none;
+}
+
+fieldset ul li {
+	margin: 0 0 0.5em 0;
+	padding: 0;
+
+	list-style: none;
+}
+
+input[type="checkbox"] {
+	border: none;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+	border: 1px solid #686a68; /* even more dark gray color */
+}
+
+input[disabled], select[disabled] {
+	background-color: white;
+	color: #abaeab; /* dark gray color */
+}
+
+input.check {
+	margin: 0;
+
+	border: none;
+	width: auto;
+	height: auto;
+}
+
+input.radio {
+	margin: 0;
+
+	border: none;
+	width: auto;
+	height: auto;
+}
+
+input.file {
+	height: auto;
+	width: 250px;
+}
+
+input.readonly {
+	background-color: white;
+	color: #abaeab; /* dark gray color */
+}
+
+input.button {
+	margin-bottom: 5px;
+
+	width: 10em;
+
+	border: 1px solid;
+	border-color: black;
+	background-color: #ddd;
+}
+
+input.image {
+	border: none;
+	width: auto;
+	height: auto;
+}
+
+form div.submit {
+	margin: 1em 0;
+}
+
+form div.submit input {
+	height: 2em;
+	width: 15em;
+}
+
+table.form {
+	margin: 0;
+	padding: 0;
+
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.form td {
+	margin: 0;
+	padding: 0;
+
+	height: 26px;
+	font-weight: normal;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.result {
+	clear: both;
+	margin-bottom: 5px;
+
+	border-collapse: collapse;
+	border-bottom: 1px solid #cdcfcd; /* medium gray color */
+	width: 100%;
+}
+
+table.result tr:hover {
+	background: #eff1ef; /* light gray color */
+}
+
+table.result th {
+	padding: 5px;
+	background: #abaeab; /* dark gray color */
+
+	font-weight: normal;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.result td {
+	padding: 5px;
+
+	/*color: #686a68; *//* even more dark green color */
+	border-top: 1px solid #abaeab; /* dark gray color */
+	font-size: 0.9em;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.result td.documents-type {
+	text-align: center;
+	width: 40px;
+}
+
+table.result td.documents-name {
+	width: 100%;
+}
+
+div.pagebanner {
+	clear: left;
+	float: left;
+
+	margin: 0;
+	margin-right: 10px;
+}
+
+div.pagelinks {
+	margin: 0;
+}
+
+div.pagelinks a {
+	text-decoration: none;
+}
+
+div.group-content [name="paginatedResult"] {
+	display: inline;
+}
+
+.modification {
+	color: #c72222; /* even more dark red color */
+}
+
+.selected {
+	background: #ddd;
+	font-weight: bold !important;
+}
+
+div.ticket-row-images {
+	clear: both;
+	float: right;
+}
+
+div.ticket-row-images img {
+	padding: 2px;
+}
+
+div.ticket-row-images img:hover {
+	padding: 2px;
+
+	/*background-color: #9fd39d; *//* medium green color */
+	background-color: transparent;
+	cursor: pointer;
+}
+
+div.ticket-row-images a:hover {
+	background-color: transparent;
+	cursor: pointer;
+}
+
+/* todo: @pixel: (should be unified with table result th)*/
+div.phonefax_header {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	padding: 5px;
+
+	background: #abaeab; /* dark gray color */
+
+	font-weight: normal;
+	text-align: left;
+	vertical-align: top;
+}

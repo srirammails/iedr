@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * defines functions for classes and categories, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * gets class and category array, or gets data and fills cache if uncached
+ * 
+ * returns just the 'classcat' part of the data returned by {@link get_full_class_category}.
+ * 
+ * @return array Keys are Class names, values are arrays with key strings like 'Class:Category' and values of category strings
+ */
+function get_class_category()
+	{
+	$s = get_full_class_category();
+	return $s['classcat'];
+	}
+
+/**
+ * gets class and category array, or gets data and fills cache if uncached
+ * 
+ * @return array as returned by {@link _get_full_class_category}
+ */
+function get_full_class_category()
+	{
+	$timeout = 300;
+	$cache_key = 'data_get_full_class_category';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_full_class_category();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * gets class and category arrays
+ * 
+ * returned array contains three subarrays:
+ * 
+ * - 'classcat' : keys are Class names, values are arrays with key strings like 'Class:Category' and values of category strings
+ * 
+ * - 'class' : keys are class-ID, values are class names
+ * 
+ * - 'category' : keys are category-ID, values are category names
+ * 
+ * 
+ * @return array (for array structure, see above)
+ */
+function _get_full_class_category()
+	{
+    $d = DB::get_db();
+	$sql = 'SELECT tc.name as cls, ctc.class_id, tt.name as cat, tt.id as cat_id '.
+			'FROM Class tc, Category tt, Class_to_Category ctc '.
+			'WHERE tt.id = ctc.category_id '.
+			'AND tc.id = ctc.class_id '.
+			'order by 1,3;';
+	$d->query($sql,__FILE__,__LINE__);
+	$class_category = array();
+    while($r = $d->fetch())
+		{
+		$class_category['classcat'][$r->cls][$r->cls .':'. $r->cat] = $r->cat;
+		$class_category['class'][$r->class_id] = $r->cls;
+		$class_category['category'][$r->cat_id] = $r->cat;
+		}
+	return $class_category;
+	}
+
+/**
+ * returns a class-name string as found in the database, matching the passed parameter case-insensitively
+ * 
+ * @param  string $c class name
+ * @return string database version of class name
+ */
+function encode_class_to_wsapi_str($c)
+	{
+	// convert console display /class/ to XML-API string
+	$s = null;
+	$d = get_full_class_category();
+	$dd = $d['class'];
+	if(is_array($dd))
+		{
+		foreach($dd as $id => $cls)
+			if(preg_match('/.*'.$c.'.*/i',$cls)!==0)
+				{ $s = $dd[$id]; break; }
+		Yii::log('encode_class_to_wsapi_str('.$c.')=>'.$s, 'info', '');
+		}
+	else
+		{
+		Yii::log('encode_class_to_wsapi_str() no array in'.print_r($d,true), 'ERROR', '');
+		}
+	return $s;
+	}
+
+/**
+ * returns a category-name string as found in the database, matching the passed parameter case-insensitively
+ * 
+ * @param  string $c category name
+ * @return string database version of category name
+ */
+function encode_category_to_wsapi_str($c)
+	{
+	// convert console display /category/ to XML-API string
+	$s = null;
+	$d = get_full_class_category();
+	$dd = $d['category'];
+	if(is_array($dd))
+		{
+		foreach($dd as $id => $cat)
+			if(preg_match('/.*'.$c.'.*/i',$cat)!==0)
+				{ $s = $dd[$id]; break; }
+		Yii::log('encode_category_to_wsapi_str('.$c.')=>'.$s, 'info', '');
+		}
+	else
+		{
+		Yii::log('encode_category_to_wsapi_str() no array in'.print_r($d,true), 'ERROR', '');
+		}
+
+	return $s;
+	}
+

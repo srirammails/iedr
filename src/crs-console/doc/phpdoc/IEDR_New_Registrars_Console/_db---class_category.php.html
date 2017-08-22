@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page class_category.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/db/class_category.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">defines functions for classes and categories, which are not handled by the NASK CRS-WS-API</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html">Source Code for this file</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionencode_category_to_wsapi_str" id="functionencode_category_to_wsapi_str"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">encode_category_to_wsapi_str</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html#a112">112</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns a category-name string as found in the database, matching the passed parameter case-insensitively</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> database version of category name</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			encode_category_to_wsapi_str
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$c</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$c</span><span class="var-description">: category name</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionencode_class_to_wsapi_str" id="functionencode_class_to_wsapi_str"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">encode_class_to_wsapi_str</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html#a86">86</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns a class-name string as found in the database, matching the passed parameter case-insensitively</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> database version of class name</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			encode_class_to_wsapi_str
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$c</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$c</span><span class="var-description">: class name</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_class_category" id="functionget_class_category"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_class_category</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html#a23">23</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets class and category array, or gets data and fills cache if uncached</p>
+<p class="description"><p>returns just the 'classcat' part of the data returned by <a href="../IEDR_New_Registrars_Console/_db---class_category.php.html#functionget_full_class_category">get_full_class_category</a>.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Keys are Class names, values are arrays with key strings like 'Class:Category' and values of category strings</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			get_class_category
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionget_full_class_category" id="functionget_full_class_category"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_full_class_category</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html#a34">34</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets class and category array, or gets data and fills cache if uncached</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> as returned by <a href="../IEDR_New_Registrars_Console/_db---class_category.php.html#function_get_full_class_category">_get_full_class_category</a></li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			get_full_class_category
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="function_get_full_class_category" id="function_get_full_class_category"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">_get_full_class_category</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbclass_category.php.html#a61">61</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets class and category arrays</p>
+<p class="description"><p>returned array contains three subarrays:</p><p><ul><li>'classcat' : keys are Class names, values are arrays with key strings like 'Class:Category' and values of category strings</li></ul> <ul><li>'class' : keys are class-ID, values are class names</li></ul> <ul><li>'category' : keys are category-ID, values are category names</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> (for array structure, see above)</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_get_full_class_category
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:46 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

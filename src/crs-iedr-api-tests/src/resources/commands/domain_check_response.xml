@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <domain:chkData xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3 ieapi-domain.1.1.xsd"
+                            xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <domain:cd>
+                    <domain:name avail="false">pizzaonline.ie</domain:name>
+                    <domain:reason code="100">DOMAIN_REGISTERED</domain:reason>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">example2.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">example3.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="false">xx.ie</domain:name>
+                    <domain:reason code="155">DOMAIN_NAME_SYNTAX_ERROR</domain:reason>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">66.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">a1.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">1a.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="true">xxx.ie</domain:name>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="false">xn--xxx.ie</domain:name>
+                    <domain:reason code="155">DOMAIN_NAME_SYNTAX_ERROR</domain:reason>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="false">taga.ie</domain:name>
+                    <domain:reason code="101">APLICATION_IN_PROGRESS</domain:reason>
+                </domain:cd>
+                <domain:cd>
+                    <domain:name avail="false">!@$#@$@#$\/\\\n///\\\</domain:name>
+                    <domain:reason code="155">DOMAIN_NAME_SYNTAX_ERROR</domain:reason>
+                </domain:cd>
+            </domain:chkData>
+        </resData>
+    </response>
+</ieapi>

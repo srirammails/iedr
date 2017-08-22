@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<request timestamp="20130422131403" type="auth">
+	<merchantid>merchantId</merchantid>
+	<account>account</account>
+	<orderid>20130422131403-C-4631230</orderid>
+	<amount currency="EUR">100000</amount>
+	<card>
+		<number>cardNumber</number>
+		<expdate>expDate</expdate>
+		<chname>VISA</chname>
+		<type>holderName</type>
+		<cvn>
+			<number>111</number>
+			<presind>1</presind>
+		</cvn>
+	</card>
+	<autosettle flag="1" />
+	<tssinfo>
+		<address type="billing">
+			<country>ie</country>
+		</address>
+	</tssinfo>
+	<md5hash>88d8e2a1bc09ad06dc1dbfbcde96f7d3</md5hash>
+</request>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+	<command>
+		<delete>
+			<domain:delete
+				xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+				xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+				ieapi-domain-1.3.xsd">
+				<domain:name>thedomena.msdpending.ie</domain:name>
+			</domain:delete>
+		</delete>
+	</command>
+</ieapi>

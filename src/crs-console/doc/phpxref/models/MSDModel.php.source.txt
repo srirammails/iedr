@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class MSDModel
+	extends AccountInvoiceGridModel
+	{
+
+    /**
+     * Description for var
+     * @var    array 
+     * @access public
+     */
+	var $columns;
+
+    /**
+     * Description for var
+     * @var    string
+     * @access public
+     */
+	var $defaultSortColumn = 'PK';
+
+	// these strings are used also in the view, in overridden javascript function handleCheckBoxClicked()
+
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $reactivateOptions = array(
+		'N'=>'Reactivate W/O Pay',
+		'P'=>'PIA',
+		'Y'=>'Pay'
+		);
+
+    /**
+     * Description for public
+     * @var    array 
+     * @access public
+     */
+	public $billingStatuses = array(
+		'M'=>'will be mailed on',
+		'S'=>'will be suspended on',
+		'D'=>'will be deleted on',
+		);
+	
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object $obj Parameter description (if any) ...
+     * @return void  
+     * @access public
+     */
+	public function __construct($obj)
+		{
+		$this->columns = array(
+			'PK'=> array('label'=>'Domain',		'resultfield'=>'domainName','key'=>true,'criteriafield'=>'domainName','width'=>40,'link'=>'domains/viewdomain',),
+			'A' => array('label'=>'Invoice',	'resultfield'=>'invoiceId','criteriafield'=>'invoiceId','width'=>20,'link'=>'invoice/view',), // BUG TODO a link to a view of an invoice ?
+			'B' => array('label'=>'Holder',		'resultfield'=>'holderId','criteriafield'=>'holderId','width'=>45,),
+			'C' => array('label'=>'Options',	'resultfield'=>'paymentStatus','criteriafield'=>'paymentStatus','width'=>40,'wildcardpadding'=>'NONE','selectlist'=>$this->arrayAsColModelSelectOptions($this->reactivateOptions),),
+			'D' => array('label'=>'Status',		'resultfield'=>'billingStatus','criteriafield'=>'billingStatus','width'=>40,'wildcardpadding'=>'NONE','selectlist'=>$this->arrayAsColModelSelectOptions($this->billingStatuses),),
+		// TODO These date fields need to be implemented as Date Ranges somehow
+			'E' => array('label'=>'MSD',		'resultfield'=>'msdDate','criteriafield'=>null/*'msdDate<>'*/,'width'=>23,'type'=>'date',),
+			'F' => array('label'=>'Registered',	'resultfield'=>'regDate','criteriafield'=>null/*'registrationDate<>'*/,'width'=>23,'type'=>'date',),
+			'G' => array('label'=>'Renewal',	'resultfield'=>'renDate','criteriafield'=>null/*'renewalDate<>'*/,'width'=>23,'type'=>'date',),
+			);
+
+		if($obj instanceof Accounts_msdController)
+			$this->invSummary = $obj->getMSDInvoicesSummary($this->getSearch($_GET));
+		else
+			{
+			parent::__construct($obj);
+			$this->invSummary = $obj->getInvoicesSummary();
+			}
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object $o Parameter description (if any) ...
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function addResults($o)
+		{
+		return array
+			(
+			'A'=> ($o->invoiceId ? $o->invoiceId : ''),
+			'PK'=>$o->domainName,
+			'B'=>cleanString($o->holderId),
+			'C'=>$this->reactivateOptions[$o->paymentStatus],
+			'D'=>$this->billingStatuses[$o->billingStatus],
+			'E'=>parseXmlDate($o->msdDate),
+			'F'=>parseXmlDate($o->regDate),
+			'G'=>parseXmlDate($o->renDate),
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return object Return description (if any) ...
+     * @access public
+     */
+	public function getSearchBase()
+		{
+		// override to set the filter
+		return new CRSPaymentAppService_msdDomainSearchCriteria();
+		}
+	}
+

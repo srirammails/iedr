@@ -1,0 +1,74 @@
+/*
+	header and footer css elements
+	for color defs see main.css
+*/
+
+div#header {
+/*position: fixed;*/
+/*top: 0;*/
+/*right: 0; *//*bottom: 68px;*/
+/*left: 0;*/
+
+	clear: both; /*margin: 5px 0 0 0;*/
+	padding: 5px 0 0 0;
+
+	text-align: left;
+	/*z-index: 1;*/
+	background: #f9f9f9; /* very light gray color for page background */
+}
+
+#header-image-upper {
+	width: 160px;
+	height: 68px;
+
+	background: url( "../../images/skin-bw/web-parts/logo.upper.png" ) no-repeat;
+	background-position: left;
+}
+
+#header-image-lower {
+	width: 160px; /*height: 59px;*/
+	height: 38px;
+
+	background: url( "../../images/skin-bw/web-parts/logo.lower.png" ) no-repeat;
+	background-position: left;
+}
+
+#header-main {
+	margin: 0;
+	padding: 0; /*background: url( "../images/header.png" ) no-repeat;*/
+	border-bottom: 1px solid #4C4C4C; /* very darkgray color for main font color */
+
+	text-align: left;
+}
+
+#header-title {
+	padding-right: 10px;
+
+	position: relative;
+	top: 18px;
+	height: 32px;
+	min-width: 350px;
+}
+
+div#footer {
+/*position: fixed;*/
+/*right: 0;*/
+/*left: 0;*/
+/*bottom: 0;*/
+/*height: 16px;*/
+
+	clear: both;
+
+	padding: 10px 10px;
+	border-top: 1px solid #4C4C4C; /* very darkgray color for main font color */
+	background: #f9f9f9; /* very light gray color for page background */
+
+	text-align: center;
+}
+
+div#footer img {
+	margin-top: -4px;
+	vertical-align: middle;
+}
+
+

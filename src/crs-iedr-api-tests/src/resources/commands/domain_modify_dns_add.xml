@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+     ieapi-1.3.xsd">
+	<command>
+		<modify>
+			<domain:modify
+				xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+				xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+       			ieapi-domain-1.3.xsd">
+				<domain:name>thedomena.tomodify1.ie</domain:name>
+				<domain:add>
+					<domain:ns>
+						<domain:nsName>ns1.TheDomena.ToModify1.ie</domain:nsName>
+                        <domain:nsAddr>1.2.3.4</domain:nsAddr>
+                    </domain:ns>
+                    <domain:ns>
+                        <domain:nsName>ns2.TheDomena.ToModify1.ie</domain:nsName>
+                        <domain:nsAddr>1.2.3.4</domain:nsAddr>
+                    </domain:ns>
+                </domain:add>
+			</domain:modify>
+		</modify>
+	</command>
+</ieapi>
+

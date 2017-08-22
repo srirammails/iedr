@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>File Source for confirm_action.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+											</head>
+		<body>
+						<h1>Source for file confirm_action.php</h1>
+<p>Documentation is available at <a href="../IEDR_New_Registrars_Console/_views---accounts_renewpay---confirm_action.php.html">confirm_action.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a>&lt;!--&nbsp;START&nbsp;protected/views/accounts_renewpay/confirm_action.php&nbsp;--&gt;</div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">&nbsp;*&nbsp;View&nbsp;page&nbsp;for&nbsp;Accounts&nbsp;Renewal-Payments&nbsp;-&nbsp;Action&nbsp;Confirmation</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@category</span><span class="src-doc">&nbsp;&nbsp;NRC</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;&nbsp;&nbsp;IEDR_New_Registrars_Console</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@author</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;IEDR&nbsp;&lt;asd@iedr.ie&gt;</span></div></li>
+<li><div class="src-line"><a name="a9"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@copyright</span><span class="src-doc">&nbsp;2011&nbsp;IEDR</span></div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@license</span><span class="src-doc">&nbsp;&nbsp;&nbsp;http://www.iedr.ie/&nbsp;(C)&nbsp;IEDR&nbsp;2011</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@version</span><span class="src-doc">&nbsp;&nbsp;&nbsp;CVS:&nbsp;$Id:$</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@link</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://statistics.iedr.ie/</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OfflineBatchSelectionModel,&nbsp;OutstandingPaymentsModel,&nbsp;AuthOnlyBaseController::returnToUrlButton(),</span></div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a16"></a><span class="src-var">$pg&nbsp;</span>=&nbsp;<span class="src-str">'Confirm'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a17"></a><span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">pageTitle</span>=<span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">app</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><span class="src-id">name&nbsp;</span>.&nbsp;<span class="src-str">'&nbsp;-&nbsp;'</span>.<span class="src-var">$pg</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a19"></a><span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">log</span><span class="src-sym">(</span><span class="src-str">'model:'</span>.<a href="http://www.php.net/print_r">print_r</a><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-id">true</span><span class="src-sym">)</span><span class="src-sym">,&nbsp;</span><span class="src-str">'debug'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'account_renewpay/confirm_action.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a><span class="src-comm">//&nbsp;$this&nbsp;&nbsp;=&nbsp;Accounts_renewpayController</span></div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-comm">//&nbsp;$model&nbsp;=&nbsp;OfflineBatchSelectionModel&nbsp;OR&nbsp;OutstandingPaymentsModel</span></div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a24"></a><span class="src-var">$cmdString&nbsp;</span>=&nbsp;<span class="src-str">''</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a25"></a><span class="src-key">switch</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">command</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line"><a name="a26"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a27"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">case&nbsp;</span><span class="src-str">'remove_from_batch'</span>:</div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$cmdString&nbsp;</span>=&nbsp;<span class="src-str">'Remove&nbsp;From&nbsp;Batch'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">break</span><span class="src-sym">;&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a30"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a31"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a32"></a>&lt;h2&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<a href="../IEDR_New_Registrars_Console/_components---menu.php.html#functionprintBreadcrumbTrail">printBreadcrumbTrail</a><span class="src-sym">(</span><span class="src-var">$pg</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/h2&gt;</div></li>
+<li><div class="src-line"><a name="a33"></a>&lt;h4&gt;Please&nbsp;Confirm&nbsp;you&nbsp;want&nbsp;to&nbsp;&lt;b&gt;&lt;i&gt;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$cmdString</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/i&gt;&lt;/b&gt;&nbsp;these&nbsp;Domains:&lt;/h4&gt;</div></li>
+<li><div class="src-line"><a name="a34"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a35"></a><span class="src-var">$form</span>=<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">beginWidget</span><span class="src-sym">(</span><span class="src-str">'CActiveForm'</span><span class="src-sym">,&nbsp;</span><span class="src-key">array</span><span class="src-sym">(</span><span class="src-str">'id'</span>=&gt;<span class="src-str">'ConfirmAction'</span><span class="src-sym">,</span><span class="src-str">'enableAjaxValidation'</span>=&gt;<span class="src-id">true</span><span class="src-sym">,</span><span class="src-sym">))</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a36"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a37"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">hiddenField</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-str">'command'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">hiddenField</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-str">'domainlist'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">hiddenField</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-str">'session'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">hiddenField</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-str">'invoiceType'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//&nbsp;should&nbsp;be&nbsp;refactored&nbsp;away,&nbsp;really</span></div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">hiddenField</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-str">'returnurl'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;table&nbsp;class=&quot;formfields&nbsp;gridtable&quot;&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">foreach</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">domainListToArray</span><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span><span class="src-key">as&nbsp;</span><span class="src-var">$k&nbsp;</span>=&gt;&nbsp;<span class="src-var">$v</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$mbrnam&nbsp;</span>=&nbsp;<span class="src-id"><a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html">DynamicDomainListModel</a></span><span class="src-sym">::</span><a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html#methoddomainToVarPrefix">domainToVarPrefix</a><span class="src-sym">(</span><span class="src-var">$v</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$mbr_conf&nbsp;</span>=&nbsp;<span class="src-var">$mbrnam</span>.<span class="src-str">'_confirmed'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;/div&gt;&lt;/td&gt;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;div&nbsp;class=&quot;row&quot;&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a49"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">error</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-var">$mbr_conf</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a50"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">checkBox</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-var">$mbr_conf</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a51"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;/div&gt;&lt;/td&gt;&lt;td&nbsp;class=&quot;gridtablecell&quot;&gt;&lt;div&nbsp;class=&quot;row&quot;&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a52"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-var">$form</span><span class="src-sym">-&gt;</span><span class="src-id">labelEx</span><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">,</span><span class="src-var">$mbr_conf</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a53"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a54"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a55"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;/table&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a56"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">'&lt;div&nbsp;class=&quot;row&nbsp;buttons&quot;&gt;'</span>.<span class="src-id">CHtml</span><span class="src-sym">::</span><span class="src-id">submitButton</span><span class="src-sym">(</span><span class="src-str">'Proceed'</span><span class="src-sym">)</span>.<span class="src-str">'&lt;/div&gt;&lt;br&gt;'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a57"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a58"></a><span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">endWidget</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a59"></a>echo&nbsp;<span class="src-id"><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a></span><span class="src-sym">::</span><a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html#methodreturnToUrlButton">returnToUrlButton</a><span class="src-sym">(</span><span class="src-var">$model</span><span class="src-sym">-&gt;</span><span class="src-id">returnurl</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a60"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a61"></a>&lt;!--&nbsp;END&nbsp;protected/views/accounts_renewpay/confirm_action.php&nbsp;--&gt;</div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:47 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>

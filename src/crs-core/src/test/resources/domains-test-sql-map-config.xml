@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+        "sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+    <settings useStatementNamespaces="true"/>
+
+    <sqlMap resource="ibatis/domain-test.xml"/>
+    <sqlMap resource="ibatis/dsm.xml"/>
+    <sqlMap resource="ibatis/dsm-test.xml"/>
+
+</sqlMapConfig>

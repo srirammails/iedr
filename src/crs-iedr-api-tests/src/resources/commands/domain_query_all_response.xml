@@ -1,0 +1,41 @@
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <domain:resData
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3 ieapi-domain-1.3.xsd urn:ietf:params:xml:ns:secDNS-1.1 secDns-1.1.xsd"
+                    xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <domain:page>1</domain:page>
+                <domain:totalPages>1</domain:totalPages>
+                <domain:domain>
+                    <domain:name>pizzaonline.ie</domain:name>
+                    <domain:status>
+                        <domain:holderType>Billable</domain:holderType>
+                        <domain:renMode>NoAutorenew</domain:renMode>
+                        <domain:wipo>Y</domain:wipo>
+                        <domain:custType>Registrar</domain:custType>
+                        <domain:nrp>Active - Publication Pending</domain:nrp>
+                    </domain:status>
+                    <domain:regDate>2008-04-30</domain:regDate>
+                    <domain:renDate>2009-04-30</domain:renDate>
+                </domain:domain>
+                <domain:domain>
+                    <domain:name>shannonpipeline.ie</domain:name>
+                    <domain:status>
+                        <domain:holderType>Billable</domain:holderType>
+                        <domain:renewalMode>NoAutorenew</domain:renewalMode>
+                        <domain:wipo>N</domain:wipo>
+                        <domain:renewalStatus>Active</domain:renewalStatus>
+                        <domain:published>N</domain:published>
+                    </domain:status>
+                    <domain:regDate>2008-07-03</domain:regDate>
+                    <domain:renDate>2009-07-03</domain:renDate>
+                </domain:domain>
+            </domain:resData>
+        </resData>
+    </response>
+</ieapi>

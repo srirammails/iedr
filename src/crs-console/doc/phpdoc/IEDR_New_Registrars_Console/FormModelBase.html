@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class FormModelBase</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> FormModelBase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">base class for models which need to display messages (e.g., success, ID of created object, etc) or errors</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> <a href="http://www.yiiframework.com/doc/api/1.1/CFormModel">http://www.yiiframework.com/doc/api/1.1/CFormModel</a></li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---FormModelBase.php.html">/components/FormModelBase.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a28">28</a></span>)
+		</p>
+		
+				
+		<pre>CFormModel
+   |
+   --FormModelBase</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/DynamicModelBase.html">DynamicModelBase</a>
+					</td>
+					<td>
+											base class for extensible models
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/CreditCardFormSegmentModel.html">CreditCardFormSegmentModel</a>
+					</td>
+					<td>
+											a form model for use with credit-card input
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/ReturningModelBase.html">ReturningModelBase</a>
+					</td>
+					<td>
+											base class for models which need to store data relating to a page which can be returned to.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/Domains_RegNew.html">Domains_RegNew</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/Domains_Details.html">Domains_Details</a>
+					</td>
+					<td>
+											Short description for class
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$commandresults" title="details" class="var-name">$commandresults</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$error" title="details" class="var-name">$error</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$message" title="details" class="var-name">$message</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																			
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">string</span>
+										<a href="#trimNewlines" title="details" class="method-name">trimNewlines</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$t</span>)
+									</div>
+																			
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#forceCaseOfFields" title="details" class="method-name">forceCaseOfFields</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#onBeforeValidate" title="details" class="method-name">onBeforeValidate</a>
+											(<span class="var-type">CModelEvent</span>&nbsp;<span class="var-name">$aCModelEvent</span>)
+									</div>
+																			</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$commandresults" id="$commandresults"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$commandresults</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a51">51</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">array member for holding data returned by some operation for display in a view</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$error" id="$error"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$error</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a37">37</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">error message for display in view</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$message" id="$message"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$message</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a44">44</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">a code for which, if any, non-error message to display in a view</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DNS_BulkMod.html#var$message">DNS_BulkMod::$message</a>
+								: Description for public
+							</li>
+				</ul>
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodtrimNewlines" id="trimNewlines"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static trimNewlines</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a85">85</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">trims leading, trailing and repeating newlines from an input string</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> trimmed string</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			trimNewlines
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$t</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$t</span><span class="var-description">: string to be trimmed</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a59">59</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">constructor, creates commandresults array</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DynamicModelBase.html#method__construct">DynamicModelBase::__construct()</a>
+								: sets up validation rules and attributes arrays
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DynamicDomainListModel.html#method__construct">DynamicDomainListModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflinePaymentSelectionModel.html#method__construct">OfflinePaymentSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDSelectionModel.html#method__construct">MSDSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/GridSelectionModel.html#method__construct">GridSelectionModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountTopUpModel.html#method__construct">AccountTopUpModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ReturningModelBase.html#method__construct">ReturningModelBase::__construct()</a>
+								: constructor, sets up data structures for returning
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/OfflineBatchSelectionModel.html#method__construct">OfflineBatchSelectionModel::__construct()</a>
+								: constructor, holds session ID
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/RptsNrcYearMonthModelBase.html#method__construct">RptsNrcYearMonthModelBase::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicSearchModel.html#method__construct">NicSearchModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountGridModel.html#method__construct">AccountGridModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountAdvanceGridModel.html#method__construct">AccountAdvanceGridModel::__construct()</a>
+								: constructor, calls parent constructor
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_AdvPay_RnR_Model.html#method__construct">Acc_RnP_AdvPay_RnR_Model::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_AdvPay_Tx_Model.html#method__construct">Acc_RnP_AdvPay_Tx_Model::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountInvoiceGridModel.html#method__construct">AccountInvoiceGridModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDModel.html#method__construct">MSDModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MSDDeletionsModel.html#method__construct">MSDDeletionsModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_CurrInv_Tx_Model.html#method__construct">Acc_RnP_CurrInv_Tx_Model::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Acc_RnP_CurrInv_RnR_Model.html#method__construct">Acc_RnP_CurrInv_RnR_Model::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NewDomainsModel.html#method__construct">NewDomainsModel::__construct()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Nichandle_Details.html#method__construct">Nichandle_Details::__construct()</a>
+								: constructor, sets defaults
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Domains_Details.html#method__construct">Domains_Details::__construct()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+<a name="methodforceCaseOfFields" id="forceCaseOfFields"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">forceCaseOfFields</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a98">98</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">forces form-fields which have upper- or lower-case-only validators to be all the correct case, before validation</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			forceCaseOfFields
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodonBeforeValidate" id="onBeforeValidate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">onBeforeValidate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsFormModelBase.php.html#a72">72</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">model operation called just before validators; calls forceCaseOfFields</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			onBeforeValidate
+		</span>
+					(<span class="var-type">CModelEvent</span>&nbsp;<span class="var-name">$aCModelEvent</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CModelEvent</span>
+				<span class="var-name">$aCModelEvent</span><span class="var-description">: (ignored)</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Nichandle_Details.html#methodonBeforeValidate">Nichandle_Details::onBeforeValidate()</a>
+								: preprocess some field values before validation
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Domains_RegNew.html#methodonBeforeValidate">Domains_RegNew::onBeforeValidate()</a>
+								: Short description for function
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DNS_BulkMod.html#methodonBeforeValidate">DNS_BulkMod::onBeforeValidate()</a>
+								: Short description for function
+							</li>
+				</ul>
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:59 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

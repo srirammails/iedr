@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="ticket-reports">
+
+    <resultMap id="ticketReportResult" class="pl.nask.crs.ticket.dao.ibatis.objects.InternalTicketReport">
+        <result property="hostmasterName" column="hostmasterName"/>
+        <result property="ticketRevisionsCount" column="ticketRevisionsCount"/>
+        <result property="ticketType" column="ticketType"/>
+        <result property="reportForDate" column="reportForDate"/>
+    </resultMap>
+
+    <sql id="selectReport">
+        SELECT
+        COUNT(*) as ticketRevisionsCount,
+        T.CheckedOutTo as hostmasterName,
+        T.T_Type as ticketType,
+        T.T_TStamp as reportForDate
+        FROM
+        TicketHist as T
+    </sql>
+    
+    <sql id="selectReport4count">
+        SELECT        
+        T.CheckedOutTo as hostmasterName,
+        T.T_Type as ticketType,
+        T.T_TStamp as reportForDate
+        FROM
+        TicketHist as T
+    </sql>
+
+    <sql id="frag">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.hostmasterName">
+                T.CheckedOutTo = #criteria.hostmasterName#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.from">
+                T.T_TStamp >= #criteria.from,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.to">
+                T.T_TStamp <![CDATA[<=]]> #criteria.to,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="offsetLimit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="getTicketReport">
+        <include refid="ticket-reports.selectReport"/>
+        WHERE
+        T.CheckedOut='Y'
+        <include refid="ticket-reports.frag"/>
+    </sql>
+    <sql id="getTicketReport4count">
+        <include refid="ticket-reports.selectReport4count"/>
+        WHERE
+        T.CheckedOut='Y'
+        <include refid="ticket-reports.frag"/>
+    </sql>
+
+    <select id="getTicketReportsDayGranulation" parameterClass="java.util.Map" resultMap="ticketReportResult">
+        <include refid="ticket-reports.getTicketReport"/>
+        GROUP BY hostmasterName, ticketType, DATE_FORMAT(reportForDate, '%Y %M %D')
+        <include refid="ticket-reports.sortFrag"/>
+        <include refid="ticket-reports.offsetLimit"/>
+    </select>
+
+    <select id="getTicketReportsMonthGranulation" parameterClass="java.util.Map" resultMap="ticketReportResult">
+        <include refid="ticket-reports.getTicketReport"/>
+        GROUP BY hostmasterName, ticketType, DATE_FORMAT(reportForDate, '%Y %M')
+        <include refid="ticket-reports.sortFrag"/>
+        <include refid="ticket-reports.offsetLimit"/>
+    </select>
+
+    <select id="getTicketReportsYearGranulation" parameterClass="java.util.Map" resultMap="ticketReportResult">
+        <include refid="ticket-reports.getTicketReport"/>
+        GROUP BY hostmasterName, ticketType, YEAR(reportForDate)
+        <include refid="ticket-reports.sortFrag"/>        
+        <include refid="ticket-reports.offsetLimit"/>        
+    </select>
+
+    <select id="getTicketReportsCountDayGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="ticket-reports.getTicketReport4count"/>
+        GROUP BY hostmasterName, ticketType, DATE_FORMAT(reportForDate, '%Y %M %D')
+        ) as total
+    </select>
+
+    <select id="getTicketReportsCountMonthGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="ticket-reports.getTicketReport4count"/>
+        GROUP BY hostmasterName, ticketType, DATE_FORMAT(reportForDate, '%Y %M')
+        ) as total
+    </select>
+
+    <select id="getTicketReportsCountYearGranulation" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        <include refid="ticket-reports.getTicketReport4count"/>
+        GROUP BY hostmasterName, ticketType, YEAR(reportForDate)
+        ) as total
+    </select>
+
+</sqlMap>
+

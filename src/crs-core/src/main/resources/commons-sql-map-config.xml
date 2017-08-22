@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+        "sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+    <settings useStatementNamespaces="true"/>
+    <sqlMap resource="ibatis/common.xml"/>
+    <sqlMap resource="ibatis/email-template.xml"/>
+    <sqlMap resource="ibatis/historical-email-template.xml"/>
+    <sqlMap resource="ibatis/email-group.xml"/>
+    <sqlMap resource="ibatis/historical-email-group.xml"/>
+    <sqlMap resource="ibatis/email-disabler.xml"/>
+    <sqlMap resource="ibatis/historical-email-disabler.xml"/>
+    <sqlMap resource="ibatis/contact.xml"/>
+    <sqlMap resource="ibatis/entities.xml"/>
+    <sqlMap resource="ibatis/country.xml"/>
+    <sqlMap resource="ibatis/task.xml"/>
+    <sqlMap resource="ibatis/vat.xml"/>
+    <sqlMap resource="ibatis/notification.xml"/>
+    <sqlMap resource="ibatis/domain-price.xml"/>
+    <sqlMap resource="ibatis/accountVersion.xml"/>
+    <sqlMap resource="ibatis/config.xml"/>
+    <sqlMap resource="ibatis/defaults.xml"/>
+    <sqlMap resource="ibatis/reports.xml"/>
+    <sqlMap resource="ibatis/login-attempts.xml"/>
+</sqlMapConfig>
+
+

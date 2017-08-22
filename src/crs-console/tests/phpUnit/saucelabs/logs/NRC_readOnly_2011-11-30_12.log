@@ -1,0 +1,32 @@
+TAP version 13
+ok 1 - DomainReportsAutoRenew1Test::testAutoRenewReports with browser firefox 7 Windows 2003
+ok 2 - DomainReportsAutoRenew1Test::testAutoRenewReports with browser iexplore 9 Windows 2008
+ok 3 - DomainReportsAutoRenew1Test::testAutoRenewReports with browser firefox 8 Linux
+ok 4 - DomainReportsAutoRenew1Test::testAutoRenewReports with browser googlechrome  Linux
+ok 5 - DomainReportsAutoRenew1Test::testAutoRenewReports with browser googlechrome  Windows 2008
+not ok 6 - Error: DomainReportsNewRegTest::testNewRegReports with browser firefox 7 Windows 2003
+not ok 7 - Error: DomainReportsNewRegTest::testNewRegReports with browser iexplore 9 Windows 2008
+not ok 8 - Error: DomainReportsNewRegTest::testNewRegReports with browser firefox 8 Linux
+not ok 9 - Error: DomainReportsNewRegTest::testNewRegReports with browser googlechrome  Linux
+not ok 10 - Error: DomainReportsNewRegTest::testNewRegReports with browser googlechrome  Windows 2008
+ok 11 - DomainReportsAllDomains1Test::testAllDomains with browser firefox 7 Windows 2003
+ok 12 - DomainReportsAllDomains1Test::testAllDomains with browser iexplore 9 Windows 2008
+ok 13 - DomainReportsAllDomains1Test::testAllDomains with browser firefox 8 Linux
+not ok 14 - Error: DomainReportsAllDomains1Test::testAllDomains with browser googlechrome  Linux
+not ok 15 - Error: DomainReportsAllDomains1Test::testAllDomains with browser googlechrome  Windows 2008
+ok 16 - DomainReportsAllTest::testAllDomainsGridFilters with browser firefox 7 Windows 2003
+ok 17 - DomainReportsAllTest::testAllDomainsGridFilters with browser iexplore 9 Windows 2008
+ok 18 - DomainReportsAllTest::testAllDomainsGridFilters with browser firefox 8 Linux
+not ok 19 - Error: DomainReportsAllTest::testAllDomainsGridFilters with browser googlechrome  Linux
+not ok 20 - Error: DomainReportsAllTest::testAllDomainsGridFilters with browser googlechrome  Windows 2008
+ok 21 - CheckStatsTest::testStats with browser firefox 7 Windows 2003
+ok 22 - CheckStatsTest::testStats with browser iexplore 9 Windows 2008
+ok 23 - CheckStatsTest::testStats with browser firefox 8 Linux
+ok 24 - CheckStatsTest::testStats with browser googlechrome  Linux
+ok 25 - CheckStatsTest::testStats with browser googlechrome  Windows 2008
+ok 26 - DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser firefox 7 Windows 2003
+ok 27 - DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser iexplore 9 Windows 2008
+ok 28 - DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser firefox 8 Linux
+not ok 29 - Error: DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser googlechrome  Linux
+not ok 30 - Error: DomainReportsAutoRenewTest::testAutoRenewDomainsGridFilters with browser googlechrome  Windows 2008
+1..30

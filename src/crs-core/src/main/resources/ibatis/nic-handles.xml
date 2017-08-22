@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="nicHandle">
+
+    <resultMap id="internalNicHandle" class="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle" groupBy="nicHandleId">
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="name" column="name"/>
+        <result property="accountNumber" column="accountNumber"/>
+        <result property="accountName" column="accountName"/>
+        <result property="agreementSigned" column="agreementSigned" javaType="boolean" nullValue="false"/>
+        <result property="ticketEdit" column="ticketEdit" javaType="boolean" nullValue="false"/>
+        <result property="companyName" column="companyName"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="country" column="country"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.NicHandleStatusHandler"/>
+        <result property="statusChangeDate" column="statusChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="registrationDate" column="registrationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="billCInd" column="billCInd" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.BillCIndHandler"/>
+        <result property="nicHandleRemark" column="nicHandleRemark"/>
+        <result property="creator" column="creator"/>
+        <result property="vatNo" column="vatNo"/>
+        <result property="telecoms" resultMap="nicHandle.telecoms"/>
+        <result property="vatCategory" column="vatCategory"/>
+    </resultMap>
+
+    <resultMap id="telecoms" class="pl.nask.crs.nichandle.dao.ibatis.objects.Telecom">
+        <result property="number" column="Telecom_number"/>
+        <result property="typeName" column="Telecom_type"/>
+    </resultMap>
+
+    <resultMap id="findInternalNicHandle" class="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle" groupBy="nicHandleId">
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="name" column="name"/>
+        <result property="accountNumber" column="accountNumber"/>
+        <result property="accountName" column="accountName"/>
+        <result property="companyName" column="companyName"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="country" column="country"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.NicHandleStatusHandler"/>
+        <result property="statusChangeDate" column="statusChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="registrationDate" column="registrationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="billCInd" column="billCInd" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.BillCIndHandler"/>
+        <result property="nicHandleRemark" column="nicHandleRemark"/>
+        <result property="creator" column="creator"/>
+        <result property="vatCategory" column="vatCategory"/>
+        <result property="telecoms" resultMap="nicHandle.telecoms"/>
+    </resultMap>
+
+    <sql id="nicHandleCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                NH.Nic_Handle like #criteria.nicHandleId,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.name">
+                NH.NH_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.companyName">
+                NH.Co_Name like #criteria.companyName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.email">
+                NH.NH_Email like #criteria.email,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountNumber">
+                NH.A_Number = #criteria.accountNumber#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="nicHandleCriteriaContactTable">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                NH.Nic_Handle like #criteria.nicHandleId,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.name">
+                NH.NH_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.companyName">
+                NH.Co_Name like #criteria.companyName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.email">
+                NH.NH_Email like #criteria.email,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountNumber">
+                NH.A_Number = #criteria.accountNumber#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                C.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.contact">
+                C.Type = #criteria.contact#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.address">
+                NH.NH_Address like #criteria.address,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.country">
+                NH.NH_Country like #criteria.country,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.county">
+                NH.NH_County like #criteria.county,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.phone">
+                T.Phone like #criteria.phone,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.creator">
+                NH.NH_Creator like #criteria.creator,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="nicHandleOffsetLimit">
+        <dynamic >
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="nicHandleSort">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="nicHandleSelectJoin">
+        SELECT
+        NH.Nic_Handle as nicHandleId,
+        NH.NH_Name as name,
+        NH.A_Number as accountNumber,
+        A.A_Name as accountName,
+        AF.Agreement_Signed as agreementSigned,
+        AF.Ticket_Edit as ticketEdit,
+        NH.Co_Name as companyName,
+        NH.NH_Address as address,
+        T.Phone as Telecom_number,
+        T.Type as Telecom_type,
+        NH.NH_County as county,
+        NH.NH_Country as country,
+        NH.NH_Email as email,
+        NH.NH_Status as status,
+        NH.NH_Status_Dt as statusChangeDate,
+        NH.NH_Reg_Dt as registrationDate,
+        NH.NH_TStamp as changeDate,
+        NH.NH_BillC_Ind as billCInd,
+        NH.NH_Remark as nicHandleRemark,
+        NH.NH_Creator as creator,
+        P.VAT_Reg_ID as vatNo,
+        NH.Vat_Category as vatCategory
+        FROM
+        NicHandle as NH
+        LEFT OUTER JOIN Payment P  ON NH.Nic_Handle = P.Billing_Contact
+        LEFT OUTER JOIN Telecom T ON NH.Nic_Handle = T.Nic_Handle
+        LEFT OUTER JOIN Account A  ON NH.A_Number = A.A_Number
+        LEFT OUTER JOIN AccountFlags AF ON A.A_Number = AF.A_Number
+    </sql>
+
+    <sql id="dynamicContactTableJoin">
+        <dynamic>
+        	<!-- no 'or', so we have to do it tricky -->
+            <isNotNull property="criteria.domainName">
+    			<include refid="_dynamicContactTableJoin"/>
+            </isNotNull>
+            <isNull property="criteria.domainName">
+            	<isNotNull property="criteria.contact">            
+    				<include refid="_dynamicContactTableJoin"/>
+            	</isNotNull>
+            </isNull>
+        </dynamic>
+    </sql>
+
+    <sql id="dynamicTelecomJoin">
+        <isNotNull property="criteria.phone">
+            LEFT JOIN Telecom T ON NH.Nic_Handle = T.Nic_Handle and T.Type = "P"
+        </isNotNull>
+    </sql>
+
+    <sql id="_dynamicContactTableJoin">
+		LEFT OUTER JOIN Contact C ON
+        NH.Nic_Handle = C.Contact_NH
+    </sql>
+
+    <select id="getNicHandleByNicHandleId" parameterClass="string" resultMap="internalNicHandle">
+        <include refid="nicHandle.nicHandleSelectJoin"/>
+        WHERE NH.Nic_Handle = #nicHandleId#
+    </select>
+                
+    <select id="getLockedNicHandleByNicHandleId" parameterClass="java.lang.String" resultClass="java.lang.String">
+        SELECT
+            Nic_Handle
+        FROM
+            NicHandle
+        WHERE
+            Nic_Handle = #nicHandleId#
+        FOR UPDATE
+    </select>
+
+    <select id="getNumberOfAssignedDomains" parameterClass="string" resultClass="long">
+        SELECT COUNT(*) FROM Contact
+        WHERE Contact_NH = #nicHandleId#
+    </select>
+
+    <select id="getNumberOfAccountsForIdAndNicHandle" parameterClass="pl.nask.crs.accounts.search.AccountSearchCriteria" resultClass="long">
+        SELECT COUNT(*) FROM (
+        SELECT * FROM Account
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="id">
+                A_Number = #id#
+            </isNotNull>
+            <isNotNull prepend="and" property="nicHandle">
+                Billing_NH = #nicHandle#
+            </isNotNull>
+        </dynamic>
+        ) AS CNT
+    </select>
+
+    <select id="findNicHandle" parameterClass="java.util.Map" resultMap="findInternalNicHandle">
+        SELECT
+        NH.Nic_Handle as nicHandleId,
+        NH.NH_Name as name,
+        NH.A_Number as accountNumber,
+        A.A_Name as accountName,
+        NH.Co_Name as companyName,
+        NH.NH_Address as address,
+        NH.NH_County as county,
+        NH.NH_Country as country,
+        NH.NH_Email as email,
+        NH.NH_Status as status,
+        NH.NH_Status_Dt as statusChangeDate,
+        NH.NH_Reg_Dt as registrationDate,
+        NH.NH_TStamp as changeDate,
+        NH.NH_BillC_Ind as billCInd,
+        NH.NH_Remark as nicHandleRemark,
+        NH.NH_Creator as creator,
+        NH.Vat_Category as vatCategory,
+        T.Phone as Telecom_number,
+        T.Type as Telecom_type
+        FROM NicHandle as NH
+        LEFT JOIN Account A ON NH.A_Number = A.A_Number
+        LEFT JOIN Telecom T ON (NH.Nic_Handle = T.Nic_Handle and T.Type = "P")
+        <include refid="dynamicContactTableJoin"/>
+        <include refid="nicHandleCriteriaContactTable"/>
+        GROUP BY NH.Nic_Handle
+        <include refid="nicHandleSort"/>
+        <include refid="nicHandleOffsetLimit"/>
+    </select>
+
+    <select id="countTotalSearchResult" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM (
+        SELECT distinct(NH.Nic_Handle) FROM NicHandle NH
+        <include refid="dynamicContactTableJoin"/>
+        <include refid="dynamicTelecomJoin"/>
+        <include refid="nicHandleCriteriaContactTable"/>
+        ) AS CNT
+    </select>
+
+    <update id="updateNicHandle" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle">
+        UPDATE
+        NicHandle
+        SET
+        NH_Email = #email#,
+        NH_Name = #name#,
+        Co_Name = #companyName#,
+        NH_Address = #address#,
+        NH_County = #county#,
+        NH_Country = #country#,
+        A_Number = #accountNumber#,
+        NH_Remark = #nicHandleRemark#,
+        NH_Status = #status,handler=pl.nask.crs.nichandle.dao.ibatis.handlers.NicHandleStatusHandler#,
+        NH_TStaMP = #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        Vat_Category = #vatCategory#
+        WHERE
+        Nic_Handle = #nicHandleId#
+    </update>
+
+    <select id="selectVAT" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle" resultClass="string">
+        SELECT
+        VAT_Reg_ID
+        FROM
+        Payment
+        WHERE Billing_Contact = #nicHandleId#
+    </select>
+
+    <insert id="insertNicHandle" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle">
+        INSERT INTO NicHandle(
+        Nic_Handle,
+        NH_Name,
+        A_Number,
+        Co_Name,
+        NH_Address,
+        NH_County,
+        NH_Country,
+        NH_Email,
+        NH_Status,
+        NH_Status_Dt,
+        NH_Reg_Dt,
+        NH_TStamp,
+        NH_BillC_Ind,
+        NH_Remark,
+        NH_Creator,
+        Vat_Category
+        ) VALUES (
+        #nicHandleId#,
+        #name#,
+        #accountNumber#,
+        #companyName#,
+        #address#,
+        #county#,
+        #country#,
+        #email#,
+        #status,handler=pl.nask.crs.nichandle.dao.ibatis.handlers.NicHandleStatusHandler#,
+        #statusChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #registrationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+        #billCInd,handler=pl.nask.crs.nichandle.dao.ibatis.handlers.BillCIndHandler#,
+        #nicHandleRemark#,
+        #creator#,
+        #vatCategory#
+        );
+    </insert>
+
+    <insert id="insertTelecoms" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle">
+        INSERT INTO Telecom(
+            Nic_Handle,
+            Phone,
+            Type
+        ) VALUES
+        <iterate property="telecoms" conjunction=",">
+            (#nicHandleId#, #telecoms[].number#, #telecoms[].typeName#)
+        </iterate>
+    </insert>
+
+    <insert id="insertOrUpdateVAT" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalNicHandle">
+        INSERT INTO Payment (
+            Billing_Contact,
+            Credit_Card_Type,
+            Name_on_Card,
+            Card_Number,
+            Expiry_Date,
+            Bank_Account_Holder,
+            Bank,
+            NSC,
+            AC_Number,
+            Address,
+            VAT_Reg_ID,
+            VAT_exempt
+        ) VALUES (
+            #nicHandleId#,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            #vatNo#,
+            ""
+        )
+        ON DUPLICATE KEY UPDATE
+            VAT_Reg_ID = #vatNo#
+    </insert>
+
+    <delete id="deleteVAT" parameterClass="java.lang.String">
+        DELETE FROM
+            Payment
+        WHERE
+            Billing_Contact = #nicHandleId#
+    </delete>
+
+    <delete id="deleteTelecoms" parameterClass="java.lang.String">
+        DELETE FROM
+            Telecom
+        WHERE
+            Nic_Handle = #nicHandleId#
+    </delete>
+
+    <delete id="deleteContacts" parameterClass="java.lang.String">
+        DELETE FROM
+            Contact
+        WHERE
+            Contact_NH = #nicHandleId#
+    </delete>       
+    
+    <delete id="deleteAccess" parameterClass="java.lang.String">
+        DELETE FROM
+            Access
+        WHERE
+            Nic_Handle = #nicHandleId#
+    </delete>
+    
+    <delete id="deleteNicHandle" parameterClass="java.lang.String">
+        DELETE FROM
+            NicHandle
+        WHERE
+            Nic_Handle = #nicHandleId#
+    </delete>
+    
+    <select id="findDeleted" resultClass="string">
+        select Nic_Handle from NicHandle where NH_Status = 'Deleted'
+    </select>
+
+    <select id="getAccountStatus" parameterClass="long" resultClass="string">
+        SELECT A_Status FROM Account WHERE A_Number = #id#
+    </select>
+
+    <select id="getNumberOfTicketsForNicHandle" parameterClass="string" resultClass="long">
+        SELECT COUNT(T_Number)
+        FROM Ticket
+        WHERE Admin_NH1 = #nicHandleId#
+        OR Admin_NH2 = #nicHandleId#
+        OR Bill_NH = #nicHandleId#
+        OR Tech_NH = #nicHandleId#
+    </select>
+    
+    <select id="findBillingNH" parameterClass="string" resultClass="string">
+    	select distinct BC.Contact_NH 
+		from Contact C join Contact BC on (C.D_Name = BC.D_Name)
+		where C.Contact_NH = #nicHandle# and C.Type != 'B' and BC.Type = 'B';
+    </select>
+</sqlMap>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+    <command>
+        <pay>
+            <account:depositFunds
+                    xmlns:account="http://www.domainregistry.ie/ieapi-account-1.3"
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-account-1.3
+				ieapi-account-1.3.xsd">
+                <account:value>1000.5</account:value>
+                <account:card>
+                    <account:cardHolderName>John Doe</account:cardHolderName>
+                    <account:cardNumber>4263971921001307</account:cardNumber>
+                    <account:expiryDate>2021-01</account:expiryDate>
+                    <account:cardType>VISA</account:cardType>
+                    <account:cvnNumber>111</account:cvnNumber>
+                </account:card>
+            </account:depositFunds>
+        </pay>
+    </command>
+</ieapi>

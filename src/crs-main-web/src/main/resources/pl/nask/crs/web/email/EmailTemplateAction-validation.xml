@@ -1,0 +1,9 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="template.group.id">
+        <field-validator type="emailgroup">
+            <message>You must select a valid email group</message>
+        </field-validator>
+    </field>
+</validators>

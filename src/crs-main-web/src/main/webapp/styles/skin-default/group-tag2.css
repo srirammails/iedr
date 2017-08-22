@@ -1,0 +1,139 @@
+.group {
+	margin: 0;
+	padding: 0 5px;
+}
+
+/* -------------------------------- group header */
+.GH {/* group header */
+	clear: both;
+	padding: 5px 5px 0 5px;
+	height: 32px;
+
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+div.GHLC {/* group header left corner */
+	clear: left;
+	float: left;
+	background: url( "../../images/skin-default/web-parts/border.left.up.h2.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+div.GHTB {/* group header title bar */
+	margin: 0 18px;
+}
+
+div.GHTB-icon {/* group header title bar */
+	float: left;
+	position: relative;
+	top: -2px;
+	left: -6px;
+	width: 32px;
+	height: 32px;
+}
+
+div.GHTB-bar {/* group header title bar */
+	background: url( "../../images/skin-default/web-parts/border.up.h2.png" ) repeat-x;
+	width: auto;
+	height: 32px;
+}
+
+div.GHTB-title {/* group header title bar */
+	float: left;
+	margin: 14px 0 0 5px;
+}
+
+div.GHRC {/* group header right corner */
+	clear: right;
+	float: right;
+	background: url( "../../images/skin-default/web-parts/border.right.up.h2.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+td.GHLC {/* group header left corner */
+	background: url( "../../images/skin-default/web-parts/border.left.up.h2.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+td.GHTB {/* group header title bar */
+	background: url( "../../images/skin-default/web-parts/border.up.h2.png" ) repeat-x;
+	width: auto;
+}
+
+td.GHRC {/* group header right corner */
+	background: url( "../../images/skin-default/web-parts/border.right.up.h2.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+/* -------------------------------- group header */
+.GC {/* group content */
+	clear: both;
+	padding: 0 5px;
+	background: #f9f9f9; /* very light gray color for page background */
+}
+
+.GCCA {
+	clear: both;
+	padding: 10px 5px 0;
+	width: auto;
+	background: #f9fff9; /* very light green color for section backgrounds */
+	border-top: none;
+	border-right: 1px solid #9fd39d; /* medium green color */
+	border-left: 1px solid #9fd39d; /* medium green color */
+	border-bottom: none;
+}
+
+/* -------------------------------- group header */
+.GF {/* group footer */
+	clear: both;
+	padding: 0 5px 5px 5px;
+	height: 4px;
+	line-height: 4px;
+}
+
+div.GFLC {/* group footer left corner*/
+	clear: left;
+	float: left;
+	background: url( "../../images/skin-default/web-parts/border.left.down.h2.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}
+
+div.GFFB {/* group footer footer bar*/
+	margin: 0 5px;
+	height: 4px;
+
+	background: #f9fff9 none repeat scroll 0; /* very light green color for section backgrounds */
+	border-bottom: 1px solid #9fd39d; /* medium green color */
+}
+
+div.GFRC {/* group footer right corner*/
+	clear: right;
+	float: right;
+	background: url( "../../images/skin-default/web-parts/border.right.down.h2.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}
+
+td.GFLC {/* group footer left corner*/
+	background: url( "../../images/skin-default/web-parts/border.left.down.h2.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}
+
+td.GFFB {/* group footer footer bar*/
+	background: #f9fff9 none repeat scroll 0; /* very light green color for section backgrounds */
+	border-bottom: 1px solid #9fd39d; /* medium green color */
+	width: auto;
+	height: 4px;
+}
+
+td.GFRC {/* group footer right corner*/
+	background: url( "../../images/skin-default/web-parts/border.right.down.h2.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}

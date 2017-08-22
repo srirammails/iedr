@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page short_account_stats.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/db/short_account_stats.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">defines functions to do with the fetching of account statistics data</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html">Source Code for this file</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functiongetDepositBalanceCacheKey" id="functiongetDepositBalanceCacheKey"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">getDepositBalanceCacheKey</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a157">157</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets cache key for deposit balance for passed Nic Handle</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> cache key for deposit balance for passed Nic Handle</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDepositBalanceCacheKey
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_cached_stats_query" id="functionget_cached_stats_query"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_cached_stats_query</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a49">49</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get cached value with passed key, or, if not cached, run passed query and return column 'x' of first row (and add to cache)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> column 'x' of first row of query results</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			get_cached_stats_query
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$cache_key</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$cache_key</span><span class="var-description">: cache key</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql</span><span class="var-description">: sql statement</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_DepositBalance" id="functionget_stats_DepositBalance"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_DepositBalance</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a179">179</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for a Nic Handle, via cache, Deposit Balance</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Deposit Balance</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">float</span>
+		<span class="method-name">
+			get_stats_DepositBalance
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_DomainCount" id="functionget_stats_DomainCount"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_DomainCount</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a72">72</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for an account number, via cache, count of domains</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> domain count</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_DomainCount
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$acc</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$acc</span><span class="var-description">: account number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_NewRegs" id="functionget_stats_NewRegs"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_NewRegs</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a82">82</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for an account number, via cache, count of newly registered domains since beginning of current month</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of newly registered domains since beginning of current month</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_NewRegs
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$acc</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$acc</span><span class="var-description">: account number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_PassedTickets" id="functionget_stats_PassedTickets"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_PassedTickets</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a114">114</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for an account number, via cache, count of passed Tickets</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of passed Tickets</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_PassedTickets
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$acc</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$acc</span><span class="var-description">: account number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_PendingTickets" id="functionget_stats_PendingTickets"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_PendingTickets</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a104">104</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for an account number, via cache, count of non-passed tickets</p>
+<p class="description"><p>Query uses constraint &quot;Tech_Status!=1&quot; : Not 'Passed', so any of: 'New, Stalled, Renew, Cancelled'</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of non-passed tickets</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_PendingTickets
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$acc</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$acc</span><span class="var-description">: account number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_StatementBalance" id="functionget_stats_StatementBalance"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_StatementBalance</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a147">147</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for a Nic Handle, via cache, Statement Balance</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Statement Balance</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_StatementBalance
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_TicketCount" id="functionget_stats_TicketCount"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_TicketCount</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a92">92</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for an account number, via cache, count of current tickets</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of current tickets</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_TicketCount
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$acc</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$acc</span><span class="var-description">: account number</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_TransfersIn" id="functionget_stats_TransfersIn"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_TransfersIn</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a124">124</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for a Nic Handle, via cache, count of domains transferring to the passed Nic Handle in the last 30 days</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of domains transferring to the passed Nic Handle in the last 30 days</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_TransfersIn
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_stats_TransfersOut" id="functionget_stats_TransfersOut"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_stats_TransfersOut</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a134">134</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, for a Nic Handle, via cache, count of domains transferring from the passed Nic Handle in the last 30 days</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> count of domains transferring from the passed Nic Handle in the last 30 days</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			get_stats_TransfersOut
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functioninvalidate_DepositBalance" id="functioninvalidate_DepositBalance"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">invalidate_DepositBalance</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a168">168</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Deletes any cached deposit balance for the passed Nic Handle</p>
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			invalidate_DepositBalance
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nic</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nic</span><span class="var-description">: Nic Handle</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionmicrotime_float" id="functionmicrotime_float"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">microtime_float</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a21">21</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get current time as a floating-point number including microseconds</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> time</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">float</span>
+		<span class="method-name">
+			microtime_float
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionrun_stats_qry" id="functionrun_stats_qry"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">run_stats_qry</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbshort_account_stats.php.html#a33">33</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">runs passed string as a sql query and returns first row's column 'x', or null</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> column 'x' of first row of results</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			run_stats_qry
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql</span><span class="var-description">: sql statement</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:17 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

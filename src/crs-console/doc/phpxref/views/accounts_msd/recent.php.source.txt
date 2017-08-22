@@ -1,0 +1,88 @@
+<!-- START protected/views/accounts_msd/recent.php -->
+<?php
+/**
+ * View page for Accounts MSD - Recent
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_msdController::actionGetgriddata_recent(), Accounts_msdController::actionRecent(), MSDModel
+ */
+
+$pg = 'Mails, Suspensions & Deletions';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<div>There are <?php echo $model->invSummary->count; ?> domains in the MSD process.</div>
+<?
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+echo '<table class="gridtable"><tr><td>';
+
+$this->widget('application.widgets.jqGrid.jqGridComandButtonsWidget', array(
+	'pk_column_index'	=> 1,
+	'actionurl'		=> $this->createUrl('accounts_msd/confirm'),
+	'returnurl'		=> $this->createUrl('accounts_msd/recent'),
+	'formid'		=> 'gridactionpay',
+	'commandlist'		=> array(
+					'payonline' => 'Pay %n Domains Online',		// payMsdReactivation (with card)
+					'paydeposit'=> 'Pay %n Domains From Deposit',	// payMsdReactivation ( WITH NO CARD )
+					),
+	));
+
+echo '</td><td>';
+
+$this->widget('application.widgets.jqGrid.jqGridComandButtonsWidget', array(
+	'pk_column_index'	=> 1,
+	'actionurl'		=> $this->createUrl('accounts_msd/confirm'),
+	'returnurl'		=> $this->createUrl('accounts_msd/recent'),
+	'formid'		=> 'gridactionnopay',
+	'commandlist'		=> array(
+					'reactivate' => 'Reactivate %n Domains Without Payment', // payMsdReactivation ( WITH NO CARD )
+					),
+	));
+echo '</td></tr></table>';
+
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> $pg.' for \''.Yii::app()->user->name.'\'',
+	'thisfile'	=> $this->createUrl('accounts_msd/current_newandrenewals',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_msd/getgriddata_recent',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	'searching'	=> true,
+	'sorting'	=> true,
+	'selections'	=> true,
+	));
+?>
+<script>
+// goes after the widget, to override the previous function definition
+var selectedDomainsNoPay = new SelectedDomainsClass();
+ 
+handleCheckBoxClicked = function (domain) {
+	var jqgcell     = jQuery('#thisJqGrid').getCell(domain, 1); // col 1, because row-numbering is on (otherwise 0)
+	var cbIsChecked = (jQuery(jqgcell).attr('checked') == 'checked') ? true : false;
+	// payment status : MSDModel->columns['C']
+	var payStatus	= jQuery('#thisJqGrid').getCell(domain, 'C');
+	switch(payStatus)
+		{
+		case '<?php echo $model->reactivateOptions['N']; ?>':
+			selectedDomainsNoPay.domainSelected(cbIsChecked,domain);
+			jQuery('#gridactionnopay_domainlist').val(selectedDomainsNoPay.list.toString());
+			jQuery('#gridactionnopay_reactivate').val("Reactivate "+selectedDomainsNoPay.getCount()+" Domains Without Payment ...");
+			break;
+		case '<?php echo $model->reactivateOptions['P']; ?>':
+		case '<?php echo $model->reactivateOptions['Y']; ?>':
+			selectedDomains.domainSelected(cbIsChecked,domain);
+			jQuery('#gridactionpay_domainlist').val(selectedDomains.list.toString());
+			jQuery('#gridactionpay_payonline').val("Pay "+selectedDomains.getCount()+" Domains Online ...");
+			jQuery('#gridactionpay_paydeposit').val("Pay "+selectedDomains.getCount()+" Domains From Deposit ...");
+			break;
+		}
+	//alert("count = "+dcount+" in list "+dlist);
+	}
+</script>
+<br>
+<!-- END protected/views/accounts_msd/recent.php -->

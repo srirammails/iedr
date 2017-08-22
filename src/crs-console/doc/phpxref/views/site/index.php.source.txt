@@ -1,0 +1,89 @@
+<!-- START protected/views/site/index.php -->
+<?php
+/**
+ * View page for Main-Page body content
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Sitecontroller::actionIndex()
+ */
+
+?><center>Welcome to the IEDR console. This system provides all registrars with online domain-by-domain management capability for their portfolios of .ie domains on a 24/7/365 basis.</center>
+<br>
+
+<table>
+	<tr>
+		<td></td>
+		<td width="60%">
+			<table>
+				<tr>
+					<td colspan="2">
+						<center><b>RECENT FEATURES AND NOTICES:</b></center>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<ul>
+							<li><a href="index.php?page=charProd">Charity Deletion Procedure</a></li>
+						</ul>
+					</td>
+					<td>
+						<ul>
+							<li><a href="index.php?page=discretionary">Discretionary Name Clarifications</a></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<center><b>OTHER FEATURES AND NOTICES:</b></center>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<ul>
+							<li><a href="index.php?page=myRen">Multi Year Renewals</a></li>
+							<li><a href="http://www.iezine.ie">IEDR's Monthly Newsletter</a></li>
+							<li><a href="http://discuss.iedr.ie">Registrar Discussion Forum RDF</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#DTO">Delete Ticket</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#FPD">Fast Pass DNS</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#NSS">Nameserver String Search</a></li>
+						</ul>
+					</td>
+					<td width="50%">
+						<ul>
+							<li><a href="index.php?page=myr">Multi Year Registrations</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#MTO">Modify Ticket</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#DSS">Domain String Search</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#MDR">Multiple Domain Registration</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#VHR">View Hostmaster Remarks</a></li>
+							<li><a href="index.php?page=index&amp;file=diduknow#DDE">Direct DNS Editing</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td></td>
+	</tr>
+</table>
+
+Registrars are expected to assume full responsibility and accountability for domain renewal/non-renewal, payments, and MSD suspensions and reactivations.
+<br>
+IEDR staff will remain available for support, and for query resolution, but will no longer actively intervene in the automated procedures. In particular,
+<br>
+<br>
+<ul>
+	<li>Un-processed domains in 'Renew and Pay' will be moved to the MSD list during the monthly cleardown process. This takes place on the night of the last day of each month</li>
+	<li>'Offline payments' must be received by the last working day of the month, otherwise the monthly cleardown will move the related domains to the MSD process</li>
+	<li>A credit card will be required to reactivate domains in the MSD process. Offline payments such as cheques or CT's will not be processed, and will be returned.</li>
+	<li>Manual IEDR credit notes will be rare, but when required, will be issued with a cheque refund attached. Registrars should not deduct manual credit notes from off-line payments.</li>
+</ul>
+As we continue to automate the domain management processes, your continued feedback is very welcome.  Please e-mail <a href="mailto:console@iedr.ie?Subject=Feedback">console@iedr.ie</a> with your comments or suggestions.
+<br>
+Please visit the IEDR Registrar Discussion Forum (RDF) for general discussions, industry matters, general registration service matters and technical discussions.
+
+<!-- END protected/views/site/index.php -->

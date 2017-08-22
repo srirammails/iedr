@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs for page ticket_status.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name"><img src="../media/images/Page_logo.png" alt="File" style="vertical-align: middle">/db/ticket_status.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">defines functions related to ticket status codes, which are not handled by the NASK CRS-WS-API</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html">Source Code for this file</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functiondecipher_admin_status" id="functiondecipher_admin_status"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">decipher_admin_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a172">172</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">converts a CRS-WS-API Admin Status string to Version for use in Web Page Display</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Web-page version of Admin status string</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			decipher_admin_status
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$wsapi_str</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$wsapi_str</span><span class="var-description">: CRS-WS-API Ticket Admin Status</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functiondecipher_tech_status" id="functiondecipher_tech_status"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">decipher_tech_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a73">73</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">converts a CRS-WS-API Tech Status string to Version for use in Web Page Display</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Web-page version of Tech status string</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			decipher_tech_status
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$wsapi_str</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$wsapi_str</span><span class="var-description">: CRS-WS-API Ticket Tech Status</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionencode_admin_status_to_int" id="functionencode_admin_status_to_int"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">encode_admin_status_to_int</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a191">191</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">converts a Web-Page Ticket Admin Status string to CRS-WS-API integer code</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> CRS-WS-API integer code</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			encode_admin_status_to_int
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sts</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sts</span><span class="var-description">: Web-Page Ticket Admin Status string</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionencode_tech_status_to_int" id="functionencode_tech_status_to_int"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">encode_tech_status_to_int</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a91">91</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">converts a Web-Page Ticket Tech Status string to CRS-WS-API integer code</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> CRS-WS-API integer code</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			encode_tech_status_to_int
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sts</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sts</span><span class="var-description">: Web-Page Ticket Tech Status string</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionget_admin_status" id="functionget_admin_status"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_admin_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a107">107</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, via cache, from database, TicketAdminStatus codes</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> maps if Ticket Admin Status Codes to Ticket Admin Status Descriptions</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			get_admin_status
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionget_tech_status" id="functionget_tech_status"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">get_tech_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a20">20</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, via cache, from database, TicketTechStatus codes</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> maps if Ticket Tech Status Codes to Ticket Tech Status Descriptions</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			get_tech_status
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="function_get_admin_status" id="function_get_admin_status"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">_get_admin_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a126">126</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, from database, TicketAdminStatus codes</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> maps if Ticket Admin Status Codes to Ticket Admin Status Descriptions</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_get_admin_status
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="function_get_tech_status" id="function_get_tech_status"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<img src="../media/images/Function.png" />
+		<span class="method-title">_get_tech_status</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__dbticket_status.php.html#a38">38</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets, from database, TicketTechStatus codes</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> maps if Ticket Tech Status Codes to Ticket Tech Status Descriptions</li>
+			</ul>
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			_get_tech_status
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:21 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

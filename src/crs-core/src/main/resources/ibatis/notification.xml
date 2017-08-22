@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="notification">
+
+    <typeAlias alias="dnsNotification" type="pl.nask.crs.dnscheck.DnsNotification"/>
+    <typeAlias alias="dnsNotificationDate" type="pl.nask.crs.dnscheck.DnsNotificationDate"/>
+
+    <insert id="insertNotification" parameterClass="dnsNotification">
+        INSERT INTO DNS_Check_Notification
+        (
+        Nic_Handle,
+        Email,
+        Domain_Name,
+        DNS_Name,
+        Error_Message
+        ) VALUES (
+        #nicHandleId#,
+        #email#,
+        #domainName#,
+        #nsName#,
+        #errorMessage#)
+    </insert>
+
+    <select id="getNotificationById" resultClass="dnsNotification">
+        SELECT
+        ID as id,
+        Nic_Handle as nicHandleId,
+        Email as email,
+        Domain_Name as domainName,
+        DNS_Name as nsName,
+        Error_Message as errorMessage
+        FROM
+        DNS_Check_Notification
+        WHERE ID = #id#
+    </select>
+
+    <select id="getNotificationByDomainName" resultClass="dnsNotification">
+        SELECT
+        ID as id,
+        Nic_Handle as nicHandleId,
+        Email as email,
+        Domain_Name as domainName,
+        DNS_Name as nsName,
+        Error_Message as errorMessage
+        FROM
+        DNS_Check_Notification
+        WHERE Domain_Name = #domainName#
+    </select>
+
+    <select id="getNotificationByNH" resultClass="dnsNotification">
+        SELECT
+        ID as id,
+        Nic_Handle as nicHandleId,
+        Email as email,
+        Domain_Name as domainName,
+        DNS_Name as nsName,
+        Error_Message as errorMessage
+        FROM
+        DNS_Check_Notification
+        WHERE
+        Nic_Handle = #nicHandleId#
+    </select>
+
+    <select id="getAll" resultClass="dnsNotification">
+        SELECT
+        ID as id,
+        Nic_Handle as nicHandleId,
+        Email as email,
+        Domain_Name as domainName,
+        DNS_Name as nsName,
+        Error_Message as errorMessage
+        FROM
+        DNS_Check_Notification
+    </select>
+
+    <delete id="deleteAllAboutDomainExceptGivenNameservers">
+        DELETE FROM
+            DNS_Check_Notification
+        WHERE
+            Domain_name = #domainName#
+        <isNotEmpty property="nsNames" prepend="AND">
+            DNS_Name NOT IN
+            <iterate open="(" close=")" conjunction=", " property="nsNames">
+                #nsNames[]#
+            </iterate>
+        </isNotEmpty>
+    </delete>
+
+    <delete id="deleteById" parameterClass="int">
+        DELETE FROM
+        DNS_Check_Notification
+        WHERE
+        ID = #id#
+    </delete>
+
+    <select id="getNotificationDate" resultClass="dnsNotificationDate">
+        SELECT
+        Nic_Handle as nicHandle,
+        Next_Notification_Date as nextNotificationDate
+        FROM
+        DNS_Check_Notification_Date
+        WHERE
+        Nic_Handle = #nicHandleId#
+    </select>
+
+    <update id="updateNotificationDate" parameterClass="java.util.Map">
+        UPDATE DNS_Check_Notification_Date
+        SET
+        Next_Notification_Date = #date,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        WHERE
+        Nic_Handle = #nicHandleId#
+    </update>
+
+    <insert id="createNotificationDate" parameterClass="dnsNotificationDate">
+        INSERT INTO DNS_Check_Notification_Date
+        (Nic_Handle,
+        Next_Notification_Date)
+        VALUES
+        (#nicHandle#,
+        #nextNotificationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#)
+    </insert>
+</sqlMap>
+

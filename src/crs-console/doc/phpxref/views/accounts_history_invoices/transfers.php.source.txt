@@ -1,0 +1,45 @@
+<!-- START protected/views/accounts_history_invoices/transfers.php -->
+<?php
+/**
+ * View page for Accounts History - Transfer Invoices
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_history_invoicesController::actionTransfers(), Rpts_nrc_xfer_inv_histModel, Utility::printInvHistSummary(), GridUtility::makeDateSelectUpdateForm(), jqGridWidget
+ */
+
+$pg = 'Transfer Invoice History';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+GridUtility::makeDateSelectUpdateForm($this,$pg,'nrc_xferInvHist', $model);
+
+echo "<p>There were " . $model->totalrows . " domains included in the invoice you selected.</p>";
+echo '</div>';
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+#The datasource should point to an URL, and should not be a JASON object type. 
+#Accounts / View History / Invoices / Renewals
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+        'caption'               => 'Transfer Invoices History for \''.Yii::app()->user->name.'\' for the month of ' . $model->month . ' ' . $model->year,
+        'thisfile'              => $this->createUrl('accounts_history_invoices/transfers',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_history_invoices/getgriddataNrc_xfer_inv_hist',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+
+Utility::printInvHistSummary($model);
+
+?>
+<!-- END protected/views/accounts_history_invoices/transfers.php -->
+

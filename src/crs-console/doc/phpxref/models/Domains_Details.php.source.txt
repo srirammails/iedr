@@ -1,0 +1,260 @@
+<?php
+
+/**
+ * Short description for file
+ * 
+ * Long description (if any) ...
+ * 
+ * PHP version 5
+ * 
+ * New Registration Console (C) IEDR 2011
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Domains_Details
+	extends FormModelBase
+	{
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $domainlist;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $accept_tnc;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $admin_contact_nic_1;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $admin_contact_nic_2;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $applicant;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $billing_contact;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $holder;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_addr_1;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_addr_2;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_addr_3;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_name_1;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_name_2;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $nameserver_name_3;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $registration_period;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $remarks;
+
+    /**
+     * Description for public
+     * @var    unknown
+     * @access public 
+     */
+	public $tech_contact;
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $domlist Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function __construct($domlist=null)
+		{
+		parent::__construct();
+		//Yii::log(print_r($domlist,true), 'debug', 'Domains_Details::CTOR');
+		$this->setDefaults($domlist);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $domlist Parameter description (if any) ...
+     * @return void   
+     * @access public 
+     */
+	public function setDefaults($domlist)
+		{
+		$this->domainlist = $domlist;
+		try
+			{
+			$this->billing_contact = Yii::app()->user->name; 
+			$rd = Yii::app()->user->resellerDefaults;
+			$this->tech_contact 	 = $rd->techContactId;
+			$this->nameserver_name_1 = $rd->ns1Name;
+			$this->nameserver_name_2 = $rd->ns2Name;
+			$this->nameserver_name_3 = $rd->ns3Name;
+			}
+		catch(Exception $e)
+			{
+			Yii::log(print_r($e,true), 'error', 'Domains_Details::setDefaults()');
+			}
+		//Yii::log(print_r($this,true), 'debug', 'Domains_Details::setDefaults()');
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function rules()
+		{
+		return array(
+			array('admin_contact_nic_1,admin_contact_nic_2,billing_contact,tech_contact',
+				'NicHandleValidator'),
+			array('nameserver_addr_1,nameserver_addr_2,nameserver_addr_3',
+				'IPV4AddressValidator'),
+			array('nameserver_name_1,nameserver_name_2,nameserver_name_3',
+				'HostNameValidator'),
+			array('accept_tnc,admin_contact_nic_1,applicant,billing_contact,domainlist,holder,nameserver_name_1,nameserver_name_2,registration_period,remarks,tech_contact',
+				'required'),
+			array('registration_period',
+				'RegistrationCodeValidator'),
+			array('accept_tnc',
+				'CheckboxOnValidator'),
+			array('admin_contact_nic_1,admin_contact_nic_2,billing_contact,tech_contact',
+				'UpperCaseValidator'),
+			array('domainlist,nameserver_addr_1,nameserver_addr_2,nameserver_addr_3,nameserver_name_1,nameserver_name_2,nameserver_name_3',
+				'LowerCaseValidator'),
+			array('nameserver_addr_1', 'NSNameGlueRecValidator', 'dname'=>'domainlist', 'ns_name'=>'nameserver_name_1'),
+			array('nameserver_addr_2', 'NSNameGlueRecValidator', 'dname'=>'domainlist', 'ns_name'=>'nameserver_name_2'),
+			array('nameserver_addr_3', 'NSNameGlueRecValidator', 'dname'=>'domainlist', 'ns_name'=>'nameserver_name_3'),
+			);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return mixed  Return description (if any) ...
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return array(
+			'domainlist' 			=> 'Domains which are Valid and Available',
+			'accept_tnc' 			=> 'I accept the terms and conditions.',
+			'admin_contact_nic_1' 		=> 'Admin Contact 1',
+			'admin_contact_nic_2' 		=> 'Admin Contact 2',
+			'applicant' 			=> 'Class/Category of Applicant',
+			'billing_contact' 		=> 'Billing Contact',
+			'holder' 			=> 'Domain Holder',
+			'nameserver_name_1' 		=> 'Nameserver 1',
+			'nameserver_addr_1' 		=> 'IP Address 1',
+			'nameserver_name_2' 		=> 'Nameserver 2',
+			'nameserver_addr_2' 		=> 'IP Address 2',
+			'nameserver_name_3' 		=> 'Nameserver 3',
+			'nameserver_addr_3' 		=> 'IP Address 3',
+			'registration_period' 		=> 'Registration Period',
+			'remarks' 			=> 'Remarks',
+			'tech_contact' 			=> 'Technical Contact',
+			);
+		}
+	}
+

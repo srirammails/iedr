@@ -1,0 +1,16 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="group.name">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>You must enter a value for name</message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="trim">true</param>
+            <param name="minLength">2</param>
+            <param name="maxLength">255</param>
+            <message>You must enter a value for name</message>
+        </field-validator>
+    </field>
+</validators>

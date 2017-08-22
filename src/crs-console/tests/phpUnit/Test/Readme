@@ -1,0 +1,10 @@
+1) Setup vars in Definitions.php
+2) Import testcrsdb.sql
+	mysql -u root -p1234 crsdb < testcrsdb.sql
+3) Start the selenium server
+4) Run test from root account
+	./Test.sh
+
+In case of problems with phpunit check http://stackoverflow.com/questions/9186000/call-to-undefined-method-php-codecoverage-filtergetinstance
+
+

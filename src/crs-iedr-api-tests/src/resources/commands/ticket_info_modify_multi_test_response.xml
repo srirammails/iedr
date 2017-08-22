@@ -1,0 +1,41 @@
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <ticket:infData
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-ticket-1.3 ieapi-ticket-1.3.xsd urn:ietf:params:xml:ns:secDNS-1.1 secDns-1.1.xsd"
+                    xmlns:secDNS="urn:ietf:params:xml:ns:secDNS-1.1"
+                    xmlns:ticket="http://www.domainregistry.ie/ieapi-ticket-1.3"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <ticket:name>thedomena.tomodify3.ie</ticket:name>
+                <ticket:type>Modification</ticket:type>
+                <ticket:hostmasterStatus>New</ticket:hostmasterStatus>
+                <ticket:dnsStatus>New</ticket:dnsStatus>
+                <ticket:ns>
+                    <ticket:nsName>dns2.myhostns.com</ticket:nsName>
+                    <ticket:nsAddr></ticket:nsAddr>
+                </ticket:ns>
+                <ticket:ns>
+                    <ticket:nsName>ns1.TheDomena.ToModify3.ie</ticket:nsName>
+                    <ticket:nsAddr>1.2.3.4</ticket:nsAddr>
+                </ticket:ns>
+                <ticket:ns>
+                    <ticket:nsName>ns2.TheDomena.ToModify3.ie</ticket:nsName>
+                    <ticket:nsAddr>1.2.3.4</ticket:nsAddr>
+                </ticket:ns>
+                <ticket:holder class="Natural Person">
+                    <ticket:holderName category="Personal Name">John Doe</ticket:holderName>
+                    <ticket:holderRemarks>Domain modify.</ticket:holderRemarks>
+                </ticket:holder>
+                <ticket:contact type="admin">APIT2-IEDR</ticket:contact>
+                <ticket:contact type="tech">APIT1-IEDR</ticket:contact>
+                <ticket:account>00000666</ticket:account>
+                <ticket:regDate>2012-04-26T16:33:01</ticket:regDate>
+                <ticket:renDate>2009-04-30T00:00:00</ticket:renDate>
+            </ticket:infData>
+        </resData>
+    </response>
+</ieapi>

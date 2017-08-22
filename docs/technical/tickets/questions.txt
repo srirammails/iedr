@@ -1,0 +1,13 @@
+- po kliknieciu na ticket z ticket history nic sie nie wyswietla -> wyglada na to ze 		dane zamiast wybierane z tickethistory sa wybierane z ticket. (bug)
+
+- kiedy ticket jest przenoszony z ticket do tickethist?
+chyba od razu jak jakas zmiana zostanie zapisana w tickecie. czyli domain name w 		tabeli ticket powinno byc unikalne.
+
+- kiedy jest tworzony wpis w tickethist, przy jakich zmianach?
+np. przy reassign nie jest, ale przy alter status jest.
+
+- kiedy jest uzywana tabela temptickethist?
+
+- dlaczego przy wyswietlaniu danych ticketu, wybierane sa rowniez dane z domain?
+
+- w tickethist sa wyswietlane tylko tickety z adminstatus = cancelled. jezeli ustawi sie inny admin satus to i tak wychodzi zero wierszy poniewaz adminstatus = cancelled zostaje w selecie. (bug)

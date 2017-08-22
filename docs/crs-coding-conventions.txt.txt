@@ -1,0 +1,100 @@
+Conventions used in the CRS project.
+
+1. Documentation
+Documents are kept in the 'docs' directory. See docs\readme.txt for the conventions used there.
+
+-----------------------------------------------------------------------------------------------
+
+
+2. Resources
+Resources such as test database schema, icons etc. are located in the 'resources' directory.
+
+-----------------------------------------------------------------------------------------------
+
+
+3. Project sources
+Project sources are located in the src directory.
+
+Project is didvided into several modules. Modules match following pattern:
+crs-[functional name]-[layer name]
+
+where:
+'functional name' indicates business functionality (such as tickets or faxes),
+'layer name' indicates technical (architecture) layer (such as 'logic' for application logic and 'dto' for Data Transfer Objects)
+
+Currently known modules :
+crs-tickets-logic 
+crs-tickets-dto
+
+crs-faxes-logic
+crs-faxes-dto
+
+crs-commons-dto
+crs-commons-logic
+crs-commons-utils
+(shared components)
+
+crs-main-web 
+
+Packaging:
+
+-logic components provide following packages:
+pl.nask.crs.[functional name].services - where service interfaces are located
+pl.nask.crs.[functional name].services.impl - where service implementations are located
+pl.nask.crs.[functional name].dao - where DAO interfaces are located
+pl.nask.crs.[functional name].dao.ibatis - where DAO implementations (iBatis) are located
+
+-dto components provide:
+pl.nask.crs.[functional name].dto - where Data Transfer Objects are located.
+
+-utils components provide:
+pl.nask.crs.[functional name].utils
+
+crs-main-web component provides:
+pl.nask.crs.web.main - main web application files
+pl.nask.crs.web.security - security (user authorisation and authentication) 
+pl.nask.crs.web.menu - menu
+pl.nask.crs.web.tickets - tickets-related functionality
+
+-----------------------------------------------------------------------------------------------
+
+Coding conventions:
+- All names (classes, methods etc.) should be in English.
+- All JavaDocs as well as non-javadoc comments should be in English
+- We use CamelCase to write names containing more than one word (see http://en.wikipedia.org/wiki/CamelCase).
+- We use JavaBeans naming conventions 
+- We conform Sun Coding Conventions (http://java.sun.com/docs/codeconv/html/CodeConvTOC.doc.html)
+
+Examples:
+JavaBean representing Ticket object (ticket dto) would look like this:
+
+public class Ticket implements Serializable {
+	private long id; //Ticket ID
+	//....
+		
+	public Ticket() {
+	}
+	
+	public long getTicketId() {
+		return id;
+	}
+	
+	public void setTicketId(long id) {
+		this.id = id;
+	}
+}
+
+DAO for the Ticket would look like this:
+
+public interface TicketDAO {
+	//....
+}
+
+TicketDAO implementation would look like this:
+
+public class TicketIBatisDAO implements TicketDAO {
+	//...
+}
+
+
+

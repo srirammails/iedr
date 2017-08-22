@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2308">
+            <msg>Data management policy violation</msg>
+            <reason code="268">Cannot change billing status where the renewal date has been surpassed</reason>
+        </result>
+    </response>
+</ieapi>

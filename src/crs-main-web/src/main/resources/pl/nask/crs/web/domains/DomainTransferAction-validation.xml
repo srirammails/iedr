@@ -1,0 +1,79 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+	<!-- turning off contact's account validation -->
+    <field name="domainWrapper.domainHolder">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for domain holder</message>
+    	</field-validator>
+    </field>
+    <field name="domainWrapper.adminContact1">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for admin contact</message>
+        </field-validator>
+        <field-validator type="contact">
+            <message>Not a valid Nic Handle (does not exist)</message>
+        </field-validator>
+        <!--<field-validator type="contactAccount">
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    --></field>
+    <!-- admin contact 2 is optional -->
+     <field name="domainWrapper.adminContact2">
+         <field-validator type="contact">
+             <message>Not a valid Nic Handle (does not exist)</message>
+         </field-validator>
+         <!--<field-validator type="contactAccount">
+             <message>Not a valid Nic Handle (Account mismatch)</message>
+         </field-validator>
+     --></field>
+    <field name="domainWrapper.techContact">
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for a tech contact</message>
+    	</field-validator>
+    	<field-validator type="contact">
+    		<message>Not a valid Nic Handle (does not exist)</message>
+    	</field-validator>
+        <field-validator type="contactAccount">
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    </field>    
+    <field name="domainWrapper.billContact">
+    	<field-validator type="contactAccount">
+    		<param name="fieldRequired">true</param>
+    		<param name="validatedAccountNo">1</param>
+            <message>Not a valid Nic Handle (Account mismatch)</message>
+        </field-validator>
+    <!--        	
+    	<field-validator type="requiredstring">
+    		<message>You must enter a value for a tech contact</message>
+    	</field-validator>
+    	<field-validator type="contact">
+    		<message>Not a valid Nic Handle (does not exist)</message>
+    	</field-validator>
+        --><!--<field-validator type="contactAccount">-->
+            <!--<message>Not a valid Nic Handle (Account mismatch)</message>-->
+        <!--</field-validator>-->
+    </field>
+    <field name="domainWrapper.dnsWrapper">
+        <field-validator type="nsName">
+    		<message>Not a valid ns name</message>
+    	</field-validator>
+    	<field-validator type="nsIP">
+    		<message>Not a valid ns IP</message>
+    	</field-validator>
+        <field-validator type="ns">
+            <message>No ns is defined</message>
+        </field-validator>        
+    </field>
+    <field name="domainWrapper.accountNo">
+    	<field-validator type="long">
+            <param name='min'>0</param>
+            <message>You must enter a value for Account</message>
+        </field-validator>
+    </field>
+    <field name="domainWrapper.newRemark">
+		<field-validator type="requiredstring">
+			<message>You must enter a value for Hostmaster's Remark</message>
+		</field-validator>
+	</field>
+</validators>

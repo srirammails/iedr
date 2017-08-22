@@ -1,0 +1,41 @@
+<!-- START protected/views/site/footer.php -->
+<?php
+/**
+ * View page for shared page footer
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       view/layouts/main.php
+ */
+
+?><div id="linkfooter">
+	<a target="_blank" href="http://www.iedr.ie/index.php/mnudomregs/mnuhowtoreg">How&nbsp;To&nbsp;Register</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/mnudomregs/mnuquickguide">Quick&nbsp;Guide&nbsp;To&nbsp;Registrations</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/mnudomregs/mnunamingpolicy">Naming&nbsp;Policy</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/mnumods/mnuxferbillc">Transfer&nbsp;Billing&nbsp;Contact</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/mnumods/mnuupns">Updating&nbsp;Name&nbsp;Servers</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/mnupay/mnucreditcontrol">Credit&nbsp;Control</a>
+	&nbsp;|&nbsp;<a target="_blank" href="http://www.iedr.ie/index.php/component/content/article/82">Contact&nbsp;Us</a>
+</div>
+<div id="footer">
+	IE&nbsp;Domain&nbsp;Registry&nbsp;Ltd.
+		Registered&nbsp;Office:
+		Windsor&nbsp;House,
+		14&nbsp;Windsor&nbsp;Terrace,
+		Sandycove, Co.&nbsp;Dublin.
+	<br/>
+	Registered&nbsp;No:&nbsp;315315.
+	VAT&nbsp;No:&nbsp;IE&nbsp;6335315V
+	Phone:&nbsp;+353&nbsp;1&nbsp;2365400 ::
+	Fax:&nbsp;+353&nbsp;1&nbsp;2300365 ::
+	IE&nbsp;Domain&nbsp;Registry&nbsp;Ltd&nbsp;&copy;&nbsp;<?php echo date('Y'); ?>
+	<br/>
+	<?php echo Yii::powered().', v. '.YiiBase::getVersion().' ; '.crs_wsapi_service_base::crs_wsapi_version_string(); ?>
+</div>
+
+<!-- END protected/views/site/footer.php -->

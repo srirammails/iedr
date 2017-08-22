@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="2308">
+            <msg>Data management policy violation</msg>
+            <value>
+                <domain:name xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3">thedomena.totransfer.ie</domain:name>
+            </value>
+            <reason code="703">Ticket is currently being processed by a Hostmaster</reason>
+        </result>
+    </response>
+</ieapi>

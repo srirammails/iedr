@@ -1,0 +1,39 @@
+<!-- START protected/views/accounts_payhist_crednotes/deletions.php -->
+<?php
+/**
+ * View page for Accounts Payment-History Credit-Notes - MSD Deletions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Rpts_nrc_cn_deletions_Model, Accounts_payhist_crednotesController::actionDeletions(), Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_deletions(), jqGridWidget
+ */
+
+$pg = 'MSD Deletions';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+echo "<p>There were " . $model->totalrows . " domains included in the credit note period you selected.</p>";
+echo '</div>';
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+#The datasource should point to an URL, and should not be a JASON object type. 
+#Accounts / View History / Invoices / Renewals
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+        'caption'               => 'Credit Notes - MSD Deletions from \''.Yii::app()->user->name.'\'  for the month of ' . date("Y F"),
+        'thisfile'              => $this->createUrl('accounts_payhist_crednotes/renewals',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_payhist_crednotes/getgriddataNrc_cn_deletions',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_payhist_crednotes/deletions.php -->

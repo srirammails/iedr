@@ -1,0 +1,5 @@
+TAP version 13
+ok 1 - ExampleTest::test_login with browser firefox 7 Windows 2003
+not ok 2 - Error: ExampleTest::test_checkstats with browser firefox 7 Windows 2003
+ok 3 - ExampleTest::test_login with browser iexplore 9 Windows 2008
+not ok 4 - Error: ExampleTest::test_checkstats with browser iexplore 9 Windows 2008

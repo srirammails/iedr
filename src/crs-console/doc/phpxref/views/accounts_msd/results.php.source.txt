@@ -1,0 +1,100 @@
+<!-- START protected/views/accounts_msd/results.php -->
+<?php
+/**
+ * View page for Accounts MSD action results
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_msdController::showConfirmPage(), Accounts_msdController::actionConfirm(), MSDSelectionModel
+ */
+
+$pg = 'MSD Results';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<div class="form">
+<?php
+Yii::log($pg.' ; model='.print_r($model,true), 'debug', 'accounts_msd/results.php()');
+
+    /**
+     * outputs html rendering of model containing a 'commandresults' member
+     * 
+     * @param  object  $m     model
+     * @return void   
+     */
+function renderResultingMSDSelectionModel($m)
+	{
+	$react_method = 'ERR';
+	switch($m->command)
+		{
+		case 'payonline' : $react_method = 'by Payment Online'; break;
+		case 'paydeposit': $react_method = 'by Payment From Deposit'; break;
+		case 'reactivate': $react_method = 'Without Payment'; break;
+		}
+	echo '<table class="gridtable">';
+	echo '<tr><td class="gridtablecell"><strong>Domains Reactivated<br>'.$react_method.'</strong></td>'.
+		'<td class="gridtablecell"><strong>Invoice ID</strong></td>'.
+		'<td class="gridtablecell"><strong>Order ID</strong></td>'.
+		'<td class="gridtablecell"><strong>Fee</strong></td>'.
+		'<td class="gridtablecell"><strong>VAT</strong></td>'.
+		'<td class="gridtablecell"><strong>Total</strong></td></tr>';
+	foreach($m->commandresults as $k => $v)
+		{
+		if($k!='TOTAL')
+			{
+			$dlist = implode($v['domainlist'],'<br>');
+			echo '<tr><td class="gridtablecell">'.$dlist.'</td>';
+			if($v['errs']==null)
+				{
+				$tf = $v['results']->amount;
+				$tv = $v['results']->vat;
+				$inv = $v['results']->invoiceId;
+				if(is_array($v['results']->invoiceId))
+					$inv = implode($v['results']->invoiceId,'<br>');
+				echo	'<td class="gridtablecell">'.$inv.'</td>'.
+					'<td class="gridtablecell">'.$v['results']->orderId.'</td>'.
+					'<td class="gridtablecell cash">'.Utility::currencyAmount($tf,2).'</td>'.
+					'<td class="gridtablecell cash">'.Utility::currencyAmount($tv,2).'</td>'.
+					'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($tf+$tv),2);
+				}
+			else
+				echo '<td colspan="5"><span class="errorMessage">'.$v['errs'].'</span>';
+			echo '</td></tr>';
+			}
+		}
+	$v = $m->commandresults['TOTAL'];
+	echo '<tr><td class="gridtablecell"><strong>Totals</strong></td>'.
+		'<td class="gridtablecell" colspan="2"></td>'.
+		'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalFee']).'</td>'.
+		'<td class="gridtablecell cash">'.Utility::currencyAmount($v['totalVat']).'</td>'.
+		'<td class="gridtablecell cash">'.Utility::currencyAmount(Utility::roundAccountingAmount($v['totalFee']+$v['totalVat'])).'</td></tr>';
+	echo '</table>';
+	}
+
+$errs = $model->getErrors('domainlist');
+if($errs != null)
+	{
+	if(is_array($errs) and count($errs)>0)
+		foreach($errs as $e)
+			echo '<span class="errorMessage">'.$e.'</span><br>';
+	else
+		echo '<span class="errorMessage">'.$errs.'</span>';
+	}
+else
+	{
+	echo '<h4>Comands Processed</h4>';
+	renderResultingMSDSelectionModel($model);
+	}
+
+echo '<form><input type=\'button\' value=\'Print This Page\' onClick=\'window.print()\' /></form>';
+?>
+</div>
+<br>
+<?php echo AuthOnlyBaseController::returnToUrlButton($model->returnurl); ?>
+
+<!-- END protected/views/accounts_msd/results.php -->

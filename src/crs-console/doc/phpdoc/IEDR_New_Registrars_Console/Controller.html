@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class Controller</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Controller</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Application base Controller class.</p>
+<p class="description"><p>All controller classes for this application should extend from this base class.</p><p>PHP version 5</p><p>New Registration Console (C) IEDR 2011</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> CVS: $Id:$</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> <a href="http://www.yiiframework.com/doc/api/1.1/CController">http://www.yiiframework.com/doc/api/1.1/CController</a></li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---Controller.php.html">/components/Controller.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a33">33</a></span>)
+		</p>
+		
+				
+		<pre>CController
+   |
+   --Controller</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/AuthOnlyBaseController.html">AuthOnlyBaseController</a>
+					</td>
+					<td>
+											Base Controller for actions and views which must have authenticated sessions in order to be accesses
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; white-space: nowrap">
+						<img src="../media/images/Class.png"
+								 alt=" class"
+								 title=" class"
+								 style="vertical-align: center"/>
+						<a href="../IEDR_New_Registrars_Console/SiteController.html">SiteController</a>
+					</td>
+					<td>
+											This controller class handles general web app actions, including index, error, login, logout
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																								<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$breadcrumbs" title="details" class="var-name">$breadcrumbs</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">string</span>
+					<a href="#$layout" title="details" class="var-name">$layout</a>
+				</div>
+																<div class="var-title">
+					<img src="../media/images/Variable.png" alt=" " />
+					<span class="var-type">array</span>
+					<a href="#$menu" title="details" class="var-name">$menu</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendants</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																			
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">void</span>
+										<a href="#log" title="details" class="method-name">log</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$m</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$c</span>)
+									</div>
+																											
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#actionSwitchuser" title="details" class="method-name">actionSwitchuser</a>
+										()
+									</div>
+																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#performAjaxValidation" title="details" class="method-name">performAjaxValidation</a>
+											(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$breadcrumbs" id="$breadcrumbs"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$breadcrumbs</span>
+			 = <span class="var-default">array('')</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a50">50</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">used by views for page title</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../IEDR_New_Registrars_Console/Accounts_history_invoicesController.html#var$breadcrumbs">Accounts_history_invoicesController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/TicketsController.html#var$breadcrumbs">TicketsController::$breadcrumbs</a>
+								: used to display breadcrumb trail on top of page. deprecated; prefer <a href="../IEDR_New_Registrars_Console/_components---menu.php.html#functionprintBreadcrumbTrail">printBreadcrumbTrail()</a>
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DnsController.html#var$breadcrumbs">DnsController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/DomainreportsController.html#var$breadcrumbs">DomainreportsController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NicsearchController.html#var$breadcrumbs">NicsearchController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ContactsController.html#var$breadcrumbs">ContactsController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/NichandlesController.html#var$breadcrumbs">NichandlesController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ApiController.html#var$breadcrumbs">ApiController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/ResourcesController.html#var$breadcrumbs">ResourcesController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/AccountsController.html#var$breadcrumbs">AccountsController::$breadcrumbs</a>
+								: Description for public
+							</li>
+					<li>
+				<a href="../IEDR_New_Registrars_Console/MlistController.html#var$breadcrumbs">MlistController::$breadcrumbs</a>
+								: Description for public
+							</li>
+				</ul>
+		
+
+</div>
+<a name="var$layout" id="$layout"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$layout</span>
+			 = <span class="var-default">'//layouts/column1'</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a39">39</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> the default layout for the controller view. Defaults to '//layouts/column1',  meaning using a single column layout. See 'protected/views/layouts/column1.php'.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$menu" id="$menu"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<img src="../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$menu</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a43">43</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> context menu items. This property will be assigned to CMenu::items.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodlog" id="log"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static log</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a64">64</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">a simple log wrapper, calls <a href="http://www.yiiframework.com/doc/api/1.1/YiiBase#log-detail">Yii::log</a></p>
+<p class="description"><p>See : <a href="http://www.yiiframework.com/doc/api/1.1/YiiBase#log-detail">http://www.yiiframework.com/doc/api/1.1/YiiBase#log-detail</a></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			log
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$m</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$c</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$m</span><span class="var-description">: message</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$s</span><span class="var-description">: severity : debug. warn, error</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$c</span><span class="var-description">: context, eg 'Function()' or 'Class::Function'</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodactionSwitchuser" id="actionSwitchuser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">actionSwitchuser</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a100">100</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Action Method that switches between users, used by IEDR Staff.</p>
+<p class="description"><p>The <a href="../IEDR_New_Registrars_Console/NicHandleIdentity.html">NicHandleIdentity</a> class handles the operation.  The SwitchUser Action is used by the form created by <a href="../IEDR_New_Registrars_Console/UserSwitchWidget.html">UserSwitchWidget</a></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			actionSwitchuser
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodperformAjaxValidation" id="performAjaxValidation"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">performAjaxValidation</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsController.php.html#a80">80</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A helper method for derived classes that validates any ajax requests seen by action* member</p>
+<p class="description"><p>functions, echoes http response to ajax client, and terminates the response processing  (i.e. does not return from this function call)  See : <a href="http://www.yiiframework.com/doc/api/1.1/CActiveForm#validate-detail">http://www.yiiframework.com/doc/api/1.1/CActiveForm#validate-detail</a>, <a href="http://www.yiiframework.com/doc/api/1.1/CModel#validators-detail">http://www.yiiframework.com/doc/api/1.1/CModel#validators-detail</a></p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			performAjaxValidation
+		</span>
+					(<span class="var-type">CModel</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">CModel</span>
+				<span class="var-name">$model</span><span class="var-description">: Model to be validated (needs not be populated with data)</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:48 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

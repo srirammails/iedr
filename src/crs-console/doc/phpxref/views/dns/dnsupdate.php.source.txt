@@ -1,0 +1,114 @@
+<!-- START protected/views/dns/dnsupdate.php -->
+<?php
+/**
+ * View page for DNS Update
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       DNS_BulkMod, DnsController::actionDnsupdate(), DnsController::actionMakednsupdate()
+ */
+
+
+/**
+ * returns count of the number of commas in the model's domainlist attribute, plus 1, hopefully equals the number of domain names
+ * 
+ * @param  object $model object having member 'domainlist'
+ * @return integer  count of the number of commas plus 1, hopefully equals the number of domain names
+ */
+function countDoms($model){
+
+	return (substr_count($model->domainlist, ',') + 1);
+}
+
+/**
+ * outputs a form text-field element for a nameserver entry.
+ * 
+ * Long description (if any) ...
+ * 
+ * @param  CActiveForm  $form    the yii form widget to output html for
+ * @param  CModel  $model   model with data to be rendered
+ * @param  string  $num     numeric index of nameserver, e.g. 1 .. 7
+ * @param  unknown $type    unused
+ * @param  unknown $disable unused
+ * @return void
+ */
+function doformDNS($form,$model,$num,$type,$disable){
+	$num = $num+1;
+	echo "<tr><td>$num</td><td>" . $form->textField($model,"ns".'['.$num.']', array('size'=>'40', 'maxlength'=>'70')) . "</td>";
+	echo "<td>$num</td><td>" . $form->textField($model,"ip".'['.$num.']', array('size'=>'40', 'maxlength'=>'70')) . "</td>";
+	echo "</tr>";
+}
+
+
+
+#If the user has not selected any domain(s) assume we're dealing with a bulk update.
+if($model->domainlist == "to_be_filled_by_javascript"){
+	$model->domainlist ="";
+}
+
+#If we're dealing with multiple domains then disable the glue form textfield.
+$disabled = 1;
+if(countDoms($model)==1){
+	$disabled = 0;
+}
+
+$pg = 'DNS Modification';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<?php
+if($model->message){
+	echo "<div class =\"flash-notice\">";
+	foreach($model->message as $aMsg){
+		echo $aMsg . "<br>";
+		}
+	echo "</div><br>";
+	$model->message = "";
+	}
+?>
+
+<p>This tool is designed to give Registrars the facility to modify DNS records associated with .ie domain names. 
+All domains must have a zone configured correctly on each of the name servers you are modifying the domains to. 
+Correctly configured DNS must adhere to <a target="_blank" href="http://www.ietf.org/rfc/rfc1035.txt">RFC1035</a>. This system will not permit domain names be modified that are deemed to be incorrectly configured.</p>
+
+<b>Please Note: Some name servers may not respond in a timely fashion. As such, this facility can take some time in verifying the DNS for multiple domain names. Please be patient.</b><br><br><br>
+
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'BulkDNSModForm',
+	'enableAjaxValidation'=>false,
+	));
+$form->focus = array($model,'domainlist');
+?>
+
+
+<table border="1" class="formfields">
+	<tbody>
+		<tr><td colspan="2"><b>Please enter the new name servers in the text boxes below - Glue text fields will be disabled/not used for bulk updates</b></td></tr>
+		<table class="formfields">
+		<tr><td>&nbsp;</td><td><?php echo $form->labelEx($model,'Name Servers'); ?></td><td>&nbsp;</td><td><?php echo $form->labelEx($model,'Glue Records'); ?></td>
+<?php
+		for($i=0;$i<7;$i++){
+			doformDNS($form,$model,$i,'ns', $disabled);
+		}
+?>
+</table>
+
+<p class="note">Enter each domain name separated by commas.<br>i.e. my-company.ie, mytradingname.ie <br></p>
+<div class="row">
+	<?php echo CHtml::errorSummary($model); ?>
+	<?php echo $form->labelEx($model,'domainlist'); ?>
+	<?php echo $form->textArea($model,'domainlist',array('rows'=>6, 'cols'=>50)); ?>
+	<?php echo $form->error($model,'domainlist'); ?>
+</div>
+<div class="row buttons"><?php echo CHtml::submitButton('Verify and Modify'); ?></div>
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+
+<!-- END protected/views/dns/dnsupdate.php -->

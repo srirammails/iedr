@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class CreditCardValidator</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> CreditCardValidator</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">validate a credit card number</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> http://www.merriampark.com/anatomycc.htm, http://stackoverflow.com/questions/1463252/creditcard-verification-with-regex</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---CreditCardValidator.php.html">/components/CreditCardValidator.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a64">64</a></span>)
+		</p>
+		
+				
+		<pre>CValidator
+   |
+   --<a href="../IEDR_New_Registrars_Console/RegexValidator.html">RegexValidator</a>
+      |
+      --CreditCardValidator</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+												<div class="var-title">
+					<img src="../media/images/StaticVariable.png" alt=" " />
+					static <span class="var-type">array</span>
+					<a href="#$card_patterns" title="details" class="var-name">$card_patterns</a>
+				</div>
+																							</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																											
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#CCLuhnCheck" title="details" class="method-name">CCLuhnCheck</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#CCPrefixLengthTypeCheck" title="details" class="method-name">CCPrefixLengthTypeCheck</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$num</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">&$typ</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">array</span>
+										<a href="#getCardTypes" title="details" class="method-name">getCardTypes</a>
+										()
+									</div>
+																																			
+				<div class="method-definition">
+					<img src="../media/images/Constructor.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#card_validate" title="details" class="method-name">card_validate</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$cardno</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">&$cardtype</span> = <span class="var-default">null</span>])
+									</div>
+																																							
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">string</span>
+										<a href="#strip_non_numeric" title="details" class="method-name">strip_non_numeric</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$cardno</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/Method.png" alt=" "/>
+											<span class="method-result">boolean</span>
+										<a href="#validateAttribute" title="details" class="method-name">validateAttribute</a>
+											(<span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$attribute</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$card_patterns" id="$card_patterns"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../media/images/StaticVariable.png" />
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$card_patterns</span>
+			 = <span class="var-default">array(<br />		# Visa: All numbers start with a 4. New cards have 16 digits. Old cards have 13.<br />		CREDCARDTYPE_VISA   =&gt; '4[0-9]{12}(?:[0-9]{3})?',<br />		# MasterCard: All numbers start with the numbers 51 through 55. All have 16 digits.<br />		CREDCARDTYPE_MASTERCARD	 =&gt; '5[1-5][0-9]{14}',<br />		# switch<br />		#'SWITCH' =&gt; '([0-9]{6}[0-9]{12}|[0-9]{18})',<br />		# American Express: numbers start with 34 or 37 and have 15 digits.<br />		#'AMEX '  =&gt; '3[47][0-9]{13}',<br />		# laser : They should have between 16 and 19 numbers inclusively, and should have a prefix of one of 6304, 6706, 6709<br />		CREDCARDTYPE_LASER  =&gt; '6(304|706|709)([0-9]{12,15})',<br />		# Diners Club: numbers begin with 300 through 305, 36 or 38. All have 14 digits.<br />		#	 There are cards that begin with 5 and have 16 digits;<br />		#	 These are a joint venture between Diners Club and MasterCard, and should be processed like a MasterCard.<br />		#'DINERS' =&gt; '3(?:0[0-5]|[68][0-9])[0-9]{11}',<br />		)</span>			(line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a81">81</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Credit Card Number validation regex patterns</p>
+<p class="description"><p><ul><li>Visa: All numbers start with a 4. New cards have 16 digits. Old cards have 13.</li></ul> <ul><li>MasterCard: All numbers start with the numbers 51 through 55. All have 16 digits.</li></ul> <ul><li>Laser : They should have between 16 and 19 numbers inclusively, and should have a prefix of one of 6304, 6706, 6709</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="http://www.regular-expressions.info/creditcard.html">http://www.regular-expressions.info/creditcard.html</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../IEDR_New_Registrars_Console/RegexValidator.html">RegexValidator</a></span></p>
+					<blockquote>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/RegexValidator.html#var$invalid_msg">RegexValidator::$invalid_msg</a></span><br>
+							</span>
+													<img src="../media/images/Variable.png" />
+							<span class="var-title">
+								<span class="var-name"><a href="../IEDR_New_Registrars_Console/RegexValidator.html#var$regex">RegexValidator::$regex</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodCCLuhnCheck" id="CCLuhnCheck"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static CCLuhnCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a190">190</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">perform Luhn check</p>
+<p class="description"><p>inspired by http://www.codepost.org/browse/snippets/88</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> check results</li>
+				<li><span class="field">see:</span> <a href="http://en.wikipedia.org/wiki/Luhn_algorithm">http://en.wikipedia.org/wiki/Luhn_algorithm</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			CCLuhnCheck
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$str</span><span class="var-description">: credit card number</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodCCPrefixLengthTypeCheck" id="CCPrefixLengthTypeCheck"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static CCPrefixLengthTypeCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a210">210</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">try to match credit card number against regex patterns</p>
+<p class="description"><p>parameter 'typ' : if null, will be set to the type of the first regex the card number was found to match, if any</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> whether card matched regex for the specified type, or if type was null, if card matched regex of any type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			CCPrefixLengthTypeCheck
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$num</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">&$typ</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$num</span><span class="var-description">: credit card number</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">&$typ</span><span class="var-description">: optional type ; if null, will be set to the type of the first regex the card number was found to match, if any</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetCardTypes" id="getCardTypes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static getCardTypes</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a122">122</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">get array of card type for which we have validation patterns</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of card-type strings</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">array</span>
+		<span class="method-name">
+			getCardTypes
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Constructor.png" />
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a104">104</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">constructor, sets up regex and error message</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcard_validate" id="card_validate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">card_validate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a174">174</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">checks if a card number passes luhn check and matches a validation regex (card type optional)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if valid</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			card_validate
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$cardno</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">&$cardtype</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$cardno</span><span class="var-description">: credit card number</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">&$cardtype</span><span class="var-description">: optional type; if null, will set on return to the first type the card-number validated as</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodstrip_non_numeric" id="strip_non_numeric"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">strip_non_numeric</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a161">161</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns passed string with non-digit characters removed</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> input string with non-digit characters removed</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			strip_non_numeric
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$cardno</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$cardno</span><span class="var-description">: credit card number</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodvalidateAttribute" id="validateAttribute"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/Method.png" />
+		<span class="method-title">validateAttribute</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsCreditCardValidator.php.html#a141">141</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">validate a credit card number</p>
+<p class="description"><p>checks that the passed string is all numeric, passes Luhn check, and matches one of the validation regexes</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> whether card number validates</li>
+				<li><span class="field">todo:</span> could be refactored to make better use of base class functionality</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			validateAttribute
+		</span>
+					(<span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$attribute</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$model</span><span class="var-description">: model containing credit card data</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$attribute</span><span class="var-description">: model attribute name containing credit cared number string</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../IEDR_New_Registrars_Console/RegexValidator.html#methodvalidateAttribute">RegexValidator::validateAttribute()</a></dt>
+						<dd>validates a model's attribute according to regex, adds error message if not valid</dd>
+					</dl>
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../IEDR_New_Registrars_Console/RegexValidator.html">RegexValidator</a></span></p>
+					<blockquote>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/RegexValidator.html#methodaddErrMsgToModel">RegexValidator::addErrMsgToModel()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/RegexValidator.html#methodvalidateAttribute">RegexValidator::validateAttribute()</a></span><br>
+													<img src="../media/images/Method.png" alt=" "/>
+							<span class="method-name"><a href="../IEDR_New_Registrars_Console/RegexValidator.html#methodvalidateValue">RegexValidator::validateValue()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:16:50 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

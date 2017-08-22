@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * defines EditTicketModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * model for data for the ticket-editing page
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class EditTicketModel
+	extends ViewTicketModel
+	{
+
+    /**
+     * combined class and category (separated by a colon), one of the values returned by {@link get_class_category()}, used in a select-list
+     *
+     * @var    string
+     * @access public 
+     */
+	var $applicant;
+
+    /**
+     * constructor, sets ticket ID
+     * 
+     * @param  integer $id ticket ID
+     * @return void   
+     * @access public 
+     */
+	public function __construct($id=null)
+		{
+		$this->id = $id;
+		}
+
+    /**
+     * returns Yii validation rules
+     * 
+     * @return array  validation rules
+     * @access public
+     */
+	public function rules()
+		{
+		return array(
+				array('id,operation_domainHolderField_newValue,operation_adminContactsField_0_newValue_nicHandle,operation_nameservers_0_name_newValue,operation_nameservers_1_name_newValue,applicant,requestersRemark',
+					'required'),
+				array('id',
+					'numerical'),
+				array('operation_nameservers_0_name_newValue,operation_nameservers_1_name_newValue,operation_nameservers_2_name_newValue',
+					'HostNameValidator'),
+				array('operation_nameservers_0_ipAddress_newValue,operation_nameservers_1_ipAddress_newValue,operation_nameservers_2_ipAddress_newValue',
+					'IPV4AddressValidator'),
+				array('operation_adminContactsField_0_newValue_nicHandle,operation_adminContactsField_1_newValue_nicHandle,operation_billingContactsField_newValue_nicHandle,operation_techContactsField_newValue_nicHandle',
+					'NicHandleValidator'),
+				array('operation_nameservers_0_ipAddress_newValue', 'NSNameGlueRecValidator', 'dname'=>'domainName', 'ns_name'=>'operation_nameservers_0_name_newValue'),
+				array('operation_nameservers_1_ipAddress_newValue', 'NSNameGlueRecValidator', 'dname'=>'domainName', 'ns_name'=>'operation_nameservers_1_name_newValue'),
+				array('operation_nameservers_2_ipAddress_newValue', 'NSNameGlueRecValidator', 'dname'=>'domainName', 'ns_name'=>'operation_nameservers_2_name_newValue'),
+				array('requestersRemark','length', 'max'=>500),
+			);
+		}
+
+    /**
+     * copies ticket-object data into this instance
+     * 
+     * @param  CRSTicketAppService_ticketVO $obj  Ticket object to copy data from
+     * @param  string $errs errors from backend for display
+     * @return void   
+     * @access public 
+     */
+	public function fillFromObject($obj, $errs)
+		{
+		parent::fillFromObject($obj, $errs);
+			$cls = $this->operation_domainHolderClassField_newValue;
+			$cat = $this->operation_domainHolderCategoryField_newValue;
+		$this->applicant = $cls.':'.$cat;
+		}
+
+    /**
+     * copies non-editable data from ticket-object into this instance
+     * 
+     * @param  CRSTicketAppService_ticketVO $ticketVO  Ticket object to copy data from
+     * @return void  
+     * @access public
+     */
+	public function setReadOnlyDataFromObj($ticketVO)
+		{
+		$ro_flds = array('id','domainName','adminStatus','hostmastersRemark','type','expiryDate','techStatus',);
+		foreach($ro_flds as $f)
+			$this>$f = $ticketVO->$f;
+		}
+	}
+

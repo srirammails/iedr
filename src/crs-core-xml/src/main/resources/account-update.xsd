@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.domainregistry.ie/account-update-1.0"
+	xmlns:acc="http://www.domainregistry.ie/account-update-1.0"
+	elementFormDefault="qualified">
+	<element name="acc" type="acc:accType" />
+
+	<complexType name="accType">
+		<sequence>
+			<element name="id" type="string" />
+			<element name="timestamp" type="string" />
+			<element name="account" type="acc:accountType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="accountType">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="address1" type="string" />
+			<element name="address2" type="string" />
+			<element name="address3" type="string" />
+			<element name="county" type="string" />
+			<element name="country" type="string" />
+			<element name="accountNo" type="long" />
+			<element name="billC" type="string" />
+			<element name="vatNo" type="string" />
+            <element name="phone" type="string" />
+            <element name="fax" type="string" />
+            <element name="email" type="string" />
+            <element name="vatCategory" type="string" />
+        </sequence>
+	</complexType>
+</schema>

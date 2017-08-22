@@ -1,0 +1,1 @@
+mysql -u root -pvinooigo phoenixdb < Reset_and_Reload_ALL_test_data.sql

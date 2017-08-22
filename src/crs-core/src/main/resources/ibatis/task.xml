@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="task">
+
+    <cacheModel id="taskCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+
+    <typeAlias alias="taskResult" type="pl.nask.crs.task.Task"/>
+
+    <select id="getAllTask" resultClass="taskResult">
+        SELECT
+        id as id,
+        name as name,
+        schedule as schedule
+        FROM
+        SchedulerConfig
+    </select>
+    
+    <select id="getByName" resultClass="taskResult">
+        SELECT
+        id as id,
+        name as name,
+        schedule as schedule
+        FROM
+        SchedulerConfig
+        WHERE
+        name = #name#;
+    </select>
+    
+    <insert id="create" parameterClass="taskResult">
+      insert into SchedulerConfig (name , schedule) values(#name# , #schedule#);
+      <selectKey resultClass="int" keyProperty="id">
+         select last_insert_id() as id;
+      </selectKey>
+    </insert>
+    
+</sqlMap>
+
+

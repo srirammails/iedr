@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+		  "sql-map-2.dtd">
+
+<sqlMap namespace="ticket-response">
+
+	<typeAlias alias="TicketResponse" type="pl.nask.crs.ticket.response.TicketResponse"/>
+
+	<sql id="select-all-from">
+		SELECT
+		Response_ID as id,
+		Response_Title as title,
+		Response_Text as text
+		FROM
+		TicketResponse
+	</sql>
+
+
+	<select id="getTicketResponse" parameterClass="long"
+			  resultClass="TicketResponse">
+
+		<include refid="ticket-response.select-all-from"/>
+		WHERE
+		Response_ID=#id#
+	</select>
+
+
+	<select id="getTicketResponseByTitle" parameterClass="string"
+			  resultClass="TicketResponse">
+
+		<include refid="ticket-response.select-all-from"/>
+		WHERE
+		Response_Title=#title#
+        LIMIT 1
+    </select>
+
+
+	<select id="getTicketResponseList" parameterClass="java.util.Map"
+			  resultClass="TicketResponse">
+
+		<include refid="ticket-response.select-all-from"/>
+		ORDER BY
+		Response_Title ASC
+	</select>
+
+
+	<select id="getLockedTicketResponse" parameterClass="long"
+			  resultClass="TicketResponse">
+
+		<include refid="ticket-response.select-all-from"/>
+		WHERE
+		Response_ID=#id#
+		FOR UPDATE
+	</select>
+
+
+	<select id="findTicketResponse"
+			  resultClass="TicketResponse">
+
+		<include refid="ticket-response.select-all-from"/>
+		ORDER BY
+		Response_Title ASC
+	</select>
+
+
+	<insert id="createTicketResponse" parameterClass="TicketResponse">
+
+		INSERT INTO
+		TicketResponse
+		VALUES
+		(NULL, #title#, #text#)
+
+		<selectKey type="post" keyProperty="id"
+					  resultClass="int">
+			SELECT
+			LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+
+
+	<update id="updateTicketResponseText" parameterClass="TicketResponse">
+
+		UPDATE
+		TicketResponse
+		SET
+		Response_Text=#text#
+		WHERE
+		Response_ID=#id#
+	</update>
+
+
+	<delete id="deleteTicketResponse" parameterClass="long">
+
+		DELETE FROM
+		TicketResponse
+		WHERE
+		Response_ID=#id#
+	</delete>
+</sqlMap>

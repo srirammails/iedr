@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="domainsSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/domains-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="internalDomainDAO" class="pl.nask.crs.domains.dao.ibatis.InternalDomainIBatisDAO">
+        <constructor-arg ref="applicationConfig"/>
+        <property name="sqlMapClient" ref="domainsSqlMapClient"/>
+    </bean>
+
+    <bean id="domainDAO" class="pl.nask.crs.domains.dao.ibatis.ConvertingDomainDAO">
+        <constructor-arg ref="internalDomainDAO"/>
+        <constructor-arg ref="domainConverter"/>
+        <constructor-arg ref="internalContactDAO"/>
+    </bean>
+
+    <bean id="billingStatusFactory" class="pl.nask.crs.commons.dictionary.GenericDAODictionary">
+        <constructor-arg ref="billingStatusDAO"/>
+    </bean>
+
+    <bean id="billingStatusDAO" class="pl.nask.crs.domains.dao.ibatis.BillingStatusIBatisDAO">
+        <property name="sqlMapClient" ref="domainsSqlMapClient"/>
+        <constructor-arg value="bill-status.getStatusById"/>
+        <constructor-arg value="bill-status.getStatusList"/>
+    </bean>
+
+    <bean id="domainConverter" class="pl.nask.crs.domains.dao.ibatis.converters.DomainConverter" />
+
+    <bean id="internalHistoricalDomainDAO" class="pl.nask.crs.domains.dao.ibatis.InternalHistoricalDomainIbatisDAO">
+        <property name="sqlMapClient" ref="domainsSqlMapClient"/>
+    </bean>
+
+    <bean id="historicalDomainConverter" class="pl.nask.crs.domains.dao.ibatis.converters.HistoricalDomainConverter"/>
+
+    <bean id="historicalDomainDAO" class="pl.nask.crs.domains.dao.ibatis.HistoricalDomainConvertingDAO">
+        <constructor-arg ref="internalHistoricalDomainDAO"/>
+        <constructor-arg ref="historicalDomainConverter"/>
+    </bean>
+
+    <bean id="domainSearchService" class="pl.nask.crs.domains.services.impl.DomainSearchServiceImpl">
+        <constructor-arg ref="domainDAO"/>
+    </bean>
+
+    <bean id="dsmDao" class="pl.nask.crs.domains.dsm.DsmDAOImpl">
+        <property name="sqlMapClient" ref="domainsSqlMapClient"/>
+    </bean>
+
+	<bean id="dsmActionsRegistry" class="pl.nask.crs.domains.dsm.DsmActionsRegistry" init-method="initActionFactories">
+		<constructor-arg ref="applicationConfig" />
+		<property name="emailTemplateDao" ref="emailTemplateDAO" />
+		<property name="emailTemplateSender" ref="emailTemplateSender" />
+		<property name="domainDao" ref="domainDAO" />
+		<property name="nicHandleDAO" ref="nicHandleDAO" />
+	</bean> 
+
+    <bean id="dsmMachine" class="pl.nask.crs.domains.dsm.DomainStateMachineImpl">
+    	<constructor-arg ref="dsmDao" index="0"/>
+    	<constructor-arg ref="domainDAO" index="1"/>
+    	<constructor-arg ref="historicalDomainDAO" index="2"/>
+    	<constructor-arg ref="applicationConfig" index="3"/>
+    	<constructor-arg ref="dsmActionsRegistry" index="4"/>
+    </bean>
+
+    <bean id="domainService" class="pl.nask.crs.domains.services.impl.DomainServiceImpl">
+        <constructor-arg ref="domainDAO"/>
+        <constructor-arg ref="historicalDomainDAO"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+        <constructor-arg ref="entitiesService"/>
+        <constructor-arg ref="applicationConfig"/>
+        <constructor-arg ref="dsmMachine"/>
+        <constructor-arg ref="emailTemplateSender"/>
+        <constructor-arg ref="countryFactory"/>
+    </bean>
+
+    <bean id="historicalDomainService" class="pl.nask.crs.domains.services.impl.HistoricalDomainServiceImpl">
+        <constructor-arg ref="historicalDomainDAO"/>
+    </bean>
+    
+    <bean id="bulkTransferDAO" class="pl.nask.crs.domains.dao.ibatis.BulkTransferIBatisDAO">
+    	<property name="sqlMapClient" ref="domainsSqlMapClient" />
+    </bean>
+    
+    <bean id="bulkTransferService" class="pl.nask.crs.domains.services.impl.BulkTransferServiceImpl">
+    	<constructor-arg ref="applicationConfig" />
+    	<constructor-arg ref="bulkTransferDAO" />
+    	<constructor-arg ref="domainDAO" />
+    	<constructor-arg ref="accountSearchService" />
+    	<constructor-arg ref="nicHandleSearchService" />
+    	<constructor-arg ref="nicHandleService" />
+    	<constructor-arg ref="dsmMachine" />
+        <constructor-arg ref="resellerDefaultsService"/>
+        <constructor-arg ref="domainSearchService" />
+        <constructor-arg ref="domainService"/>
+        <constructor-arg ref="emailTemplateSender"/>
+    </bean>
+</beans>

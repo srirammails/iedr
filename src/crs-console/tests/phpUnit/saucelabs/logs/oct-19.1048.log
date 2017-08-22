@@ -1,0 +1,19 @@
+TAP version 13
+ok 1 - CheckStatsTest::test_checkstats with browser firefox 7 Windows 2003
+not ok 2 - Failure: CheckStatsTest::test_checkstats with browser iexplore 9 Windows 2008
+  ---
+  message: 'Current Browser URL: http://newregcon.iedr.ie/index.php'
+  severity: fail
+  data:
+    got: '2'
+    expected: '0'
+  ...
+not ok 3 - Failure: CheckStatsTest::test_checkstats with browser safari 4 Windows 2003
+  ---
+  message: 'Current Browser URL: http://newregcon.iedr.ie/index.php'
+  severity: fail
+  data:
+    got: '2'
+    expected: '0'
+  ...
+1..3

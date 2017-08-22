@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * defines class DBLog
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * Logs statistics of application use
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class DBLog{  
+
+    /**
+     * inserts message into phoenixdb StatsAccessLog table
+     * 
+     * Just dumping a record into the StatsAccessLog table so that we can record in the db the actions a logged in user performs.
+     * 
+     * @param  string $msg message
+     * @return void   
+     * @access public 
+     */
+	function logAction($msg){
+                $connection = Yii::app()->db;
+		$query = "INSERT INTO StatsAccessLog VALUES ('" .  Yii::app()->user->name . "', Now(), '" . trim($msg) . "', '" . Yii::app()->request->userHostAddress ."');";
+		
+                $command = $connection->createCommand($query);
+                $rowset = $command->query();
+                }
+}

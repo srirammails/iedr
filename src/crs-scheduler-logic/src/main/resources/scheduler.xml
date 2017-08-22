@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="scheduler">
+
+    <typeAlias alias="job" type="pl.nask.crs.scheduler.Job"/>
+
+    <resultMap id="jobConfig" class="pl.nask.crs.scheduler.JobConfig">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="schedulePattern" column="schedulePattern"/>
+        <result property="scheduleId" column="scheduleId"/>
+        <result property="errorMessage" column="errorMessage"/>
+        <result property="active" column="active" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+    </resultMap>
+
+    <sql id="selectJobConfig">
+        SELECT id as id,
+        name as name,
+        schedule as schedulePattern,
+        schedule_id as scheduleId,
+        ErrorMsg as errorMessage,
+        Active as active
+        FROM SchedulerConfig
+    </sql>
+
+    <select id="getJobConfigByName" resultMap="jobConfig">
+        <include refid="selectJobConfig"/>
+        WHERE name=#name#;
+    </select>
+
+    <select id="getJobConfigById" resultMap="jobConfig">
+        <include refid="selectJobConfig"/>
+        WHERE id=#id#;
+    </select>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="selectJob">
+        select
+        id as id,
+        job_name as name,
+        start_date as start,
+        end_date as end,
+        job_status as status,
+        failure_reason as failure
+        from SchedulerJob
+    </sql>
+
+    <select id="getJobById" resultClass="job">
+        <include refid="selectJob"/>
+        where id=#id#
+    </select>
+
+    <select id="getJobByName" resultClass="job">
+        <include refid="selectJob"/>
+        where job_name=#name#;
+    </select>
+
+    <sql id="selectJobHist">
+        select
+        id as id,
+        job_name as name,
+        start_date as start,
+        end_date as end,
+        job_status as status,
+        failure_reason as failure
+        from SchedulerJobHist
+    </sql>
+
+    <sql id="jobCriteria">
+        <dynamic prepend="WHERE">
+
+        </dynamic>
+    </sql>
+
+
+    <select id="findJobs" parameterClass="java.util.Map" resultClass="job">
+        <include refid="selectJob"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="findJobsHist" parameterClass="java.util.Map" resultClass="job">
+        <include refid="selectJobHist"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="findJobsCount" parameterClass="java.util.Map" resultClass="int">
+        select
+        count(*)
+        from SchedulerJob
+    </select>
+
+    <select id="findJobsHistCount" parameterClass="java.util.Map" resultClass="int">
+        select
+        count(*)
+        from SchedulerJobHist
+    </select>
+
+    <select id="getJobsByStatus" resultClass="job">
+        <include refid="selectJob"/>
+        where job_status=#job_status#
+    </select>
+
+    <select id="getJobConfigs" resultMap="jobConfig">
+        <include refid="selectJobConfig"/>
+        order by name ASC;
+    </select>
+
+
+    <insert id="createJobConfig" parameterClass="pl.nask.crs.scheduler.JobConfig">
+        insert into SchedulerConfig (name , schedule) values(#name# , #schedulePattern#);
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <delete id="deleteJobConfigById" parameterClass="int">
+        delete from SchedulerConfig where id = #id#
+    </delete>
+
+    <delete id="deleteJobConfigByName" parameterClass="String">
+        delete from SchedulerConfig where name = #name#
+    </delete>
+
+    <update id="updateJobConfig" parameterClass="pl.nask.crs.scheduler.JobConfig">
+        update
+        SchedulerConfig
+        set
+        schedule=#schedulePattern#,
+        Active=#active,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        schedule_id=#scheduleId#,
+        ErrorMsg=#errorMessage#
+        where
+        id = #id#
+    </update>
+
+    <update id="updateJobStatus" parameterClass="java.util.Map">
+        update SchedulerJob set
+        job_status=#status#,
+        failure_reason=#error#,
+        end_date = #end,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        where job_name = #jobName#
+    </update>
+
+    <insert id="createJob">
+        replace into SchedulerJob
+        (job_name,
+        start_date,
+        end_date,
+        job_status,
+        failure_reason
+        )values(
+        #jobName#,
+        #start,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #end,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #status#,
+        #failure#)
+    </insert>
+
+    <insert id="createJobHist">
+        insert into SchedulerJobHist
+        (job_name,
+        start_date,
+        end_date,
+        job_status,
+        failure_reason)
+        select job_name, start_date, end_date, job_status, failure_reason from SchedulerJob where job_name=#jobName#
+    </insert>
+
+</sqlMap>

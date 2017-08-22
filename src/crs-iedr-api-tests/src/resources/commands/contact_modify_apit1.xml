@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+    <command>
+        <modify>
+            <contact:modify
+                    xmlns:contact="http://www.domainregistry.ie/ieapi-contact-1.3"
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-contact-1.3
+				ieapi-contact-1.3.xsd">
+                <contact:id>APIT1-IEDR</contact:id>
+                <contact:companyName>
+                    John Doe Ltd. Modified
+                </contact:companyName>
+                <contact:addr>
+                    123 Example St Modified
+                </contact:addr>
+                <contact:county>Co. Dublin</contact:county>
+                <contact:country>Ireland</contact:country>
+                <contact:voice>+35315555555</contact:voice>
+                <contact:fax>+35315555556</contact:fax>
+                <contact:email>jdoe@example.ie</contact:email>
+            </contact:modify>
+        </modify>
+    </command>
+</ieapi>

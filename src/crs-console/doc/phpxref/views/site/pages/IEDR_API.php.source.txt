@@ -1,0 +1,28 @@
+<!-- START protected/views/site/pages/IEDR_API.php -->
+<?php
+/**
+ * View page for IEDR API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$view='index.php?r=site/page&view='; ?>
+<h3>IEDR API</h3>
+
+<ol>
+<p>Click on link 1 for information about our IEAPI test service.</p>
+<li><a href="<?php echo $view; ?>Test_API"></a><p><a href="<?php echo $view; ?>Test_API">TEST API</a></p><p>
+</p><p>Click on link 2 for information about our IEAPI production service.</p>
+
+</li><li><a href="<?php echo $view; ?>Prod_API"><p>PRODUCTION API</p></a></li>
+
+</ol>
+<br>
+<li><p>Contact:-<a href="mailto:api@domainregistry.ie">api@domainregistry.ie</a>
+<!-- END protected/views/site/pages/IEDR_API.php -->

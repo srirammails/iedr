@@ -1,0 +1,149 @@
+<?php
+
+/**
+ * defines GridUtility class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * Utility class with useful html-generating functions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class GridUtility
+	{
+
+    /**
+     * outputs a form with a selector for selecting year and month (last 2 years and any month)
+     * 
+     * @param  object  $controller     CController instance handling the current request/action
+     * @param  string  $text           label text
+     * @param  string  $formId         id for form, will be used to name generate form field names
+     * @param  CModel  $model          model containing default data
+     * @return void     
+     * @access public   
+     * @throws Exception thrown if the passed model does not have attributes needed
+     * @static
+     */
+	static public function makeDateSelectUpdateForm($controller, $text, $formId, $model)
+		{
+		if(isset($model->year) and isset($model->month))
+			{
+			$form = $controller->beginWidget('CActiveForm', array('id'=>$formId));
+				echo '<div class="row"><h2>'.$text.' for '.
+					$form->dropDownList($model,'month',GridUtility::getMonthSelOpts()).' '.
+					$form->dropDownList($model,'year', GridUtility::getYearSelOpts()).' '.
+					CHtml::submitButton('Update').
+					'</h2></div>';
+			$controller->endWidget();
+			}
+		else
+			throw new Exception('makeMonthYearDateSelectUpdateForm : model does not have year/month members ; '.print_r($model,true));
+		}
+
+    /**
+     * outputs a form with a selector for selecting future months (in form of "Year-Month")
+     * 
+     * @param  object  $controller     CController instance handling the current request/action
+     * @param  string  $text           label text
+     * @param  string  $formId         id for form, will be used to name generate form field names
+     * @param  CModel  $model          model containing default data
+     * @param  string  $modelDateField name of model-attribute containing default data
+     * @return void   
+     * @access public 
+     * @static
+     */
+	static public function makeMonthYearDateSelectUpdateForm($controller, $text, $formId, $model, $modelDateField='date')
+		{
+		$form = $controller->beginWidget('CActiveForm', array('id'=>$formId));
+		echo '<div class="row"><h2>'.$text.' for '.
+			$form->dropDownList($model,'date',GridUtility::getMnYrSelOpts()).' '.
+			CHtml::submitButton('Update').
+			'</h2></div>';
+		$controller->endWidget();
+		}
+
+    /**
+     * returns array of year-month values for select-lists
+     * 
+     * @return array     array of 10 strings like '2011-06' => 'June-2011', for next 10 months
+     * @access protected
+     * @static
+     */
+	static protected function getMnYrSelOpts()
+		{
+		// start at previous calendar month
+		$t = strtotime(date('Y-m-01'));
+		$selarr = array();
+		for($i=0; $i<10; $i++)
+			{
+			$tm = strtotime('+'.$i.' month',$t);
+			$selarr[date('Y-m',$tm)] = date('F-Y',$tm);
+			}
+		return $selarr;
+		}
+
+    /**
+     * returns a two-element array of last year and this year as integers
+     * 
+     * @return array     two-element array of last year and this year as integers
+     * @access protected
+     * @static
+     */
+	static protected function getYearSelOpts()
+		{
+		// start at previous year
+		$selarr = array();
+		$Y = date('Y',strtotime('-1 year'));
+		$selarr[$Y] = $Y;
+		$Y = date('Y');
+		$selarr[$Y] = $Y;
+		return $selarr;
+		}
+
+    /**
+     * returns an array of months for select-lists
+     * 
+     * @return array  array of months, key and value are both month-name strings
+     * @access public
+     * @static
+     */
+	static public function getMonthSelOpts()
+		{
+		// start at Jan
+		$arr = array();
+		foreach(self::getMonthList() as $i => $m)
+			$arr[$m] = $m;
+		return $arr;
+		}
+
+    /**
+     * returns an array of month numbers and names for select-lists
+     * 
+     * @return array  array of (int,1-12)month => (string,eg 'January')month-name
+     * @access public
+     * @static
+     */
+	static public function getMonthList()
+		{
+		$l = array();
+		for($i=1;$i<13;$i++)
+			$l[$i] = date('F',strtotime('2000-'.$i.'-01'));
+		return $l;
+		}
+	}
+

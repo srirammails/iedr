@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="domain">
+    <resultMap id="dsmState" class="pl.nask.crs.domains.dao.ibatis.objects.InternalDSMState">
+        <result property="id" column="dsmStateId"/>
+        <result property="wipo" column="dsmWipo" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.NullableCharToBooleanHandler"/>
+        <result property="customerTypeCode" column="dsmCustomerType"/>
+        <result property="NRPStatusCode" column="dsmNrpStatus"/>
+        <result property="renewalModeCode" column="dsmRenewalMode"/>
+        <result property="domainHolderTypeCode" column="dsmHolderType"/>
+        <result property="published" column="dsmPublished" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.NullableCharToBooleanHandler"/>
+    </resultMap>
+
+    <resultMap id="simpleDomainResult" class="pl.nask.crs.domains.dao.ibatis.objects.InternalDomain" groupBy="name">
+        <result property="name" column="domainName"/>
+        <result property="holder" column="holder"/>
+        <result property="holderClass" column="holderClass"/>
+        <result property="holderCategory" column="holderCategory"/>
+        <result property="resellerAccountId" column="resellerAccountId"/>
+        <result property="resellerAccountName" column="resellerAccountName"/>
+        <result property="registrationDate" column="registrationDate"/>
+        <result property="renewDate" column="renewDate"/>
+        <result property="changeDate" column="changeDate"/>
+        <result property="remark" column="remark"/>
+        <result property="authCode" column="authCode"/>
+        <result property="authCodeExpirationDate" column="authCodeExpirationDate"/>
+        <result property="authCodePortalCount" column="authCodePortalCount"/>
+        <result property="clikPaid" column="clikPaid"
+                typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="dsmState" resultMap="domain.dsmState"/>
+        <result property="giboRetryTimeout" column="giboRetryTimeout"/>
+        <result property="suspensionDate" column="suspensionDate"/>
+        <result property="deletionDate" column="deletionDate"/>
+        <result property="zonePublished" column="zonePublished"/>
+        <result property="transferDate" column="transferDate"/>
+        <result property="pendingCCReservations" column="pendingCCReservations" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="pendingADPReservations" column="pendingADPReservations" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+    </resultMap>
+
+    <resultMap id="domainResult" extends="simpleDomainResult"
+               class="pl.nask.crs.domains.dao.ibatis.objects.InternalDomain" groupBy="name">
+        <result property="nameservers" column="domainName" select="domain.getNameserversForDomain"/>
+        <result property="contacts" column="domainName" select="domain.getContactsForDomain"/>
+    </resultMap>
+
+    <resultMap id="nameserverResult" class="pl.nask.crs.domains.dao.ibatis.objects.InternalNameserver">
+        <result property="domainName" column="domainName"/>
+        <result property="name" column="name"/>
+        <result property="ipAddress" column="ipAddress"/>
+        <result property="dnsOrder" column="dnsOrder"/>
+    </resultMap>
+
+    <typeAlias alias="deletedDomain" type="pl.nask.crs.domains.DeletedDomain"/>
+
+    <typeAlias alias="transferedDomain" type="pl.nask.crs.domains.TransferedDomain"/>
+
+    <typeAlias alias="domainNotification" type="pl.nask.crs.domains.DomainNotification"/>
+
+    <typeAlias alias="nsReport" type="pl.nask.crs.domains.nameservers.NsReport"/>
+
+    <resultMap id="notificationResult" class="pl.nask.crs.domains.DomainNotification">
+        <result property="domainName" column="domainName"/>
+        <result property="notificationType" column="notificationType" typeHandler="pl.nask.crs.domains.dao.ibatis.handlers.NotificationTypeHandler"/>
+        <result property="notificationPeriod" column="notificationPeriod"/>
+        <result property="expirationDate" column="expirationDate"/>
+    </resultMap>
+
+    <sql id="domainSql">
+        select
+        D.D_Name as domainName,
+        D.D_Holder as holder,
+        D.D_Class as holderClass,
+        D.D_Category as holderCategory,
+        D.A_Number as resellerAccountId,
+        A.A_Name as resellerAccountName,
+        D.D_Reg_Dt as registrationDate,
+        D.D_Ren_Dt as renewDate,
+        D.D_TStamp as changeDate,
+        D.D_Remark as remark,
+        D.D_Authcode as authCode,
+        D.D_Authc_Exp_Dt as authCodeExpirationDate,
+        D.D_Authc_Portal_Cnt as authCodePortalCount,
+        D.D_ClikPaid as clikPaid,
+        D.D_GIBO_Retry_Timeout as giboRetryTimeout,
+        D.DSM_State as dsmStateId,
+        D.D_Susp_Dt as suspensionDate,
+        D.D_Del_Dt as deletionDate,
+        D.D_Transfer_Dt as transferDate,
+        DSM.D_Holder_Type as dsmHolderType,
+        DSM.Renewal_Mode as dsmRenewalMode,
+        DSM.WIPO as dsmWipo,
+        DSM.Cust_Type as dsmCustomerType,
+        DSM.NRP_Status as dsmNrpStatus,
+        DSM.Published as dsmPublished,
+        (ZP.D_Name is not null and ZP.Committed is not null) as zonePublished
+        <dynamic>
+        	<isPropertyAvailable property="criteria">
+        			<isEqual property="criteria.attachReservationInfo" compareValue="true" prepend=",">
+        (RCC.ID is not null) as pendingCCReservations,
+        (RADP.ID is not null) as pendingADPReservations        
+    	    		</isEqual>
+    	    		<isEqual property="criteria.attachReservationInfo" compareValue="false">
+        ,false as pendingCCReservations
+        ,false as pendingADPReservations        	        	
+    	    		</isEqual>
+        	</isPropertyAvailable>
+        	<isNotPropertyAvailable property="criteria">
+        ,false as pendingCCReservations
+        ,false as pendingADPReservations        	        	
+        	</isNotPropertyAvailable>        	
+        </dynamic>
+        <!--  D.D_Discount
+        D.D_Vat_Status-->
+        from
+        Domain as D
+        left join Account as A on (D.A_Number = A.A_Number)
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        left join Zone_Published as ZP on (D.D_Name = ZP.D_Name)
+        <dynamic>
+            <isPropertyAvailable property="criteria">
+        			<isEqual property="criteria.attachReservationInfo" compareValue="true">
+		LEFT JOIN Reservation as RCC ON (D.D_Name = RCC.Domain_Name and RCC.Ready_For_Settlement = 'Y' AND RCC.Settled = 'N' and RCC.Payment_Method='Credit Card')
+		LEFT JOIN Reservation as RADP ON (D.D_Name = RADP.Domain_Name and RADP.Ready_For_Settlement = 'Y' AND RADP.Settled = 'N' and RADP.Payment_Method='Deposit')
+        			</isEqual>
+        	</isPropertyAvailable>
+        </dynamic>
+    </sql>
+
+    <sql id="nicHandleJoin">
+        <dynamic>
+            <isNotNull property="criteria.nicHandle">
+                left join
+                Contact as C1
+                on (D.D_Name = C1.D_Name)
+            </isNotNull>
+            <isNotNull property="criteria.secondContact">
+                left join
+                Contact as C11
+                on (D.D_Name = C11.D_Name)
+            </isNotNull>
+            <isNotNull property="criteria.billingNH">
+                    left join
+                    Contact as C2
+                    on (D.D_Name = C2.D_Name)
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="domainCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.domainName">
+                D.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                D.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.exactDomainHolder">
+                D.D_Holder = #criteria.exactDomainHolder#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.accountId">
+                D.A_Number = #criteria.accountId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.notAccountId">
+                D.A_Number != #criteria.notAccountId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationFrom">
+                D.D_Reg_Dt >= #criteria.registrationFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationTo">
+                D.D_Reg_Dt <![CDATA[<=]]> #criteria.registrationTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewFrom">
+                D.D_Ren_Dt >= #criteria.renewFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewTo">
+                D.D_Ren_Dt <![CDATA[<=]]> #criteria.renewTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.suspFrom">
+                D.D_Susp_Dt >= #criteria.suspFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.suspTo">
+                D.D_Susp_Dt <![CDATA[<=]]> #criteria.suspTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.delFrom">
+                D.D_Del_Dt >= #criteria.delFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.delTo">
+                D.D_Del_Dt <![CDATA[<=]]> #criteria.delTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.authcExpFrom">
+                D.D_Authc_Exp_Dt >= #criteria.authcExpFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.authcExpTo">
+                D.D_Authc_Exp_Dt <![CDATA[<=]]> #criteria.authcExpTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalDate">
+                D.D_Ren_Dt LIKE DATE_FORMAT(#criteria.renewalDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.nicHandle">
+                C1.Contact_NH like
+                #criteria.nicHandle,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.secondContact">
+                C11.Contact_NH like
+                #criteria.secondContact,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.billingNH">
+                (C2.Type = 'B' AND C2.Contact_NH like
+                #criteria.billingNH,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#)
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.holderClass">
+                D.D_Class LIKE #criteria.holderClass,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.holderCategory">
+                D.D_Category LIKE #criteria.holderCategory,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+<!--             <isNotEmpty prepend="and" property="criteria.billingStatus">
+                D.D_Bill_Status IN
+                <iterate property="criteria.billingStatus" open="(" close=")" conjunction="," >
+                    #criteria.billingStatus[]:VARCHAR#
+                </iterate>
+            </isNotEmpty> -->
+            <isNotEmpty prepend="and" property="criteria.contactType">
+                C1.Type IN
+                <iterate property="criteria.contactType" open="(" close=")" conjunction=",">
+                    #criteria.contactType[]:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="criteria.secondContactType">
+                C11.Type IN
+                <iterate property="criteria.secondContactType" open="(" close=")" conjunction=",">
+                    #criteria.secondContactType[]:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            
+            <isNotEmpty prepend="and" property="criteria.renewalModes">
+                DSM.Renewal_Mode IN
+                <iterate property="criteria.renewalModes" open="(" close=")" conjunction=",">
+                    #criteria.renewalModes[].code:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="criteria.nrpStatuses">
+                DSM.NRP_Status IN
+                <iterate property="criteria.nrpStatuses" open="(" close=")" conjunction=",">
+                    #criteria.nrpStatuses[].code:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="criteria.holderTypes">
+                DSM.D_Holder_Type IN
+                <iterate property="criteria.holderTypes" open="(" close=")" conjunction=",">
+                    #criteria.holderTypes[].code:VARCHAR#
+                </iterate>
+            </isNotEmpty>
+            <isNotNull prepend="and" property="criteria.transferFrom">
+                D_Transfer_Dt >= #criteria.transferFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transferTo">
+                D_Transfer_Dt <![CDATA[<=]]> #criteria.transferTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.type.code" compareValue="D">
+                D.A_Number = 1
+            </isEqual>
+            <isEqual prepend="and" property="criteria.type.code" compareValue="R">
+                D.A_Number != 1
+            </isEqual>
+            <isNotNull prepend="and" property="criteria.renewalMonth">
+                MONTH(D.D_Ren_Dt) = #criteria.renewalMonth#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.authCodeFromPortal" compareValue="true">
+                D.D_Authc_Portal_Cnt > 0
+            </isEqual>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="getDomainByName" parameterClass="java.lang.String" resultMap="domain.domainResult">
+        <include refid="domainSql"/>
+        where
+        D.D_Name = #name#
+    </select>
+
+    <select id="getContactsForDomain" parameterClass="java.lang.String"
+            resultClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        select
+        C.Contact_NH as nicHandle,
+        NH.NH_Name as name,
+        NH.NH_Email as email,
+        NH.Co_Name as companyName,
+        NH.NH_Country as country,
+        NH.NH_County as county,
+        C.Type as type
+        from
+        Contact as C
+        left join NicHandle as NH
+        on (C.Contact_NH = NH.Nic_Handle)
+        where
+        C.D_Name = #name#
+    </select>
+
+    <select id="getNameserversForDomain" parameterClass="java.lang.String" resultMap="domain.nameserverResult">
+        select
+        D_Name as domainName,
+        DNS_Name as name,
+        DNS_IpAddr as ipAddress,
+        DNS_Order as dnsOrder
+        from
+        DNS
+        where
+        D_Name = #name#
+        order by
+        DNS_Order
+    </select>
+
+	<sql id="limitFrag">
+		<dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+	</sql>
+	
+    <select id="findDomain" parameterClass="java.util.Map" resultMap="domain.simpleDomainResult">
+        <include refid="domainSql"/>
+        <include refid="domain.nicHandleJoin"/>
+        <include refid="domain.domainCriteria"/>
+        <dynamic>
+            <isNotNull property="criteria.nicHandle">
+                group by D.D_Name
+            </isNotNull>
+        </dynamic>
+        <include refid="domain.sortFrag"/>
+    	<include refid="domain.limitFrag"/>    
+    </select>
+
+    <select id="findFullDomain" parameterClass="java.util.Map" resultMap="domain.domainResult">
+        <include refid="domainSql"/>
+        <include refid="domain.nicHandleJoin"/>
+        <include refid="domain.domainCriteria"/>
+        group by D.D_Name
+        <include refid="domain.sortFrag"/>
+    	<include refid="domain.limitFrag"/>
+    </select>
+
+    <select id="countFindDomain" parameterClass="java.util.Map" resultClass="int" >
+        select
+        <!--  
+        	count(distinct(D.D_Name)) is needed, if the search criteria contain contact nic handle (nic handle join is performed)
+        	in every other case count(D.DOMAIN) is enough
+         -->
+        <dynamic>
+        	<isNotNull property="criteria.nicHandle">		
+		count(distinct(D.D_Name)) as CNT
+        	</isNotNull>
+        	<isNull property="criteria.nicHandle">
+		count(D.D_Name) as CNT
+        	</isNull>
+        </dynamic>
+        
+        from
+        Domain as D 
+        <!-- Account join is not needed... -->
+        <!-- 
+        left join Account as A
+        on (D.A_Number = A.A_Number)
+        -->
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        <include refid="domain.nicHandleJoin"/>
+        <include refid="domain.domainCriteria"/>
+    </select>
+
+    <select id="countFullFindDomain" parameterClass="java.util.Map" resultClass="int" >
+        select
+        count(distinct(D.D_Name)) as CNT
+        from
+        Domain as D
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        <include refid="domain.nicHandleJoin"/>
+        <include refid="domain.domainCriteria"/>
+    </select>
+
+    <select id="getPreviousHolder" parameterClass="pl.nask.crs.domains.search.DomainSearchCriteria"
+            resultClass="string">
+        select
+        D.D_Holder
+        from
+        DomainHist as D
+        where
+        D.D_Name = #domainName#
+        <dynamic>
+            <isNotNull prepend="and" property="domainHolder">
+                D.D_Holder != #domainHolder#
+            </isNotNull>
+        </dynamic>
+        order by D.D_TStamp desc limit 1   <!--todo: nie wiem czy tu nie powinna byc inna data uzyta-->
+    </select>
+
+    <update id="updateDomain" parameterClass="pl.nask.crs.domains.dao.ibatis.objects.InternalDomain">
+        update
+        Domain D
+        set
+        D.D_Name = #name#,
+        D.D_Holder = #holder#,
+        D.D_Class = #holderClass#,
+        D.D_Category = #holderCategory#,
+        D.A_Number = #resellerAccountId#,
+        D.D_Remark = #remark#,
+        D.D_Reg_Dt = #registrationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Ren_Dt = #renewDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Susp_Dt = #suspensionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Del_Dt = #deletionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Transfer_Dt = #transferDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Remark = #remark#,
+        D.D_Authcode = #authCode#,
+        D.D_Authc_Exp_Dt = #authCodeExpirationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.D_Authc_Portal_Cnt = #authCodePortalCount#,
+        D.D_ClikPaid = #clikPaid,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+        D.D_TStamp = #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        D.DSM_State = #dsmState.id#,
+        D.D_GIBO_Retry_Timeout = #giboRetryTimeout,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        where
+        D.D_Name = #name# <!--todo  and timestamp?-->
+    </update>
+
+    <insert id="createDNS" parameterClass="pl.nask.crs.domains.dao.ibatis.objects.InternalNameserver">
+        insert into
+        DNS(D_Name, DNS_Name, DNS_ipAddr, DNS_Order)
+        values
+        (#domainName#, #name#, #ipAddress#, #dnsOrder#)
+    </insert>
+
+    <delete id="deleteDNS" parameterClass="java.util.Map">
+        delete from
+        DNS
+        where
+        DNS_Name = #nameserverName#
+        and
+        D_Name = #domainName#
+    </delete>
+
+    <select id="getLockedDomainByName" parameterClass="java.lang.String" resultClass="java.lang.String">
+        SELECT
+            D_Name
+        FROM
+            Domain
+        WHERE
+            D_Name = #name#
+        FOR UPDATE
+    </select>
+
+    <insert id="createDomain" parameterClass="java.util.Map">
+        insert into
+        Domain(
+        D_Name,
+        D_Holder,
+        D_Class,
+        D_Category,
+        A_Number,
+        D_Reg_Dt,
+        D_Ren_Dt,
+        D_Susp_Dt,
+        D_Del_Dt,
+        D_TStamp,
+        D_Discount,
+        D_Remark,
+        D_ClikPaid
+        )values(
+        #internalDomain.name#,
+        #internalDomain.holder#,
+        #internalDomain.holderClass#,
+        #internalDomain.holderCategory#,
+        #internalDomain.resellerAccountId#,
+        #internalDomain.registrationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #internalDomain.renewDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #internalDomain.suspensionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #internalDomain.deletionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #internalDomain.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #discount#,
+        #internalDomain.remark#,
+        #internalDomain.clikPaid,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+        )
+
+    </insert>
+
+    <select id="findDomainNames" parameterClass="java.util.Map" resultClass="string">
+    	<!--select D.DOMAIN from Domain D-->
+    	<!--where D.D_Holder = #criteria.domainHolder#    	-->
+    	<!--<include refid="limitFrag"/>-->
+        SELECT
+        D.D_Name
+        FROM
+        Domain as D
+        left join Account as A on (D.A_Number = A.A_Number)
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        <include refid="domain.nicHandleJoin"/>
+        <include refid="domain.domainCriteria"/>
+    	<include refid="domain.limitFrag"/>
+    </select>
+
+    <sql id="domainTransferedSql">
+        SELECT
+        TH.D_Name as domainName,
+        case WHEN D.D_Holder IS NULL THEN 'N/A' ELSE D.D_Holder end as holder,
+        case WHEN D.D_Class IS NULL THEN 'N/A' ELSE D.D_Class end as holderClass,
+        D.D_Category as holderCategory,
+        D.A_Number as resellerAccountId,
+        NULL as resellerAccountName,
+        case WHEN D.D_Reg_Dt IS NULL THEN '1970-01-01' ELSE D.D_Reg_Dt end as registrationDate,
+        case WHEN D.D_Ren_Dt IS NULL THEN '1970-01-01' ELSE D.D_Ren_Dt end as renewDate,
+        case WHEN D.D_TStamp IS NULL THEN '1970-01-01 00:00:00' ELSE D.D_TStamp end as changeDate,
+        D.D_Remark as remark,
+        D.D_Authcode as AuthCode,
+        D.D_Authc_Exp_Dt as authCodeExpirationDate,
+        D.D_Authc_Portal_Cnt as authCodePortalCount,
+        false as clikPaid,
+        D.D_GIBO_Retry_Timeout as giboRetryTimeout,
+        D.DSM_State as dsmStateId,
+        D.D_Susp_Dt as suspensionDate,
+        D.D_Del_Dt as deletionDate,
+        TH.Tr_Date as transferDate,
+        DSM.D_Holder_Type as dsmHolderType,
+        DSM.Renewal_Mode as dsmRenewalMode,
+        DSM.WIPO as dsmWipo,
+        DSM.Cust_Type as dsmCustomerType,
+        DSM.NRP_Status as dsmNrpStatus,
+        DSM.Published as dsmPublished,
+        (ZP.D_Name is not null and ZP.Committed is not null) as zonePublished,
+        false as pendingCCReservations,
+        false as pendingADPReservations        	
+        FROM
+        TransfersHist as TH
+        left join Domain as D on (TH.D_Name = D.D_Name)
+        left join DSM_State as DSM on (D.DSM_State = DSM.State)
+        left join Zone_Published as ZP on (D.D_Name = ZP.D_Name)
+    </sql>
+
+    <sql id="transferedDomainCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.transferMonth">
+                TH.Tr_Date like #criteria.transferMonth,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transferDateFrom">
+                DATE_FORMAT(TH.Tr_Date, '%Y-%m-%d') >= DATE_FORMAT(#criteria.transferDateFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transferDateTo">
+                DATE_FORMAT(TH.Tr_Date, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#criteria.transferDateTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transferDirection">
+                <isEqual property="criteria.transferDirection.direction" compareValue="inbound">
+                    TH.New_Nic_Handle = #billingNHId#
+                </isEqual>
+                <isEqual property="criteria.transferDirection.direction" compareValue="outbound">
+                    TH.Old_Nic_Handle = #billingNHId#
+                </isEqual>
+            </isNotNull>
+            <isNull prepend="and" property="criteria.transferDirection">
+                (TH.New_Nic_Handle = #billingNHId#
+                OR
+                TH.Old_Nic_Handle = #billingNHId#)
+            </isNull>
+            <isNotNull prepend="and" property="criteria.domainHolder">
+                D.D_Holder like #criteria.domainHolder,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationDate">
+                D.D_Reg_Dt like Date_Format(#criteria.registrationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalDate">
+                D.D_Ren_Dt like Date_Format(#criteria.renewalDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.transferDate">
+                TH.Tr_Date like Date_Format(#criteria.transferDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                TH.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findTransferedDomains" parameterClass="java.util.Map" resultMap="domain.simpleDomainResult">
+        <include refid="domainTransferedSql"/>
+        <include refid="transferedDomainCriteria"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="findTransferedDomainsCount" parameterClass="java.util.Map" resultClass="int">
+        select
+        COUNT(TH.D_Name) as CNT
+        from
+        TransfersHist as TH
+        left join Domain as D on (TH.D_Name = D.D_Name)
+        <include refid="transferedDomainCriteria"/>
+    </select>
+
+    <select id="isVatByNicHandle" parameterClass="string" resultClass="string">
+        SELECT DISTINCT ac.Country
+        FROM
+        Account ac,
+        VatCountry vc
+        WHERE ac.Billing_NH not in (Select py.Billing_Contact from Payment py)
+        AND ac.Country = vc.name
+        AND ac.Billing_NH = #billingNH#
+    </select>
+
+    <sql id="domainDeletedSql">
+        select
+        D.D_Name as domainName,
+        D.D_Holder as domainHolder,
+        N.Nic_Handle as billingNic,
+        N.NH_Name as billingName,
+        D.D_Reg_Dt as registrationDate,
+        D.D_Ren_Dt as renewalDate,
+        D.D_Del_Dt as deletionDate,
+        D.D_Class as holderClass,
+        D.D_Category as holderCategory,
+        NA.NH_Country as country,
+        NA.NH_County as county
+        from
+        DomainHist as D
+        left join ContactHist as C on (D.D_Name = C.D_Name AND D.Chng_ID = C.Chng_ID)
+        left join NicHandle as N on (N.Nic_Handle = C.Contact_NH)
+        left join ContactHist as CA on (D.D_Name = CA.D_Name AND D.Chng_ID = CA.Chng_ID)
+        left join NicHandle as NA on (NA.Nic_Handle = CA.Contact_NH)
+        WHERE
+        D.D_Del_Dt > CURDATE() - Interval 1 YEAR
+        AND
+        D.DSM_State = #special.finalDsmState#
+        AND
+        C.Type = 'B'
+        AND
+        CA.Type = 'A'
+    </sql>
+
+    <sql id="deletedDomainCriteria">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.billingNH">
+                C.Contact_NH like
+                #criteria.billingNH,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.domainName">
+                D.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationFrom">
+                D.D_Reg_Dt >= #criteria.registrationFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationTo">
+                D.D_Reg_Dt <![CDATA[<=]]> #criteria.registrationTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalFrom">
+                D.D_Ren_Dt >= #criteria.renewalFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalTo">
+                D.D_Ren_Dt <![CDATA[<=]]> #criteria.renewalTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.deletionFrom">
+                D.D_Del_Dt >= #criteria.deletionFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.deletionTo">
+                D.D_Del_Dt <![CDATA[<=]]> #criteria.deletionTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.type.code" compareValue="D">
+                D.A_Number = 1
+            </isEqual>
+            <isEqual prepend="and" property="criteria.type.code" compareValue="R">
+                D.A_Number != 1
+            </isEqual>
+            <isNotNull prepend="and" property="criteria.accountId">
+                D.A_Number = #criteria.accountId#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="countFindDeleted" parameterClass="java.util.Map" resultClass="int" >
+        select
+        count(D.D_Name) as CNT
+        from
+        DomainHist as D
+        left join ContactHist as C on (D.D_Name = C.D_Name AND D.Chng_ID = C.Chng_ID)
+        WHERE
+        D.D_Del_Dt > CURDATE() - Interval 1 YEAR
+        AND
+        D.DSM_State = #special.finalDsmState#
+        AND
+        C.Type = 'B'
+        <include refid="domain.deletedDomainCriteria"/>
+    </select>
+
+    <select id="findDeletedDomains" parameterClass="java.util.Map" resultClass="deletedDomain">
+        <include refid="domainDeletedSql"/>
+        <include refid="domain.deletedDomainCriteria"/>
+        <include refid="domain.sortFrag"/>
+    	<include refid="domain.limitFrag"/>
+    </select>
+
+    <sql id="domainForCurrentRenewalCriteria">
+        <include refid="domainCriteria"/>
+        AND
+        ((R.Ready_For_Settlement IS NULL AND R.Settled IS NULL)OR R.Ready_For_Settlement = 'N' OR  R.Settled = 'Y')
+    </sql>
+
+    <select id="findDomainForCurrentRenewal" parameterClass="java.util.Map" resultMap="simpleDomainResult">
+        <include refid="domainSql"/>
+        <include refid="nicHandleJoin"/>
+        LEFT JOIN Reservation as R ON (D.D_Name = R.Domain_Name)
+        <include refid="domainForCurrentRenewalCriteria"/>
+        GROUP BY D.D_Name
+        <include refid="domain.sortFrag"/>
+        <include refid="domain.limitFrag"/>
+    </select>
+
+    <select id="findDomainForCurrentRenewalCount" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(DISTINCT D.D_Name)
+        FROM
+        Domain as D
+        LEFT JOIN Account as A on (D.A_Number = A.A_Number)
+        LEFT JOIN Reservation as R ON (D.D_Name = R.Domain_Name)
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        <include refid="nicHandleJoin"/>
+        <include refid="domainForCurrentRenewalCriteria"/>
+    </select>
+
+    <sql id="domainForFutureRenewalCriteria">
+        <include refid="domainCriteria"/>
+        AND
+        D.D_Ren_Dt >= LAST_DAY(CURDATE()) + INTERVAL 1 DAY
+    </sql>
+
+    <select id="findDomainForFutureRenewal" parameterClass="java.util.Map" resultMap="simpleDomainResult">
+        <include refid="domainSql"/>
+        <include refid="nicHandleJoin"/>
+        <include refid="domainForFutureRenewalCriteria"/>
+        GROUP BY D.D_Name
+        <include refid="domain.sortFrag"/>
+        <include refid="domain.limitFrag"/>
+    </select>
+
+    <select id="findDomainForFutureRenewalCount" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(DISTINCT D.D_Name)
+        FROM
+        Domain as D
+        LEFT JOIN Account as A on (D.A_Number = A.A_Number)
+        LEFT JOIN Reservation as R ON (D.D_Name = R.Domain_Name)
+        join DSM_State as DSM on (D.DSM_State=DSM.State)
+        <include refid="nicHandleJoin"/>
+        <include refid="domainForFutureRenewalCriteria"/>
+    </select>
+
+
+    <insert id="domainPublished" parameterClass="java.lang.String">
+    	insert ignore into Zone_Published(D_Name) values (#domain#)
+    </insert>
+    <delete id="domainUnpublished" parameterClass="java.lang.String">
+    	delete from Zone_Published where D_Name = #domain#
+    </delete>
+    
+    <update id="zoneCommit">
+    	update Zone_Published set Committed='Y' where Committed is null;
+    </update>
+
+    <select id="getDsmStates" resultClass="int">
+        SELECT State FROM DSM_State
+    </select>
+
+    <delete id="deleteDomain" parameterClass="java.lang.String">
+        DELETE FROM Domain
+        WHERE D_Name = #domainName#
+    </delete>
+
+    <delete id="deleteAssociatedDNS" parameterClass="java.lang.String">
+        DELETE FROM DNS
+        WHERE D_Name = #domainName#
+    </delete>
+
+    <delete id="deleteAssociatedContact" parameterClass="java.lang.String">
+        DELETE FROM Contact
+        WHERE D_Name = #domainName#
+    </delete>
+
+    <select id="getNotification" resultMap="notificationResult" parameterClass="java.util.Map">
+        SELECT
+        D_Name as domainName,
+        Type as notificationType,
+        Period as notificationPeriod,
+        Exp_Date as expirationDate
+        FROM Domain_Notifications
+        WHERE
+        D_Name = #domainName#
+        AND Type = #notificationType,handler=pl.nask.crs.domains.dao.ibatis.handlers.NotificationTypeHandler#
+        AND Period = #notificationPeriod#
+        AND Exp_Date >= CURDATE()
+    </select>
+
+    <select id="getAllNotifications" resultMap="notificationResult">
+        SELECT
+        D_Name as domainName,
+        Type as notificationType,
+        Period as notificationPeriod,
+        Exp_Date as expirationDate
+        FROM Domain_Notifications
+    </select>
+
+    <insert id="createNotification" parameterClass="pl.nask.crs.domains.DomainNotification">
+        INSERT INTO
+        Domain_Notifications(D_Name, Type, Period, Exp_Date)
+        VALUES
+        (#domainName#,
+        #notificationType,handler=pl.nask.crs.domains.dao.ibatis.handlers.NotificationTypeHandler#,
+        #notificationPeriod#,
+        #expirationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#)
+    </insert>
+    
+    <select id="exists" resultClass="string" parameterClass="string">
+    	select D_Name from Domain where D_Name=#domainName#
+    </select>
+
+    <sql id="nsReportCriteria">
+        <dynamic>
+            <isNotNull prepend="and" property="criteria.domainName">
+                Domain.D_Name like #criteria.domainName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.holderName">
+                D_Holder like #criteria.holderName,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationFrom">
+                D_Reg_Dt >= #criteria.registrationFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationTo">
+                D_Reg_Dt <![CDATA[<=]]> #criteria.registrationTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalFrom">
+                D_Ren_Dt >= #criteria.renewalFrom,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalTo">
+                D_Ren_Dt <![CDATA[<=]]> #criteria.renewalTo,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.dnsName">
+                DNS_Name like #criteria.dnsName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.dnsOrder">
+                DNS_Order = #criteria.dnsOrder#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.dnsIpAddress">
+                DNS_IpAddr like #criteria.dnsIpAddress,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.renewalDate">
+                D_Ren_Dt like Date_Format(#criteria.renewalDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.registrationDate">
+                D_Reg_Dt like Date_Format(#criteria.registrationDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, '%Y-%m-%d%')
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+
+    <select id="getNsReports" resultClass="nsReport">
+        SELECT distinct
+        Contact_NH as billingNH,
+        Domain.D_Name as domainName,
+        D_Holder as holderName,
+        D_Reg_Dt as registrationDate,
+        D_Ren_Dt as renewalDate,
+        DNS_Name as dnsName,
+        DNS_Order as dnsOrder,
+        DNS_IpAddr as dnsIpAddress
+        FROM DNS
+        LEFT JOIN Domain ON (Domain.D_Name = DNS.D_Name)
+        LEFT JOIN Contact C ON (Domain.D_Name = C.D_Name)
+        WHERE
+		(C.Type = 'B' or C.Type = 'A' or C.Type = 'T')
+        AND
+        C.Contact_NH = #billingNH#
+        <include refid="nsReportCriteria"/>
+        <include refid="domain.sortFrag"/>
+        <include refid="domain.limitFrag"/>
+    </select>
+
+    <select id="getNsReportsCount" resultClass="int">
+        SELECT
+        COUNT(distinct Domain.D_Name, DNS_Order)
+        FROM DNS
+        LEFT JOIN Domain ON (Domain.D_Name = DNS.D_Name)
+        LEFT JOIN Contact C ON (Domain.D_Name = C.D_Name)
+        WHERE
+        (C.Type = 'B' or C.Type = 'A' or C.Type = 'T') 
+        AND
+        C.Contact_NH = #billingNH#
+        <include refid="nsReportCriteria"/>
+    </select>
+    
+    <insert id="createTransferHistRecord">
+    	INSERT INTO TransfersHist(D_Name, Tr_Date, Old_Nic_Handle, New_Nic_Handle)
+    	VALUES (#domainName#, #transferDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#, #oldBillC#, #newBillC#)
+    </insert> 
+    
+    <insert id="recordDeletion">
+        INSERT INTO DeleteListHist (D_Name, D_Add_Dt)
+        VALUES(#domainName#, #deletionDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#);
+    </insert>
+
+    <select id="getDomainHolderForTicket" resultClass="string">
+        SELECT D_Holder from Ticket WHERE T_Number = #id#
+    </select>
+</sqlMap>
+
+

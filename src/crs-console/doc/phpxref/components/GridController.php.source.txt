@@ -1,0 +1,389 @@
+<?php
+/**
+ * file which defines GridController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Base Controller for supporting handling grid views.
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class GridController
+	extends ReturningController
+	{
+
+    /**
+     * Confirmation action, presents view of a list of selected items with ticked checkboxes and proceed/cancel buttons.
+     * 
+     * Initially renders confirmation-view with deserialised grid-selection model;
+     * On submit of confirmed items, invokes command action of derived class with model specified by derived class
+     * 
+     * @return void  
+     * @access public
+     * @see    grid/confirm_action.php, GridSelectionModel
+     */
+	public function actionConfirmaction()
+		{
+		/* receive POST data from Confirm page, with :
+			1) command
+			2) domain list
+			3) (if need) renewal period per domain
+			4) (if need) payment card details
+		*/
+		$gs_model = isset($_GET['id']) ? self::safeDeserializeObj($_GET['id']) : null;
+		if($gs_model==null)
+			{
+			// no gridselection => back to grid
+			Yii::log('not a POST request', 'error', 'GridController::actionConfirmaction()');
+			$this->redirect($gs_model->returnurl,true);
+			}
+		else
+			{
+			// we have a grid-selection ..
+			$gsc_model = $this->getSelectionModel();
+			if(!isset($_POST[$this->getSelectionModelName()]))
+				{
+				// first arrival at confirm-action page ; render confirmation-view with deserialised grid-selection model
+				$gsc_model->copyFromOther($gs_model);
+				$this->render($this->getViewBase().'confirm_action',array('model'=>$gsc_model));
+				}
+			else
+				{
+				// confirmation POSTed from confirm-page - proceed with requested command(s)
+				$gsc_model->setFromPOST($_POST[$this->getSelectionModelName()]);
+				$this->performAjaxValidation($gsc_model);
+				#Yii::log('have POST["'.$this->getSelectionModelName().'"], with from-POST model='.print_r($gsc_model,true), 'debug', 'GridController::actionConfirmaction()');
+				Yii::log('have POST["'.$this->getSelectionModelName().'"]', 'debug', 'GridController::actionConfirmaction()');
+				if($gsc_model->validate())
+					{
+					// execute command
+					$this->execCommand($gsc_model);
+					// show errors or success
+					if($this->backend_errors!=null)
+						{
+						if(is_array($this->backend_errors))
+							foreach($this->backend_errors as $err)
+								$gsc_model->addError('domainlist',$err);
+						else
+							$gsc_model->addError('domainlist',$this->backend_errors);
+						Yii::log('show results ERRORS', 'debug', 'GridController::actionConfirmaction()');
+						}
+					else
+						Yii::log('show results OK', 'debug', 'GridController::actionConfirmaction()');
+					$this->render($this->getViewBase().'results',array('model'=>$gsc_model));
+					}
+				else
+					{
+					Yii::log('Form Errors'.print_r($gsc_model->getErrors(),true), 'debug', 'GridController::actionConfirmaction()');
+					$this->render($this->getViewBase().'confirm_action',array('model'=>$gsc_model));
+					}
+				}
+			}
+		}
+
+    /**
+     * Shared common functionality for jqGrid display
+     * 
+     * Common functionality for jqGrid display, including CSV and Excel data export,
+     * JSON encoding of grid data for ajax loading, pagination, and handling of searching and sorting parameters
+     * 
+     * @return void      
+     * @access public    
+     * @throws CException thrown if function called with @GridModelBase lacking a default sort column
+     * @see    GridSelectionModel
+     */
+	public function actionGetgriddata()
+		{
+		$model = self::getModelFromQuery();
+		if(!isset($model->defaultSortColumn))
+			throw new CException('Model must have defaultSortColumn set to a model-column-name with unique value');
+		if(is_object($model) and isset($_GET['oper']))
+			{
+			Yii::log('oper='.$_GET['oper'], 'debug', 'GridController::actionGetgriddata():'.__LINE__);
+			switch($_GET['oper'])
+				{
+				case 'csv': case 'excel':
+					$data = $this->getDataReq($model,$_GET);
+					$heads = array();
+					foreach($model->columns as $col)
+						$heads[] = $col['label'];
+					$p = null;
+					$filename = $this->getExportFilenameTag().Yii::app()->user->name.'-'.date('Y-m-d');
+					switch($_GET['oper'])
+						{
+						case 'csv'  : $p = new CreateCSVFile		($filename,$heads,$data['rows']); break;
+						case 'excel': $p = new CreateExcelSpreadsheet	($filename,$heads,$data['rows']); break;
+						}
+					if($p != null) {
+						$p->headers();
+						echo $p->output();
+						}
+					break;
+				// case 'pdf': some other time :)
+				case 'grid':
+					$data = $this->getDataReq($model,$_GET,/*paging=*/true);
+					$modelColIDs = array_keys($model->columns);
+					foreach($data['rows'] as $k => $r)
+						{
+						$rowArray = array();
+						$rowArray['id'] = $r[$model->defaultSortColumn];
+						$rowArray['cell'] = array();
+						foreach($modelColIDs as $colID)
+							array_push($rowArray['cell'],$r[$colID]);
+						$data['rows'][$k] = $rowArray;
+						}
+					header('Content-Type: text/x-json;charset=utf-8');
+					echo json_encode($data);
+					break;
+				default:
+					echo 'Unrecognised "oper"';
+					break;
+				}
+			Yii::app()->end();
+			}
+		else
+			{
+			Yii::log('ERR, request='.print_r($_REQUEST,true), 'debug', 'GridController::actionGetgriddata():'.__LINE__);
+			$this->render('site/error', 'invalid request');
+			}
+		}
+
+    /**
+     * prefix for download-data file-name
+     * 
+     * @return string    filename prefix, to be used by used browser to name the downloaded file
+     * @access protected
+     */
+	protected function getExportFilenameTag()
+		{
+		// called from actionGetgriddata(), to set exported filename (xls and csv)
+		return 'GridData_';
+		}
+
+    /**
+     * get new instance of grid selection model
+     * 
+     * @return object    new instance of grid selection model
+     * @access protected
+     */
+	protected function getSelectionModel()
+		{
+		// called from actionConfirmaction()
+		return new GridSelectionModel();
+		}
+
+    /**
+     * get name of selection model
+     * 
+     * @return string    name of selection model
+     * @access protected
+     */
+	protected function getSelectionModelName()
+		{
+		// called from actionConfirmaction()
+		return 'GridSelectionModel';
+		}
+
+    /**
+     * command executor
+     * 
+     * to be overridden in derived classes, implementing commands recognised by the derived grid
+     * 
+     * @param  mixed     $gsc_model a grid-selection-model instance
+     * @return void     
+     * @access protected
+     */
+	protected function execCommand($gsc_model)
+		{
+		// called from actionConfirmaction()
+		switch($gsc_model->command)
+			{
+			//default: $this->doSOMETHING($gsc_model); break;
+			}
+		Yii::log('command "'.$gsc_model->command.'" done, backend_errors='.print_r($this->backend_errors,true), 'debug', 'GridController::execCommand()');
+		}
+
+    /**
+     * shows confirmation page
+     * 
+     * called from derived-class command-button-action handlers, e.g. MyGridController::ActionConfirm_mycommand()
+     * 
+     * @return void     
+     * @access protected
+     * @see    grid/confirm_action.php, GridSelectionModel
+     */
+	protected function showConfirmPage()
+		{
+		if(isset($_POST['gridaction']))
+			{
+			// TODO validate request is coming from a grid-commmand-confirm with a domainlist, action, confirmation
+			$gs_model = $this->getSelectionModel();
+			$gs_model->setFromPOST($_POST['gridaction']);
+			$this->processGridActionCommand($gs_model);
+			#Yii::log('redirect to confirmation page, with serialized model='.print_r($gs_model,true), 'debug', 'GridController::showConfirmPage()');
+			Yii::log('redirect to confirmation page', 'debug', 'GridController::showConfirmPage()');
+			$this->redirect(array('confirmaction','id'=>self::safeSerializeObj($gs_model) ));
+			}
+		else
+			{
+			Yii::log('not a POST["gridaction"] request', 'error', 'GridController::showConfirmPage()');
+			$this->redirect($gs_model->returnurl,true);
+			}
+		}
+
+    /**
+     * make any changes to a model before displaying confirmation page
+     * 
+     * called from showConfirmPage()
+     * 
+     * @param  object    $gs_model grid selection model instance
+     * @return void     
+     * @access protected
+     */
+	protected function processGridActionCommand($gs_model)
+		{
+		$gs_model->needRenewalOption=0;
+		$gs_model->needCreditCard=0;
+		}
+
+    /**
+     * get base for view to render
+     * 
+     * @return string    controller component of view-path to render
+     * @access protected
+     */
+	protected function getViewBase()
+		{
+		// called from Grid::actionConfirmaction(), to make url for $this->render()
+		return '/grid/';
+		}
+
+    /**
+     * Extract search and sort parameters from request GET parameters; return Array.
+     * 
+     * Called from actionGetgriddata() when fetching JSON grid data.
+     * Extracts jqGrid url parameters and forwards them to model functions to produce criteria for data retieval
+     * 
+     * @param  mixed     $model  grid model instance, which further processes the search/sort parameters
+     * @param  array     $params http request parameters array
+     * @param  boolean   $paging whether pagination parameters are needed
+     * @return mixed     data array returned by call to @getData
+     * @access protected
+     */
+	protected function getDataReq($model,$params,$paging=false)
+		{
+		Yii::log('ENTER', 'debug', 'GridController::getDataReq()');
+		$perpage 	= $paging ? $params['rows'] : 999999999999;
+		$pagenum 	= $paging ? $params['page'] : 1; // page is 1-based
+		$sortparams	= array('col'=>$params['sidx'],'ord'=>$params['sord']);
+		$searchparams 	= array();
+		if(isset($params['_search']) and $params['_search']=='true')
+			{
+			// TODO: handle date filter as a date range
+			if(isset($params['filters']))
+				{
+				$filters = $params['filters'];
+				if(strlen($filters)>0 and strpos($filters,'groupOp')>=0)
+					{
+					$filter = json_decode(urldecode($filters));
+					if(is_object($filter) and $filter->rules)
+						$searchparams = $filter->rules;
+					}
+				}
+			else
+				if(isset($params['searchField']) and isset($params['searchString']))
+					{
+					$o = new stdClass();
+					$o->field = $params['searchField'];
+					$o->data  = $params['searchString'];
+					$searchparams[0] = $o;
+					}
+				else
+					{
+					// new jqGrid4 search mode, where a col-id contains a filter value
+					// iterate over model column names, check if there's a filter value
+					foreach($model->columns as $idx => $col)
+						{
+						if(isset($params[$idx]) and strlen($params[$idx])>1)
+							{
+							$o = new stdClass();
+							$o->field = $idx; // 'field' ?
+							$o->data  = $params[$idx]; // search string
+							$searchparams[] = $o;
+							}
+						}
+					}
+			}
+		$criteria 	= $model->getSearch($searchparams);
+		$sort 		= $model->getSort($sortparams);
+		return $this->getData($model,$criteria,$sort,$perpage,$pagenum);
+		}
+
+    /**
+     * Runs backend query for data with the supplied parameters, returns an array
+     * 
+     * @param  object    $model    model instance, to create row-array from returned backend data
+     * @param  CRSDomainAppService_domainSearchCriteria    $criteria search criteria
+     * @param  CRSDomainAppService_sortCriterion    $sort     sort criteria
+     * @param  integer   $perpage  number of rows per page wanted
+     * @param  integer   $pagenum  which page of paginated data, used to calculate row offset
+     * @return array     array of data, structured like : array('records'=>X,'page'=>Y,'total'=>Z,'rows'=>array( ... ));
+     * @access protected
+     */
+	protected function getData($model,$criteria,$sort,$perpage,$pagenum)
+		{
+		// Get Grid data with search and sort parameters; return Array.
+		// Called from actionGetgriddata()->getDataReq() when fetching JSON grid data
+		Yii::log('ENTER', 'debug', 'GridController::getData()');
+		// paging
+		$pagedata	= array('records'=>0,'page'=>$pagenum,'total'=>0,'rows'=>array());
+		$offset 	= $perpage * ($pagenum-1);
+		$limit  	= $perpage;
+		// API SOAP call
+		$result 	= new CRSDomainAppService_domainSearchResultVO();
+		$errs 		= null;
+		// BUG TODO check that the criteria mention the correct unambiguous column name, e.g. : "D.D_Name" instead of "D_Name"
+		/* BUG HACK workaround NASK not checking input for NULLs */ if($criteria->contactType == null) unset($criteria->contactType);
+		$user = Yii::app()->user->authenticatedUser;
+		CRSDomainAppService_service::findDomains($result,$errs, $user, $criteria, $offset, $limit, $sort);
+		if(count($errs)==0)
+			{
+			// records = total records on all pages
+			$pagedata['records'] 	= $result->totalResults;
+			// total = total num result pages = (t div p)+1
+			$pagedata['total'] 	= math_div($result->totalResults,$perpage)+1;
+			if(isset($result->results))
+				{
+				if(is_array($result->results))
+					{
+					foreach($result->results as $k => $o)
+						$pagedata['rows'][] = $model->addResults($o);
+					}
+				else if(is_object($result->results))
+					{
+					$pagedata['rows'][] = $model->addResults($result->results);
+					}
+				else Yii::log(print_r($result,true), 'warning', 'GridController::getData() : results format?'.__LINE__);
+				}
+			else Yii::log(print_r($result,true), 'warning', 'GridController::getData() : WARN : no \'results\':'.__LINE__);
+			}
+		else Yii::log(print_r($errs,true), 'error', 'GridController::getData() : ERROR:'.__LINE__);
+		return $pagedata;
+		}
+	}
+

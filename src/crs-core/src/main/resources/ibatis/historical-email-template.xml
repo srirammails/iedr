@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="histemailtemplate">
+
+    <resultMap id="histEmailTemplateResult" class="pl.nask.crs.history.HistoricalObject">
+        <result property="object" resultMap="emailtemplate.emailTemplateResult"/>
+        <result property="changeId" column="histChangeId"/>
+        <result property="changedBy" column="histChangedBy"/>
+        <result property="changeDate" column="histChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+    </resultMap>
+
+    <sql id="selectTemplate">
+        SELECT
+            Chng_ID as histChangeId,
+            E_ID as id,
+            E_Name as name,
+            E_Text as text,
+            E_Subject as subject,
+            E_To as toList,
+            E_CC as ccList,
+            E_BCC as bccList,
+            E_To_Internal as internalToList,
+            E_CC_Internal as internalCcList,
+            E_BCC_Internal as internalBccList,
+            E_From as mailSmtpFrom,
+            active as active,
+            Html as html,
+            E_Suppressible as suppressible,
+            E_Send_Reason as sendReason,
+            E_Non_Suppressible_Reason as nonSuppressibleReason,
+            eg.EG_ID as EG_ID,
+            eg.EG_Name as EG_Name,
+            eg.EG_Visible as EG_Visible,
+            eg.EG_TS as EG_TS,
+            Chng_NH as histChangedBy,
+            Chng_Dt as histChangeDate
+        FROM
+            EmailHist eh
+        LEFT JOIN EmailGroup eg ON eh.EG_ID = eg.EG_ID
+    </sql>
+
+    <select id="get" parameterClass="pl.nask.crs.commons.email.search.HistoricalEmailTemplateKey" resultMap="histEmailTemplateResult">
+        <include refid="selectTemplate"/>
+        WHERE
+        E_ID = #id#
+        AND
+        Chng_ID = #changeId#
+    </select>
+
+    <insert id="create">
+        INSERT INTO EmailHist (
+            E_ID,
+            E_Name,
+            E_Text,
+            E_Subject,
+            E_To,
+            E_CC,
+            E_BCC,
+            E_To_Internal,
+            E_CC_Internal,
+            E_BCC_Internal,
+            E_From,
+            active,
+            Html,
+            E_Suppressible,
+            E_Send_Reason,
+            E_Non_Suppressible_Reason,
+            EG_ID,
+            Chng_NH,
+            Chng_Dt)
+        SELECT
+            E_ID,
+            E_Name,
+            E_Text,
+            E_Subject,
+            E_To,
+            E_CC,
+            E_BCC,
+            E_To_Internal,
+            E_CC_Internal,
+            E_BCC_Internal,
+            E_From,
+            active,
+            Html,
+            E_Suppressible,
+            E_Send_Reason,
+            E_Non_Suppressible_Reason,
+            EG_ID,
+            #changedBy#,
+            #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        FROM Email
+        WHERE E_ID = #object.id#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <sql id="whereFrag">
+        <dynamic prepend="WHERE">
+            <isNotNull property="criteria.id" prepend="AND">
+                E_ID = #criteria.id#
+            </isNotNull>
+            <isNotNull property="criteria.histChangedBy" prepend="AND">
+                Chng_NH LIKE #criteria.histChangedBy,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull property="criteria.histChangeDate" prepend="AND">
+                Chng_Dt = #criteria.histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="find" parameterClass="map" resultMap="histEmailTemplateResult">
+        <include refid="selectTemplate"/>
+        <include refid="whereFrag"/>
+        <include refid="common.sortFrag"/>
+        <include refid="common.limitFrag"/>
+    </select>
+
+    <select id="count" parameterClass="map" resultClass="int">
+        SELECT
+        COUNT(*)
+        FROM
+        EmailGroupHist
+        <include refid="whereFrag"/>
+    </select>
+</sqlMap>

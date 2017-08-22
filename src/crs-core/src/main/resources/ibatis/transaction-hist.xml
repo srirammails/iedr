@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="transaction-hist">
+
+    <resultMap id="internalTransaction" class="pl.nask.crs.payment.dao.ibatis.objects.InternalTransaction">
+        <result property="id" column="id"/>
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="invoiceId" column="invoiceId"/>
+        <result property="invoiceNumber" column="invoiceNumber"/>
+        <result property="settlementStarted" column="settlementStarted" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="settlementEnded" column="settlementEnded" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="totalCost" column="totalCost"/>
+        <result property="totalNetAmount" column="totalNetAmount"/>
+        <result property="totalVatAmount" column="totalVatAmount"/>
+        <result property="cancelled" column="cancelled" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="cancelledDate" column="cancelledDate"/>
+        <result property="financiallyPassedDate" column="financiallyPassedDate"/>
+        <result property="reservations" column="id" select="transaction-hist.getReservationsForTransaction"/>
+        <result property="orderId" column="orderId"/>
+        <result property="invalidated" column="invalidated" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="invalidatedDate" column="invalidatedDate"/>
+        <result property="reauthorisedId" column="reauthorisedId"/>
+        <result property="settlementDate" column="settlementDate"/>
+        <result property="paymentMethod" column="paymentMethod" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler"/>
+        <result property="operationType" column="operationType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler"/>
+    </resultMap>
+
+    <resultMap id="domainInfo" class="pl.nask.crs.payment.DomainInfo">
+        <result property="domainName" column="domainName"/>
+        <result property="regDate" column="regDate"/>
+        <result property="renDate" column="renDate"/>
+        <result property="netAmount" column="netAmount"/>
+        <result property="vatAmount" column="vatAmount"/>
+        <result property="orderId" column="orderId"/>
+        <result property="operationType" column="operationType" typeHandler="pl.nask.crs.payment.dao.ibatis.handlers.ReservationTypeHandler"/>
+    </resultMap>
+
+    <!--<typeAlias alias="domainInfo" type="pl.nask.crs.payment.DomainInfo"/>-->
+
+    <select id="getTransactionInfo" parameterClass="long" resultMap="domainInfo">
+        SELECT
+        R.Domain_Name as domainName,
+        D.D_Reg_Dt as regDate,
+        D.D_Ren_Dt as renDate,
+        R.Amount as netAmount,
+        R.Vat_Amount as vatAmount,
+        T.Order_ID as orderId,
+        R.Operation_Type as operationType
+        FROM
+        TransactionHist T
+        INNER JOIN ReservationHist R ON (T.ID = R.Transaction_ID)
+        LEFT JOIN Domain D ON (R.Domain_Name = D.D_Name)
+        WHERE
+        T.ID = #id#
+        ORDER BY domainName ASC
+    </select>
+
+    <select id="getTransactionInfoByOrderId" parameterClass="String" resultMap="domainInfo">
+        SELECT
+        R.Domain_Name as domainName,
+        D.D_Reg_Dt as regDate,
+        D.D_Ren_Dt as renDate,
+        R.Amount as netAmount,
+        R.Vat_Amount as vatAmount,
+        T.Order_ID as orderId,
+        R.Operation_Type as operationType
+        FROM
+        TransactionHist T
+        INNER JOIN ReservationHist R ON (T.ID = R.Transaction_ID)
+        LEFT JOIN Domain D ON (R.Domain_Name = D.D_Name)
+        WHERE
+        T.Order_ID = #orderId#
+        ORDER BY domainName ASC
+    </select>
+
+    <insert id="createHistTransaction" parameterClass="pl.nask.crs.payment.dao.ibatis.objects.InternalTransaction">
+        INSERT INTO TransactionHist
+        (ID,
+        Invoice_ID,
+        Settlement_Started,
+        Settlement_Ended,
+        Total_Cost,
+        Total_Net_Amount,
+        Total_Vat_Amount,
+        Cancelled,
+        Cancelled_Date,
+        Financially_Passed_Date,
+        Order_ID,
+        Invalidated,
+        Invalidated_Date,
+        Reauthorised_ID
+        )
+        SELECT
+        ID,
+        Invoice_ID,
+        Settlement_Started,
+        Settlement_Ended,
+        Total_Cost,
+        Total_Net_Amount,
+        Total_Vat_Amount,
+        Cancelled,
+        Cancelled_Date,
+        Financially_Passed_Date,
+        Order_ID,
+        Invalidated,
+        Invalidated_Date,
+        Reauthorised_ID
+        FROM Transaction
+        WHERE
+        ID = #id#
+    </insert>
+
+    <sql id="selectHistTransaction">
+        SELECT DISTINCT
+        T.ID as id,
+        R.Nic_Handle as nicHandleId,
+        Invoice_ID as invoiceId,
+        I.Invoice_Number as invoiceNumber,
+        Order_ID as orderId,
+        Settlement_Started as settlementStarted,
+        Settlement_Ended as settlementEnded,
+        T.Total_Cost as totalCost,
+        T.Total_Net_Amount as totalNetAmount,
+        T.Total_Vat_Amount as totalVatAmount,
+        Cancelled as cancelled,
+        Cancelled_Date as cancelledDate,
+        Financially_Passed_Date as financiallyPassedDate,
+        Invalidated as invalidated,
+        Invalidated_Date as invalidatedDate,
+        Reauthorised_ID as reauthorisedId,
+        R.Settled_Date as settlementDate,
+        R.Payment_Method as paymentMethod,
+        R.Operation_Type as operationType
+        FROM
+        TransactionHist T
+        left join ReservationHist R on (R.Transaction_ID = T.ID)
+        left join Invoice I on (T.Invoice_ID = I.ID)
+    </sql>
+
+    <select id="selectHistTransactionById" resultMap="internalTransaction">
+        <include refid="selectHistTransaction"/>
+        WHERE
+        T.ID = #id#
+        GROUP BY T.ID
+    </select>
+    
+    <select id="selectHistTransactionByOrderId" resultMap="internalTransaction">
+        <include refid="selectHistTransaction"/>
+        WHERE
+        T.Order_ID = #orderId#
+        GROUP BY T.Order_ID
+    </select>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="transactionHistCriteria">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.billingNH">
+                R.Nic_Handle = #criteria.billingNH#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.cancelled">
+                Cancelled = #criteria.cancelled,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settlementStarted">
+                Settlement_Started = #criteria.settlementStarted,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.settlementEnded">
+                Settlement_Ended = #criteria.settlementEnded,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.readyForSettlement" compareValue="true">
+                Financially_Passed_Date IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.readyForSettlement" compareValue="false">
+                Financially_Passed_Date IS NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.invoiceAssociated" compareValue="true">
+                Invoice_ID IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.invoiceAssociated" compareValue="false">
+                Invoice_ID IS NULL
+            </isEqual>
+            <isNotNull prepend="and" property="criteria.invalidated">
+                Invalidated = #criteria.invalidated,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.paymentMethod">
+                R.Payment_Method = #criteria.paymentMethod,handler=pl.nask.crs.payment.dao.ibatis.handlers.PaymentMethodHandler#
+            </isNotNull>
+            <isEqual prepend="and" property="criteria.reauthorised" compareValue="true">
+                Reauthorised_ID IS NOT NULL
+            </isEqual>
+            <isEqual prepend="and" property="criteria.reauthorised" compareValue="false">
+                Reauthorised_ID IS NULL
+            </isEqual>
+        </dynamic>
+    </sql>
+
+    <select id="countFindHistTransactions" parameterClass="java.util.Map" resultClass="int">
+        SELECT
+        COUNT(DISTINCT(T.ID)) as cnt
+        FROM
+        TransactionHist T
+        left join ReservationHist R on (R.Transaction_ID = T.ID)
+        <include refid="transactionHistCriteria"/>
+    </select>
+
+    <select id="findHistTransactions" resultMap="internalTransaction">
+        <include refid="selectHistTransaction"/>
+        <include refid="transactionHistCriteria"/>
+        GROUP BY T.ID
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="getReservationsForTransaction" resultMap="reservation-hist.internalReservation">
+        <include refid="reservation-hist.selectHistReservation"/>
+        WHERE
+        Transaction_ID = #id#
+    </select>
+</sqlMap>

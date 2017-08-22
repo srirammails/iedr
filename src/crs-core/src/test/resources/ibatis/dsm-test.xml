@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd"> 
+
+<sqlMap namespace="dsm-test">
+
+    <select id="getAllActions" resultClass="java.lang.String">
+        select Action_Name
+        from DSM_Action;
+    </select>
+    
+    <select id="getAllEvents" resultClass="java.lang.String">
+        select Name
+        from DSM_Event;
+    </select>
+    
+    <select id="getAllNRPStatuses" resultClass="java.lang.String">
+        select DISTINCT NRP_Status from DSM_State;
+    </select>
+    
+    <select id="getAllHolderTypes" resultClass="java.lang.String">
+        select DISTINCT D_Holder_Type from DSM_State;
+    </select>
+    
+    <select id="getAllCustTypes" resultClass="java.lang.String">
+        select DISTINCT Cust_Type from DSM_State;
+    </select>
+    
+    <select id="getAllRenewalModes" resultClass="java.lang.String">
+        select DISTINCT Renewal_Mode from DSM_State;
+    </select>
+	
+</sqlMap>

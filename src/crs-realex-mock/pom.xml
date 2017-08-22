@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>CRS Realex Mock Web application</name>
+  <description>crs-realex-mock war</description>
+  <parent>
+    <groupId>pl.nask.crs</groupId>
+    <version>1.6.44-SNAPSHOT</version>
+    <artifactId>crs</artifactId>
+  </parent>
+  <groupId>pl.nask.crs</groupId>
+  <artifactId>crs-realex-mock</artifactId>
+  <version>1.6.44-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <properties>
+    <servlet-api.version>2.5</servlet-api.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>pl.nask.crs</groupId>
+      <artifactId>crs-core</artifactId>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <!-- a hack to exclude the artifacts from the target war (they are inherited from the parent) -->
+      <dependency>
+        <groupId>org.apache.ibatis</groupId>
+        <artifactId>ibatis-sqlmap</artifactId>
+        <version>2.3.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>1.4</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+      </resource>
+      <resource><!-- This is required to put production JNDI config files into WAR -->
+        <directory>${basedir}/../resources/production</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <!-- Active projects own resources for testing -->
+        <directory>${basedir}/src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <!-- Taking shared resources from development profile -->
+        <directory>${basedir}/../resources/test</directory>
+      </testResource>
+    </testResources>
+  </build>
+</project>

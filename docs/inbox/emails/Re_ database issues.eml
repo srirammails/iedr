@@ -1,0 +1,118 @@
+Return-Path: <billy.glynn@domainregistry.ie>
+Received: from boromix.nask.net.pl (boromix.nask.net.pl [195.187.245.33])
+	by boromir.nask.net.pl  with ESMTP id m8GC1kIn006668
+	for <pawelkl@boromir.nask.net.pl>; Tue, 16 Sep 2008 14:01:46 +0200 (CEST)
+Received: from smtp2.domainregistry.ie ([213.190.149.217])
+	by boromix.nask.net.pl  with SMTP id m8GC1VTj025864
+	for <pawelkl@nask.pl>; Tue, 16 Sep 2008 14:01:31 +0200
+Received: (qmail 15567 invoked from network); 16 Sep 2008 11:52:39 -0000
+Received: from unknown (HELO ?10.10.2.75?) (213.190.149.194)
+  by smtp2.domainregistry.ie with SMTP; 16 Sep 2008 11:52:39 -0000
+Message-ID: <48CF9FDD.1000403@domainregistry.ie>
+Date: Tue, 16 Sep 2008 13:00:29 +0100
+From: Billy Glynn <billy.glynn@domainregistry.ie>
+Reply-To: billy.glynn@domainregistry.ie
+Organization: IE Domain Registry Ltd
+User-Agent: Thunderbird 1.5.0.14ubu (X11/20080724)
+MIME-Version: 1.0
+To: =?ISO-8859-2?Q?Pawe=B3_Kleniewski?= <pawelkl@nask.pl>
+CC: Patrycja Wegrzynowicz <patrycjaw@nask.pl>
+Subject: Re: database issues
+References: <001c01c917d3$b9df5790$98cd3bc1@nask.ad>
+In-Reply-To: <001c01c917d3$b9df5790$98cd3bc1@nask.ad>
+X-Enigmail-Version: 0.94.0.0
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+Received-SPF: none (boromix.nask.net.pl: domain of billy.glynn@domainregistry.ie does not designate permitted sender hosts)
+VirusProtection: checked - Found to be clean
+X-Bogosity: No, tests=bogofilter, spamicity=0.500000, version=0.17.5
+
+Hi Pixel,
+
+Yes, this is far from ideal.  However, can you please design the method
+to return results only if the ticket holder string matches the domain
+holder exactly.
+
+Thanks
+
+Kind regards
+
+Billy
+
+Pawe³ Kleniewski wrote:
+> hi billy
+>  
+> according to my tasks i'm checking database
+> during my first tests i found some issues which needs to be clarified
+>  
+> we need to have data which cannot be simly recognized (anonymized)
+> so i was asked to change names like d_holder etc
+>  
+> i examined domain table and i found many confusing entries
+> we have for example
+>  
+> * Department of Justice, Equality and Law Reform*
+>
+> and
+> * Dept of Justice, Equality & Law Reform*
+>
+>  
+> then
+> * Financial Services Network*
+>
+> and
+> * Financial Services Network Ltd*
+>
+>  
+> and even more... funny
+> * Surdon Finance Ltd*
+>
+> and
+> * Surdon Finance Ltd.*
+>
+>  
+> *limited* and *ltd*
+> *b.v* and *b.v.*
+>  
+> my favourite quadruple-one is
+> *365 Hosting Limited
+> 365 Hosting Ltd
+> 365 Hosting Ltd.
+> 365Hosting Ltd*
+>  
+> and many many others counted in hundreds maybe even thousands
+> depending on how deep i check
+> which are for sure the same holders
+>  
+> checked manually first 1000 records and i found 40 issues
+> checked automatically with simple procedure found 5% mistaken entries
+>  
+> so this is heavy
+> and this is only one table ;)
+>  
+> as you want to have functionality to show all domains attached to a holder
+> how should we recognize them as one
+>  
+> there is no possibility to write an automatic 100% reliable method
+>  
+> regards
+> pixel
+
+
+-- 
+______________________________________________
+Billy Glynn
+Head of Application Support and Development
+Technical Services
+IE Domain Registry Ltd
+
+Tel: 	+353 (0)1 2365404
+Mobile: +353 (0)87 9188317
+Email: 	billy.glynn@domainregistry.ie
+______________________________________________
+
+
+-------------------------------------------------------------------
+Registered Office: 14 Windsor Terrace, Sandycove, Co. Dublin.
+Registered in Ireland. No: 315315.
+-------------------------------------------------------------------

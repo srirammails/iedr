@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="contact">
+
+    <select id="getContactByNicHandleId" resultClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        SELECT
+        Nic_Handle as nicHandle,
+        NH_Name as name,
+        NH_Email as email,
+        Co_Name as companyName,
+        NH_Country as country,
+        NH_County as county
+        FROM
+        NicHandle
+        WHERE Nic_Handle = #nicHandleId#
+    </select>
+
+    <select id="findContacts" resultClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        SELECT
+        NH.Nic_Handle as nicHandle,
+        NH.NH_Name as name,
+        NH.NH_Email as email,
+        Co_Name as companyName,
+        NH_Country as country,
+        NH_County as county
+        FROM
+        NicHandle NH
+
+        <dynamic>
+            <isNotNull property="criteria.type">
+                LEFT OUTER JOIN Contact C
+                ON NH.Nic_Handle = C.Contact_NH
+            </isNotNull>
+        </dynamic>
+
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.name">
+                NH.NH_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.nicHandle">
+                NH.Nic_Handle = #criteria.nicHandle#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.type">
+                C.Type = #criteria.type#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.account">
+                NH.A_Number = #criteria.account#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.companyName">
+                Co_Name like #criteria.companyName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+
+        <dynamic>
+            <isNotNull property="criteria.type">
+                GROUP BY nicHandle
+            </isNotNull>
+        </dynamic>
+
+        <dynamic>
+            <isNotNull property="limit">
+                LIMIT #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                OFFSET #offset#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <!--<select id="findContacts"-->
+    <!--resultClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">-->
+    <!--SELECT-->
+    <!--Nic_Handle as nicHandle,-->
+    <!--NH_Name as name,-->
+    <!--NH_Email as email-->
+    <!--FROM-->
+    <!--NicHandle-->
+    <!--<dynamic prepend="where">-->
+    <!--<isNotNull prepend="and" property="criteria.name">-->
+    <!--NH_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#-->
+    <!--</isNotNull>-->
+    <!--<isNotNull prepend="and" property="criteria.nicHandle">-->
+    <!--Nic_Handle = #criteria.nicHandle#-->
+    <!--</isNotNull>-->
+    <!--</dynamic>-->
+    <!--<dynamic>-->
+    <!--<isNotNull property="limit">-->
+    <!--LIMIT #limit#-->
+    <!--</isNotNull>-->
+    <!--<isNotNull property="offset">-->
+    <!--OFFSET #offset#-->
+    <!--</isNotNull>-->
+    <!--</dynamic>-->
+    <!--</select>-->
+
+    <select id="countContacts"
+            resultClass="int">
+        SELECT
+        count(*)
+        FROM
+        NicHandle
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.name">
+                NH_Name like #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.nicHandle">
+                Nic_Handle = #criteria.nicHandle#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.account">
+                A_Number = #criteria.account#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.companyName">
+                Co_Name like #criteria.companyName,handler=pl.nask.crs.commons.dao.ibatis.handlers.StringPrefixHandler#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <delete id="deleteContact" parameterClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        delete from Contact
+        where D_Name = #domainName#
+    </delete>
+
+    <insert id="createContact" parameterClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        insert into
+        Contact (D_Name, Contact_NH, Type)
+        values
+        (#domainName#, #nicHandle#, #type#)
+    </insert>
+
+    <update id="updateContact" parameterClass="pl.nask.crs.contacts.dao.ibatis.objects.InternalContact">
+        update
+        Contact C
+        set
+        C.Contact_NH = #nicHandle#
+        where
+        C.D_Name = #domainName#
+        and
+        C.Type = #type#
+    </update>
+
+    <select id="getDefaultTechContact" parameterClass="java.lang.String" resultClass="java.lang.String">
+        select
+        Tech_C
+        from
+        Reseller_Defaults
+        where
+        Nic_Handle = #billingContact#
+    </select>
+
+    <select id="getContactStatus" parameterClass="java.lang.String" resultClass="java.lang.String">
+        SELECT NH_Status
+        FROM NicHandle
+        WHERE Nic_Handle = #contactNicHandleId#
+    </select>
+
+</sqlMap>
+

@@ -1,0 +1,150 @@
+/* -------------------------------- group header */
+.EH {/* group header */
+	clear: both;
+	padding: 5px 5px 0 5px;
+	height: 32px;
+
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+div.EHLC {/* group header left corner */
+	clear: left;
+	float: left;
+	background: url( "../../images/skin-default/web-parts/border.left.up.herror.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+div.EHTB {/* group header title bar */
+	margin: 0 18px;
+}
+
+div.EHTB-icon {/* group header title bar */
+	float: left;
+	position: relative;
+	top: -2px;
+	left: -6px;
+	width: 32px;
+	height: 32px;
+}
+
+div.EHTB-bar {/* group header title bar */
+	background: url( "../../images/skin-default/web-parts/border.up.herror.png" ) repeat-x;
+	width: auto;
+	height: 32px;
+}
+
+div.EHTB-title {/* group header title bar */
+	float: left;
+	margin: 14px 0 0 5px;
+}
+
+div.EHRC {/* group header right corner */
+	clear: right;
+	float: right;
+	background: url( "../../images/skin-default/web-parts/border.right.up.herror.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+td.EHLC {/* group header left corner */
+	background: url( "../../images/skin-default/web-parts/border.left.up.herror.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+td.EHTB {/* group header title bar */
+	background: url( "../../images/skin-default/web-parts/border.up.herror.png" ) repeat-x;
+	width: auto;
+}
+
+td.EHRC {/* group header right corner */
+	background: url( "../../images/skin-default/web-parts/border.right.up.herror.png" ) no-repeat;
+	width: 18px;
+	height: 32px;
+}
+
+/* -------------------------------- group header */
+.EC {/* group content */
+	clear: both;
+	padding: 0 5px;
+	background: #f9f9f9; /* very light gray color for page background */
+}
+
+.ECCA {
+	clear: both;
+	padding: 10px 5px 0;
+	width: auto;
+	background: white;
+	border-top: none;
+	border-right: 1px solid #dd7777; /* dark red color */
+	border-left: 1px solid #dd7777; /* dark red color */
+	border-bottom: none;
+}
+
+.ECCA ul.errorMessage {
+	color: #c72222 !important; /* even more dark red color */
+	margin: 0;
+	padding: 10px 0;
+}
+
+.ECCA ul li {
+	margin-left: 33%;
+	list-style-image: url( "../../images/skin-default/action-icons/exclamation.png" );
+}
+.ECCA table.error-result {
+	clear: both;
+	margin: 0;
+
+	border-collapse: collapse;
+	border-bottom: 1px solid #e8a0a0; /* medium red color */
+	width: 100%;
+}
+
+/* -------------------------------- group header */
+.EF {/* group footer */
+	clear: both;
+	padding: 0 5px 5px 5px;
+	height: 4px;
+	line-height: 4px;
+}
+
+div.EFLC {/* group footer left corner*/
+	clear: left;
+	float: left;
+	background: url( "../../images/skin-default/web-parts/border.left.down.herror.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}
+
+div.EFFB {/* group footer footer bar*/
+	margin: 0 5px;
+	height: 4px;
+
+	background: white none repeat scroll 0;
+	border-bottom: 1px solid #dd7777; /* dark red color */
+}
+
+div.EFRC {/* group footer right corner*/
+	clear: right;
+	float: right;
+	background: url( "../../images/skin-default/web-parts/border.right.down.herror.png" ) no-repeat;
+	width: 5px;
+	height: 5px;
+}
+
+td.EFLC {/* group footer left corner*/
+	background: url( "../../images/skin-default/web-parts/border.left.down.herror.png" ) no-repeat;
+	width: 5px;
+}
+
+td.EFFB {/* group footer footer bar*/
+	background: white none repeat scroll 0;
+	border-bottom: 1px solid #dd7777; /* dark red color */
+	width: auto;
+}
+
+td.EFRC {/* group footer right corner*/
+	background: url( "../../images/skin-default/web-parts/border.right.down.herror.png" ) no-repeat;
+	width: 5px;
+}

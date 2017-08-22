@@ -1,0 +1,29 @@
+<?php
+/**
+ * part of Yii Test code, unused
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+return CMap::mergeArray(
+	require(dirname(__FILE__).'/main.php'),
+	array(
+		'components'=>array(
+			'fixture'=>array(
+				'class'=>'system.test.CDbFixtureManager',
+			),
+			/* uncomment the following to provide test database connection */
+			'db'=>array(
+				//'connectionString'=>'DSN for test database',
+				'connectionString' => 'mysql:host=127.0.0.1;dbname=phoenixdb',
+			),
+		),
+	)
+);

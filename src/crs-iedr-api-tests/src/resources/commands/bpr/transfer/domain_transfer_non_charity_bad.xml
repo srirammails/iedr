@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+                           ieapi-1.3.xsd">
+  <command>
+    <modify>
+      <domain:transfer
+             xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+             xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3
+                                ieapi-domain-1.3.xsd">
+          <domain:name>thedomena.totransfer.ie</domain:name>
+          <domain:ns>
+             <domain:nsName>ns11.example.ie</domain:nsName>
+          </domain:ns>
+          <domain:ns>
+             <domain:nsName>NS1.THEDOMENA.TOTRANSFER.IE</domain:nsName>
+             <domain:nsAddr>1.1.1.1</domain:nsAddr>
+          </domain:ns>
+          <domain:contact type="tech">APIT1-IEDR</domain:contact>
+          <domain:status>true</domain:status>
+      </domain:transfer>
+    </modify>
+  </command>
+</ieapi>

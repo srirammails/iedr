@@ -1,0 +1,37 @@
+<!-- START protected/views/accounts_history_invoices/payments.php -->
+<?php
+/**
+ * View page for Accounts History - Invoice Payments
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_history_invoicesController::actionRenewals(), Rpts_nrc_adv_pay_inv_histModel, Utility::printInvHistSummary(), GridUtility::makeDateSelectUpdateForm(), jqGridWidget
+ */
+
+$pg = 'Advance Payment Invoice History';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+<?php
+GridUtility::makeDateSelectUpdateForm($this,$pg,'nrc_adv_pay_inv_hist', $model);
+
+echo '<div class="form"><p>There were '.$model->totalrows.' domains included in the invoice you selected.</p></div>';
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+	'caption'	=> 'Advance Payments Invoice History for \''.Yii::app()->user->name.'\' for the month of ' . $model->month .' '. $model->year,
+	'thisfile'	=> $this->createUrl('accounts_history_invoices/transfers',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_history_invoices/getgriddataNrc_adv_pay_inv_hist',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	));
+
+Utility::printInvHistSummary($model);
+
+?>
+<!-- END protected/views/accounts_history_invoices/payments.php -->
+

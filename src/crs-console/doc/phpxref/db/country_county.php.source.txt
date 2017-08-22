@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * defines functions for counties and countries, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR New Registrars Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      http://pear.php.net/package/IEDR New Registrars Console
+ */
+
+
+/**
+ * Returns array of data for counties and countries, getting data and filling cache if necessary
+ * 
+ * @return array county and country data (see {@link _get_country_county})
+ */
+function get_country_county()
+	{
+	$timeout = 86400; // max-age = 1 day
+	$cache_key = 'data_get_country_county';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_country_county();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * Returns array of data for counties and countries
+ * 
+ * Returned array contains three sub-arrays;
+ * 
+ * - 'country_names' : maps country-name to country-code
+ * 
+ * - 'country_codes' : maps country code to country name
+ * 
+ * - 'countrycode_counties' : maps country-code to county
+ * 
+ * @return array county and country data
+ */
+function _get_country_county()
+	{
+	$data = array();
+	$data['country_names'] = array();
+	$data['country_codes'] = array();
+	$data['countrycode_counties'] = array();
+
+	$d = DB::get_db();
+	$sql = 'SELECT c.CountryCode, c.Country, County FROM Countries c LEFT JOIN Counties ON Counties.CountryCode = c.CountryCode order by c.Country, County;';
+	$d->query($sql,__FILE__,__LINE__);
+
+	while($r = $d->fetch())
+		{
+		$data['country_names'][$r->Country] = $r->CountryCode;
+		$data['country_codes'][$r->CountryCode] = $r->Country;
+		// breaks selection, model/api needs string instead of code ...
+		//$data['countrycode_counties'][$r->CountryCode][] = str_replace(array('Co. ','Co ','CO. ','CO '),'',$r->County);
+		$data['countrycode_counties'][$r->CountryCode][] = $r->County;
+		}
+	//Yii::log('returning '.print_r($data,true), 'debug', 'get_country_county()');
+	return $data;
+	}
+
+/**
+ * get Country options in a format suitable for a Yii $form->dropDownList
+ * 
+ * @return array select-list options array
+ */
+function getCountryOptions()
+	{
+	$countries = array();
+	$country_county_data = get_country_county();
+	if(is_array($country_county_data['country_codes']))
+		foreach($country_county_data['country_codes'] as $ccode => $cname)
+			$countries[$cname] = $cname;
+	return $countries;
+	}
+
+/**
+ * get County options in a format suitable for a Yii $form->dropDownList
+ * 
+ * @param  string $country country name
+ * @return array   select-list options array
+ */
+function getCountyOptions($country)
+	{
+	$country_county_data = get_country_county();
+	$counties = array();
+	// find country code
+	$ccode = $country_county_data['country_names'][$country];
+	if($ccode != null and is_array($country_county_data['countrycode_counties'][$ccode]))
+		foreach($country_county_data['countrycode_counties'][$ccode] as $county)
+			if($county!=null and strlen($county)>1)
+				$counties[$county] = $county;
+	if(count($counties)==0)
+		$counties['N/A'] = 'N/A';
+	//Yii::log('returning '.print_r($counties,true), 'debug', "getCountyOptions($country)");
+	return $counties;
+	}
+

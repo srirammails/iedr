@@ -1,0 +1,12 @@
+<ieapi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.domainregistry.ie/ieapi-1.3" xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd">
+<command>
+<modify>
+<domain:modify xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3" xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3 ieapi-domain-1.3.xsd">
+<domain:name>createCCDomain.ie</domain:name>
+<domain:chg>
+<domain:autorenew>1</domain:autorenew>
+</domain:chg>
+</domain:modify>
+</modify>
+</command>
+</ieapi>

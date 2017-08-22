@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * defines functions for getting ilst of registrars to login-as, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * gets cached list of registrars, if uncached, gets data and fills cache, see {@link _get_registrars_for_login}
+ * 
+ * @return array registrars
+ */
+function get_registrars_for_login()
+	{
+	$timeout = 9000;
+	$cache_key = 'data_registrars_for_login';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_registrars_for_login();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * Fetches from DB with SQL a list of registrars NicHandles and names, only accounts with at least 100 registered domains
+ * 
+ * This list is intended for a dropdown list of registrars for IEDR users to be able to switch login to registrars' accounts
+ * 
+ * @return array maps billing nicHandle to billing name
+ */
+function _get_registrars_for_login()
+	{
+	# return an array list of available registrars
+	$registrars = array();
+	$connection = Yii::app()->db;
+	#The set of registrars that actually have domains on their account.
+	$query = "SELECT A_Name, Billing_NH FROM Account LEFT JOIN Domain ON Domain.A_Number = Account.A_Number WHERE Account.A_Number > 100 GROUP BY Account.A_Number HAVING count(*) > 1 order by 1;";
+	$command = $connection->createCommand($query);
+	$result = $command->query();
+
+	foreach($result as $k)
+		$registrars[$k['Billing_NH']] = $k['A_Name'];
+
+        Yii::log('retrieved '.count($registrars).' registrars', 'debug', '_get_registrars_for_login()');
+
+	return $registrars;
+	}
+

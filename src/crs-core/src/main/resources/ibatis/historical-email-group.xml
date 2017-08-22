@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="histemailgroup">
+
+    <resultMap id="histEmailGroupResult" class="pl.nask.crs.history.HistoricalObject">
+        <result property="object" resultMap="emailgroup.emailGroupResult"/>
+        <result property="changeId" column="histChangeId"/>
+        <result property="changedBy" column="histChangedBy"/>
+        <result property="changeDate" column="histChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+    </resultMap>
+
+    <sql id="selectGroup">
+        SELECT
+          Chng_ID as histChangeId,
+          EG_ID as EG_ID,
+          EG_Name as EG_Name,
+          EG_Visible as EG_Visible,
+          EG_TS as EG_TS,
+          Chng_NH as histChangedBy,
+          Chng_Dt as histChangeDate
+        FROM
+          EmailGroupHist
+    </sql>
+
+    <select id="get" parameterClass="pl.nask.crs.commons.email.search.HistoricalEmailGroupKey" resultMap="histEmailGroupResult">
+        <include refid="selectGroup"/>
+        WHERE
+          EG_ID = #id#
+        AND
+          Chng_ID = #changeId#
+    </select>
+
+    <insert id="create">
+        INSERT INTO EmailGroupHist (EG_ID, EG_Name, EG_Visible, EG_TS, Chng_NH, Chng_Dt)
+        SELECT
+          EG_ID, EG_Name, EG_Visible, EG_TS, #changedBy#, #changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        FROM EmailGroup
+        WHERE EG_ID = #object.id#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <sql id="whereFrag">
+        <dynamic prepend="WHERE">
+            <isNotNull property="criteria.id" prepend="AND">
+                EG_ID = #criteria.id#
+            </isNotNull>
+            <isNotNull property="criteria.name" prepend="AND">
+                EG_Name LIKE #criteria.name,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull property="criteria.changeDate" prepend="AND">
+                EG_TS = #criteria.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+            <isNotNull property="criteria.histChangedBy" prepend="AND">
+                Chng_NH LIKE #criteria.histChangedBy,handler=pl.nask.crs.commons.dao.ibatis.handlers.SubstringHandler#
+            </isNotNull>
+            <isNotNull property="criteria.histChangeDate" prepend="AND">
+                Chng_Dt = #criteria.histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="find" parameterClass="map" resultMap="histEmailGroupResult">
+        <include refid="selectGroup"/>
+        <include refid="whereFrag"/>
+        <include refid="common.sortFrag"/>
+        <include refid="common.limitFrag"/>
+    </select>
+
+    <select id="count" parameterClass="map" resultClass="int">
+        SELECT
+        COUNT(*)
+        FROM
+        EmailGroupHist
+        <include refid="whereFrag"/>
+    </select>
+</sqlMap>

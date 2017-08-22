@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="dsm">
+	<typeAlias alias="DsmTransition" type="pl.nask.crs.domains.dsm.DsmTransition"/>
+
+	<resultMap id="transition" class="DsmTransition">
+		<result property="targetState" column="endState"/>
+		<result property="actionNames" column="id" select="dsm.getActions"/>
+	</resultMap>
+	
+	<resultMap id="action" class="pl.nask.crs.commons.Pair">
+		<result property="left" column="actionName"/>
+		<result property="right" column="actionParam"/>
+	</resultMap>
+
+
+	  <!-- Count events valid for the given domain state.  -->
+	  <select id="countEvents" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from DSM_Transition as Trans 
+			<!-- JOIN DSM_State as State ON (Trans.Begin_State = State.State) --> 
+			JOIN DSM_Event as Event ON (Trans.Event_Id = Event.Id) 
+			JOIN Domain as Domain ON (Trans.Begin_State = Domain.DSM_State) 
+			WHERE
+			Trans.Begin_State = Domain.DSM_State
+			AND
+			Event.Name = #criteria.eventName#
+			AND
+			Domain.D_Name = #criteria.domainName#
+	  </select>
+	  
+	  <!-- find the transition valid for the given event and domain state -->
+	  <select id="getTransition" parameterClass="java.util.Map" resultMap="transition">
+		select 
+			Trans.Id as id,
+			End_State as endState 
+			from DSM_Transition as Trans 
+			<!-- JOIN DSM_State as State ON (Trans.Begin_State = State.State) --> 
+			JOIN DSM_Event as Event ON (Trans.Event_Id = Event.Id) 
+			JOIN Domain as Domain ON (Trans.Begin_State = Domain.DSM_State) 
+			WHERE
+			Trans.Begin_State = Domain.DSM_State
+			AND
+			Event.Name = #criteria.eventName#
+			AND
+			Domain.D_Name = #criteria.domainName#		  
+	  </select>
+	  
+	  <select id="getActions" resultMap="action" parameterClass="java.lang.Integer">
+	  	select Action_Name as actionName, Action_Param as actionParam from DSM_Action as A
+	  	JOIN DSM_Transition_Action as TrAc ON (A.Id = TrAc.Action_Id)
+	  	where
+	  	TrAc.Transition_Id = #id#
+	  	ORDER BY TrAc.Order ASC
+	  </select>
+	  
+	  <!-- return event names which are valid in the given domain state -->
+	  <select id="getEventNames" parameterClass="java.util.Map" resultClass="java.lang.String">
+	  	select Event.Name from DSM_Transition as Trans 
+			JOIN Domain as Domain ON (Trans.Begin_State = Domain.DSM_State) 
+			JOIN DSM_Event as Event ON (Trans.Event_Id = Event.Id)
+			WHERE
+			Trans.Begin_State = Domain.DSM_State
+			AND
+			Domain.D_Name = #criteria.domainName#
+	  </select>
+</sqlMap>
+

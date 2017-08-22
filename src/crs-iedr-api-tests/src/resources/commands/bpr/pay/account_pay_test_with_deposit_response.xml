@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ieapi xmlns="http://www.domainregistry.ie/ieapi-1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3
+	ieapi-1.3.xsd">
+	<response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <account:payData
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-account-1.3 ieapi-account.1.1.xsd"
+                    xmlns:account="http://www.domainregistry.ie/ieapi-account-1.3"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <account:fee>120</account:fee>
+            	<account:vat>24</account:vat>
+                <account:total>144</account:total>
+            </account:payData>
+        </resData>
+    </response>
+</ieapi>

@@ -1,0 +1,31 @@
+<!-- START protected/views/accounts_msd/year.php -->
+<?php
+/**
+ * View page for Accounts MSD - Deletions over last year
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Accounts_msdController::actionYear(), Accounts_msdController::actionGetgriddata_deletions(), MSDDeletionsModel, jqGridWidget
+ */
+
+$pg = 'Deletions over Last Year';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php printBreadcrumbTrail($pg); ?></h2>
+<?php
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+$this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'caption'	=> $pg.' for \''.Yii::app()->user->name.'\'',
+	'thisfile'	=> $this->createUrl('accounts_msd/deletions',array('model'=>$model_serialised)),
+	'datasource'	=> $this->createUrl('accounts_msd/getgriddata_deletions',array('model'=>$model_serialised)),
+	'model'		=> $model,
+	'searching'	=> false,
+	'sorting'	=> false,
+	));
+?>
+<!-- END protected/views/accounts_msd/year.php -->

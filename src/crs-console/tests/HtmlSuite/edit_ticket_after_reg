@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://newregcon.iedr.ie/" />
+<title>edit_ticket_after_reg</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">edit_ticket_after_reg</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/domains/domainscreated/domaincreateresults/WUW%3DWBW%253DV0tXPThkOWU4NmNlMWY4OTNkZjkyZGE1NWQ1MWE4ZTNlMjg4Mzk5ZWMzMWRXU1c9TzoxNToiRG9tYWluc19DcmVhdGVkIjo2OntzOjE2OiJkb21haW5zcHJvY2Vzc2VkIjthOjE6e3M6MTM6InRlc3Rkb21haW4uaWUiO2E6MTp7czo2OiJ0aWNrZXQiO2k6Mzg2NTI1O319czoxNToiAENNb2RlbABfZXJyb3JzIjthOjA6e31zOjE5OiIAQ01vZGVsAF92YWxpZGF0b3JzIjtOO3M6MTc6IgBDTW9kZWwAX3NjZW5hcmlvIjtzOjA6IiI7czoxNDoiAENDb21wb25lbnQAX2UiO047czoxNDoiAENDb21wb25lbnQAX20iO047fQ%253D%253D</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=386525</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Edit Ticket ...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>EditTicketModel_applicant</td>
+	<td>label=Registered Trade Mark Name</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>EditTicketModel_requestersRemark</td>
+	<td>cro: 12345</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>yt0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPageToLoad</td>
+	<td>30000</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

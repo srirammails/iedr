@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+  <import resource="classpath:crs-api-config.xml"/>
+
+  <wss:binding url="/CRSAuthenticationService">
+  	<wss:service>
+  		<ws:service bean="#CRSAuthenticationService" />
+  	</wss:service>
+  </wss:binding>
+
+  <wss:binding url="/CRSResellerAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSResellerService" />
+  	</wss:service>
+  </wss:binding>
+
+   <wss:binding url="/CRSDomainAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSDomainAppService" />
+  	</wss:service>
+  </wss:binding>
+
+  <wss:binding url="/CRSDocumentAppService">
+    <wss:service>
+       <ws:service bean="#CRSDocumentAppService" />
+    </wss:service>
+  </wss:binding>
+
+  <wss:binding url="/CRSEmailDisablerAppService">
+    <wss:service>
+        <ws:service bean="#CRSEmailDisablerAppService" />
+    </wss:service>
+  </wss:binding>
+
+   <wss:binding url="/CRSNicHandleAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSNicHandleAppService" />
+  	</wss:service>
+  </wss:binding>
+
+   <wss:binding url="/CRSTicketAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSTicketAppService" />
+  	</wss:service>
+  </wss:binding>
+
+   <wss:binding url="/CRSPermissionsAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSPermissionsAppService" />
+  	</wss:service>
+  </wss:binding>
+
+   <wss:binding url="/CRSPaymentAppService">
+  	<wss:service>
+  		<ws:service bean="#CRSPaymentAppService" />
+  	</wss:service>
+  </wss:binding>
+
+    <wss:binding url="/CRSCommonAppService">
+       <wss:service>
+           <ws:service bean="#CRSCommonAppService" />
+       </wss:service>      
+    </wss:binding>
+
+    <wss:binding url="/CRSTriplePass">
+       <wss:service>
+           <ws:service bean="#CRSTriplePass" />
+       </wss:service>      
+    </wss:binding>
+
+    <wss:binding url="/CRSZoneAppService">
+       <wss:service>
+           <ws:service bean="#CRSZoneAppService" />
+       </wss:service>      
+    </wss:binding>
+    <wss:binding url="/CRSBatchAppService">
+       <wss:service>
+           <ws:service bean="#CRSBatchAppService" />
+       </wss:service>      
+    </wss:binding>
+        <wss:binding url="/CRSInfo">
+       <wss:service>
+           <ws:service bean="#CRSInfo" />
+       </wss:service>      
+    </wss:binding>
+</beans>

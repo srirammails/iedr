@@ -1,0 +1,109 @@
+<!-- START protected/views/site/pages/FormalisationDrafts.php -->
+<?php
+/**
+ * View page for Formalisation Drafts
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+$view='files/docs/'; ?>
+Dear IE Reseller,
+</p>
+
+<p class="content">
+Following ComReg's notification of its decision to appoint IEDR as the Registration Authority for the .ie namespace, IEDR is now seeking to formalise its relationships with the constituent members of the local internet community.
+</p>
+
+
+<ul class="content">
+<li>We intend to formalise our relationships with resellers with formal legal Registrar Agreements.</li>
+<li>We will formalise the Policy Development process by establishing a Policy Advisory Committee (PAC), whose membership will be derived from the local internet community (LIC).</li>
+<li>We will formalise our operational accountability by publishing a formal Appeals Process, a Grievance Process and a Complaints Process.</li>
+
+<li>We will formalise the transparency of data protection and data privacy by publishing a Privacy Policy on our website, together with our Whois policy.</li>
+</ul>
+<br>
+<p class="content">
+At a Board Meeting on 6 February the directors of the IEDR approved the release of the draft documents for discussion purposes with resellers. Engagement with the wider LIC on relevant issues will take place in due course. 
+</p>
+
+<p class="content">
+The documentation will be sent to resellers on Monday 16 February together with an FAQ document which seeks to address some likely common issues. We will arrange an information seminar in a Dublin venue within 45 days, by the end of March. The RDF will be available as a forum for resellers to raise issues for discussion or request clarification. We would ask for a level of professional courtesy when posting comments on the RDF. 
+</p>
+
+<p class="content">
+Our preference is for open communications on the RDF in the interests of transparency and encouraging participation, however if resellers want confidential communications please indicate this clearly in the header of your emails or written correspondence. We will be available by phone or email should resellers wish to clarify any matters. Queries or comments may be directed to <a href="mailto:formalisation@iedr.ie">formalisation@iedr.ie</a> 
+</p>
+
+<br>
+<h2>Registrar Agreement</h2>
+<p class="content">
+The objective of the draft agreement is to formalise relationships with resellers into a formal legal agreement setting out our roles and responsibilities and our mutual service commitments. The expectation is that the Agreement will be rolled over on an annual basis, and any agreed changes required to the agreement can be made on the annual rollover date.
+</p>
+<p class="content">
+The agreement is a draft, and will require some fine tuning. In principle the intention is to formalise the *existing* business relationship. We have used the .eu contract as a template for this Registrar Agreement, and have adapted the terms and conditions to reflect the reality of the business, technical and registration relationships in existence between the registry and the resellers in Ireland in recent years. The draft has also borrowed some conditions from the Danish and Nominet agreements with their registrars. If we have failed to refine the language sufficiently we are of course open to correction and to refinement of the offending terms. We expect that your legal advisors may have views about indemnities, and matters such as legal liability. Click <a href="<? echo $view; ?>IEDR_Registrar_Agreement_-_draft_160209_v1.pdf">here to download the draft Registrar Agreement.</a>
+<br>
+<br>
+<b>&lt;edited 20090316&gt;</b>
+<br>
+<br>
+Click <a href="<? echo $view; ?>IEDR-Registrar-Agreement-draft-160309-v2.pdf">here</a> for an updated draft of the Registrar Agreement.
+
+<br>
+<br>
+<b>&lt;/edited 20090316&gt;</b>
+</p>
+<br>
+
+<h2>Policy Advisory Committee (PAC)</h2>
+<p class="content">
+Please note that we have not yet engaged with the organisations listed in the Appendix to the PAC Terms of Reference (ToR) draft, with the exception of the IIA and ISPAI. We have replied to INEX, who contacted us directly on the matter. The list of organisations is therefore still in draft format and will only be finalised as they confirm or decline their intention to participate. ComReg is aware of this and has approved of this proposed course of action in forming the membership of the PAC.
+</p>
+
+<p class="content">
+Resellers will be represented on the PAC. There are currently over 80 active .ie resellers and clearly all resellers cannot attend the PAC meetings. There will need to be an election process, or similar, to appoint a small number of individuals (or organisations) to represent the views of resellers â€“ either collectively or perhaps on a Table A/Table B basis.Â&nbsp; However, the election process is up to resellers to agree on. IEDR will provide assistance or facilitate the process if requested to do so. Click <a href="<? echo $view; ?>IEDR_Policy_Advisory_Committee_PAC_ToR_-_draft_160209_v1.pdf">here to download the draft PAC ToR.</a>
+
+</p>
+<br>
+<h2>Appeals, Grievance and Complaint procedures and Privacy Policy</h2>
+<p class="content">
+Our strong preference is to bring the documents to a conclusion and begin implementation of the procedures as soon as practicable. We acknowledge that the PAC has a role in advising on these procedures and we will engage fully with the PAC when they are included on the PAC Agenda in due course. Any edits or refinement to the procedures which are recommended by the PAC in the interests of the LIC will of course be considered by management/directors in line with the PAC's ToR. We understand that ComReg is in agreement with this approach. However, if there is a consensus that the procedures should not be finalised in the way suggested here, and that we should await the formation of the PAC and its deliberations, we will respect those majority views and wait. Click <a href="<? echo $view; ?>IEDR_Privacy_Statement_-_draft_160209_v1.pdf">here to download the draft Privacy Policy.</a>
+<br>
+<br>
+<b>&lt;edited 20090306&gt;</b>
+<br>
+<br>
+Click <a href="<? echo $view; ?>IEDR_Appeals_process-draft-230209-v1.pdf">here</a> for the draft appeals process document.
+
+<br>
+<br>
+Click <a href="<? echo $view; ?>IEDR-Complaints-Procedure-draft-230209-v1.pdf">here</a> for the draft complaints procedure document.
+<br>
+<br>
+<b>&lt;/edited 20090306&gt;</b>
+</p>
+
+<p class="content">
+With regard to the Appeals procedure, we would again remind resellers that ComReg has powers under the E-Commerce Act 2007 as amended, to regulate to impose a procedure on the LIC. We believe that this should not be necessary, and that we can agree an acceptable, workable Appeals Procedure that will minimise any admin burden on resellers, while meeting the objectives of accountability and transparency of IEDR registration decision-making.
+</p>
+
+<p class="content">
+
+We look forward to a positive period of engagement with resellers on the above documents as we seek to formalise IEDR's relationships with the constituent members of the Local Internet Community.
+</p>
+
+<p class="content">
+Yours faithfully,
+</p>
+
+<p class="content">
+David Curtin<br>
+Chief Executive<br>
+IE Doman Registry Limited
+<!-- END protected/views/site/pages/FormalisationDrafts.php -->

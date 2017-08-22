@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="documentsService" class="pl.nask.crs.documents.service.DocumentServiceImpl">
+        <constructor-arg index="0" ref="documentDAO"/>
+        <constructor-arg index="1" ref="incomingDocumentsManager"/>
+        <constructor-arg index="2" ref="accountSearchService"/>
+        <constructor-arg index="3" ref="applicationConfig"/>
+        <constructor-arg index="4" ref="domainSearchService"/>
+        <constructor-arg index="5" ref="ticketSearchService"/>
+    </bean>
+
+    <bean id="incomingDocumentsManager" class="pl.nask.crs.documents.manager.IncomingDocumentsManagerImpl">
+        <constructor-arg index="0" ref="consoleUploadDir"/>
+        <constructor-arg index="1" ref="mailUploadDir"/>
+        <constructor-arg index="2" ref="documentsDir"/>
+
+        <property name="ignoreFilesWithUnsupportedExtension" value="true"/>
+        <property name="applicationConfig" ref="applicationConfig" />
+    </bean>
+
+    <bean id="documentSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:incoming-docs-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="documentIBatisDAO" class="pl.nask.crs.documents.dao.ibatis.InternalDocumentIBatisDAO">
+        <property name="sqlMapClient" ref="documentSqlMapClient"/>
+    </bean>
+
+    <bean id="documentConverter" class="pl.nask.crs.documents.dao.ibatis.converters.DocumentConverter">
+    </bean>
+
+    <bean id="documentDAO" class="pl.nask.crs.documents.dao.ibatis.ConvertingDocumentDAO">
+        <constructor-arg ref="documentIBatisDAO"/>
+        <constructor-arg ref="documentConverter"/>
+    </bean>
+
+    <bean id="documentReportsDAO" class="pl.nask.crs.documents.dao.ibatis.ConvertingDocumentReportsDAO">
+        <constructor-arg ref="documentReportsIBatisDAO"/>
+        <constructor-arg ref="documentReportsConverter"/>
+    </bean>
+
+    <bean id="documentReportsIBatisDAO" class="pl.nask.crs.documents.dao.ibatis.InternalDocumentReportsIBatisDAO">
+        <property name="sqlMapClient" ref="documentSqlMapClient"/>
+    </bean>
+
+    <bean id="documentReportsConverter" class="pl.nask.crs.documents.dao.ibatis.converters.DocumentReportsConverter"/>
+
+    <bean id="documentReportsSearchService" class="pl.nask.crs.documents.service.impl.DocumentReportsSearchServiceImpl">
+        <constructor-arg ref="documentReportsDAO"/>
+    </bean>
+
+
+</beans>

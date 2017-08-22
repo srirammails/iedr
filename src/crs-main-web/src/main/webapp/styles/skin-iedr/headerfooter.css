@@ -1,0 +1,121 @@
+/*
+	header and footer css elements
+	for color defs see main.css
+*/
+
+div#header {
+/*position: fixed;*/
+/*top: 0;*/
+/*right: 0; *//*bottom: 68px;*/
+/*left: 0;*/
+
+	clear: both; /*margin: 5px 0 0 0;*/
+	/*padding: 5px 0 0 0;*/
+
+	text-align: left;
+	/*z-index: 1;*/
+	background: #58b4a8;
+
+	margin-bottom: 10px;
+}
+
+.HM {
+	height: 88px;
+	width: 100%;
+}
+
+.HL {
+	float: left;
+	width: 170px;
+}
+
+.HLL {
+	margin-left: 10px;
+	background: url( "../../images/skin-iedr/web-parts/logo.png" ) no-repeat;
+	height: 62px;
+	color:white;
+	font-size: 0.9em;
+}
+
+.HLS {
+	background: #618848 none repeat scroll 0 0;
+	height: 22px;
+	width: 170px;
+}
+
+.HR {
+
+}
+.HRL {
+	height: 62px;
+}
+.HRT {
+	background: #618848 none repeat scroll 0 0;
+	height: 22px;
+}
+
+.HRT p {
+	margin: 0;
+	padding: 3px 0 0 0;
+	color: white;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+#header-image-upper {
+	width: 160px;
+	height: 107px;
+
+	background: url( "../../images/skin-iedr/web-parts/logo.png" ) no-repeat;
+	background-position: left;
+}
+
+#header-image-lower {
+	/*width: 160px; *//*height: 59px;*/
+	/*height: 38px;*/
+
+	/*background: url( "../../images/skin-default/web-parts/logo.lower.png" ) no-repeat;*/
+	/*background-position: left;*/
+}
+
+#header-main {
+	margin: 0;
+	padding: 0; /*background: url( "../images/header.png" ) no-repeat;*/
+	/*border-bottom: 1px solid #70b46e; *//* dark green color *//*;*/
+
+	height: 107px;
+	text-align: left;
+}
+
+#header-title {
+	padding-right: 10px;
+	padding-left: 10px;
+
+	position: relative;
+	top: 18px;
+	height: 32px;
+	min-width: 350px;
+}
+
+div#footer {
+/*position: fixed;*/
+/*right: 0;*/
+/*left: 0;*/
+/*bottom: 0;*/
+/*height: 16px;*/
+
+	clear: both;
+
+	padding: 10px 10px;
+	border-top: 1px solid #70b46e; /* dark green color */;
+	background: #f9f9f9; /* very light gray color for page background */
+
+	text-align: center;
+}
+
+div#footer img {
+	margin-top: -4px;
+	vertical-align: middle;
+}
+
+

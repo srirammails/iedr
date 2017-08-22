@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * defines domain-pricing information functions
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+
+/**
+ * returns cached domain pricing info array, getting data and filling cache if necessary
+ * 
+ * @return array pricing data, see {@link _get_reg_prices}
+ */
+function get_reg_prices()
+	{
+	$timeout = 9000;
+	$cache_key = 'data_get_domain_prices';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_reg_prices();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * Returns domain pricing information
+ * 
+ * Returns array with four sub-arrays;
+ * 
+ * - 'CODE' : maps all product IDs to product description
+ * 
+ * - 'REG' : maps only registration product IDs to product descriptions
+ * 
+ * - 'REN' : maps only renewal product IDs to product descriptions
+ * 
+ * - 'DEFAULT' : maps string keys 'REN' and 'REG' to default renewal and registration product IDs respectively
+ * 
+ * @return array domain pricing data
+ */
+function _get_reg_prices()
+	{
+	$regprice = array();
+	// get data with code
+	$regprice['CODE'] = array();
+	// get Registration list
+	$regprice['REG'] = array();
+	// get Renewal list
+	$regprice['REN'] = array();
+	// defaults
+	$regprice['DEFAULT'] = array();
+
+	$result = null;
+	$errs = null;
+	CRSDomainAppService_service::getDomainPricing($result,$errs, Yii::app()->user->authenticatedUser);
+	if($errs==null and is_array($result))
+		{
+		foreach($result as $p)
+			{
+			$regprice['CODE'][$p->id] = $p;
+			if($p->forRegistration)
+				{
+				$regprice['REG'][$p->id] = $p;
+				if($p->defaultPrice)
+					$regprice['DEFAULT']['REG'] = $p->id;
+				}
+			if($p->forRenewal)
+				{
+				$regprice['REN'][$p->id] = $p;
+				if($p->defaultPrice)
+					$regprice['DEFAULT']['REN'] = $p->id;
+				}
+			}
+		}
+	return $regprice;
+	}
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="ticket-status">
+
+    <cacheModel id="statusCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+
+    <select id="getTechStatusById" cacheModel="statusCache" parameterClass="java.lang.Integer"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            Status as id,
+            Description as description
+        FROM
+            TicketTechStatus
+        WHERE
+            Status = #id#
+    </select>
+
+    <select id="getTechStatusList" cacheModel="statusCache"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            Status as id,
+            Description as description
+        FROM
+            TicketTechStatus
+    </select>
+
+    <select id="getAdminStatusById" cacheModel="statusCache" parameterClass="java.lang.Integer"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            Status as id,
+            Description as description
+        FROM
+            TicketAdminStatus
+        WHERE
+            Status = #id#
+    </select>
+
+    <select id="getAdminStatusList" cacheModel="statusCache"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            Status as id,
+            Description as description
+        FROM
+            TicketAdminStatus
+    </select>
+
+    <select id="getFailureReasonById" cacheModel="statusCache" parameterClass="java.lang.Integer"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            FailCd as id,
+            Description as description,
+            Data_Field as dataField
+        FROM
+            TicketFailCd
+        WHERE
+            FailCd = #id#
+    </select>
+
+    <select id="getFailureReasonList" cacheModel="statusCache"
+            resultClass="pl.nask.crs.ticket.dao.ibatis.objects.InternalStatus">
+        SELECT
+            FailCd as id,
+            Description as description,
+            Data_Field as dataField
+        FROM
+            TicketFailCd
+    </select>
+
+</sqlMap>
+

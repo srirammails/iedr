@@ -1,0 +1,151 @@
+div.group-content-error {
+	clear: both;
+
+	margin: 0 5px;
+	padding: 10px 5px;
+
+	min-height: 60px;
+
+	background: white;
+
+	border-top: 0;
+	border-right: 1px solid #dd7777; /* dark red color */
+/*border-bottom: 1px solid #dd7777; *//* dark red color */
+	border-left: 1px solid #dd7777; /* dark red color */
+}
+
+div.group-content-error .errorMessage {
+	color: #c72222 !important; /* even more dark red color */
+}
+
+div.group-content-error ul li {
+	margin-left: 33%;
+	list-style-image: url( "../../images/skin-default/action-icons/exclamation.png" );
+}
+
+div.group-bottom-error {
+	clear: both;
+	overflow: hidden;
+
+	padding: 0 5px 5px 5px;
+	margin-bottom: 15px;
+
+	height: 4px;
+	line-height: 4px;
+}
+
+div.group-bottom-error-fix {
+	overflow: hidden;
+}
+
+td.lu-corner-error {
+	background: url( "../../images/skin-default/web-parts/border.left.up.herror.png" ) no-repeat;
+	width: 18px;
+}
+
+td.up-corner-error {
+	background: url( "../../images/skin-default/web-parts/border.up.herror.png" ) repeat-x;
+	width: auto;
+}
+
+td.up-corner-error p {
+	margin: 12px 0 0 0 !important; /* just to move group-header title a bit down */
+}
+
+td.ru-corner-error {
+	background: url( "../../images/skin-default/web-parts/border.right.up.herror.png" ) no-repeat;
+	width: 18px;
+}
+
+.ld-corner-round-error {
+	float: left;
+	width: 5px;
+	height: 5px;
+	background: url( "../../images/skin-default/web-parts/border.left.down.herror.png" ) no-repeat;
+	overflow: hidden;
+}
+
+.dn-corner-round-error {
+	height: 4px;
+	background: white none repeat scroll 0;
+	border-bottom: 1px solid #dd7777; /* dark red color */
+	overflow: hidden;
+}
+
+.rd-corner-round-error {
+	float: right;
+
+	margin: inherit;
+	padding: inherit;
+
+	width: 5px;
+	height: 5px;
+
+	background: url( "../../images/skin-default/web-parts/border.right.down.herror.png" ) no-repeat;
+	overflow: hidden;
+	display: inherit;
+}
+
+/*invalid*/
+/*-------------------*/
+
+.invalid-field {
+	clear: both;
+	padding: 2px 5px 25px 5px;
+	border-top: 1px solid #dd7777; /* dark red color */
+}
+
+.invalid-field-icon {
+	clear: left;
+	float: left;
+
+	width: 32px;
+	height: 16px;
+
+	background: url( "../../images/skin-default/action-icons/arrow.up.red.png" ) no-repeat;
+}
+
+.invalid-field-description {
+	padding: 2px;
+
+	font-size: 0.9em;
+	font-weight: normal;
+
+	color: #c72222 !important; /* even more dark red color */
+	vertical-align: 0.3em;
+}
+
+
+
+
+table.error-result {
+	clear: both;
+	margin: 10px 0 5px 0;
+
+	border-collapse: collapse;
+	border-bottom: 1px solid #e8a0a0; /* medium red color */
+	width: 100%;
+}
+
+table.error-result tr:hover {
+	background: #f1caca; /* light red color */
+}
+
+table.error-result th {
+	padding: 5px;
+	background: #e8a0a0; /* medium red color */
+
+	font-weight: normal;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.error-result td {
+	padding: 5px;
+
+	color: #4C4C4C; /* very darkgray color for main font color */
+	border-top: #e8a0a0; /* medium red color */
+	font-size: 0.9em;
+	text-align: left;
+	vertical-align: top;
+}

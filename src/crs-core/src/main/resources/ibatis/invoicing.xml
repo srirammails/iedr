@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="invoicing">
+    <select id="getMinInvoiceYear" resultClass="date">
+        SELECT
+        MIN(Year)
+        FROM
+        LastInvoiceNumber
+        FOR UPDATE
+    </select>
+
+    <select id="getLastInvoiceNumber" resultClass="int">
+        SELECT
+        Last_Number
+        FROM
+        LastInvoiceNumber
+        WHERE
+        Year = #year,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+        FOR UPDATE
+    </select>
+
+    <insert id="initLastInvoiceNumber">
+        INSERT INTO LastInvoiceNumber
+        (
+        Year,
+        Last_Number
+        ) VALUES (
+        #year,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#,
+        #lastInvoiceNumber#
+        );
+    </insert>
+
+    <update id="updateLast" parameterClass="java.util.Map">
+        UPDATE
+        LastInvoiceNumber
+        SET
+        Last_Number = #nextInvoiceNumber#
+        WHERE
+        Year = #year,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+    </update>
+</sqlMap>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="historicalNicHandle">
+
+    <resultMap id="internalHistoricalNicHandle" class="pl.nask.crs.nichandle.dao.ibatis.objects.InternalHistoricalNicHandle" groupBy="changeId">
+        <result property="changeId" column="changeId"/>
+        <result property="histChangeDate" column="histChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="changedByNicHandle" column="changedByNicHandle"/>
+        <result property="nicHandleId" column="nicHandleId"/>
+        <result property="name" column="name"/>
+        <result property="accountNumber" column="accountNumber"/>
+        <result property="companyName" column="companyName"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="country" column="country"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.NicHandleStatusHandler"/>
+        <result property="statusChangeDate" column="statusChangeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="registrationDate" column="registrationDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateNotNullHandler"/>
+        <result property="changeDate" column="changeDate" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler"/>
+        <result property="billCInd" column="billCInd" typeHandler="pl.nask.crs.nichandle.dao.ibatis.handlers.BillCIndHandler"/>
+        <result property="nicHandleRemark" column="nicHandleRemark"/>
+        <result property="creator" column="creator"/>
+        <result property="vatNo" column="vatNo"/>
+        <result property="telecoms" resultMap="nicHandle.telecoms"/>
+        <result property="agreementSigned" column="agreementSigned" javaType="boolean" nullValue="false"/>
+        <result property="ticketEdit" column="ticketEdit" javaType="boolean" nullValue="false"/>
+    </resultMap>
+
+    <sql id="selectJoin">
+    <![CDATA[
+        SELECT
+            NH.Chng_ID as changeId,
+            NH.Nic_Handle as nicHandleId,
+            NH.NH_Name as name,
+            NH.A_Number as accountNumber,
+            NH.Co_Name as companyName,
+            NH.NH_Address as address,
+            NH.NH_County as county,
+            NH.NH_Country as country,
+            NH.NH_Email as email,
+            NH.NH_Status as status,
+            NH.NH_Status_Dt as statusChangeDate,
+            NH.NH_Reg_Dt as registrationDate,
+            NH.NH_TStamp as changeDate,
+            NH.NH_BillC_Ind as billCInd,
+            NH.NH_Remark as nicHandleRemark,
+            NH.NH_Creator as creator,
+            NH.Chng_NH as changedByNicHandle,
+            NH.Chng_Dt as histChangeDate,
+            T.Phone as Telecom_number,
+            T.Type as Telecom_type,
+            P.VAT_Reg_ID as vatNo,
+            NH.Vat_Category as vatCategory,
+            IF((ISNULL(JAFH.Agreement_Signed)), AF.Agreement_Signed, JAFH.Agreement_Signed) as agreementSigned,
+            IF((ISNULL(JAFH.Ticket_Edit)), AF.Ticket_Edit, JAFH.Ticket_Edit) as ticketEdit
+        FROM
+            NicHandleHist as NH
+            LEFT OUTER JOIN TelecomHist T ON NH.Chng_ID = T.Chng_ID
+            LEFT OUTER JOIN PaymentHist P ON NH.Chng_ID = P.Chng_ID
+
+            LEFT OUTER JOIN
+                (
+                    SELECT ah.Chng_Dt, afh.A_Number, afh.TStamp, afh.Agreement_Signed, afh.Ticket_Edit
+                    FROM AccountFlagsHist afh, AccountHist ah WHERE afh.Chng_ID = ah.Chng_ID
+                    ORDER BY ah.Chng_ID desc
+                ) as JAFH
+                ON (NH.A_Number = JAFH.A_Number AND NH.Chng_Dt < JAFH.Chng_dt AND NH.Chng_Dt >= JAFH.TStamp)
+            LEFT OUTER JOIN AccountFlags AF
+                ON (NH.A_Number = AF.A_Number and AF.TStamp <= NH.Chng_Dt)
+    ]]>
+    </sql>
+    
+    <sql id="selectCount">
+    	select count(distinct(NH.Chng_ID))
+    	FROM NicHandleHist as NH
+    </sql>
+
+
+    <sql id="conditions">
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.nicHandleId">
+                NH.Nic_Handle = #criteria.nicHandleId#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.changeDate">
+               NH.Chng_Dt = #criteria.changeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.TruncatedDateHandler#
+            </isNotNull>
+        </dynamic>
+    </sql>
+    
+    <sql id="limit">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="findHistoricalNicHandle" resultMap="internalHistoricalNicHandle">
+        <include refid="historicalNicHandle.selectJoin"/>
+        <include refid="historicalNicHandle.conditions"/>
+        GROUP BY
+            NH.Chng_ID
+        ORDER BY
+            NH.Chng_ID desc
+        <include refid="historicalNicHandle.limit"/>
+    </select>
+
+    <select id="get" resultMap="internalHistoricalNicHandle" parameterClass="pl.nask.crs.nichandle.dao.HistoricalNicHandleKey">
+        <include refid="historicalNicHandle.selectJoin"/>
+        WHERE
+            NH.Chng_ID = #changeId#
+        AND
+            NH.Nic_Handle = #nicHandle#
+    </select>
+
+    <select id="findCount" parameterClass="java.util.Map" resultClass="int">
+        <include refid="historicalNicHandle.selectCount"/>
+        <include refid="historicalNicHandle.conditions"/>
+    </select>
+
+    <insert id="createHistoricalNicHandle">
+        INSERT INTO NicHandleHist (
+            Nic_Handle,
+            NH_Name,
+            A_Number,
+            Co_Name,
+            NH_Address,
+            NH_County,
+            NH_Country,
+            NH_Email,
+            NH_Status,
+            NH_Status_Dt,
+            NH_Reg_Dt,
+            NH_TStamp,
+            NH_BillC_Ind,
+            NH_Remark,
+            NH_Creator,
+            Chng_Dt,
+            Chng_NH,
+            Vat_category
+        )
+        SELECT
+            NH.Nic_Handle,
+            NH.NH_Name,
+            NH.A_Number,
+            NH.Co_Name,
+            NH.NH_Address,
+            NH.NH_County,
+            NH.NH_Country,
+            NH.NH_Email,
+            NH.NH_Status,
+            NH.NH_Status_Dt,
+            NH.NH_Reg_Dt,
+            NH.NH_TStamp,
+            NH.NH_BillC_Ind,
+            NH.NH_Remark,
+            NH.NH_Creator,
+            #histChangeDate,handler=pl.nask.crs.commons.dao.ibatis.handlers.ZeroDateHandler#,
+            #changedByNicHandle#,
+            NH.Vat_Category
+        FROM
+            NicHandle as NH
+        WHERE
+            NH.Nic_Handle = #nicHandleId#
+        <selectKey keyProperty="changeId" resultClass="long">
+            SELECT LAST_INSERT_ID() AS changeId
+        </selectKey>
+    </insert>
+
+    <insert id="insertHistoricalTelecoms" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalHistoricalNicHandle">
+        INSERT INTO TelecomHist(
+            Chng_ID,
+            Nic_Handle,
+            Phone,
+            Type
+        ) SELECT
+            #changeId#,
+            Nic_Handle,
+            Phone,
+            Type
+        FROM
+            Telecom
+        WHERE
+            Nic_Handle = #nicHandleId#
+    </insert>
+
+    <insert id="insertHistoricalPayment" parameterClass="pl.nask.crs.nichandle.dao.ibatis.objects.InternalHistoricalNicHandle">
+        INSERT INTO PaymentHist(
+            Chng_ID,
+            Billing_Contact,
+            Credit_Card_Type,
+            Name_on_Card,
+            Card_Number,
+            Expiry_Date,
+            Bank_Account_Holder,
+            Bank,
+            NSC,
+            AC_Number,
+            Address,
+            VAT_Reg_ID,
+            VAT_exempt
+        ) SELECT
+            #changeId#,
+            P.Billing_Contact,
+            P.Credit_Card_Type,
+            P.Name_on_Card,
+            P.Card_Number,
+            P.Expiry_Date,
+            P.Bank_Account_Holder,
+            P.Bank,
+            P.NSC,
+            P.AC_Number,
+            P.Address,
+            P.VAT_Reg_ID,
+            P.VAT_exempt
+        FROM
+            Payment as P
+        WHERE
+            P.Billing_Contact = #nicHandleId#
+    </insert>
+
+</sqlMap>
+

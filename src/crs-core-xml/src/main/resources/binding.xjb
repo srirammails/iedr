@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+          xsi:schemaLocation=" http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" version="2.1">
+    <bindings>
+        <globalBindings>
+            <xjc:javaType xmlType="xs:date" name="java.util.Date"
+                adapter="pl.nask.crs.xml.DateAdapter" />
+            <xjc:javaType xmlType="xs:dateTime" name="java.util.Date"
+                adapter="pl.nask.crs.xml.DateTimeNoTimezoneAdapter" />
+            <xjc:javaType xmlType="xs:gYearMonth" name="java.util.Date"
+                adapter="pl.nask.crs.xml.YearMonthAdapter" />
+            <xjc:javaType xmlType="xs:time" name="java.util.Date"
+                adapter="pl.nask.crs.xml.TimeAdapter" />
+        </globalBindings>
+    </bindings>
+</bindings>

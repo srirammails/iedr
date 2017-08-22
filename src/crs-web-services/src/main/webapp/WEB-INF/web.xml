@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+	<display-name>CRS WS API</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			 WEB-INF/classes/applicationContext.xml			 
+		</param-value>
+	</context-param>
+
+	<!-- this is for Spring -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+    <servlet>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <servlet-class>pl.nask.crs.commons.email.servlet.EmailSenderServlet</servlet-class>
+        <load-on-startup>10</load-on-startup>
+    </servlet>
+
+	<servlet-mapping>
+        <servlet-name>emailWorkerMonitor</servlet-name>
+        <url-pattern>/emailWorkerMonitor</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>view-invoice-servlet</servlet-name>
+        <servlet-class>pl.nask.crs.web.service.AccessInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-invoice-servlet</servlet-name>
+        <url-pattern>/view-invoice/*</url-pattern>
+    </servlet-mapping>
+
+	<!-- these are for JAX-WS -->
+	<servlet>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+</web-app>
+

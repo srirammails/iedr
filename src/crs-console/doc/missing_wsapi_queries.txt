@@ -1,0 +1,64 @@
+
+-- category and class for select-lists
+
+SELECT Class.name AS Class, Class.id AS Clid, Category.name AS Cat, Category.id AS Cid
+    FROM Class, Category, Class_to_Category
+    WHERE Category.id = Class_to_Category.category_id
+    AND Class.id = Class_to_Category.class_id;
+
+-- VAT rate for NIC for BILLING-DATE
+?
+
+-- price/period, for select-list
+
+SELECT P_Code, P_Duration, P_Price
+    FROM Product
+    WHERE P_Guest = 0
+    AND P_Duration != '1'
+    AND CURDATE() BETWEEN P_Valid_From AND P_Valid_To
+    AND P_Ren='1'
+    ORDER BY P_Duration;
+
+SELECT P_Code, concat(P_Long_Desc,' ( ex VAT: ',P_Price,')')
+FROM Product
+WHERE P_Guest=0
+AND CURDATE() BETWEEN P_Valid_From AND P_Valid_To
+AND P_Active=1
+AND P_Reg=1
+ORDER BY P_Duration;
+
+-- reseller defaults
+
+Select * From Reseller_Defaults Where Nic_Handle='AAE553-IEDR';
+
+--- short statistics
+
+		-- Domain Count :
+			select count(*) from Domain where A_Number=237;
+
+		-- Ticket Count :
+			select count(*) from Ticket where A_Number=237;
+
+		-- New Regs (This Month) :
+			Select Count(D_Name) As NewRegs From Domain Where A_Number = 237 And D_Reg_Dt > DATE_FORMAT(NOW(), '%Y-%m-01');
+
+		-- Pending Tickets :
+			Select Count(D_Name) As PendingTickets From Ticket Where A_Number = 237 And Tech_Status != 1;
+
+		-- Transfers In (last 30 days) :
+			SELECT Count(D_Name) As D_Name FROM Transfers Where New_Nic_Handle = 'AAE553-IEDR' And Tr_Date >= CURDATE() -  INTERVAL 30 DAY
+
+		-- Passed Tickets :
+			Select Count(D_Name) As D_Name From Ticket Where A_Number = $bill And Admin_Status = 1 And Tech_Status = 1
+
+		-- Transfers Out (last 30 days) :
+			Select Count(D_Name) As D_Name From Transfers Where Old_Nic_Handle = 'AAE553-IEDR' And Tr_Date >= CURDATE() -  INTERVAL 30 DAY
+			UNION
+			Select Count(D_Name) As D_Name From TransfersHist Where Old_Nic_Handle = 'AAE553-IEDR' And Tr_Date >= CURDATE() -  INTERVAL 30 DAY
+
+		-- Statement Balance :
+			Select Total_Bal FROM Statement Where Nic_Handle = 'AAE553-IEDR' Limit 2,1000;
+
+		-- Deposit Balance :
+			Select Close_Bal FROM Deposit WHERE Nic_Handle = 'AAE553-IEDR' limit 1;
+

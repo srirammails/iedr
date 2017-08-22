@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="emailtemplate">
+
+    <resultMap id="emailTemplateResult" class="pl.nask.crs.commons.email.EmailTemplate">
+        <result property="id"/>
+        <result property="name"/>
+        <result property="text"/>
+        <result property="subject"/>
+        <result property="toList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="ccList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="bccList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="internalToList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="internalCcList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="internalBccList" typeHandler="pl.nask.crs.commons.email.dao.ibatis.handlers.ContactListHandler"/>
+        <result property="mailSmtpFrom"/>
+        <result property="active" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="html" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="suppressible" typeHandler="pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler"/>
+        <result property="sendReason"/>
+        <result property="nonSuppressibleReason"/>
+        <result property="group" resultMap="emailgroup.emailGroupResult"/>
+    </resultMap>
+
+    <sql id="selectEmailTemplate">
+        SELECT
+        e.E_ID as id,
+        e.E_Name as name,
+        e.E_Text as text,
+        e.E_Subject as subject,
+        e.E_To as toList,
+        e.E_CC as ccList,
+        e.E_BCC as bccList,
+        e.E_To_Internal as internalToList,
+        e.E_CC_Internal as internalCcList,
+        e.E_BCC_Internal as internalBccList,
+        e.E_From as mailSmtpFrom,
+        e.active as active,
+        e.Html as html,
+        e.E_Suppressible as suppressible,
+        e.E_Send_Reason as sendReason,
+        e.E_Non_Suppressible_Reason as nonSuppressibleReason,
+        eg.EG_ID as EG_ID,
+        eg.EG_Name as EG_Name,
+        eg.EG_Visible as EG_Visible,
+        eg.EG_TS as EG_TS
+        FROM Email e
+        LEFT JOIN EmailGroup eg ON e.EG_ID = eg.EG_ID
+    </sql>
+
+    <sql id="whereFrag">
+        <dynamic prepend="WHERE">
+            <isNotNull property="criteria.id" prepend="AND">
+                e.E_ID = #criteria.id#
+            </isNotNull>
+            <isNotNull property="criteria.name" prepend="AND">
+                e.E_Name = #criteria.name#
+            </isNotNull>
+            <isNotNull property="criteria.groupId" prepend="AND">
+                e.EG_ID = #criteria.groupId#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="getTemplateById" resultMap="emailtemplate.emailTemplateResult" parameterClass="int">
+        <include refid="selectEmailTemplate"/>
+        WHERE E_ID = #id#
+    </select>
+
+    <select id="getNameById" resultClass="string" parameterClass="int">
+        SELECT
+        E_Name as name
+        FROM Email
+        WHERE E_ID = #id#
+    </select>
+
+    <sql id="limitFrag">
+        <dynamic>
+            <isNotNull property="limit">
+                limit #limit#
+            </isNotNull>
+            <isNotNull property="offset">
+                offset #offset#
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <sql id="sortFrag">
+        <dynamic>
+            <isNotNull property="sortCriteria">
+                <isNotEmpty property="sortCriteria" prepend="ORDER BY">
+                    <iterate property="sortCriteria" conjunction=",">
+                        $sortCriteria[].sortBy$ $sortCriteria[].direction$
+                    </iterate>
+                </isNotEmpty>
+            </isNotNull>
+        </dynamic>
+    </sql>
+
+    <select id="find" resultMap="emailtemplate.emailTemplateResult" parameterClass="java.util.Map">
+        <include refid="selectEmailTemplate"/>
+        <include refid="whereFrag"/>
+        <include refid="sortFrag"/>
+        <include refid="limitFrag"/>
+    </select>
+
+    <select id="findCount" parameterClass="java.util.Map" resultClass="int">
+        SELECT COUNT(*)
+        FROM Email e
+    </select>
+
+    <update id="update" parameterClass="pl.nask.crs.commons.email.EmailTemplate">
+        UPDATE
+            Email e
+        SET
+            e.E_Suppressible = #suppressible,handler=pl.nask.crs.commons.dao.ibatis.handlers.CharToBooleanHandler#,
+            e.E_Send_Reason = #sendReason#,
+            e.E_Non_Suppressible_Reason = #nonSuppressibleReason#,
+            e.EG_ID = #group.id#
+        WHERE
+            E_ID = #id#;
+    </update>
+
+    <select id="lock" parameterClass="int" resultClass="java.lang.String">
+        SELECT
+            E_ID
+        FROM
+            Email
+        WHERE
+            E_ID = #id#
+        FOR UPDATE
+    </select>
+
+    <select id="findAndLockForUpdate" parameterClass="java.util.Map" resultMap="emailtemplate.emailTemplateResult">
+        <include refid="selectEmailTemplate"/>
+        <include refid="whereFrag"/>
+        FOR UPDATE
+    </select>
+
+    <select id="findAndLockInShareMode" parameterClass="java.util.Map" resultMap="emailtemplate.emailTemplateResult">
+        <include refid="selectEmailTemplate"/>
+        <include refid="whereFrag"/>
+        LOCK IN SHARE MODE
+    </select>
+
+</sqlMap>

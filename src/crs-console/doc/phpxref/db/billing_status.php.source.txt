@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * defines functions for billing status, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * gets cached billing status codes and descriptions, or gets data and fills cache if uncached
+ * 
+ * @return array array of billing status codes and descriptions
+ */
+function get_billing_status()
+	{
+	$timeout = 60;
+	$cache_key = 'data_get_billing_status';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_billing_status();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * gets billing status codes and descriptions
+ * 
+ * @return array array of billing status codes and descriptions
+ */
+function _get_billing_status()
+	{
+	$d = DB::get_db();
+	$sql = 'SELECT Status,Description,DetailedDescription,Colour FROM BillStatus;';
+	$d->query($sql,__FILE__,__LINE__);
+	$bill_status = array();
+	while($r = $d->fetch())
+		{
+		$bill_status[$r->Description] = $r;
+		}
+	return $bill_status;
+	}
+

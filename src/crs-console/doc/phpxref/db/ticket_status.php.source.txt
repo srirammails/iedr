@@ -1,0 +1,201 @@
+<?php
+
+/**
+ * defines functions related to ticket status codes, which are not handled by the NASK CRS-WS-API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * gets, via cache, from database, TicketTechStatus codes
+ * 
+ * @return array maps if Ticket Tech Status Codes to Ticket Tech Status Descriptions
+ */
+function get_tech_status()
+	{
+	$timeout = 60;
+	$cache_key = 'data_get_tech_status';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_tech_status();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * gets, from database, TicketTechStatus codes
+ * 
+ * @return array maps if Ticket Tech Status Codes to Ticket Tech Status Descriptions
+ */
+function _get_tech_status()
+	{
+	$d = DB::get_db();
+	$sql = 'select Status, Description from TicketTechStatus;';
+	$d->query($sql,__FILE__,__LINE__);
+	$tech_status = array();
+	while($r = $d->fetch())
+		{
+		$tech_status[$r->Status] = $r->Description;
+		}
+	return $tech_status;
+	}
+
+$tech_sts_wsapi_strings = array(
+	0 => 'New',
+	1 => 'Passed',
+	2 => 'Stalled',
+	5 => 'Renew',
+	9 => 'Cancelled',
+	);
+
+$tech_sts_console_strings = array(
+	0 => 'NEW / Not Checked',
+	1 => 'Accepted',
+	2 => 'DNS Problems',
+	5 => 'Cancelled',
+	9 => 'Deleted at 17.30 today',
+	);
+
+/**
+ * converts a CRS-WS-API Tech Status string to Version for use in Web Page Display
+ * 
+ * @param  string $wsapi_str CRS-WS-API Ticket Tech Status
+ * @return string Web-page version of Tech status string
+ */
+function decipher_tech_status($wsapi_str)
+	{
+	global $tech_sts_wsapi_strings, $tech_sts_console_strings;
+	$n = 0;
+	foreach($tech_sts_wsapi_strings as $k => $v)
+		if($v == $wsapi_str)
+			{ $n = $k; break; }
+	$r = isset($tech_sts_console_strings[$n]) ? $tech_sts_console_strings[$n] : 'Undefined';
+	Yii::log('decipher_tech_status('.$wsapi_str.')=>'.$r, 'info', '');
+	return $r;
+	}
+
+/**
+ * converts a Web-Page Ticket Tech Status string to CRS-WS-API integer code
+ * 
+ * @param  string $sts Web-Page Ticket Tech Status string
+ * @return integer CRS-WS-API integer code
+ */
+function encode_tech_status_to_int($sts)
+	{
+	$n = null;
+	global $tech_sts_console_strings;
+	foreach($tech_sts_console_strings as $k => $v)
+		if(preg_match('/.*'.$sts.'.*/i',$v)!==0)
+			{ $n = $k; break; }
+	Yii::log('encode_tech_status_to_int('.$sts.')=>'.$n, 'info', '');
+	return $n;
+	}
+
+/**
+ * gets, via cache, from database, TicketAdminStatus codes
+ * 
+ * @return array maps if Ticket Admin Status Codes to Ticket Admin Status Descriptions
+ */
+function get_admin_status()
+	{
+	// get from cache
+	$timeout = 60;
+	$cache_key = 'data_get_admin_status';
+	$s = Yii::app()->cache->get($cache_key);
+	if($s==null)
+		{
+		$s = _get_admin_status();
+		Yii::app()->cache->set($cache_key, $s, $timeout);
+		}
+	return $s;
+	}
+
+/**
+ * gets, from database, TicketAdminStatus codes
+ * 
+ * @return array maps if Ticket Admin Status Codes to Ticket Admin Status Descriptions
+ */
+function _get_admin_status()
+	{
+	// get from DB
+	$d = DB::get_db();
+	$sql = 'select Status, Description from TicketAdminStatus;';
+	$d->query($sql,__FILE__,__LINE__);
+	$admin_status = array();
+	while($r = $d->fetch())
+		{
+		$admin_status[$r->Status] = $r->Description;
+		}
+	return $admin_status;
+	}
+
+$admin_sts_wsapi_strings = array(
+	 0 => 'NEW',
+	 1 => 'PASSED',
+	 2 => 'HOLD_UPDATE',
+	 3 => 'HOLD_PAPERWORK',
+	 4 => 'STALLED',
+	 5 => 'RENEW',
+	 6 => 'FINANCE_HOLDUP',
+	 9 => 'CANCELLED',
+	10 => 'HOLD_REGISTRAR_APPROVAL',
+	11 => 'DOCUMENTS_SUBMITTED',
+	);
+
+$admin_sts_console_strings = array(
+	 0 => 'New / Not Checked',
+	 1 => 'Accepted', 
+	 2 => 'Registrar Action Required',
+	 3 => 'Documentation Required', 
+	 4 => 'Cancelled',
+	 5 => 'Hostmaster Action Required',
+	 6 => 'Finance Holdup',
+	 9 => 'Deleted by 17:30 today', 
+	10 => 'Hold Registrar Approval',
+	11 => 'Documents Submitted',
+	);
+
+/**
+ * converts a CRS-WS-API Admin Status string to Version for use in Web Page Display
+ * 
+ * @param  string $wsapi_str CRS-WS-API Ticket Admin Status
+ * @return string Web-page version of Admin status string
+ */
+function decipher_admin_status($wsapi_str)
+	{
+	// wsapi-string to console display string
+	global $admin_sts_wsapi_strings, $admin_sts_console_strings;
+	$n = 0;
+	foreach($admin_sts_wsapi_strings as $k => $v)
+		if($v == $wsapi_str)
+			{ $n = $k; break; }
+	$r = isset($admin_sts_console_strings[$n]) ? $admin_sts_console_strings[$n] : 'Undefined';
+	Yii::log('decipher_admin_status('.$wsapi_str.')=>'.$r, 'info', '');
+	return $r;
+	}
+
+/**
+ * converts a Web-Page Ticket Admin Status string to CRS-WS-API integer code
+ * 
+ * @param  string $sts Web-Page Ticket Admin Status string
+ * @return integer CRS-WS-API integer code
+ */
+function encode_admin_status_to_int($sts)
+	{
+	$n = null;
+	global $admin_sts_console_strings;
+	foreach($admin_sts_console_strings as $k => $v)
+		if(preg_match('/.*'.$sts.'.*/i',$v)!==0)
+			{ $n = $k; break; }
+	Yii::log('encode_admin_status_to_int('.$sts.')=>'.$n, 'info', '');
+	return $n;
+	}
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<request timestamp="20130422131403" type="settle">
+	<merchantid>merchantId</merchantid>
+	<account>account</account>
+	<orderid>orderId</orderid>
+	<pasref>passref</pasref>
+	<authcode>authcode</authcode>
+	<md5hash>e34775da4ee25ff2abe74299d98d8b5f</md5hash>
+</request>

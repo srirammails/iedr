@@ -1,0 +1,61 @@
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <account:resData xsi:schemaLocation="http://www.domainregistry.ie/ieapi-account-1.3 ieapi-account.1.1.xsd"
+                             xmlns:account="http://www.domainregistry.ie/ieapi-account-1.3"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <account:page>1</account:page>
+                <account:totalPages>1</account:totalPages>
+                <account:resRecord>
+                    <account:domain>thedomenapayfromdeposit.ie</account:domain>
+                    <account:holder>Alex Oskar</account:holder>
+                    <account:invoice>INV670</account:invoice>
+                    <account:regDate>2008-04-30</account:regDate>
+                    <account:renDate>2009-04-30</account:renDate>
+                    <account:amount>20</account:amount>
+                    <account:vat>4.20</account:vat>
+                </account:resRecord>
+                <account:resRecord>
+                    <account:domain>thedomenapayofflinecurrRenReg.ie</account:domain>
+                    <account:holder>Alex Oskar</account:holder>
+                    <account:invoice>INV670</account:invoice>
+                    <account:regDate>2008-04-30</account:regDate>
+                    <account:renDate>2009-04-30</account:renDate>
+                    <account:amount>20</account:amount>
+                    <account:vat>4.20</account:vat>
+                </account:resRecord>
+                <account:resRecord>
+                    <account:domain>thedomenapayofflinecurrRenReg2.ie</account:domain>
+                    <account:holder>Alex Oskar</account:holder>
+                    <account:invoice>INV670</account:invoice>
+                    <account:regDate>2008-04-30</account:regDate>
+                    <account:renDate>2009-04-30</account:renDate>
+                    <account:amount>20</account:amount>
+                    <account:vat>4.20</account:vat>
+                </account:resRecord>
+                <account:resRecord>
+                    <account:domain>thedomenapayonlinecurrrenreg.ie</account:domain>
+                    <account:holder>Alex Oskar</account:holder>
+                    <account:invoice>INV670</account:invoice>
+                    <account:regDate>2008-04-30</account:regDate>
+                    <account:renDate>2009-04-30</account:renDate>
+                    <account:amount>20</account:amount>
+                    <account:vat>4.20</account:vat>
+                </account:resRecord>
+                <account:resRecord>
+                    <account:domain>thedomenapayonlinecurrrenreg2.ie</account:domain>
+                    <account:holder>Alex Oskar</account:holder>
+                    <account:invoice>INV670</account:invoice>
+                    <account:regDate>2008-04-30</account:regDate>
+                    <account:renDate>2009-04-30</account:renDate>
+                    <account:amount>20</account:amount>
+                    <account:vat>4.20</account:vat>
+                </account:resRecord>
+            </account:resData>
+        </resData>
+    </response>
+</ieapi>

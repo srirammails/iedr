@@ -1,0 +1,19 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+    <field name="wrapper.domainNames">
+        <field-validator type="requiredstring">
+            <message>You must enter domain name (or comma-separated domain names list)</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.eventName">
+        <field-validator type="required">
+            <message>You must enter a value for event name</message>
+        </field-validator>
+    </field>
+    <field name="wrapper.remark">
+        <field-validator type="requiredstring">
+            <message>You must enter a value for remark</message>
+        </field-validator>
+    </field>
+</validators>

@@ -1,0 +1,38 @@
+<!-- START protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp.php -->
+<?php
+/**
+ * View page for Accounts Payment-History Credit-Notes - Transfers Away before Due-Date
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       Rpts_nrc_cn_on_invs_xfer_away_pp_Model, Accounts_payhist_crednotesController::actionNrc_cn_on_invs_xfer_away_pp(), Accounts_payhist_crednotesController::actionGetgriddataNrc_cn_on_invs_xfer_away_pp(), jqGridWidget
+ */
+
+$pg = 'Domains transferred away before payment due date';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+GridUtility::makeDateSelectUpdateForm($this,$pg,'nrc_cn_on_invs_xfer_away_pp', $model);
+
+echo "<p>There were " . $model->totalrows . " domains included in the credit note period you selected.</p>";
+echo '</div>';
+
+$model_serialised = AuthOnlyBaseController::safeSerializeObj($model);
+
+$w = $this->widget('application.widgets.jqGrid.jqGridWidget', array(
+	'width'	=>	1000,
+        'caption'               => 'Credit Notes - Domains transferred away before payment due date from \''.Yii::app()->user->name.'\' for the month of ' . $model->month . ' ' . $model->year,
+        'thisfile'              => $this->createUrl('accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp',array('model'=>$model_serialised)),
+	'datasource'		=> $this->createUrl('accounts_payhist_crednotes/getgriddataNrc_cn_on_invs_xfer_away_pp',array('model'=>$model_serialised)),
+        'model'                 => $model,
+        ));
+?>
+<!-- END protected/views/accounts_payhist_crednotes/nrc_cn_on_invs_xfer_away_pp.php -->

@@ -1,0 +1,283 @@
+/*
+	css elements defining layout for
+	field tag, tickettextfield.tag, datefield.tag 
+	for color defs see main.css
+*/
+
+
+.ctrl-supercontainer {
+	clear:both;
+
+	min-width: 700px;
+	height:26px;
+	text-align:center;
+}
+
+.ctrl-container {
+	clear: both;
+
+	min-width: 260px;
+
+	height: 26px;
+}
+
+.ctrl-label {
+	clear: left;
+	float: left;
+
+	padding-top: 6px;
+
+	min-width: 50px;
+	width: 30%;
+
+	font-style: normal !important;
+}
+
+.ctrl-label-inner {
+	clear: left;
+	float: left;
+}
+.ctrl-label-inner2 {
+	clear: left;
+	float: left;
+
+	margin-top: 15px;
+}
+.ctrl-tooltip {
+	float: right;
+
+	margin-top: -2px;
+	margin-right: 3px;
+}
+
+.ctrl-field {
+	float: left;
+
+	width: 70%;
+}
+
+.ctrl-field-inner {
+	clear: left;
+	float: left;
+
+	margin-top: 6px;
+
+	width: 70%;
+}
+
+.ctrl-field-inner input, .ctrl-field-inner select {
+	clear: left;
+	float: left;
+
+	margin-top: -6px;
+
+	width: 84%;	
+}
+
+.ctrl-field-inner-no-FR-gap {
+	clear: left;
+	float: left;
+
+	margin-top: 6px;
+
+	width: 100%;
+}
+
+* html .ctrl-field-inner-no-FR-gap {
+	clear: left;
+	float: left;
+	margin-top: 0;
+	w\idth: 90%;
+}
+
+.ctrl-field-inner-no-FR-gap input, .ctrl-field-inner-no-FR-gap select {
+	clear: left;
+	float: left;
+
+	margin-top: -6px;
+
+	width: 90%;
+}
+
+.ctrl-field-inner-no-FR-gap input[type="checkbox"] {
+	margin-top: -1px;
+	margin-left: 0;
+
+	width: 15px;
+}
+
+.ctrl-ellipsis {
+	float: left;
+	margin: -3px 0 0 1px;
+
+}
+
+.ctrl-failure-reason {
+	float: right;
+	width: 30%;
+}
+
+.ctrl-failure-reason select {
+	width: 100%;
+}
+
+/*-------------------------------------------------*/
+
+.ctrl-fixed-container {
+	float: left;
+
+	min-width: 240px;
+	height: 26px;
+}
+
+.ctrl-fixed-label {
+	clear: left;
+	float: left;
+
+	padding-top: 6px;
+	margin-right: 5px;
+
+	width: 30%;
+
+	font-style: normal !important;
+}
+
+.ctrl-fixed-label-inner {
+	clear: left;
+	float: left;
+}
+.ctrl-fixed-label-inner2 {
+	clear: left;
+	float: left;
+
+	margin-top: 15px;
+}
+.ctrl-fixed-tooltip {
+	float: right;
+
+	margin-top: -2px;
+	margin-right: 3px;
+}
+
+.ctrl-fixed-field {
+	float: left;
+
+	/*FF20 fix*/
+	width: 67%;
+}
+
+* html .ctrl-fixed-field {
+	float: left;
+
+	/*IE20 fix*/
+	width: 65%;
+}
+
+.ctrl-fixed-field-inner {
+	clear: left;
+	float: left;
+
+	margin-top: 6px;
+}
+
+.ctrl-fixed-field-inner input, .ctrl-fixed-field-inner select {
+	clear: left;
+	float: left;
+
+	margin-top: -6px;
+}
+
+.ctrl-fixed-field-inner-no-FR-gap {
+	clear: left;
+	float: left;
+
+	margin-top: 6px;
+}
+
+.ctrl-fixed-field-inner-no-FR-gap input, .ctrl-field-inner-no-FR-gap select {
+	clear: left;
+	float: left;
+
+	margin-top: -6px;
+}
+
+.ctrl-fixed-field-inner-no-FR-gap input[type="checkbox"] {
+	margin-top: -1px;
+	margin-left: 0;
+
+	width: 0;
+}
+
+.ctrl-fixed-ellipsis {
+	float: left;
+	margin: -3px 0 0 1px;
+}
+
+.ctrl-fixed-failure-reason {
+	float: right;
+}
+
+.ctrl-fixed-failure-reason select {
+}
+
+
+
+
+.datefield-field {
+	float: left;
+}
+
+.datefield-inner {
+	float: left;
+	/*width: 80%;*/
+}
+
+.datefield-inner input{
+	width: 15ex;
+}
+
+.datefield-icon, .window-icon, .ctrl-field-icon {
+	float: left;
+	margin: -3px 0 0 1px;
+}
+
+.window-icon a:hover,
+.showDocs-icon a:hover,
+.showValue-icon a:hover {
+	background: none;
+}
+
+.showDocs, .showValue{
+	float: left;
+}
+
+.showDocs-icon, .showValue-icon{
+	float: left;
+	margin: -2px 0 0 5px;
+}
+
+.xSave {
+	position: relative;
+	left: -75px;
+}
+
+.xCancel {
+	position: relative;
+	left: 45px;
+	top: -32px;
+}
+
+.xTransfer {
+	position: relative;
+	left: -75px;
+}
+
+* html .xCancel {
+	position: relative;
+	left: 30px;
+	t\op: -26px;
+}
+
+.text-align-left {
+    text-align:left;
+}

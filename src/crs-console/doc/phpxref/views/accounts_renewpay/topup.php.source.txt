@@ -1,0 +1,53 @@
+<!-- START protected/views/accounts_renewpay/topup.php -->
+<?php
+/**
+ * View page for Accounts Renewal-Payments - Topup Deposit Account
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       AccountTopUpModel, Accounts_renewpayController::actionTopup(), CreditCardFormSegmentWidget
+ */
+
+$pg = 'Top Up Deposit Account';
+$this->pageTitle=Yii::app()->name . ' - '.$pg;
+?>
+<h2><?php echo printBreadcrumbTrail($pg); ?></h2>
+
+<div class="form">
+<?php
+if($model->message == 'TRANSACTION_OK')
+	{
+	// display 'ok' message
+	echo '<H2>Transaction Successful</H2>';
+	}
+else
+	{
+	// if $model->errors == null, display empty form
+	if($model->error != null)
+		{
+		// re-display form with errors
+		echo '<H2>Transaction Failed</H2>';
+		echo '<span class="error">'.$model->error.'</span>';
+		}
+	$form=$this->beginWidget('CActiveForm', array(
+		'id'=>'AccountTopUpForm',
+		'enableAjaxValidation'=>true,
+		));
+	$this->widget('application.widgets.credit_card_payment.CreditCardFormSegmentWidget', array(
+		'form'		=> $form,
+		'model'		=> $model,
+		));
+?>
+	<div class="row buttons"><?php echo CHtml::submitButton('Top Up'); ?></div>
+	<?php $this->endWidget();
+	}
+	?>
+</div>
+
+
+<!-- END protected/views/accounts_renewpay/topup.php -->

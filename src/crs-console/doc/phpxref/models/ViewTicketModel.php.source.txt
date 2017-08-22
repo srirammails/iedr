@@ -1,0 +1,1215 @@
+<?php
+
+/**
+ * defines ViewTicketModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Model of Ticket data, for rendering ticket-view page; based on {@link CRSTicketAppService_ticketVO}
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ */
+class ViewTicketModel
+	extends CFormModel
+	{
+
+    /**
+     * ticket ID; type=xs:long, (NOT NULL), min=1
+     * 
+     * @var    long
+     * @access public 
+     */
+	var $id;
+
+
+    /**
+     * action string ; unused
+     * 
+     * @var    string
+     * @access public
+     */
+	var $action;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $type;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:failureReasonsVO, (NOT NULL), min=0
+     * 
+     * @var    failureReasonsVO
+     * @access public 
+     */
+	var $operation;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO;  type=tns:simpleDomainFieldChangeVO, (NOT NULL), min=0
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_domainNameField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainNameField_newValue;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:int
+     * 
+     * @var    int
+     * @access public 
+     */
+			var $operation_domainNameField_failureReasonId;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainNameField_oldValue; // xs:string
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainNameField_failureReason; // xs:string
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (NOT NULL), min=0
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_domainHolderField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_domainHolderField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (NOT NULL), min=0
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_domainHolderClassField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderClassField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderClassField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_domainHolderClassField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderClassField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (NOT NULL), min=0
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_domainHolderCategoryField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderCategoryField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderCategoryField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_domainHolderCategoryField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_domainHolderCategoryField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (NOT NULL), min=0
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_resellerAccountField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_resellerAccountField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_resellerAccountField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_resellerAccountField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_resellerAccountField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (null), min=0, max=unbounded
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_adminContactsField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_newValue_companyName;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_newValue_country;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_newValue_email;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_newValue_name;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_newValue_nicHandle;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_oldValue_companyName;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_oldValue_country;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_oldValue_email;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_oldValue_name;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_oldValue_nicHandle;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    int
+     * @access public 
+     */
+				var $operation_adminContactsField_0_failureReasonId;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_0_failureReason;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_newValue_companyName;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_newValue_country;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_newValue_email;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_newValue_name;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_newValue_nicHandle;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_oldValue_companyName;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_oldValue_country;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_oldValue_email;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_oldValue_name;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_oldValue_nicHandle;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:int
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_failureReasonId;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; xs:string
+     * 
+     * @var    string
+     * @access public 
+     */
+				var $operation_adminContactsField_1_failureReason;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (null), min=0, max=unbounded
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_techContactsField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_techContactsField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_techContactsField_newValue_name;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_techContactsField_newValue_nicHandle;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_techContactsField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_techContactsField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_techContactsField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:simpleDomainFieldChangeVO, (null), min=0, max=unbounded
+     * 
+     * @var    simpleDomainFieldChangeVO
+     * @access public 
+     */
+		var $operation_billingContactsField;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_billingContactsField_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_billingContactsField_newValue_name;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_billingContactsField_newValue_nicHandle;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_billingContactsField_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_billingContactsField_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_billingContactsField_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:nameserverChangeVO, (null), min=0, max=unbounded
+     * 
+     * @var    nameserverChangeVO
+     * @access public 
+     */
+		var $operation_nameservers;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_name;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_name_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_name_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_0_name_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_name_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_ipAddress;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_ipAddress_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_ipAddress_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_0_ipAddress_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_0_ipAddress_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_name;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_name_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_name_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_1_name_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_name_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_ipAddress;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_ipAddress_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_ipAddress_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_1_ipAddress_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_1_ipAddress_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_name;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_name_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_name_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_2_name_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_name_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_ipAddress;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_ipAddress_newValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_ipAddress_oldValue;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    integer
+     * @access public 
+     */
+			var $operation_nameservers_2_ipAddress_failureReasonId;
+
+    /**
+     * field for CRSTicketAppService_ticketVO
+     * 
+     * @var    string
+     * @access public 
+     */
+			var $operation_nameservers_2_ipAddress_failureReason;
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=tns:adminStatusEnum, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $adminStatus;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:dateTime, (NOT NULL), min=0
+     * 
+     * @var    dateTime
+     * @access public 
+     */
+	var $adminStatusChangeDate;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $techStatus;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:dateTime, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $techStatusChangeDate;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $requestersRemark;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $hostmastersRemark;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $creator;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:dateTime, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $creationDate;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:dateTime, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $changeDate;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $checkedOutTo;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:boolean, (NOT NULL), min=1
+     * 
+     * @var    boolean
+     * @access public 
+     */
+	var $clikPaid;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:boolean, (NOT NULL), min=1
+     * 
+     * @var    boolean
+     * @access public 
+     */
+	var $hasDocuments;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $domainName;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $ticketHolder;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:string, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $previousHolder;
+
+
+    /**
+     * field for CRSTicketAppService_ticketVO; type=xs:dateTime, (NOT NULL), min=0
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $domainRenevalDate;
+
+
+    /**
+     * computed ticket expiry date (27 days, set in config/main.php)
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $expiryDate;
+
+
+    /**
+     * is used to store backend error message or exception string, for a view to render
+     * 
+     * @var    string
+     * @access public 
+     */
+	var $errors;
+
+
+    /**
+     * is used to store the can-user-edit-tickets boolean setting; is set by the controller (but SHOULD be in this object's constructor)
+     * 
+     * @todo   initialise this variable in the constructor to Yii::app()->user->ticketEdit
+     * @var    boolean
+     * @access public 
+     */
+	var $ticketEdit;
+
+
+    /**
+     * constructor, sets ticket ID
+     * 
+     * @param  integer $id ticket ID
+     * @return void   
+     * @access public 
+     */
+	public function __construct($id=null)
+		{
+		$this->id = $id;
+		$this->action = 'view';
+		}
+
+    /**
+     * runs before validation is performed; trims leading, trailing and repeating newlines from 'remark' textarea-fields data
+     * 
+     * @param  CModelEvent $aCModelEvent event; ignored
+     * @return void   
+     * @access public 
+     */
+	public function onBeforeValidate($aCModelEvent)
+		{
+		parent::onBeforeValidate($aCModelEvent);
+		$this->requestersRemark = FormModelBase::trimNewlines($this->requestersRemark);
+		$this->hostmastersRemark = FormModelBase::trimNewlines($this->hostmastersRemark);
+		}
+
+    /**
+     * fills this model's attributes with corresponding data from the supplied CRSTicketAppService_ticketVO instance
+     * 
+     * @param  CRSTicketAppService_ticketVO  $obj  CRS-WS-API ticket object
+     * @param  string $errs error string from back-end ticket object retrieval
+     * @return void   
+     * @access public 
+     */
+	public function fillFromObject($obj, $errs)
+		{
+		// fill from WSAPI-returned value
+		$flds = array('id','checkedOutTo','creator','domainName','hasDocuments',
+			'hostmastersRemark','previousHolder','requestersRemark','ticketHolder','type',);
+		foreach($flds as $f)
+			if(isset($obj->$f))
+				$this->$f = $obj->$f;
+
+		if(isset($obj->adminStatus))		$this->adminStatus		= decipher_admin_status($obj->adminStatus);
+		if(isset($obj->adminStatusChangeDate))	$this->adminStatusChangeDate	= parseXmlDate($obj->adminStatusChangeDate);
+		if(isset($obj->changeDate))		$this->changeDate		= parseXmlDate($obj->changeDate);
+		if(isset($obj->clikPaid))		$this->clikPaid			= $obj->clikPaid=='Y' ? true : false;
+		if(isset($obj->creationDate))		$this->creationDate		= parseXmlDate($obj->creationDate);
+		if(isset($obj->domainRenevalDate))	$this->domainRenevalDate	= parseXmlDate($obj->domainRenevalDate);
+		if(isset($obj->techStatus))		$this->techStatus		= decipher_tech_status($obj->techStatus);
+		if(isset($obj->techStatusChangeDate))	$this->techStatusChangeDate	= parseXmlDate($obj->techStatusChangeDate);
+		$this->errors	= $errs;
+		$d=new DateTime($this->creationDate);
+		$d->add(Yii::app()->params['ticketExpiryDays']);
+		$this->expiryDate = $d->format('Y-m-d'); 
+
+		// make sure that adminContact is an array (otherwise causes exception in addToObjectAsProperties)
+		if(is_object($obj->operation->adminContactsField))
+			{
+			$aa = array(0=>$obj->operation->adminContactsField);
+			$obj->operation->adminContactsField = $aa;
+			}
+		addToObjectAsProperties($this,'operation',$obj->operation);
+		}
+
+    /**
+     * returns validation rules
+     * 
+     * @return array  Yii validation rules
+     * @access public
+     */
+	public function rules()
+		{
+		return array(
+			array('id',
+				'numerical'),
+			);
+		}
+
+    /**
+     * returns Yii attribute labels
+     * 
+     * @return array  Yii model attribute labels
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return array(
+			'adminStatus' 		=> 'Admin Status',
+			'adminStatusChangeDate' => 'Admin Status Date',
+			'changeDate' 		=> 'Change Date',
+			'checkedOutTo' 		=> 'Checked Out To',
+			'clikPaid' 		=> 'ClikPaid',
+			'creationDate' 		=> 'Created',
+			'creator' 		=> 'Creator',
+			'domainName' 		=> 'Domain Name',
+			'domainRenevalDate' 	=> 'Domain Renewal Date',
+			'hasDocuments' 		=> 'Has Docs',
+			'hostmastersRemark' 	=> 'Hostmasters\' Remark',
+			'id' 			=> 'Ticket ID',
+			'previousHolder' 	=> 'Prev Holder',
+			'requestersRemark' 	=> 'Ticket Remark',
+			'techStatus' 		=> 'DNS Status',
+			'techStatusChangeDate' 	=> 'DNS Status Date',
+			'ticketHolder' 		=> 'Domain Holder',
+			'type' 			=> 'Ticket Type',
+
+			'operation'=>'',
+
+			'operation_adminContactsField_0' => 'Admin Contact 1',
+			'operation_adminContactsField_0_failureReason'=>'',
+			'operation_adminContactsField_0_failureReasonId'=>'',
+			'operation_adminContactsField_0_newValue_nicHandle'=>'Admin Contact 1',
+
+			'operation_adminContactsField_1' => 'Admin Contact 2',
+			'operation_adminContactsField_1_failureReason'=>'',
+			'operation_adminContactsField_1_failureReasonId'=>'',
+			'operation_adminContactsField_1_newValue_nicHandle'=>'Admin Contact 2',
+
+			'operation_billingContactsField' => 'Billing Contact',
+			'operation_billingContactsField_failureReason'=>'',
+			'operation_billingContactsField_failureReasonId'=>'',
+			'operation_billingContactsField_newValue_nicHandle'=>'Billing Contact',
+
+			'operation_domainHolderCategoryField' => 'Holder Category',
+			'operation_domainHolderCategoryField_failureReason'=>'',
+			'operation_domainHolderCategoryField_failureReasonId'=>'',
+			'operation_domainHolderCategoryField_newValue'=>'Holder Category',
+
+			'operation_domainHolderClassField' => 'Holder Class',
+			'operation_domainHolderClassField_failureReason'=>'',
+			'operation_domainHolderClassField_failureReasonId'=>'',
+			'operation_domainHolderClassField_newValue'=>'Holder Class',
+
+			'operation_domainHolderField' => 'Domain Holder',
+			'operation_domainHolderField_failureReason'=>'',
+			'operation_domainHolderField_failureReasonId'=>'',
+			'operation_domainHolderField_newValue'=> 'Domain Holder',
+
+			'operation_domainNameField'=>'',
+			'operation_domainNameField' => 'Domain Name',
+			'operation_domainNameField_failureReason'=>'',
+			'operation_domainNameField_failureReasonId'=>'',
+			'operation_domainNameField_newValue'=>'Domain Name',
+
+			'operation_nameservers'=>'',
+			'operation_nameservers_0_ipAddress'=>'IP Address 1',
+			'operation_nameservers_0_ipAddress_failureReasonId'=>'',
+			'operation_nameservers_0_ipAddress_newValue'=>'IP Address 1',
+			'operation_nameservers_0_name'=>'Name Server 1',
+			'operation_nameservers_0_name_failureReasonId'=>'',
+			'operation_nameservers_0_name_newValue'=>'Names Server 1',
+
+			'operation_nameservers_1_ipAddress'=>'IP Address 2',
+			'operation_nameservers_1_ipAddress_failureReasonId'=>'',
+			'operation_nameservers_1_ipAddress_newValue'=>'IP Address 2',
+			'operation_nameservers_1_name'=>'Name Server 2',
+			'operation_nameservers_1_name_failureReasonId'=>'',
+			'operation_nameservers_1_name_newValue'=>'Names Server 2',
+
+			'operation_nameservers_2_ipAddress'=>'IP Address 3',
+			'operation_nameservers_2_ipAddress_failureReasonId'=>'',
+			'operation_nameservers_2_ipAddress_newValue'=>'IP Address 3',
+			'operation_nameservers_2_name'=>'Name Server 3',
+			'operation_nameservers_2_name_failureReasonId'=>'',
+			'operation_nameservers_2_name_newValue'=>'Names Server 3',
+
+			'operation_resellerAccountField' => 'Reseller Account',
+			'operation_resellerAccountField_failureReason'=>'',
+			'operation_resellerAccountField_failureReasonId'=>'',
+			'operation_resellerAccountField_newValue'=>'',
+
+			'operation_techContactsField' => 'Tech Contact',
+			'operation_techContactsField_failureReason'=>'',
+			'operation_techContactsField_failureReasonId'=>'',
+			'operation_techContactsField_newValue_nicHandle'=>'Tech Contact',
+			);
+		}
+	}
+

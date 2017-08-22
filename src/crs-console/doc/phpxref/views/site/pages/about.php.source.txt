@@ -1,0 +1,26 @@
+<!-- START protected/views/site/pages/about.php -->
+<?php
+/**
+ * View page for About
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+$this->pageTitle=Yii::app()->name . ' - About';
+$this->breadcrumbs=array(
+	'About',
+);
+?>
+<h1>About</h1>
+
+<p>This is a "static" page. You may change the content of this page
+by updating the file <tt><?php echo __FILE__; ?></tt>.</p>
+?>
+<!-- END protected/views/site/pages/about.php -->

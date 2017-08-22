@@ -1,0 +1,174 @@
+<!-- START protected/views/site/pages/Test_API.php -->
+<?php
+/**
+ * View page for Test API
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+$view='files/';
+?>
+<table align="center" border=0 bgcolor='ffffff'>
+<tr>
+
+ <td align="center">
+</td>
+</tr>
+
+
+<li><p><b>PLEASE NOTE: You must <a href="mailto:api@domainregistry.ie?Subject='IP address'">email us</a> your IP address so we can allow it connect to our test API servers.</b></p></li>
+
+<li><p><b><a href="<?php echo $view; ?>api/background.php">Background</a></b></p></li>
+
+<!--<br>
+<li>IEAPI Scheme</li>
+<ul>
+<li><a href="get-file.php?file=ieapi-1.0.xsd">ieapi-1.0.xsd</a></li>
+<li><a href="get-file.php?file=ieapi-account-1.0.xsd">ieapi-account-1.0.xsd</a></li>
+<li><a href="get-file.php?file=ieapi-contact-1.0.xsd">ieapi-contact-1.0.xsd</a></li>
+<li><a href="get-file.php?file=ieapi-domain-1.0.xsd">ieapi-domain-1.0.xsd</a></li>
+<li><a href="get-file.php?file=ieapi-ticket-1.0.xsd">ieapi-ticket-1.0.xsd</a></li>
+<li><a href="get-file.php?file=ieapicom-1.0.xsd">ieapicom-1.0.xsd</a></li>
+
+</ul>
+-->
+
+<!--<br>
+<li>Scenarios of Testing</li>-->
+
+<li><p><b><a href="<?php echo $view; ?>api/docs/connectivity.pdf">Connectivity [pdf]</a></b></p></li>
+
+<li><p><b>Certificates</b></p></li>
+<p>NOTE: You must have a signed certificate to connect over SSL to the API Test server (api-test.domainregistry.ie). However, you can test without a certificate over HTTP (please note, that your data will NOT be encrypted!)</p>
+<p><b><a href="<?php echo $view; ?>api/test-help.php">Help</a></b></p>
+<p><b><a href="<?php echo $view; ?>api/cert-req-test.php">Certificate request form</a></b></p>
+
+<!--List of invalidated Certificates (CRL):
+<br>
+<br>-->
+
+<p><b>Certificate IEDR CA:</b></p>
+
+<p><b><a href="<?php echo $view; ?>api/ssl/ie-testing-CA.pem">IEDR TESTING CA</a></b></p>
+
+<li><p><b><a href="<?php echo $view; ?>api/docs/IEDR-API.XML-Interface_v1.1.9.pdf">Protocol Specification Document [pdf]</a></b></p></li>
+
+<li><p><b>XML Examples</b></p></li>
+<ul>
+<a href="<?php echo $view; ?>api/xml/1.1/xml-examples_v1.1.9.tar">xml-examples_v1.1.9.tar</a>
+</ul>
+
+<ul>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_check_deposit.xml">account_pay_check_deposit.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_check_deposit_response.xml">account_pay_check_deposit_response.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_deposit_funds.xml">account_pay_deposit_funds.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_deposit_funds_response.xml">account_pay_deposit_funds_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_from_deposit.xml">account_pay_from_deposit.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_from_deposit_response.xml">account_pay_from_deposit_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_msdReActivation.xml">account_pay_msdReActivation.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_msdReActivation_response.xml">account_pay_msdReActivation_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_offline.xml">account_pay_offline.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_offline_response.xml">account_pay_offline_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_online.xml">account_pay_online.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_pay_online_response.xml">account_pay_online_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_curr_ren_reg.xml">account_query_curr_ren_reg.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_curr_ren_reg_response.xml">account_query_curr_ren_reg_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_fut_ren.xml">account_query_fut_ren.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_fut_ren_response.xml">account_query_fut_ren_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_msd.xml">account_query_msd.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_msd_response.xml">account_query_msd_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_tran.xml">account_query_tran.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_tran_adv.xml">account_query_tran_adv.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_tran_adv_response.xml">account_query_tran_adv_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/account_query_tran_response.xml">account_query_tran_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_create.xml">contact_create.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_create_response.xml">contact_create_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_info.xml">contact_info.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_info_response.xml">contact_info_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_modify.xml">contact_modify.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_modify_response.xml">contact_modify_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_admin.xml">contact_query_admin.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_admin_response.xml">contact_query_admin_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_all.xml">contact_query_all.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_all_response.xml">contact_query_all_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_tech.xml">contact_query_tech.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/contact_query_tech_response.xml">contact_query_tech_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_autocreate.xml">domain_autocreate.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_autocreate_response.xml">domain_autocreate_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_check.xml">domain_check.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_check_response.xml">domain_check_response.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_create.xml">domain_create.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_create_response.xml">domain_create_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_delete.xml">domain_delete.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_delete_response.xml">domain_delete_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_info.xml">domain_info.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_info_response.xml">domain_info_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_modify.xml">domain_modify.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_modify_autorenew.xml">domain_modify_autorenew.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_modify_autorenew_response.xml">domain_modify_autorenew_response.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_modify_response.xml">domain_modify_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_msd.xml">domain_msd.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_msd_response.xml">domain_msd_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_msdcancel.xml">domain_msdcancel.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_msdcancel_response.xml">domain_msdcancel_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all.xml">domain_query_all.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all_contact.xml">domain_query_all_contact.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all_contact_contacttype.xml">domain_query_all_contact_contacttype.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all_contact_contacttype_response.xml">domain_query_all_contact_contacttype_response.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all_contact_response.xml">domain_query_all_contact_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_all_response.xml">domain_query_all_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_transfer.xml">domain_query_transfer.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_query_transfer_response.xml">domain_query_transfer_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_transfer.xml">domain_transfer.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_transfer_using_defaults.xml">domain_transfer_using_defaults.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/domain_transfer_response.xml">domain_transfer_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/login.xml">login.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/login_response.xml">login_response.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/logout.xml">logout.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/logout_response.xml">logout_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_delete.xml">ticket_delete.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_delete_response.xml">ticket_delete_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_info.xml">ticket_info.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_info_response.xml">ticket_info_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_modify.xml">ticket_modify.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_modify_response.xml">ticket_modify_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_modify_status.xml">ticket_modify_status.xml</a></li>
+
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_all.xml">ticket_query_all.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_all_response.xml">ticket_query_all_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_deletions.xml">ticket_query_deletions.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_deletions_response.xml">ticket_query_deletions_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_modifications.xml">ticket_query_modifications.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_modifications_response.xml">ticket_query_modifications_response.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_registrations.xml">ticket_query_registrations.xml</a></li>
+<li><a href="<?php echo $view; ?>api/xml/1.1/ticket_query_registrations_response.xml">ticket_query_registrations_response.xml</a></li>
+</ul>
+
+<br>
+<li><p><b><a href="<?php echo $view; ?>api/docs/IEAPI-Response-Codes-v1.1.9.pdf">Response Codes [pdf]</a></b></p></li>
+<li><p><b><a href="<?php echo $view; ?>api/src/api-client_v1.1.10.tgz">api-client_v1.1.10.tgz</a></b></p></li>
+<p>This version is ONLY for the testing environment (api-test.domainregistry.ie)</p>
+<li><p><b>FAQs</b></p></li>
+<p><b><a href="<?php echo $view; ?>api/docs/faq.txt">Click here</a></b></p>
+<li><p><b>Contact</b></p></li>
+<p><b><a href="mailto:api@domainregistry.ie">api@domainregistry.ie</a></b></p>
+<li><p><b>Change Log:- </b></p></li>
+
+<p><b><a href="<?php echo $view; ?>api/docs/Changelog.v1.1.9.txt">Click here</a></b></p>
+
+</ol>
+
+<!-- END protected/views/site/pages/Test_API.php -->

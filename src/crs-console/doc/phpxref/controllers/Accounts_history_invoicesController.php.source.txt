@@ -1,0 +1,268 @@
+<?php
+
+/**
+ * defines Accounts_history_invoicesController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class Accounts_history_invoicesController
+	extends SQLDateSelectGridController
+	{
+
+    /**
+     * Description for public
+     * 
+     * @var    array 
+     * @access public
+     */
+	public $breadcrumbs = array('Accounts_history_invoices');
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * renders view Renewal Invoice History
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_history_invoices/renewals.php, Rpts_nrc_rr_inv_hist_Model, Accounts_history_invoicesController::actionGetgriddataNrc_rr_inv_hist()
+     */
+	public function actionRenewals() {
+		$this->type = "nrc_rr_inv_hist"; 
+	   	$model = new Rpts_nrc_rr_inv_hist_Model();
+
+		$this->performAjaxValidation($model);
+		$model->year = date("Y");
+		$model->month = date("F",strtotime("-1 month"));
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_rr_inv_hist_Model']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_rr_inv_hist_Model'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionRenewals()');
+		}
+		$model->totalrows = $this->getNumRows($model,null,null);
+		$this->getDetails($model,null,null);#Populate the RR Invoice vat, amount and invoice details.
+
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionRenewals()');
+		$this->render('renewals',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    accounts_history_invoices/renewals.php, Rpts_nrc_rr_inv_hist_Model, Accounts_history_invoicesController::actionRenewals()
+     */
+	public function actionGetgriddataNrc_rr_inv_hist(){
+		$this->type = "nrc_rr_inv_hist";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * renders view Transfer Invoice History
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_history_invoices/transfers.php, Rpts_nrc_xfer_inv_histModel, Accounts_history_invoicesController::actionGetgriddataNrc_xfer_inv_hist()
+     */
+	public function actionTransfers() { 
+		$this->type = "nrc_xfer_inv_hist";
+	   	$model = new Rpts_nrc_xfer_inv_histModel();
+		$this->performAjaxValidation($model);
+		$model->year = date("Y");
+		$model->month = date("F",strtotime("-1 month"));
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_xfer_inv_histModel']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_xfer_inv_histModel'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionTransfers()');
+		}
+		$model->totalrows = $this->getNumRows($model,null,null);
+		$this->getDetails($model,null,null);#Populate the Xfer Invoice vat, amount and invoice details.
+
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionTransfers()');
+		$this->render('transfers',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    accounts_history_invoices/transfers.php, Rpts_nrc_xfer_inv_histModel, Accounts_history_invoicesController::actionTransfers()
+     */
+	public function actionGetgriddataNrc_xfer_inv_hist(){
+		$this->type = "nrc_xfer_inv_hist";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * renders view Advance Payment Invoice History
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    accounts_history_invoices/payments.php, Rpts_nrc_adv_pay_inv_histModel, Accounts_history_invoicesController::actionGetgriddataNrc_adv_pay_inv_hist()
+     */
+	public function actionPayments() { 
+		$this->type = "nrc_adv_pay_inv_hist";
+		$model = new Rpts_nrc_adv_pay_inv_histModel();
+		$this->performAjaxValidation($model);
+		$model->year = date("Y");
+		$model->month = date("F",strtotime("-1 month"));
+
+		if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_nrc_adv_pay_inv_histModel']))
+		{
+			$model->attributes=$_POST['Rpts_nrc_adv_pay_inv_histModel'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionPayments');
+		}
+		$model->totalrows = $this->getNumRows($model,null,null);
+		$this->getDetails($model,null,null);#Populate the Xfer Invoice vat, amount and invoice details.
+
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::actionPayments()');
+		$this->render('payments',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    accounts_history_invoices/payments.php, Rpts_nrc_adv_pay_inv_histModel, Accounts_history_invoicesController::actionPayments()
+     */
+	public function actionGetgriddataNrc_adv_pay_inv_hist(){
+		$this->type = "nrc_adv_pay_inv_hist";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $model    Parameter description (if any) ...
+     * @param  string  $criteria Parameter description (if any) ...
+     * @return string  Return description (if any) ...
+     * @access public 
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		$u = Yii::app()->user->name;
+		$dt = '';
+		switch($this->type)
+			{
+			case 'XferTo':
+				$dt = $this->getDateStr(array('Moved_Dt'),$model); break;
+			case 'nrc_adv_pay_inv_hist': case 'nrc_rr_inv_hist':
+				$dt = $this->getDateStr(array('I_Inv_Dt'),$model); break;
+			case 'nrc_xfer_inv_hist':
+				$dt = $this->getDateStr(array('Tr_Date'),$model); break;
+			}
+		$query = '';
+		switch($this->type)
+			{
+			case 'nrc_adv_pay_inv_hist':
+				$query = "SELECT Domain, Holder, RegDate, RenDate, Amount, VAT, Total, I_Inv_No FROM nrc_adv_pay_inv_hist WHERE I_Bill_Nh ='".$u. "' AND ".$dt;
+				break;
+			case 'nrc_rr_inv_hist':
+				$query = "SELECT I_Inv_No, Domain, Holder, RegDate, RenDate, Amount, VAT FROM nrc_rr_inv_hist WHERE I_Bill_Nh ='".$u."'  AND ".$dt;
+				break;
+			case 'nrc_xfer_inv_hist':
+				$query = "SELECT Domain, Holder, RegDate, RenDate, Amount, VAT, Total, I_Inv_No, Tr_Date FROM nrc_xfer_inv_hist WHERE I_Bill_Nh ='".$u."'  AND ".$dt;
+				break;
+			case 'XferTo':
+				$query = "SELECT Domain, D_Holder, Moved_Dt, D_Reg_Dt, D_Ren_Dt FROM nrc_xfers_list WHERE New_Nic_Handle ='".$u."' AND ".$dt;
+				break;
+			}
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+		}
+
+    /**
+     * Short description for function
+     * 
+     * A pair of functions to get the sum of vat + amount + invoice details for a particular date selection.  
+     * 
+     * @param  unknown $model    Parameter description (if any) ...
+     * @param  unknown $criteria Parameter description (if any) ...
+     * @return unknown Return description (if any) ...
+     * @access public 
+     */
+	public function getDetails($model,$criteria=null)
+		{
+		Yii::log(print_r($model,true), 'debug', 'Accounts_history_invoicesController::getDetails');
+		$cache_key = 'Accounts_history_invoicesController_getDetails_'.print_r($model,true).'_'.print_r($criteria,true);
+		$d = Yii::app()->cache->get($cache_key);
+		if($d==null)
+			{
+			$d = $this->uncached_getDetails($model,$criteria);
+			$timeout = 20; // 20 secs
+			Yii::app()->cache->set($cache_key, $d, $timeout);
+			}
+		Yii::log($d, 'debug', 'Accounts_history_invoicesController::getDetails');
+		return $d;
+                }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  object    $model    Parameter description (if any) ...
+     * @param  unknown   $criteria Parameter description (if any) ...
+     * @return void     
+     * @access protected
+     */
+	protected function uncached_getDetails($model,$criteria=null)
+		{
+		$query = $this->getPartialQuery($model,$criteria);
+		$connection = Yii::app()->db;
+		$command = $connection->createCommand('SELECT I_Inv_No, sum(COALESCE(VAT,0)) as theVat, sum(COALESCE(Amount,0)) as theAmount from ('.$query.') x GROUP BY I_Inv_No');
+		$results = $command->queryAll(); 
+
+		foreach($results as $aRow)
+			{
+			array_push($model->invSummary, $aRow);
+			}
+		}
+	}
+

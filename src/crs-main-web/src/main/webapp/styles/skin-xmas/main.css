@@ -1,0 +1,33 @@
+/*
+	special css elements specific for xmas
+	for color defs see main.css
+*/
+
+/* no main import ! @import url( "../main.css" );*/
+
+
+#header-image-upper {
+	width: 160px;
+	height: 68px;
+
+	background: url( "../../images/skin-xmas/web-parts/logo.upper.png" ) no-repeat !important;
+	background-position: left;
+}
+
+#header-image-lower {
+	width: 160px; /*height: 59px;*/
+	height: 38px;
+
+	background: url( "../../images/skin-xmas/web-parts/logo.lower.png" ) no-repeat !important;
+	background-position: left;
+}
+
+.group-icon-status {
+	background: url( "../../images/skin-xmas/group-icons/status.png" ) no-repeat !important;
+	width: 44px !important;
+}
+
+.group-icon-contact {
+	background: url( "../../images/skin-xmas/group-icons/contact.png" ) no-repeat !important;
+	width: 44px !important;
+}

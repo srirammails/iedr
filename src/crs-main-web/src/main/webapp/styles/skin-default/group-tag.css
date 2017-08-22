@@ -1,0 +1,140 @@
+/*
+	css elements defining screen section layout
+	section contains header, outline, rounded bottom corners
+	and can contain icon
+	for color defs see main.css
+*/
+
+.group {
+	clear: both;
+	/*overflow: hidden;*/
+
+	margin: 0;
+	padding: 0 5px;
+}
+
+.group-header {
+	clear: both;
+
+	padding: 5px 5px 0 5px;
+
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.group-header table {
+	margin: 0;
+
+	width: 100%;
+	height: 32px;
+}
+
+.group-content {
+	clear: both;
+
+	margin: 0 5px;
+	padding: 5px;
+
+	background: #f9fff9; /* very light green color for section backgrounds */
+
+	border-top: 0;
+	border-right: 1px solid #9fd39d; /* medium green color */
+	border-left: 1px solid #9fd39d; /* medium green color */
+
+	min-width: 350px;
+}
+
+.group-bottom {
+	clear: both;
+	overflow: hidden;
+
+	padding: 0 5px 5px 5px;
+
+	height: 4px;
+	line-height: 4px;
+}
+
+.group-bottom-fix {
+	overflow: hidden;
+}
+
+/* left upper corner h1*/
+td.lu-corner-h1 {
+	background: url( "../../images/skin-default/web-parts/border.left.up.h1.png" ) no-repeat;
+	width: 18px;
+}
+
+/* upper corner h1*/
+td.up-corner-h1 {
+	background: url( "../../images/skin-default/web-parts/border.up.h1.png" ) repeat-x;
+	width: auto;
+}
+
+td.up-corner-h1 p {
+	padding-top: 13px;
+
+	color: white;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+/* right upper corner h1*/
+td.ru-corner-h1 {
+	background: url( "../../images/skin-default/web-parts/border.right.up.h1.png" ) no-repeat;
+	width: 18px;
+}
+
+/* left upper corner h2*/
+td.lu-corner-h2 {
+	background: url( "../../images/skin-default/web-parts/border.left.up.h2.png" ) no-repeat;
+	width: 18px;
+}
+
+/* upper corner h2*/
+td.up-corner-h2 {
+	background: url( "../../images/skin-default/web-parts/border.up.h2.png" ) repeat-x;
+	width: auto;
+}
+
+td.up-corner-h2 p {
+	float: left;
+	margin: 12px 0 0 0 !important; /* just to move group-header title a bit down */
+}
+
+/* right upper corner h2*/
+td.ru-corner-h2 {
+	background: url( "../../images/skin-default/web-parts/border.right.up.h2.png" ) no-repeat;
+	width: 18px;
+}
+
+.ld-corner-round-h2 {
+	float: left;
+	overflow: hidden;
+
+	width: 5px;
+	height: 5px;
+
+	background: url( "../../images/skin-default/web-parts/border.left.down.h2.png" ) no-repeat;
+}
+
+.dn-corner-round-h2 {
+	overflow: hidden;
+
+	height: 4px;
+
+	background: #f9fff9 none repeat scroll 0; /* very light green color for section backgrounds */
+	border-bottom: 1px solid #9fd39d; /* medium green color */
+}
+
+.rd-corner-round-h2 {
+	float: right;
+	overflow: hidden;
+	display: inherit;
+
+	margin: inherit;
+	padding: inherit;
+
+	width: 5px;
+	height: 5px;
+
+	background: url( "../../images/skin-default/web-parts/border.right.down.h2.png" ) no-repeat;
+}

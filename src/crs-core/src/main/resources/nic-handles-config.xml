@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="nicHandleSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:nic-handles-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="nicHandleIBatisDAO" class="pl.nask.crs.nichandle.dao.ibatis.InternalNicHandleIBatisDAO">
+        <property name="sqlMapClient" ref="nicHandleSqlMapClient"/>
+    </bean>
+
+    <bean id="historicalNicHandleIBatisDAO" class="pl.nask.crs.nichandle.dao.ibatis.InternalHistoricalNicHandleIBatisDAO">
+        <property name="sqlMapClient" ref="nicHandleSqlMapClient"/>
+    </bean>
+
+    <bean id="nicHandleConverter" class="pl.nask.crs.nichandle.dao.ibatis.converters.NicHandleConverter">
+    </bean>
+
+    <bean id="historicalNicHandleConverter" class="pl.nask.crs.nichandle.dao.ibatis.converters.HistoricalNicHandleConverter">
+        <constructor-arg ref="nicHandleConverter"/>
+    </bean>
+
+    <bean id="nicHandleDAO" class="pl.nask.crs.nichandle.dao.ibatis.ConvertingNicHandleDAO">
+        <constructor-arg ref="nicHandleIBatisDAO"/>
+        <constructor-arg ref="nicHandleConverter"/>
+    </bean>
+
+    <bean id="historicalNicHandleDAO" class="pl.nask.crs.nichandle.dao.ibatis.ConvertingHistoricalNicHandleDAO">
+        <constructor-arg ref="historicalNicHandleIBatisDAO"/>
+        <constructor-arg ref="historicalNicHandleConverter"/>
+    </bean>
+
+    <bean id="nicHandleIdDAO" class="pl.nask.crs.nichandle.dao.ibatis.NicHandleIdIBatisDAO">
+        <property name="sqlMapClient" ref="nicHandleSqlMapClient"/>
+    </bean>
+
+    <bean id="nicHandleIdGenerator" class="pl.nask.crs.nichandle.service.impl.NicHandleIdGeneratorImpl">
+        <constructor-arg ref="nicHandleIdDAO"/>
+    </bean>
+
+    <bean id="nicHandleService" class="pl.nask.crs.nichandle.service.impl.NicHandleServiceImpl">
+        <constructor-arg ref="nicHandleDAO"/>
+        <constructor-arg ref="historicalNicHandleDAO"/>
+        <constructor-arg ref="nicHandleIdGenerator"/>
+        <constructor-arg ref="emailTemplateSender"/>
+        <constructor-arg ref="userService"/>
+        <constructor-arg ref="userSearchService"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+        <constructor-arg ref="contactSearchService"/>
+        <constructor-arg ref="countryFactory"/>
+        <constructor-arg ref="accountUpdateExporter" />
+        <constructor-arg ref="accountDAO" />
+        <constructor-arg ref="applicationConfig"/>
+    </bean>
+
+    <bean id="nicHandleSearchService" class="pl.nask.crs.nichandle.service.impl.NicHandleSearchServiceImpl">
+        <constructor-arg ref="nicHandleDAO"/>
+    </bean>
+
+    <bean id="historicalNicHandleSearchService" class="pl.nask.crs.nichandle.service.impl.HistoricalNicHandleSearchServiceImpl">
+        <constructor-arg ref="historicalNicHandleDAO"/>
+    </bean>
+
+	<bean id="accountsSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:/accounts-sql-map-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="internalAccountIBatisDAO" class="pl.nask.crs.accounts.dao.ibatis.InternalAccountIBatisDAO">
+        <property name="sqlMapClient" ref="accountsSqlMapClient"/>
+    </bean>
+
+    <bean id="internalHistoricalAccountIBatisDAO" class="pl.nask.crs.accounts.dao.ibatis.InternalHistoricalAccountIBatisDAO">
+        <property name="sqlMapClient" ref="accountsSqlMapClient"/>
+    </bean>
+
+    <bean id="accountTariffsDAO" class="pl.nask.crs.accounts.dao.ibatis.AccountTariffsIBatisDAO">
+        <property name="sqlMapClient" ref="accountsSqlMapClient"/>
+        <constructor-arg value="account-tariff.getTariffById"/>
+        <constructor-arg value="account-tariff.getTariffList"/>
+    </bean>
+
+    <bean id="tariffsDictionary" class="pl.nask.crs.commons.dictionary.GenericDAODictionary">
+        <constructor-arg ref="accountTariffsDAO"/>
+    </bean>
+
+    <bean id="accountConverter" class="pl.nask.crs.accounts.dao.ibatis.converters.AccountConverter"/>
+
+    <bean id="historicalAccountConverter" class="pl.nask.crs.accounts.dao.ibatis.converters.HistoricalAccountConverter">
+        <constructor-arg ref="accountConverter"/>
+    </bean>
+
+    <bean id="accountDAO" class="pl.nask.crs.accounts.dao.ibatis.ConvertingAccountDAO">
+        <constructor-arg ref="internalAccountIBatisDAO"/>
+        <constructor-arg ref="accountConverter"/>
+    </bean>
+
+    <bean id="historicalAccountDAO" class="pl.nask.crs.accounts.dao.ibatis.ConvertingHistoricalAccountDAO">
+        <constructor-arg ref="internalHistoricalAccountIBatisDAO"/>
+        <constructor-arg ref="historicalAccountConverter"/>
+    </bean>
+
+    <bean id="accountSearchService" class="pl.nask.crs.accounts.services.impl.AccountSearchServiceImpl">
+        <constructor-arg ref="accountDAO"/>
+    </bean>
+
+    <bean id="accountService" class="pl.nask.crs.accounts.services.impl.AccountServiceImpl">
+        <constructor-arg ref="accountDAO"/>
+        <constructor-arg ref="historicalAccountDAO"/>
+        <constructor-arg ref="contactDAO"/>
+        <constructor-arg ref="userSearchService"/>
+        <constructor-arg ref="nicHandleSearchService"/>
+        <constructor-arg ref="nicHandleService"/>
+        <constructor-arg ref="emailTemplateSender"/>
+        <constructor-arg ref="applicationConfig" />
+        <constructor-arg ref="userService"/>
+    </bean>
+
+    <bean id="historicalAccountSearchService" class="pl.nask.crs.accounts.services.impl.HistoricalAccountSearchServiceImpl">
+        <constructor-arg ref="historicalAccountDAO"/>
+    </bean>
+    
+    <bean id="accountUpdateExporter" class="pl.nask.crs.accounts.services.impl.AccountUpdateExporter">
+    	<constructor-arg ref="applicationConfig" />
+    	<constructor-arg ref="accountVersionService" />
+    </bean>
+</beans>

@@ -1,0 +1,278 @@
+
+New Registrar's console : deployment
+
+1 Mysql DB
+
+	$ yum install mysql
+	accessible phoenixdb, with a user that can select/insert/update/delete from phoenixdb.* tables;
+
+2 apache
+
+	$ yum install httpd
+	set up virtual host or doc root to point to /var/www/trunk/src/www
+		/etc/httpd/conf/httpd.conf :
+			<VirtualHost newregcon.iedr.ie:80>
+			    ServerAdmin asd@iedr.ie
+			    DocumentRoot /var/www/trunk/src/www
+			    ServerName newregcon.iedr.ie
+			    ErrorLog logs/newregcon.iedr.ie-error_log
+			    CustomLog logs/newregcon.iedr.ie-access_log common
+			</VirtualHost>
+	enable PHP
+		/etc/httpd/conf/httpd.conf :
+			LoadModule php5_module        /usr/lib/httpd/modules/libphp5.so
+
+3 memcached
+
+	Not Essential, though highly recommended for performance reasons.
+	Download and compile (out of scope of this quick guide)
+		"Automated Install Script for memcached on RHEL5"
+			http://kencochrane.net/blog/2010/05/Automated-Install-Script-for-memcached-on-RHEL5/
+	Php integration happens seperately:
+		"How To Install and Testing Memcache PHP Extension"
+			http://www.wowtutorial.org/tutorial/64.html
+
+4 Tomcat CRS-WS
+
+	# JAVA
+		Java version used:
+			[root@hudson php-5.3.5]# /usr/java/default/bin/java -version
+			java version "1.6.0_21"
+	# Tomcat 6
+
+		Apache Tomcat version: apache-tomcat-6.0.29.zip
+		Latest versions : http://archive.apache.org/dist/tomcat/tomcat-6/
+
+		Tomcat can have JMX (jvm monitoring) enabled in:
+
+			/opt/apache-tomcat-6.0.29/bin/catalina.sh
+
+				#   CATALINA_OPTS   (Optional) Java runtime options used when the "start",
+				#                   or "run" command is executed.
+
+				export CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote"
+				export CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.port=9003"
+				export CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
+				export CATALINA_OPTS="${CATALINA_OPTS} -Dcom.sun.management.jmxremote.authenticate=false"
+				export CATALINA_OPTS="${CATALINA_OPTS} -Djava.rmi.server.hostname=127.0.0.1"
+
+			JVM Thread states can be dumped on the server (no tunnel needed) with this script:
+
+				http://svn.iedr.ie:81/svn/CRS-PII-G/trunk/src/scripts/jmxterm_threads.sh
+
+	# NASK CRS Sources
+
+		For NASK CRS-WS-API sources:
+			http://svn.iedr.ie:81/svn/nask-crs/trunk/src
+
+		Build and deploy scripts are in
+			http://svn.iedr.ie:81/svn/CRS-PII-G/trunk/src/scripts/crs-ws-scripts
+			(See my lab setup at 10.10.128.139:/home/johnm/trunk/src)
+
+		Maven download and installation instructions are at : http://maven.apache.org/download.html
+		Maven setup needs to have http proxies configured ; example settings file :
+			johnm@hudson:~$ cat ~/.m2/settings.xml 
+				<?xml version="1.0" encoding="UTF-8"?>
+				<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+					<localRepository>/opt/maven_repo</localRepository>
+					<pluginGroups></pluginGroups>
+					<proxies><proxy><active>true</active>
+						<protocol>http</protocol>
+						<host>213.190.149.215</host>
+						<port>3128</port>
+					</proxy></proxies>
+					<servers></servers>
+					<mirrors><mirror><id>uk</id><mirrorOf>central</mirrorOf><url>http://uk.maven.org/maven2/</url></mirror></mirrors>
+					<profiles></profiles>
+					<activeProfiles></activeProfiles>
+				</settings>
+
+
+		Script run_build.sh invokes maven ('mvn') with build-profile 'iedr_lab_crs_ii_g', which uses DB
+		and Email settings from:
+			crs-config/src/main/profiles/iedr_lab_crs_ii_g/emails.xml
+				(smtp server)
+			crs-config/src/main/profiles/iedr_lab_crs_ii_g/dataSource.xml
+				(mysql connection settings)
+		and realex payment settings from
+			crs-payment-logic/src/main/resources/payment-config.xml
+				(includes http-proxy used to connect to realex)
+
+	# Deployment of CRS-WS-API
+
+		After build, copy 
+			10.10.128.139:/home/johnm/trunk/src/crs-web-services/target/crs-web-services-0.9.9.war
+		to tomcat webapps dir (e.g. /opt/apache-tomcat-6.0.29/webapps)
+
+		If copying a pre-built crs-web-services-0.9.9.war, the settings xml files can be edited by:
+			- unpacking the war file (it's really a zip file)
+			- unpacking the jar files (zips again)
+			- editing the xml files
+			- repacking the jar files
+			- repacking the war file
+		As the last repack-war step is tricky (I've not scripted it yet), it's sufficient to deploy the war file to webapps,
+		wait until tomcat has unpacked it, and:
+			- locate the config jar files under /opt/apache-tomcat-6.0.29/webapps/crs-web-services-0.9.9/WEB-INF/lib/
+			- unpack the jar files (zips again)
+			- edit the xml files
+			- repack the jar files
+
+		Jar repacking script:
+			JARDIR=/opt/apache-tomcat-6.0.29/webapps/crs-web-services-0.9.9/WEB-INF/lib
+			JARNAME=crs-config-1.5.4
+			# 1. unpack
+			mkdir -p ${JARNAME} || exit 1
+			cd ${JARNAME}
+			jar xf ${JARDIR}/${JARNAME}.jar || exit 1
+			# 2. edit
+			echo "now edit files" ; pause
+			# 3. repack
+			cd ..
+			jar cmf ${JARNAME}/META-INF/MANIFEST.MF ${JARNAME}.jar -C ${JARNAME}/ .
+			ls -l ${JARNAME}.jar
+			# 4. replace old jar with new
+			cat ${JARNAME}.jar > ${JARDIR}/${JARNAME}.jar
+
+4 PHP 5.3+
+
+	Recommended to use with memcached, which should be built first (seee '3 memcached' above)
+
+	If suhosin 'hardening' patchset is used
+		http://www.hardened-php.net/suhosin/how_to_install_or_upgrade.html
+	.. edit the php ini file (e.g. /etc/php.ini or /etc/php5/apache2/php.ini) under the "[php]" section
+		suhosin.get.max_value_length=8192
+
+	To build PHP 5.3 on RHEL5 you'll need to install (check suhosin and memcached install instructions for extra tools):
+
+		yum install libpng-devel apr-devel apr-util-devel cpp curl-devel cyrus-sasl-devel db4-devel expat-devel fontconfig-devel freetype-devel
+			gcc gd-devel glibc-devel glibc-headers gmp httpd-devel kernel-headers keyutils-libs-devel krb5-devel libdrm libevent
+			libevent-devel libgcrypt-devel libgomp libgpg-error-devel libidn-devel libjpeg-devel libselinux-devel libsepol-devel
+			libX11-devel libXau-devel libXdmcp-devel libxml2-devel libXpm-devel libxslt-devel libXxf86vm mesa-libGL mesa-libGL-devel
+			mysql-devel ntp openldap-devel openssl-devel patch patchutils zlib-devel
+
+	PHP in the lab env is compiled with these settings (check suhosin and memcached install instructions for extra parameters):
+
+		#!/bin/bash
+		PHPV=5.3.5
+		rm -rf php-${PHPV}
+		tar -xjf php-${PHPV}.tar.bz2 && \
+		    cd php-${PHPV} && \
+			./configure  \
+				--prefix=/ \
+				--with-apxs2=/usr/sbin/apxs \
+				--with-curl \
+				--with-libxml-dir \
+				--with-gd \
+				--with-freetype-dir \
+				--enable-gd-native-ttf \
+				--with-mhash \
+				--with-mysql \
+				--with-mysqli \
+				--enable-pcntl \
+				--with-pdo-mysql \
+				--with-libxml-dir=/usr/include/libxml2/libxml \
+				--disable-phar \
+				--enable-shmop \
+				--enable-soap \
+				--enable-sysvmsg \
+				--enable-sysvsem \
+				--enable-sysvshm \
+				--enable-zip \
+				--with-pcre-dir \
+				--with-xmlrpc \
+				--with-xsl \
+				--with-recode \
+				--with-zlib-dir && \
+			make && \
+			make install && \
+			/etc/init.d/httpd restart
+
+5 PHP Code
+
+	# YII
+		The YII package must be downloaded (http://www.yiiframework.com/download/) and unpacked into a directory visible to the apache server, e.g.
+		    cd /var/www ; mkdir yii ; cd yii ; tar -xzf ~/tmp/yii-1.1.7.r3135.tar.gz
+		The Yii directory must be symlinked to the NewRegCon web root, e.g.
+		    cd /var/www/trunk/src/www ; ln -s /var/www/yii/yii-1.1.7.r3135 yii
+
+	# Crontab entries for apache/php
+	
+		johnm@hudson:/var/www/trunk$ sudo crontab -u apache -l
+		# m h  dom mon dow   command
+		# clean up old logs
+		1   1  *   *   *     find /var/www/trunk/src/www/protected/runtime -name \*\.log -mtime +1 -delete
+		# purge filesystem cache
+		1   1  *   *   *     find /var/www/trunk/src/www/protected/runtime/cache -type f -name \*\.bin -mtime +2 -delete
+
+	# Permissions
+	
+		APACHE_GRP="apache" # ??
+		cd /var/www
+		svn co http://svn.iedr.ie:81/svn/CRS-PII-G/trunk
+		sudo chown -R root:${APACHE_GRP} trunk
+		sudo chmod -R u=rwX,g=rX,o= trunk
+		sudo chmod -R g+w trunk/src/www/assets trunk/src/www/protected/runtime
+
+	# Edit Settings in protected/config/main.php
+
+		DB settings
+
+			26:				'db'=>array(
+			27:						// mysql -h devj-db -u crsuser --password="crspassword" -D phoenixdb
+			28:						'connectionString' => 'mysql:host=127.0.0.1;dbname=phoenixdb',
+			29:						'emulatePrepare' => true,
+			30:						'username' => 'crsuser', 'password' => 'crspassword',
+			31:						'charset' => 'utf8',
+			32:						),
+
+		If memcached installed, use CMemCache, else CFileCache
+
+			49:				#'cache'=>array('class'=>'CMemCache', ),
+			50:				'cache'=>array('class'=>'CFileCache', ),
+
+		CRS-WS-API Url
+
+			56:				'wsapi_soap_url'=>'http://127.0.0.1:8080/crs-web-services-0.9.11/',
+
+		Always-allow CAPTCHA value (any long random string, change on eventual deployment to PROD)
+
+			57:				'captcha_value_always_allowed'=>'5d2fc08a-4975-11e0-808f-080027a1156a',
+
+		'Superuser' that can query account settings (used to fetch "agreement-signed", "ticket-edit" values)
+
+			58:				'superuser_nic'=>'BILLY-IEDR',
+			59:				'superuser_pass'=>'password',
+
+	# maybe update php-wsapi crs-ws client classes with script:
+
+		cd /var/www/trunk/src/wsapi/wsdl_from_svc/
+		# check API URL
+		grep -n http get_wsdl.sh 
+			3 : URL="http://localhost:8080/crs-web-services-0.9.9"
+		# check installed tools
+		yum install libxml2 libxslt grep
+		# run script (fetches wsdl, parses and generates php client classes)
+		./get_wsdl.sh
+
+	# check symlinks from web sources to wsapi generated sources are ok and readable by apache
+		ls -l /var/www/trunk/src/www/protected/wsapi/CRS*.php
+
+	# check symlink from web sources to wsapi-versio-info file is ok
+		ls -l /var/www/trunk/src/www/protected/wsapi/crs_ws_version.php
+
+6 System Check
+
+	Try navigating to setup check
+		http://newregcon.iedr.ie/test_setup.php
+	Try login
+		http://newregcon.iedr.ie:8088/index.php?r=site/login
+
+7 Problem resolution
+
+	examine log files:
+		/var/log/httpd/newregcon.iedr.ie-access_log
+		/var/log/httpd/newregcon.iedr.ie-error_log
+		/var/www/trunk/src/www/protected/runtime/application.log
+		/var/www/trunk/src/www/protected/runtime/wsapi_soap_`date "+%Y-%m-%d"`.log
+		/opt/apache-tomcat-6.0.29/logs/catalina.out
+

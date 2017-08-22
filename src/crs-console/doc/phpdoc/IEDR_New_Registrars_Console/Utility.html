@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>Docs For Class Utility</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+						<script src="../media/lib/classTree.js"></script>
+												<script language="javascript" type="text/javascript">
+				var imgPlus = new Image();
+				var imgMinus = new Image();
+				imgPlus.src = "../media/images/plus.png";
+				imgMinus.src = "../media/images/minus.png";
+				
+				function showNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgMinus.src;
+					oTable.style.display = "block";
+				}
+				
+				function hideNode(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+							var oImg = document.layers["img" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+							var oImg = document.all["img" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+							var oImg = document.getElementById("img" + Node);
+									break;
+							}
+					oImg.src = imgPlus.src;
+					oTable.style.display = "none";
+				}
+				
+				function nodeIsVisible(Node){
+							switch(navigator.family){
+								case 'nn4':
+									// Nav 4.x code fork...
+							var oTable = document.layers["span" + Node];
+									break;
+								case 'ie4':
+									// IE 4/5 code fork...
+							var oTable = document.all["span" + Node];
+									break;
+								case 'gecko':
+									// Standards Compliant code fork...
+							var oTable = document.getElementById("span" + Node);
+									break;
+							}
+					return (oTable && oTable.style.display == "block");
+				}
+				
+				function toggleNodeVisibility(Node){
+					if (nodeIsVisible(Node)){
+						hideNode(Node);
+					}else{
+						showNode(Node);
+					}
+				}
+			</script>
+					</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name"><img src="../media/images/Class_logo.png"
+														alt=" Class"
+														title=" Class"
+														style="vertical-align: middle"> Utility</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">container for various unrelated miscellaneous static functions</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> IEDR &lt;<a href="mailto:asd@iedr.ie">asd@iedr.ie</a>&gt;</li>
+				<li><span class="field">version:</span> Release: @package_version@</li>
+				<li><span class="field">copyright:</span> 2011 IEDR</li>
+				<li><span class="field">see:</span> References to other sections (if any)...</li>
+				<li><span class="field">link:</span> <a href="https://statistics.iedr.ie/">https://statistics.iedr.ie/</a></li>
+				<li><span class="field">license:</span> <a href="http://www.iedr.ie/">(C) IEDR 2011</a></li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_components---Utility.php.html">/components/Utility.php</a> (line <span class="field"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a29">29</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+											
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">mixed</span>
+										<a href="#currencyAmount" title="details" class="method-name">currencyAmount</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$m</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$curr</span> = <span class="var-default">'EUR'</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#domainExists" title="details" class="method-name">domainExists</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$accountId</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#domainIsAvailable" title="details" class="method-name">domainIsAvailable</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">array</span>
+										<a href="#getIEDRUsers" title="details" class="method-name">getIEDRUsers</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">integer</span>
+										<a href="#getTicketForDomain" title="details" class="method-name">getTicketForDomain</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">boolean</span>
+										<a href="#isInternalNetwork" title="details" class="method-name">isInternalNetwork</a>
+											([<span class="var-type">unknown</span>&nbsp;<span class="var-name">$ipAddr</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">string</span>
+										<a href="#lastDayOfCurrentMonth" title="details" class="method-name">lastDayOfCurrentMonth</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">array</span>
+										<a href="#parseInput" title="details" class="method-name">parseInput</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$in</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">&$errDoms</span> = <span class="var-default">null</span>])
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">string</span>
+										<a href="#paymentDueByDate" title="details" class="method-name">paymentDueByDate</a>
+										()
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">void</span>
+										<a href="#printInvHistSummary" title="details" class="method-name">printInvHistSummary</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">string</span>
+										<a href="#replace_newline" title="details" class="method-name">replace_newline</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
+									</div>
+															
+				<div class="method-definition">
+					<img src="../media/images/StaticMethod.png" alt=" "/>
+					static 						<span class="method-result">integer</span>
+										<a href="#roundAccountingAmount" title="details" class="method-name">roundAccountingAmount</a>
+											(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$f</span>)
+									</div>
+																																																																																																															</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcurrencyAmount" id="currencyAmount"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static currencyAmount</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a58">58</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">render a currency amount in html format</p>
+<p class="description"><p>prepends currency symbol, adds thousands separator</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> html representation of amount</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">mixed</span>
+		<span class="method-name">
+			currencyAmount
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$m</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$curr</span> = <span class="var-default">'EUR'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$m</span><span class="var-description">: currency amount</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$curr</span><span class="var-description">: currency, defaults to 'EUR'</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddomainExists" id="domainExists"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static domainExists</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a107">107</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">find if a domain exists on the account of a registrar</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> whether domain is on the account of the registrar (or if it exists at all, if accountId is null)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			domainExists
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$accountId</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$domainName</span><span class="var-description">: domain name</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$accountId</span><span class="var-description">: optional account number</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddomainIsAvailable" id="domainIsAvailable"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static domainIsAvailable</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a140">140</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">find whether a domain is available for registration, checking if it exists and has no pending creation ticket</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if the domain can be created</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			domainIsAvailable
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$domainName</span><span class="var-description">: domain name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetIEDRUsers" id="getIEDRUsers"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static getIEDRUsers</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a227">227</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns array of IEDR Usernames, for local login widget</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of login usernames</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">array</span>
+		<span class="method-name">
+			getIEDRUsers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetTicketForDomain" id="getTicketForDomain"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static getTicketForDomain</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a164">164</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">return current open ticket for the supplied domain, if any</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> returns integer ticket if if any, otherwise null</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">integer</span>
+		<span class="method-name">
+			getTicketForDomain
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$domainName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$domainName</span><span class="var-description">: domain name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisInternalNetwork" id="isInternalNetwork"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static isInternalNetwork</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a244">244</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns boolean whether current request matches rules for determining of the access is from an internal network</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> whether current request matches rules for determining of the access is from an internal network</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			isInternalNetwork
+		</span>
+					([<span class="var-type">unknown</span>&nbsp;<span class="var-name">$ipAddr</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$ipAddr</span><span class="var-description">: IP address</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlastDayOfCurrentMonth" id="lastDayOfCurrentMonth"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static lastDayOfCurrentMonth</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns string representing a date, in YYYY-MM-DD format, being the last calendar day of the current month</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> last day of current month</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			lastDayOfCurrentMonth
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseInput" id="parseInput"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static parseInput</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a188">188</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">split a delimited string into an array, then validate the strings with <a href="../IEDR_New_Registrars_Console/IEDomainValidator.html">IEDomainValidator</a></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of valid .IE domain names</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">array</span>
+		<span class="method-name">
+			parseInput
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$in</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">&$errDoms</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$in</span><span class="var-description">: string containing one or more domains delimited by newline, comma, colon, semicolon, or space</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">&$errDoms</span><span class="var-description">: array will have added to it domains from the input which are not valid .IE domains</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodpaymentDueByDate" id="paymentDueByDate"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static paymentDueByDate</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a93">93</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns a string being the payment-due-date of the current invoice period</p>
+<p class="description"><p>currently defined as the last calendar day of the present month</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> payment-due-date...</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			paymentDueByDate
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodprintInvHistSummary" id="printInvHistSummary"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static printInvHistSummary</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a269">269</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Prints to the output stream the Invoice Summary table for the View History-&gt;Invoices reports.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			printInvHistSummary
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$model</span><span class="var-description">: data model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreplace_newline" id="replace_newline"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static replace_newline</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a215">215</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">replaces newline characters with unix newline, slash-n</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> copy of input with newlines replaced</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			replace_newline
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$string</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$string</span><span class="var-description">: string to use</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodroundAccountingAmount" id="roundAccountingAmount"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../media/images/StaticMethod.png" />
+		<span class="method-title">static roundAccountingAmount</span> (line <span class="line-number"><a href="../__filesource/fsource_IEDR_New_Registrars_Console__componentsUtility.php.html#a42">42</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">round a floating-point number to two decimal places according to IEDR business rules 'half even'</p>
+<p class="description"><p>Dermot : &quot;below half a penny, you round down.  Above half a penny, you round up.  At exactly half a penny, you round to the nearest even amount so 76.5p becomes 76p and 77.5p becomes 78, etc.&quot;</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> rounded number</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">integer</span>
+		<span class="method-name">
+			roundAccountingAmount
+		</span>
+					(<span class="var-type">unknown</span>&nbsp;<span class="var-name">$f</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">unknown</span>
+				<span class="var-name">$f</span><span class="var-description">: decimal value</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+	
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:23 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>

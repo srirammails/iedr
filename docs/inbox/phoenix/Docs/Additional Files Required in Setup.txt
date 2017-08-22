@@ -1,0 +1,29 @@
+**************************************
+* Additional Files Required in Setup *
+**************************************
+
+.\Phoenix.exe          * Should already be included
+.\Remittals.exe
+.\Invoices.exe
+.\GenBillingTxn.exe
+.\TicketBatch.exe
+.\Phoenix.hlp
+.\Phoenix.cnt
+
+.\Reports\*.rpt        * Depends on values on Report table
+
+
+**********************************************
+* This file should be ammended to reflect    *
+* the IEDR MySQL servers location.           *
+* It should be included in the setup so it   *
+* will automaticly set up the DB connection  *
+* but it should not be placed on the         *
+* machines hard disk after the instalation   * 
+**********************************************
+
+.\Automaticly add Phoenix ODBC source.reg
+ 
+
+
+

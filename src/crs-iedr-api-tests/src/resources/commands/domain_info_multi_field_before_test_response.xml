@@ -1,0 +1,39 @@
+<ieapi xsi:schemaLocation="http://www.domainregistry.ie/ieapi-1.3 ieapi-1.3.xsd"
+       xmlns="http://www.domainregistry.ie/ieapi-1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <response>
+        <result code="1000">
+            <msg>Command completed successfully</msg>
+        </result>
+        <resData>
+            <domain:infData
+                    xsi:schemaLocation="http://www.domainregistry.ie/ieapi-domain-1.3 ieapi-domain-1.3.xsd urn:ietf:params:xml:ns:secDNS-1.1 secDns-1.1.xsd"
+                    xmlns:secDNS="urn:ietf:params:xml:ns:secDNS-1.1"
+                    xmlns:domain="http://www.domainregistry.ie/ieapi-domain-1.3"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <domain:name>thedomena.tomodify3.ie</domain:name>
+                <domain:status>
+                    <domain:holderType>Billable</domain:holderType>
+                    <domain:renewalMode>NoAutorenew</domain:renewalMode>
+                    <domain:wipo>N</domain:wipo>
+                    <domain:renewalStatus>Active</domain:renewalStatus>
+                    <domain:published>N</domain:published>
+                </domain:status>
+                <domain:ns>
+                    <domain:nsName>dns1.myhostns.com</domain:nsName>
+                </domain:ns>
+                <domain:ns>
+                    <domain:nsName>dns2.myhostns.com</domain:nsName>
+                </domain:ns>
+                <domain:holder class="Body Corporate (Ltd,PLC,Company)">
+                    <domain:holderName category="Registered Business Name">API Tester</domain:holderName>
+                    <domain:holderRemarks>API tests domain</domain:holderRemarks>
+                </domain:holder>
+                <domain:contact type="admin">APIT1-IEDR</domain:contact>
+                <domain:contact type="tech">APIT2-IEDR</domain:contact>
+                <domain:account>00000666</domain:account>
+                <domain:regDate>2008-04-30</domain:regDate>
+                <domain:renDate>2009-04-30</domain:renDate>
+            </domain:infData>
+        </resData>
+    </response>
+</ieapi>

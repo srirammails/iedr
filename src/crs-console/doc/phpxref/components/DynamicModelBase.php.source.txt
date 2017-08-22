@@ -1,0 +1,256 @@
+<?php
+
+/**
+ * defines class DynamicModelBase
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * base class for extensible models
+ * 
+ * models which need to have other models merged with them must derive from this class to be able to call
+ * {@link addMixinModel}(otherModel) for adding another model's attributes and validation-rules to it
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+class DynamicModelBase
+	extends FormModelBase
+	{
+
+    /**
+     * validation rules
+     * @var    array    
+     * @access protected
+     */
+	protected $val_rules;
+
+    /**
+     * attribute labels
+     * @var    array    
+     * @access protected
+     */
+	protected $attr_labels;
+
+    /**
+     * sets up validation rules and attributes arrays
+     * 
+     * @return void  
+     * @access public
+     */
+	public function __construct()
+		{
+		#Yii::log('CTOR', 'debug', 'DynamicModelBase::__construct()');
+		parent::__construct();
+		$this->val_rules = array();
+		$this->attr_labels = array();
+		}
+
+    /**
+     * returns yii validation rules
+     * 
+     * @return array  validation rules
+     * @access public
+     */
+	public function rules()
+		{
+		return $this->val_rules;
+		}
+
+    /**
+     * returns yii form field labels
+     * 
+     * @return array  form field labels
+     * @access public
+     */
+	public function attributeLabels()
+		{
+		return $this->attr_labels;
+		}
+
+    /**
+     * Adds another model's attributes, validation rules, and field labels to this class
+     * 
+     * @param  {@link FormModelBase}     $model other model to add
+     * @return void      
+     * @access public    
+     * @throws CException thrown if model parameter is null or not a descendant of {@link FormModelBase}
+     */
+	public function addMixinModel($model)
+		{
+		// copy member variables
+		if(($model!=null) and ($model instanceof FormModelBase))
+			{
+			foreach(get_object_vars($model) as $k => $v)
+				$this->$k = $v;
+			// append validation rules
+			$this->val_rules = array_merge($this->val_rules, $model->rules());
+			#Yii::log('merged rules : '.print_r($this->val_rules,true), 'debug', 'DynamicModelBase::addMixinModel()');
+			// append labels
+			$this->attr_labels = array_merge($this->attr_labels, $model->attributeLabels());
+			#Yii::log('merged labels : '.print_r($this->attr_labels,true), 'debug', 'DynamicModelBase::addMixinModel()');
+			}
+		else
+			throw new CException(Yii::t('yii','DynamicModelBase::addMixinModel() : param not an instance of FormModelBase', array()));
+		}
+
+    /**
+     * copy data from another model to this model
+     * 
+     * the attributes of the source model, if not already attributes of this model, will be created
+     * 
+     * @param  {@link DynamicModelBase} $o object to copy from
+     * @return void   
+     * @access public 
+     * @see __set
+     */
+	public function copyFromOther($o)
+		{
+		// copy member variables
+		if(($o!=null) and ($o instanceof self))
+			foreach(get_object_vars($o) as $k => $v)
+				$this->$k = $v;
+		}
+
+    /**
+     * set this object's member attributes from the passed array
+     * 
+     * passed array can be $_POST, $_GET, or any other array
+     * 
+     * @param  array  $p array with name-value pairs
+     * @return void  
+     * @access public
+     */
+	public function setFromPOST($p)
+		{
+		foreach(get_object_vars($this) as $k => $v)
+			// "$this->$k" relies on being a subclass of DynamicModelBase, which overrides the magic __set method
+			if(isset($p[$k]))
+				$this->$k = $p[$k];
+		}
+
+    /**
+     * add validation rule to $this->val_rules array
+     * 
+     * @param  string     $varname name of attribute having a validation rule
+     * @param  string     $r       validation rule name (defaults to 'safe')
+     * @return void      
+     * @access protected 
+     * @throws CException thrown if val_rules array is null or not an array
+     */
+	protected function addValRule($varname,$r='safe')
+		{
+		$found = false;
+		if($this->val_rules==null or !is_array($this->val_rules))
+			//$this->__construct();
+			throw new CException(Yii::t('yii','DynamicModelBase: Property "{class}.{property}" (set in ctor) is null or not an array.', array('{class}'=>get_class($this), '{property}'=>'val_rules')));
+
+		foreach($this->val_rules as &$ar1)
+			{
+			if($ar1[1] == $r)
+				{
+				$found = true;
+				$rs = $ar1[0];
+				$ar1[0] = $rs.','.$varname;
+				}
+			}
+		if(!$found)
+			{
+			$this->val_rules[] = array($varname,$r);
+			}
+		}
+
+    /**
+     * attribute accessor
+     * 
+     * Overridden to NOT throw an exception, as the base implementation does.
+     * Also, wrapping an invocation of the parent function in try/catch also
+     * mysteriously failed to work, presumably because of bypassing by PHP 5.3
+     * implementation of the magic __set/__get functions
+     * 
+     * @param  string $name attribute name
+     * @return mixed  attribute value
+     * @access public
+     */
+	public function __get($name)
+		{
+		// same as CComponent except ...
+		$getter='get'.$name;
+		if(method_exists($this,$getter))
+			return $this->$getter();
+		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
+			{
+			// duplicating getEventHandlers() here for performance
+			$name=strtolower($name);
+			if(!isset($this->_e[$name]))
+				$this->_e[$name]=new CList;
+			return $this->_e[$name];
+			}
+		else if(isset($this->_m[$name]))
+			return $this->_m[$name];
+		else if(is_array($this->_m))
+			{
+			foreach($this->_m as $object)
+				{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
+					return $object->$name;
+				}
+			}
+		// .. CComponent throws exception here - we just get the darn value
+		return $object->$name;
+		}
+
+    /**
+     * attribute accessor
+     * 
+     * Overridden to NOT throw an exception, as the base implementation does.
+     * Also, wrapping an invocation of the parent function in try/catch also
+     * mysteriously failed to work, presumably because of bypassing by PHP 5.3
+     * implementation of the magic __set/__get functions
+     * 
+     * @param  string  $name  attribute name
+     * @param  mixed   $value attribute value
+     * @return mixed   outcome of set operation (probably boolean)
+     * @access public 
+     */
+	public function __set($name,$value)
+		{
+		// same as CComponent except ...
+		$setter='set'.$name;
+		if(method_exists($this,$setter))
+			return $this->$setter($value);
+		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
+			{
+			// duplicating getEventHandlers() here for performance
+			$name=strtolower($name);
+			if(!isset($this->_e[$name]))
+				$this->_e[$name]=new CList;
+			return $this->_e[$name]->add($value);
+			}
+		else if(is_array($this->_m))
+			{
+			foreach($this->_m as $object)
+				{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canSetProperty($name)))
+					return $object->$name=$value;
+				}
+			}
+		// .. CComponent throws exception here - we just set the darn value
+		return $this->$name=$value;
+		}
+	}
+

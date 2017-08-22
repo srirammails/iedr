@@ -1,0 +1,100 @@
+Index: pom.xml
+===================================================================
+--- pom.xml	(revision 2354)
++++ pom.xml	(working copy)
+@@ -384,7 +384,7 @@
+ 					</dependencies>
+ 					<configuration>
+ 						<driver>org.gjt.mm.mysql.Driver</driver>
+-						<url>jdbc:mysql://localhost:3306/crsdb</url>
++						<url>jdbc:mysql://devj-db:3306/crsdb</url>
+ 						<username>crsuser</username>
+ 						<password>crspassword</password>
+ 					</configuration>
+Index: crs-ticket-logic/src/test/resources/transactions.xml
+===================================================================
+--- crs-ticket-logic/src/test/resources/transactions.xml	(revision 2354)
++++ crs-ticket-logic/src/test/resources/transactions.xml	(working copy)
+@@ -9,7 +9,7 @@
+ 
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://localhost/crsdb"/>
++        <property name="url" value="jdbc:mysql://devj-db:3306/crsdb"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+     </bean>
+Index: crs-config/src/main/profiles/development/dataSource.xml
+===================================================================
+--- crs-config/src/main/profiles/development/dataSource.xml	(revision 2354)
++++ crs-config/src/main/profiles/development/dataSource.xml	(working copy)
+@@ -9,7 +9,7 @@
+ 
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://localhost/crsdb?socketTimeout=30000"/>
++        <property name="url" value="jdbc:mysql://devj-db:3306/crsdb?socketTimeout=30000"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+         <property name="initialSize" value="1"/>
+Index: crs-config/src/main/profiles/development/emails.xml
+===================================================================
+--- crs-config/src/main/profiles/development/emails.xml	(revision 2354)
++++ crs-config/src/main/profiles/development/emails.xml	(working copy)
+@@ -5,7 +5,7 @@
+ 
+     <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+         <constructor-arg value="test-mailer"/>
+-        <constructor-arg value="smtp.nask.waw.pl"/>
++        <constructor-arg value="localhost"/>
+         <constructor-arg value="test"/>
+         <constructor-arg value="test"/>
+         <constructor-arg value="test"/>
+Index: crs-config/src/main/profiles/production/dataSource.xml
+===================================================================
+--- crs-config/src/main/profiles/production/dataSource.xml	(revision 2354)
++++ crs-config/src/main/profiles/production/dataSource.xml	(working copy)
+@@ -9,7 +9,7 @@
+ 
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://10.10.131.4:3306/phoenixdb?socketTimeout=30000"/>
++        <property name="url" value="jdbc:mysql://devj-db:3306/phoenixdb?socketTimeout=30000"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+         <property name="initialSize" value="1"/>
+Index: crs-config/src/main/profiles/drotest3/dataSource.xml
+===================================================================
+--- crs-config/src/main/profiles/drotest3/dataSource.xml	(revision 2354)
++++ crs-config/src/main/profiles/drotest3/dataSource.xml	(working copy)
+@@ -9,7 +9,7 @@
+ 
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://localhost/crsdb?socketTimeout=30000"/>
++        <property name="url" value="jdbc:mysql://devj-db:3306/crsdb?socketTimeout=30000"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+         <property name="initialSize" value="1"/>
+Index: crs-payment-logic/src/test/resources/payment-config-test.xml
+===================================================================
+--- crs-payment-logic/src/test/resources/payment-config-test.xml	(revision 2354)
++++ crs-payment-logic/src/test/resources/payment-config-test.xml	(working copy)
+@@ -5,7 +5,7 @@
+ 
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+-        <property name="url" value="jdbc:mysql://localhost/crsdb"/>
++        <property name="url" value="jdbc:mysql://devj-db:3306/crsdb"/>
+         <property name="username" value="crsuser"/>
+         <property name="password" value="crspassword"/>
+     </bean>
+@@ -16,7 +16,7 @@
+ 
+     <bean id="emailSender" class="pl.nask.crs.commons.email.service.impl.EmailSenderImpl">
+         <constructor-arg value="test-mailer"/>
+-        <constructor-arg value="smtp.nask.waw.pl"/>
++        <constructor-arg value="localhost"/>
+         <constructor-arg value="test"/>
+         <constructor-arg value="test"/>
+         <constructor-arg value="test"/>

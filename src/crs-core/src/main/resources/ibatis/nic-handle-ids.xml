@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="nicHandleId">
+
+    <select id="getNicHandleId" resultClass="long">
+        SELECT id FROM nicHandleSeq
+    </select>
+
+    <update id="updateNicHandleId" parameterClass="long">
+        UPDATE nicHandleSeq SET id = #value#
+    </update>
+
+    <update id="lockTable">
+        LOCK TABLE nicHandleSeq WRITE;
+    </update>
+
+    <update id="unlockTable">
+        UNLOCK TABLES;
+    </update>
+
+</sqlMap>

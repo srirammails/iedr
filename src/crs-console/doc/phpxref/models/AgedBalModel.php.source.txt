@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * defines AgedBalModel class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ * @see       References to other sections (if any)...
+ */
+
+/**
+ * This is the model class for view "nrc_aged_balance".
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+class AgedBalModel extends CActiveRecord
+{
+
+	/**
+	 * This is the model class for view "AgedBal".
+	 *
+	 * The followings are the available columns in view '{{nrc_aged_balance}}':
+	 *
+	 * string Nic_Handle
+	 * string Tr_Date
+	 * string Tr_Type
+	 * string Ext_Ref
+	 * string Int_Ref
+	 * string Future_Bal
+	 * string Current_Bal
+	 * string Age_1_Bal
+	 * string Age_2_Bal
+	 * string Age_3_Bal
+	 * string Total_Bal
+	 */
+
+
+        /**
+         * Returns the static model of the specified AR class.
+         * @return User the static model class
+         */
+        public static function model($className=__CLASS__)
+        {
+                return parent::model($className);
+        }
+
+        /**
+         * @return string the associated database view name
+         */
+        public function tableName()
+        {
+                return 'nrc_aged_balance';
+        }
+
+        /**
+         * @return array validation rules for model attributes.
+         */
+        public function rules()
+        {
+                // NOTE: you should only define rules for those attributes that
+                // will receive user inputs.
+                return array(
+                        // The following rule is used by search().
+                        // Please remove those attributes that should not be searched.
+			#array('Nic_Handle, Tr_Date', 'safe', 'on'=>'search'),
+                );
+        }
+
+        /**
+         * @return array relational rules.
+         */
+        public function relations()
+        {
+                // NOTE: you may need to adjust the relation name and the related
+                // class name for the relations automatically generated below.
+                return array();
+        }
+
+        /**
+         * @return array customized attribute labels (name=>label)
+         */
+        public function attributeLabels()
+        {
+                return array(
+			'Nic_Handle' => 'Nic Handle',
+			'Tr_Date' => 'Transfer Date', 
+			'Tr_Type' => 'Transfer Type', 
+			'Ext_Ref' => 'Ext Ref',
+			'Int_Ref' => 'Int Ref',
+			'Future_Bal' => 'Future Bal',
+			'Current_Bal' => 'Current Bal',
+			'Age_1_Bal' => 'Aged 1 Bal',
+			'Age_2_Bal' => 'Aged 2 Bal',
+			'Age_3_Bal' => 'Aged 3 Bal',
+			'Total_Bal' => 'Total Bal',
+                );
+        }
+
+        /**
+         * Retrieves a list of models based on the current search/filter conditions.
+         * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+         */
+        public function search()
+        {
+                // Warning: Please modify the following code to remove attributes that
+                // should not be searched.
+
+                $criteria=new CDbCriteria;
+                $criteria->compare('Nic_Handle',Yii::app()->user->name,true);
+ #               $criteria->compare('Tr_Date',$this->Tr_Date,true);
+
+                return new CActiveDataProvider(get_class($this), array(
+                        'criteria'=>$criteria,
+                        'sort'=>array(
+                                'defaultOrder'=>'Tr_Date ASC',
+                        ),
+                        'pagination'=>array(
+                                'pageSize'=>20
+                        ),
+                ));
+        }
+}
+

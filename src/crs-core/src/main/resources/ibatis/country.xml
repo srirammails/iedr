@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="country">
+
+    <cacheModel id="countriesCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+    <cacheModel id="countiesCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="5000"/>
+    </cacheModel>
+    <cacheModel id="countryCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="500"/>
+    </cacheModel>
+
+    <select id="findCountries" resultClass="pl.nask.crs.country.dao.ibatis.InternalCountry" cacheModel="countriesCache">
+        SELECT CountryCode as code, Country as name, vat_category as vatCategory from Countries    
+        <dynamic>
+        	<isNotNull property="criteria">
+        		where Country=#criteria.countryName#
+        	</isNotNull>
+        </dynamic>
+    </select>
+    
+    <select id="getCountry" resultClass="pl.nask.crs.country.dao.ibatis.InternalCountry" parameterClass="long" cacheModel="countryCache">
+        SELECT CountryCode as code, Country as name, vat_category as vatCategory from Countries where CountryCode=#id#       
+    </select>
+    
+    <select id="findCounties" resultClass="java.lang.String" cacheModel="countiesCache">
+        SELECT County from Counties 
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="criteria.code">
+                CountryCode = #criteria.code#
+            </isNotNull>
+            <isNotNull prepend="and" property="criteria.name">
+                County = #criteria.name#
+            </isNotNull>
+        </dynamic>        
+    </select>
+
+</sqlMap>
+

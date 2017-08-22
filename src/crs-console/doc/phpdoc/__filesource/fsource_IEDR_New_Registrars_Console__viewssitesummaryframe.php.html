@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos  -->
+			<title>File Source for summaryframe.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+											</head>
+		<body>
+						<h1>Source for file summaryframe.php</h1>
+<p>Documentation is available at <a href="../IEDR_New_Registrars_Console/_views---site---summaryframe.php.html">summaryframe.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a>&lt;!--&nbsp;START&nbsp;protected/views/site/summaryframe.php&nbsp;--&gt;</div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">&nbsp;*&nbsp;View&nbsp;page&nbsp;for&nbsp;Account&nbsp;Summary&nbsp;IFrame</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">&nbsp;*&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@category</span><span class="src-doc">&nbsp;&nbsp;NRC</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;&nbsp;&nbsp;IEDR_New_Registrars_Console</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@author</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;IEDR&nbsp;&lt;asd@iedr.ie&gt;</span></div></li>
+<li><div class="src-line"><a name="a9"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@copyright</span><span class="src-doc">&nbsp;2011&nbsp;IEDR</span></div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@license</span><span class="src-doc">&nbsp;&nbsp;&nbsp;http://www.iedr.ie/&nbsp;(C)&nbsp;IEDR&nbsp;2011</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@version</span><span class="src-doc">&nbsp;&nbsp;&nbsp;CVS:&nbsp;$Id:$</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@link</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://statistics.iedr.ie/</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-doc">&nbsp;*&nbsp;</span><span class="src-doc-coretag">@see</span><span class="src-doc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SiteController::actionSummaryFrame()</span></div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-doc">&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a15"></a><span class="src-php">?&gt;</span>&lt;!DOCTYPE&nbsp;html&nbsp;PUBLIC&nbsp;&quot;-//W3C//DTD&nbsp;XHTML&nbsp;1.0&nbsp;Transitional//EN&quot;&nbsp;&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</div></li>
+<li><div class="src-line"><a name="a16"></a>&lt;html&nbsp;xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&nbsp;xml:lang=&quot;en&quot;&nbsp;lang=&quot;en&quot;&gt;</div></li>
+<li><div class="src-line"><a name="a17"></a>&lt;head&gt;</div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;http-equiv=&quot;Content-Type&quot;&nbsp;content=&quot;text/html;&nbsp;charset=utf-8&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a19"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta&nbsp;name=&quot;language&quot;&nbsp;content=&quot;en&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--&nbsp;blueprint&nbsp;CSS&nbsp;framework&nbsp;--&gt;</div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;stylesheet&quot;&nbsp;type=&quot;text/css&quot;&nbsp;href=&quot;css/screen.css&quot;&nbsp;media=&quot;screen,&nbsp;projection&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;stylesheet&quot;&nbsp;type=&quot;text/css&quot;&nbsp;href=&quot;css/print.css&quot;&nbsp;media=&quot;print&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;!--[if&nbsp;lt&nbsp;IE&nbsp;8]&gt;</div></li>
+<li><div class="src-line"><a name="a24"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;stylesheet&quot;&nbsp;type=&quot;text/css&quot;&nbsp;href=&quot;css/ie.css&quot;&nbsp;media=&quot;screen,&nbsp;projection&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;![endif]--&gt;</div></li>
+<li><div class="src-line"><a name="a26"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;stylesheet&quot;&nbsp;type=&quot;text/css&quot;&nbsp;href=&quot;css/main.css&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a27"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;link&nbsp;rel=&quot;stylesheet&quot;&nbsp;type=&quot;text/css&quot;&nbsp;href=&quot;css/form.css&quot;&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&nbsp;src=&quot;jqGrid4/js/jquery-1.6.1.src.js&quot;&gt;&lt;/script&gt;</div></li>
+<li><div class="src-line"><a name="a30"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;</div></li>
+<li><div class="src-line"><a name="a31"></a>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;asyncload(tag){</div></li>
+<li><div class="src-line"><a name="a32"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$.ajax({</div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;url:&nbsp;&quot;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$this</span><span class="src-sym">-&gt;</span><span class="src-id">createUrl</span><span class="src-sym">(</span><span class="src-str">'site/summary&amp;id='</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&quot;+tag,</div></li>
+<li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;success:&nbsp;function(str)&nbsp;{&nbsp;$(&quot;#stats_&quot;+tag).html(str);&nbsp;}</div></li>
+<li><div class="src-line"><a name="a35"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</div></li>
+<li><div class="src-line"><a name="a36"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div></li>
+<li><div class="src-line"><a name="a37"></a>&nbsp;&nbsp;&nbsp;&nbsp;$.ajaxSetup&nbsp;({&nbsp;cache:&nbsp;true&nbsp;});</div></li>
+<li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;</div></li>
+<li><div class="src-line"><a name="a39"></a>&lt;/head&gt;</div></li>
+<li><div class="src-line"><a name="a40"></a>&lt;table&nbsp;align=&quot;center&quot;&nbsp;width=&quot;100%&quot;&gt;</div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;colspan=&quot;2&quot;&nbsp;align=&quot;left&quot;&gt;&lt;b&gt;User:&nbsp;<span class="src-php">&lt;?php&nbsp;</span>print<span class="src-sym">(</span><span class="src-id">Yii</span><span class="src-sym">::</span><span class="src-id">app</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">-&gt;</span><span class="src-id">user</span><span class="src-sym">-&gt;</span><span class="src-id">name</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/b&gt;&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;colspan=&quot;2&quot;&nbsp;align=&quot;center&quot;&gt;&lt;b&gt;<span class="src-php">&lt;?php&nbsp;</span>print<span class="src-sym">(</span><a href="http://www.php.net/date">date</a><span class="src-sym">(</span><span class="src-str">'D&nbsp;dS&nbsp;M,&nbsp;Y&nbsp;g:m&nbsp;a'</span><span class="src-sym">))</span><span class="src-sym">;&nbsp;</span><span class="src-php">?&gt;</span>&lt;/b&gt;&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Domain&nbsp;Count&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_DomainCount&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;18%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Ticket&nbsp;Count&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a49"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;7%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_TicketCount&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a50"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;18%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;New&nbsp;Regs&nbsp;(This&nbsp;Month)&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a51"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;7%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_NewRegs&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a52"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;18%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Pending&nbsp;Tickets&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a53"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;7%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_PendingTickets&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a54"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;15%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Transfers&nbsp;In&nbsp;(last&nbsp;30&nbsp;days)&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a55"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;9%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_TransfersIn&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a56"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a57"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a58"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;18%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Passed&nbsp;Tickets&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a59"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;7%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_PassedTickets&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a60"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;18%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Transfers&nbsp;Out&nbsp;(last&nbsp;30&nbsp;days)&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a61"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;7%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&lt;span&nbsp;id=&quot;stats_TransfersOut&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a62"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;10%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Statement&nbsp;Balance&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a63"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;10%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;&amp;euro;&nbsp;&lt;span&nbsp;id=&quot;stats_StatementBalance&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a64"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;15%&quot;&nbsp;&nbsp;align=&quot;left&quot;&gt;Deposit&nbsp;Balance&nbsp;:&lt;/td&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a65"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&nbsp;class=&quot;summarytablecell&quot;&nbsp;&nbsp;width=&quot;9%&quot;&nbsp;&nbsp;&nbsp;align=&quot;left&quot;&gt;&amp;euro;&nbsp;&lt;span&nbsp;id=&quot;stats_DepositBalance&quot;&gt;&lt;img&nbsp;width=&quot;7&quot;&nbsp;height=&quot;7&quot;&nbsp;src='images/loading.gif'&nbsp;alt='loading...'&nbsp;/&gt;&lt;/span&gt;&lt;/td&gt;</div></li>
+<li><div class="src-line"><a name="a66"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;&nbsp;</div></li>
+<li><div class="src-line"><a name="a67"></a>&lt;/table&gt;</div></li>
+<li><div class="src-line"><a name="a68"></a>&lt;script&gt;</div></li>
+<li><div class="src-line"><a name="a69"></a>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;getAccountStats()&nbsp;{</div></li>
+<li><div class="src-line"><a name="a70"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;sorted&nbsp;in&nbsp;order&nbsp;of&nbsp;quickest&nbsp;first</div></li>
+<li><div class="src-line"><a name="a71"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;TicketCount&quot;);</div></li>
+<li><div class="src-line"><a name="a72"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;StatementBalance&quot;);</div></li>
+<li><div class="src-line"><a name="a73"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;DepositBalance&quot;);</div></li>
+<li><div class="src-line"><a name="a74"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;NewRegs&quot;);</div></li>
+<li><div class="src-line"><a name="a75"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;TransfersIn&quot;);</div></li>
+<li><div class="src-line"><a name="a76"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;TransfersOut&quot;);</div></li>
+<li><div class="src-line"><a name="a77"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;PassedTickets&quot;);</div></li>
+<li><div class="src-line"><a name="a78"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;PendingTickets&quot;);</div></li>
+<li><div class="src-line"><a name="a79"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asyncload(&quot;DomainCount&quot;);</div></li>
+<li><div class="src-line"><a name="a80"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</div></li>
+<li><div class="src-line"><a name="a81"></a>&nbsp;&nbsp;&nbsp;&nbsp;setTimeout(getAccountStats,100);&nbsp;//&nbsp;milliseconds</div></li>
+<li><div class="src-line"><a name="a82"></a>&lt;/script&gt;</div></li>
+<li><div class="src-line"><a name="a83"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a84"></a>&lt;!--&nbsp;END&nbsp;protected/views/site/summaryframe.php&nbsp;--&gt;</div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 27 Jul 2011 16:17:19 +0100 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>

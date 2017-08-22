@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "sql-map-2.dtd">
+
+<sqlMap namespace="bill-status">
+
+    <cacheModel id="statusCache" type="LRU">
+        <flushInterval hours="24"/>
+        <property name="size" value="1000"/>
+    </cacheModel>
+
+    <select id="getStatusById" cacheModel="statusCache" parameterClass="java.lang.String"
+            resultClass="pl.nask.crs.domains.dao.ibatis.objects.InternalBillStatus">
+        SELECT
+            Status as id,
+            Description as description,
+            DetailedDescription as detailedDescription,
+            Colour as colour
+        FROM
+            BillStatus
+        WHERE
+            Description = #id#
+    </select>
+
+    <select id="getStatusList" cacheModel="statusCache"
+            resultClass="pl.nask.crs.domains.dao.ibatis.objects.InternalBillStatus">
+        SELECT
+            Status as id,
+            Description as description,
+            DetailedDescription as detailedDescription,
+            Colour as colour
+        FROM
+            BillStatus
+    </select>
+
+</sqlMap>

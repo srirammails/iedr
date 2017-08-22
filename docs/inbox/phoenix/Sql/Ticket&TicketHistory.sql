@@ -1,0 +1,121 @@
+# MySQL-Front Dump 1.16 beta
+#
+# Host: 136.205.1.26 Database: Phoenix
+#--------------------------------------------------------
+# Server version 3.23.47-nt
+#
+# Table structure for table 'ticket'
+#
+
+CREATE TABLE ticket (
+  T_Number int(10) NOT NULL auto_increment,
+  T_Type char(1) NOT NULL DEFAULT '' ,
+  D_Name varchar(66) NOT NULL DEFAULT '' ,
+  DN_Fail_Cd tinyint(3) ,
+  D_Holder tinytext NOT NULL DEFAULT '' ,
+  DH_Fail_Cd tinyint(3) ,
+  A_Number int(8) unsigned zerofill NOT NULL DEFAULT '00000000' ,
+  AC_Fail_Cd tinyint(3) ,
+  T_Class tinytext NOT NULL DEFAULT '' ,
+  T_Category tinytext NOT NULL DEFAULT '' ,
+  T_Remark text ,
+  Admin_NH1 varchar(12) NOT NULL DEFAULT '' ,
+  ANH1_Fail_Cd tinyint(3) ,
+  Admin_NH2 varchar(12) ,
+  ANH2_Fail_Cd tinyint(3) ,
+  Tech_NH varchar(12) NOT NULL DEFAULT '' ,
+  TNH_Fail_Cd tinyint(3) ,
+  Bill_NH varchar(12) NOT NULL DEFAULT '' ,
+  BNH_Fail_Cd tinyint(3) ,
+  Creator_NH varchar(12) NOT NULL DEFAULT '' ,
+  DNS_Name1 tinytext NOT NULL DEFAULT '' ,
+  DNS1_Fail_Cd tinyint(3) ,
+  DNS_IP1 tinytext ,
+  DNSIP1_Fail_Cd tinyint(3) ,
+  DNS_Name2 tinytext NOT NULL DEFAULT '' ,
+  DNS2_Fail_Cd tinyint(3) ,
+  DNS_IP2 tinytext ,
+  DNSIP2_Fail_Cd tinyint(3) ,
+  DNS_Name3 tinytext ,
+  DNS3_Fail_Cd tinyint(3) ,
+  DNS_IP3 tinytext ,
+  DNSIP3_Fail_Cd tinyint(3) ,
+  Admin_Status tinyint(2) unsigned NOT NULL DEFAULT '0' ,
+  Ad_StatusDt date NOT NULL DEFAULT '0000-00-00' ,
+  Tech_Status tinyint(2) unsigned NOT NULL DEFAULT '0' ,
+  T_Status_Dt date NOT NULL DEFAULT '0000-00-00' ,
+  CheckedOut char(1) NOT NULL DEFAULT 'N' ,
+  CheckedOutTo varchar(12) ,
+  T_Reg_Dt date ,
+  T_Ren_Dt date ,
+  T_TStamp timestamp(14) ,
+  H_Remark text ,
+  T_Class_Fail_Cd tinyint(3) ,
+  T_Category_Fail_Cd tinyint(3) ,
+  T_Created_TS datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  Opt_Cert char(1) DEFAULT 'N' ,
+  T_ClikPaid char(1) ,
+  PRIMARY KEY (T_Number),
+  KEY D_Name (D_Name),
+  UNIQUE Number (T_Number)
+);
+
+
+#
+# Table structure for table 'tickethist'
+#
+
+CREATE TABLE tickethist (
+  T_Number int(10) NOT NULL DEFAULT '0' ,
+  T_Type char(1) NOT NULL DEFAULT '' ,
+  D_Name varchar(66) NOT NULL DEFAULT '' ,
+  DN_Fail_Cd tinyint(3) ,
+  D_Holder tinytext NOT NULL DEFAULT '' ,
+  DH_Fail_Cd tinyint(3) ,
+  A_Number int(8) unsigned zerofill NOT NULL DEFAULT '00000000' ,
+  AC_Fail_Cd tinyint(3) ,
+  T_Class tinytext NOT NULL DEFAULT '' ,
+  T_Category tinytext NOT NULL DEFAULT '' ,
+  T_Remark text ,
+  Admin_NH1 varchar(12) NOT NULL DEFAULT '' ,
+  ANH1_Fail_Cd tinyint(3) ,
+  Admin_NH2 varchar(12) ,
+  ANH2_Fail_Cd tinyint(3) ,
+  Tech_NH varchar(12) NOT NULL DEFAULT '' ,
+  TNH_Fail_Cd tinyint(3) ,
+  Bill_NH varchar(12) NOT NULL DEFAULT '' ,
+  BNH_Fail_Cd tinyint(3) ,
+  Creator_NH varchar(12) NOT NULL DEFAULT '' ,
+  DNS_Name1 tinytext NOT NULL DEFAULT '' ,
+  DNS1_Fail_Cd tinyint(3) ,
+  DNS_IP1 tinytext ,
+  DNSIP1_Fail_Cd tinyint(3) ,
+  DNS_Name2 tinytext NOT NULL DEFAULT '' ,
+  DNS2_Fail_Cd tinyint(3) ,
+  DNS_IP2 tinytext ,
+  DNSIP2_Fail_Cd tinyint(3) ,
+  DNS_Name3 tinytext ,
+  DNS3_Fail_Cd tinyint(3) ,
+  DNS_IP3 tinytext ,
+  DNSIP3_Fail_Cd tinyint(3) ,
+  Admin_Status tinyint(2) unsigned NOT NULL DEFAULT '0' ,
+  Ad_StatusDt date NOT NULL DEFAULT '0000-00-00' ,
+  Tech_Status tinyint(2) unsigned NOT NULL DEFAULT '0' ,
+  T_Status_Dt date NOT NULL DEFAULT '0000-00-00' ,
+  CheckedOut char(1) NOT NULL DEFAULT 'N' ,
+  CheckedOutTo varchar(12) ,
+  T_Reg_Dt date ,
+  T_Ren_Dt date ,
+  T_TStamp timestamp(14) ,
+  H_Remark text ,
+  Chng_Dt datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  Chng_NH varchar(12) ,
+  T_Class_Fail_Cd tinyint(3) ,
+  T_Category_Fail_Cd tinyint(3) ,
+  T_Created_TS datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ,
+  Opt_Cert char(1) DEFAULT 'N' ,
+  T_ClikPaid char(1) ,
+  PRIMARY KEY (Chng_Dt,T_Number)
+);
+
+

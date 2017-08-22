@@ -1,0 +1,17 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]
+"Phoenix"="MySQL"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\Phoenix]
+"Driver"="C:\\WINNT\\System32\\myodbc.dll"
+"Description"=""
+"Database"="phoenixdb"
+"Server"="bashful.domainregistry.ie"
+"User"="phoenix01"
+"Password"="notflat"
+"Port"=""
+"Option"="0"
+"Stmt"=""
+
+

@@ -1,0 +1,182 @@
+<?php
+
+/**
+ * defines Accounts_reportsController class
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   CVS: $Id:$
+ * @link      https://statistics.iedr.ie/
+ */
+
+
+/**
+ * Short description for class
+ * 
+ * Long description (if any) ...
+ * 
+ * @category  NRC
+ * @package   IEDR_New_Registrars_Console
+ * @author    IEDR <asd@iedr.ie>
+ * @copyright 2011 IEDR
+ * @license   http://www.iedr.ie/ (C) IEDR 2011
+ * @version   Release: @package_version@
+ * @link      https://statistics.iedr.ie/
+ * @see       account_aged_balance.php, menu.php, domains_transferred.php, transferto.php, transferaway.php
+ */
+class Accounts_reportsController
+	extends SQLGridController
+        {
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    account_aged_balance.php
+     */
+	public function actionAccount_aged_balance() { 
+		DBLog::logAction('Statement');
+		$model = new AgedBalModel();
+		$params = array('model'=>$model,);
+		if(!isset($_GET['ajax'])) $this->render('account_aged_balance', $params);
+		else  $this->renderPartial('account_aged_balance', $params);
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    views/accounts_reports/menu.php
+     */
+	public function actionMenu() { $this->render('menu'); }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    views/accounts_reports/domainstransferredmenu.php
+     */
+	public function actionDomainstransferredmenu() { $this->render('domainstransferredmenu'); }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    domains_transferred.php
+     */
+	public function actionDomains_transferred() { $this->render('accounts_reports/domains_transferred'); }
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    transferto.php, Rpts_NicXfersModel
+     */
+	public function actionTransferto() {
+		$this->type = "XferTo";
+                $model = new Rpts_NicXfersModel();
+                $this->performAjaxValidation($model);
+                if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_NicXfersModel']))
+                        {
+                        $model->attributes=$_POST['Rpts_NicXfersModel'];
+			Yii::log(print_r($model,true), 'debug', 'Accounts_reportsController::actionTransferto');
+                        }
+		$model->totalrows = $this->getNumRows($model,null,null);
+                Yii::log(print_r($model,true), 'debug', 'Accounts_reportsController::actionTransferto()');
+                $this->render('transferto',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return void  
+     * @access public
+     * @see    transferaway.php, Rpts_NicXfersModel, Accounts_reportsController::actionGetgriddataxferaway()
+     */
+	public function actionTransferaway() {
+		$this->type = "XferAway";
+                $model = new Rpts_NicXfersModel();
+                $this->performAjaxValidation($model);
+                if(Yii::app()->request->isPostRequest and isset($_POST['Rpts_NicXfersModel']))
+                        {
+                        $model->attributes=$_POST['Rpts_NicXfersModel'];
+                        }
+		$model->totalrows = $this->getNumRows($model,null,null);
+                Yii::log(print_r($model,true), 'debug', 'Accounts_reportsController::actionTransferaway()');
+                $this->render('transferaway',array('model'=>$model));
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    transferaway.php
+     */
+	public function actionGetgriddataxferaway(){
+		$this->type = "XferAway";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @return unknown Return description (if any) ...
+     * @access public 
+     * @see    transferto.php
+     */
+	public function actionGetgriddataxferto(){
+		$this->type = "XferTo";
+		return $this->actionGetgriddata();
+		}
+
+    /**
+     * Short description for function
+     * 
+     * Long description (if any) ...
+     * 
+     * @param  unknown $model    Parameter description (if any) ...
+     * @param  string  $criteria Parameter description (if any) ...
+     * @return string  Return description (if any) ...
+     * @access public 
+     */
+	public function getPartialQuery($model,$criteria)
+		{
+		$u = Yii::app()->user->name;
+		$dt = $this->getDateStr(array('Moved_Dt'),$model);
+		$whichnic = '';
+		switch($this->type)
+			{
+			case 'XferAway': $whichnic = 'Old_Nic_Handle'; break;
+			case 'XferTo'  : $whichnic = 'New_Nic_Handle'; break;
+			}
+		$query = 'SELECT Domain, D_Holder, Moved_Dt, D_Reg_Dt, D_Ren_Dt FROM nrc_xfers_list WHERE '.$whichnic.' =\''.$u.'\' AND '.$dt;
+		if($criteria!=null and $criteria != '') $query .= ' AND ('. preg_replace('/^AND/', ' ', $criteria).')';
+		return $query;
+                }
+	}
+
